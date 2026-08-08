@@ -86,6 +86,110 @@ layout: two-cols
 **Eigenständige Anwendung**: 🔧 Übertragung des Gelernten auf eigene Fragestellungen.
 
 ---
+layout: chapter
+---
+
+::left::
+
+# Session 1: [Business Intelligence]{style="color:var(--slidev-theme-primary)"} & Data Science
+
+::right::
+
+<Illustration src="/illustrations/business-analytics-bro.svg" alt="Business Intelligence & Data Science" width="90%" />
+
+---
+layout: two-cols
+---
+
+## 🏢 Deine Ausgangslage als Analyst
+
+Du bist Analyst bei einem Versicherer mit **400.000 Verträgen**.
+
+- 📈 **Steigende Schadensquoten** — Ursachen unklar
+- 🕵️ **Betrugsverdacht** in vielen Fällen — aber wer konkret?
+- ⚡ **Wettbewerber mit KI-Modellen** unterbieten Deine Preise
+
+> **Entscheidungsfrage:** *Wen versichere ich zu welchem Preis — und welche Schäden sind Betrug?*
+
+<LiteraturSource :sources="[
+  { title: 'Accenture: Transforming Claims and Underwriting with AI (Survey Report)', url: 'https://www.accenture.com/us-en/insights/insurance/ai-insurance', year: '2022' },
+  { title: 'Ngai et al.: The Application of Data Mining Techniques in Financial Fraud Detection. Decision Support Systems 50(3)', url: 'https://doi.org/10.1016/j.dss.2010.08.006', year: '2011' },
+]" />
+
+::right::
+
+<Illustration src="/illustrations/data-analysis-bro.svg" alt="Datenanalyse" width="90%" />
+
+<!--
+Zusatzinfo für Vortrag: Laut Literatur entfallen 5–20 % der gemeldeten Fälle in Finanzbetrugsdaten auf tatsächlich betrügerische Transaktionen (Ngai et al., 2011). Das 170-Mrd.-USD-Prämienvolumen stammt aus dem Accenture-Survey 2022.
+-->
+
+---
+layout: default
+---
+
+## Von der [Frage]{style="color:var(--slidev-theme-primary)"} zum Modell
+
+**🧵 Roter Faden des Kurses — Der Lifecycle jeder datengetriebenen Entscheidung am Beispiel des Versicherers:**
+
+1. 🔎 **Problem** — Wer meldet wann einen Schaden?
+2. 🗄️ **Daten** — Vertrags-, Schadens- & Kundendaten
+3. 🔬 **Methode** — Statistik → ML → Deep Learning
+4. 🤖 **Modell** — gibt Vorhersagen aus (z. B. Betrugswahrscheinlichkeit, Schadenhöhe)
+5. ⚖️ **Bewertung** — gut genug für Geschäftsentscheid?
+6. ✅ **Entscheidung** — Prämie anpassen, Betrug melden
+
+*Diesen Lifecycle kennt die Praxis als CRISP-DM — dazu mehr später.*
+
+*Jede Session fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
+
+<LiteraturSource :sources="[
+  { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
+  { title: 'Vo et al.: Next Generation Business Intelligence and Analytics: A Survey. arXiv.', url: 'https://doi.org/10.48550/arXiv.1704.03402', year: '2017' },
+]" />
+
+---
+layout: default
+---
+
+## Was Dich in diesem Kurs erwartet
+
+*Jede Frage erfordert eine neue Methode — und jede Methode baut auf der vorherigen auf.*
+
+| Geschäftsfrage | Methode | Session |
+|---|---|---|
+| Schadenhöhe schätzen | Regression (Statistik) | S1 |
+| Betrug erkennen? | Klassifikation (ML) | S2 |
+| Kundengruppen finden | Clustering | S3 |
+| Schadenfoto auswerten | Deep Learning / CV | S4 |
+| Meldungstext lesen | NLP | S5 |
+| Prognose & Strategie | Vertiefung / Kombination | S6–8 |
+
+<LiteraturSource :sources="[
+  { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Warum beginnen wir mit [Statistik]{style="color:var(--slidev-theme-primary)"}?
+
+> 💡 *Erfahrung ist unbewusste statistische Intuition — Statistik macht sie explizit, überprüfbar und übertragbar. Und sie zeigt Dir, wann Deine Intuition täuscht.*
+
+- 🧱 **Statistik ist das Fundament:** Jedes ML-Modell baut auf statistischen Grundprinzipien auf. Wer das Fundament nicht kennt, kann Modelle weder bewerten noch erklären.
+- 💸 **Fehler haben echte Konsequenzen:** Falsche Prämien bedeuten Verlust oder Kundenflucht; fehlerhafte Betrugserkennung erzeugt Rechts- und Diskriminierungsrisiken.
+
+**Ausblick →**
+- **Session 1:** statistisches Fundament (Verteilungen, Kennzahlen, Regression)
+- **Session 2:** erstes ML-Modell zur Betrugserkennung
+
+<LiteraturSource :sources="[
+  { title: 'Weber: Artificial Intelligence for Business Analytics. Springer.', url: 'https://doi.org/10.1007/978-3-658-37599-7', year: '2023' },
+  { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
+]" />
+
+---
 layout: two-cols
 ---
 
