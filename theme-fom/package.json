@@ -1,0 +1,26 @@
+{
+  "name": "slidev-theme-fom",
+  "version": "0.1.0",
+  "description": "FOM academic theme for Slidev",
+  "license": "MIT",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "engines": {
+    "slidev": ">=0.48.0"
+  },
+  "slidev": {
+    "colorSchema": "light",
+    "defaults": {
+      "fonts": {
+        "sans": "Montserrat",
+        "serif": "Old Standard TT",
+        "mono": "Fira Code",
+        "weights": "400,500,700"
+      },
+      "aspectRatio": "16/9",
+      "transition": "fade"
+    }
+  }
+}

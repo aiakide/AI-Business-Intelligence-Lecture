@@ -1,0 +1,55 @@
+/* FOM theme — footer, header, list markers */
+
+.slidev-layout li::marker {
+  color: var(--slidev-theme-primary);
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.7rem;
+  font-weight: lighter;
+
+  .content {
+    margin: 0 1em;
+    padding: 0.6em 2em 0.4em;
+    border-top: 1px solid var(--slidev-theme-primary);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    color: #4e4e4e;
+  }
+
+  .content .left {
+    text-align: left;
+  }
+
+  .content .center {
+    text-align: center;
+  }
+
+  .content .right {
+    text-align: right;
+  }
+}
+
+.slidev-layout .header,
+.header {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 100%;
+  top: 0;
+  padding: 0.5em;
+  z-index: 10;
+
+  img {
+    width: 3em;
+  }
+}
+
+.slidev-layout .me {
+  width: 18em;
+}
