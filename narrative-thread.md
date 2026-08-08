@@ -77,4 +77,5 @@ a placeholder until exercises are designed.)*
 | # | Cluster / topic | Session | Case used | Status | Loops used |
 |---|---|---|---|---|---|
 | — | Intro (cover, bio, Lernziele) | 0 | — | ✅ ported | — |
-| | *(next clusters appended here)* | | | | |
+| 1 | Ausgangslage & Roter Faden (Motivation: Versicherer-Problem, Decision-Lifecycle, "Warum Statistik zuerst?") — slides 4–8 | 1 | Versicherer (home base) | ✅ approved | 2 |
+| | *(next: Statistik-Grundlagen — Lage-/Streuungsmaße, Korrelation)* | 1 | Versicherer | ⬜ next | |
