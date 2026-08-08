@@ -190,6 +190,111 @@ layout: default
 ]" />
 
 ---
+layout: fact
+---
+
+# Der Mittelwert lügt
+
+Ø-Schaden EUR 7.433 — die falsche Zahl für Deine Prämienkalkulation.
+
+<LiteraturSource :sources="[
+  { title: 'Klugman, Panjer & Willmot: Loss Models – From Data to Decisions (4th ed.)', url: 'https://doi.org/10.1002/9781118787106', year: '2013' },
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
+]" />
+
+---
+layout: default
+---
+
+## Das arithmetische Mittel — und was es verschweigt
+
+<div class="pb-14">
+
+Datensatz (Schadenshöhen in EUR): **800 · 1.100 · 1.100 · 1.400 · 2.200 · 38.000**
+
+**Arithmetisches Mittel** — $\bar{x} = \dfrac{\sum x_i}{n}$ — angewendet:
+
+$$\bar{x} = \frac{800 + 1.100 + 1.100 + 1.400 + 2.200 + 38.000}{6} = \frac{44.600}{6} = 7.433 \text{ €}$$
+
+**Modus:** EUR 1.100 (2×) &nbsp;·&nbsp; **Median:** (1.100 + 1.400) / 2 = **EUR 1.250**
+
+> Der Großschaden (38.000 €) zieht den Mittelwert auf mehr als das **Fünffache** des Medians — klassische **Rechtsschiefe** (langer rechter Ausläufer) in Versicherungsdaten.
+
+</div>
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 2 – Variablen und Skalenniveaus', url: 'https://doi.org/10.1007/978-3-658-10675-1_2', year: '2017' },
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
+]" />
+
+---
+layout: header-cols
+---
+
+## Modus & Median — zwei Korrektive
+
+::left::
+
+**Modus** — der häufigste Wert
+- → Häufigster Schadenstyp im Portfolio
+- Robust bei nominalen Kategorien
+- Nur eindeutig bei klarem Einzelwert
+
+::right::
+
+**Median** — der mittlere Wert der sortierten Reihe
+- → Typische Schadenshöhe, ausreißerrobust
+- Großschäden verschieben ihn kaum
+- Teilt Verteilung in zwei Hälften
+
+---
+layout: default
+---
+
+## Alle drei auf einen Blick
+
+<img src="./lagemasse_vergleich.svg" alt="Vergleich Modus, Median und Mittelwert auf einer Zahlengerade" style="max-height: 440px; margin: 0 auto; display: block;" />
+
+---
+layout: two-cols
+---
+
+## Welches Lagemaß — wann?
+
+| **Skalenniveau** | **Lagemaß** | **Versicherer-Beispiel** |
+|---|---|---|
+| Nominal | Modus | Häufigste Schadenart |
+| Metrisch + Ausreißer | Median | Typische Schadenshöhe |
+| Metrisch, symmetrisch | Mittelwert | Ø Schadenhöhe (homogen) |
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
+  { title: 'Klugman, Panjer & Willmot: Loss Models – From Data to Decisions (4th ed.)', url: 'https://doi.org/10.1002/9781118787106', year: '2013' },
+]" />
+
+::right::
+
+<Illustration src="/illustrations/statistics-bro.svg" alt="Statistik & Lagemaße" width="90%" />
+
+---
+layout: statement
+---
+
+## Dasselbe Prinzip, andere Branche
+
+9 Mitarbeiter: **2.000 €** &nbsp;·&nbsp; 1 Geschäftsführer: **200.000 €**
+
+→ Mittelwert: **21.800 €** &nbsp;|&nbsp; Median: **2.000 €**
+
+**9 von 10 Personen verdienen weniger als der Mittelwert.**
+
+<p style="opacity:0.45; font-size:0.85em; margin-top:1.5rem;">— ein klassisches Beispiel aus der Statistik-Didaktik</p>
+
+<!--
+Gesprochene Brücke: Lagemaße zeigen die Mitte — aber wie weit streuen die Daten um diese Mitte? Das klären wir als Nächstes.
+-->
+
+---
 layout: two-cols
 ---
 

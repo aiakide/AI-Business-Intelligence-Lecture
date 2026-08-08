@@ -78,4 +78,5 @@ a placeholder until exercises are designed.)*
 |---|---|---|---|---|---|
 | — | Intro (cover, bio, Lernziele) | 0 | — | ✅ ported | — |
 | 1 | Ausgangslage & Roter Faden (Motivation: Versicherer-Problem, Decision-Lifecycle, "Warum Statistik zuerst?") — slides 4–8 | 1 | Versicherer (home base) | ✅ approved | 2 |
-| | *(next: Statistik-Grundlagen — Lage-/Streuungsmaße, Korrelation)* | 1 | Versicherer | ⬜ next | |
+| 2a | Lagemaße: Was ist typisch? (Modus/Median/Mittelwert als KaTeX-Formel, Rechtsschiefe, Excalidraw-Zahlengerade, Entscheidungsregel) — 6 slides after Cluster 1 | 1 | Versicherer (home base) | ✅ approved (3 loops + user visual polish) | 3 |
+| | *(next: Streuungsmaße — Varianz, Standardabweichung, IQR)* | 1 | Versicherer | ⬜ next | |
