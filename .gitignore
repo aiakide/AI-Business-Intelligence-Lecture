@@ -1,5 +1,6 @@
 
 .envrc
+.DS_Store
 
 # Node / Slidev
 node_modules/
