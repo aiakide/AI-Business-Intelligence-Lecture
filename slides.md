@@ -251,3 +251,16 @@ class: text-center
 # Thank You
 
 Questions?
+
+---
+layout: default
+---
+
+# Literaturverzeichnis
+
+<Literaturverzeichnis />
+
+<!--
+Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch).
+-->
+

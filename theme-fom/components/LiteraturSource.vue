@@ -1,9 +1,5 @@
 <script setup lang="ts">
-interface Source {
-  title: string
-  url?: string
-  year?: string
-}
+import type { Source } from '../composables/useSources'
 
 const props = defineProps<{
   // Single-source props
