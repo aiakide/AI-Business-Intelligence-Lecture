@@ -1,0 +1,11 @@
+
+.envrc
+
+# Node / Slidev
+node_modules/
+dist/
+.slidev/
+*.log
+
+# Visual slide-review output (screenshots + report), local only
+slide-review/
