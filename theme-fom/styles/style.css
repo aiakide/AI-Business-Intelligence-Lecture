@@ -53,3 +53,9 @@ footer {
 .slidev-layout .me {
   width: 18em;
 }
+
+/* Callout / quote box: keep default padding, add breathing room around it */
+.slidev-layout blockquote {
+  margin-top: 1.4em;
+  margin-bottom: 1.4em;
+}
