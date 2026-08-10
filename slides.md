@@ -187,6 +187,115 @@ Statistik fängt mit einer simplen Frage an: Was ist ein typischer Schaden in un
 ]" />
 
 ---
+layout: header-cols
+---
+
+## [Data Mining]{style="color:var(--slidev-theme-primary)"} vs. Data Crawling
+
+::left::
+
+**Data Mining** — Muster finden in vorhandenen Daten
+
+- Algorithmisches Aufdecken verborgener Strukturen
+- Quelle: interne Datensätze (z. B. 400.000 Verträge)
+- Beispiel: Betrugsmuster im Vertragsportfolio erkennen
+- Kerngedanke: *analysieren*
+
+::right::
+
+**Data Crawling** — externe Daten automatisiert beschaffen
+
+- Automatisches Extrahieren aus externen Quellen
+- Quelle: Web-APIs, öffentliche Register, Webseiten
+- Beispiel: Wetterdaten per API für Naturschadenwahrscheinlichkeiten
+- Kerngedanke: *beschaffen*
+
+<p class="text-center italic opacity-70 mt-6" style="border-top: 1px solid var(--slidev-theme-primary); padding-top: 0.75rem;">Erst beschaffen (Crawling), dann analysieren (Mining). Aber was analysieren wir — alle 400.000 Verträge oder nur einen Ausschnitt?</p>
+
+<LiteraturSource :sources="[
+  { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business, Kap. 2 – Big Data Powering Business Intelligence', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
+]" />
+
+---
+layout: header-cols
+---
+
+## [Stichprobe]{style="color:var(--slidev-theme-primary)"} & Grundgesamtheit
+
+::left::
+
+**Grundgesamtheit** $N$ — alle relevanten Objekte
+
+- Alle Objekte, über die eine Aussage gemacht werden soll
+- Hier: alle **400.000 Versicherungsverträge**
+- $\mu$ = der wahre, unbekannte Mittelwert der Population
+- In der Praxis selten vollständig beobachtbar
+
+::right::
+
+**Stichprobe** $n$ — die tatsächlich erhobene Teilmenge
+
+- Repräsentativ ausgewählter Ausschnitt der Grundgesamtheit
+- Hier: die **6 Schadenshöhen** aus unserem Datensatz
+- $\bar{x}$ = Stichprobenmittel — eine *Schätzung* von $\mu$
+- Nie identisch mit $\mu$, aber bei guter Ziehung nah genug
+
+Und wie nah genau? Das beantwortet das Konfidenzintervall.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 9 – Parameterschätzung', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [Konfidenzintervall]{style="color:var(--slidev-theme-primary)"} & Konfidenzniveau
+
+Der Versicherer schätzt: Die mittlere Schadenshöhe liegt bei ca. EUR 5.200. Aber reicht ein einziger Punkt-Schätzwert für eine Prämienentscheidung über 400.000 Verträge?
+
+- **Konfidenzniveau** $(1-\alpha)$: Typisch 95 % — wir akzeptieren ein 5 % Risiko, danebenzuliegen (formal: bei 100 Stichproben würden 95 der berechneten Intervalle $\mu$ enthalten)
+- **Konfidenzintervall**: $[\bar{x} - E,\; \bar{x} + E]$ — der Bereich, in dem $\mu$ mit $(1-\alpha)$ Sicherheit liegt
+
+**Versicherer-Beispiel:** $\bar{x}$ = EUR 5.200, 95 %-KI = [EUR 4.100, EUR 6.300]
+
+$$\bar{x} \pm z_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$
+
+> ⚠️ **Häufiger Denkfehler — μ ist fix, das Intervall ist zufällig**
+>
+> Das Intervall sagt *nicht*: „μ liegt mit 95 % Wahrscheinlichkeit hier drin." Es sagt: „95 % der so berechneten Intervalle *würden* den wahren Wert enthalten."
+
+<!-- Presenter note: Bei kleinem n (hier n=6) ist streng genommen die t-Verteilung korrekt, nicht z. Für die Einführung nutzen wir z als Näherung — das reicht für das konzeptionelle Verständnis. | Überleitung: Die Breite dieses Intervalls hat drei Steuergrößen — dazu gleich mehr. -->
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 9 – Parameterschätzung', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [Fehlermarge]{style="color:var(--slidev-theme-primary)"} — drei Steuergrößen, eine Aussage
+
+Die Fehlermarge $E$ ist die halbe Intervallbreite und bestimmt, wie präzise unsere Schätzung ist:
+
+$$E = z_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$
+
+- ↑ **Konfidenzniveau** (z. B. 99 % statt 95 %) → $E$ wird **größer** — mehr Sicherheit kostet Präzision
+- ↑ **Streuung** $s$ (heterogenere Daten) → $E$ wird **größer** — unruhige Portfolios sind schwerer zu schätzen
+- ↑ **Stichprobengröße** $n$ (mehr Daten) → $E$ wird **kleiner** — mehr Daten = engeres Intervall
+
+**Merksatz:** Mehr Daten und weniger Streuung → engeres Intervall → sicherere Aussage.
+
+Unser Datensatz (n = 6) ergibt eine sehr breite Fehlermarge — das ist gewollt: Er illustriert das Prinzip. Echte Versicherer arbeiten mit $n \geq 300$–$1.000$ je Risikogruppe.
+
+**Jede Kennzahl, die wir ab jetzt berechnen, trägt diese Unsicherheit im Hinterkopf — und der Mittelwert verschweigt sie am gründlichsten.**
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 9 – Parameterschätzung', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
 layout: fact
 ---
 
