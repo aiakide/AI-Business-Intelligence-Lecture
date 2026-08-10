@@ -381,3 +381,136 @@ Sources needed:
   edu-research must verify DOI/chapter before citing.
 
 ---
+
+## 9. Transition Audit — Full Deck (2026-08-10)
+
+**Trigger:** User feedback: *"Mir fehlt nach wie vor der inhaltliche Übergang zwischen den Slides"*
+**Constraint:** NO UI widgets, badges, or visual bridge elements. Transitions must emerge from authored prose
+in the existing slide content (closing sentence on slide N or opening sentence on slide N+1).
+The retrofit on slide 14 ("Dasselbe Prinzip, andere Branche") is the reference pattern.
+
+**Scope:** Slides 1–20 (real content slides). Slides 21–25 are demo placeholders (skip). Slides 26–27 are structural (skip).
+
+### 9a. Session 1 chapter-opener title fix
+
+**Current title (broken):** `# Session 1: [Business Intelligence]{style="color:var(--slidev-theme-primary)"} & Data Science`
+
+**Corrected title (approved 2026-08-10):**
+```
+# Session 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
+```
+
+Rationale: Accurately reflects actual content (Lagemaße, Streuung, Korrelation, bridging to Regression).
+The word "Fundament" preserves the BI framing (statistics IS the foundation of every ML/KI model in the module)
+without misrepresenting the session as a generic "BI & Data Science" overview. Convention preserved:
+highlighted keyword = the session's dominant topic.
+
+### 9b. Transition verdict table
+
+| # | Slide N | Slide N+1 | Verdict | Fix location |
+|---|---|---|---|---|
+| 1→2 | Cover | Bio | ✅ Smooth | — |
+| 2→3 | Bio | Lernziele/Orga | ✅ Smooth | — |
+| 3→4 | Lernziele/Orga | Chapter opener | ⚠️ Weak | End of slide 3 (right col, after last bullet) |
+| 4→5 | Chapter opener | Ausgangslage | ✅ Smooth | — |
+| 5→6 | Ausgangslage | Roter Faden | ⚠️ Weak | End of slide 5 (before `<LiteraturSource>`) |
+| 6→7 | Roter Faden | Kurs-Übersicht | ⚠️ Weak | End of slide 6 (after last italic line, before `<LiteraturSource>`) |
+| 7→8 | Kurs-Übersicht | Warum Statistik? | ✅ Smooth | — |
+| 8→9 | Warum Statistik? | Fact: "Der Mittelwert lügt" | 🔴 Broken | End of slide 8 (replace "Ausblick →" section) |
+| 9→10 | Fact hook | Mittelwert-Formel | ✅ Smooth | — |
+| 10→11 | Mittelwert-Formel | Modus & Median | ⚠️ Weak | End of slide 10 (before `<LiteraturSource>`) |
+| 11→12 | Modus & Median defs | Zahlengerade SVG | 🔴 Broken | (a) End of slide 11 + (b) caption on slide 12 |
+| 12→13 | Zahlengerade SVG | Welches Lagemaß? | ✅ Smooth (if 11→12(b) applied) | — |
+| 13→14 | Entscheidungstabelle | Dasselbe Prinzip | ⚠️ Weak | End of slide 13 left col (before `<LiteraturSource>`) |
+| 14→15 | Dasselbe Prinzip | Streuung 1/2 | ✅ Smooth (already fixed) | — |
+| 15→16 | Streuung 1/2 | Streuung 2/2 | ✅ Smooth | — |
+| 16→17 | Streuung 2/2 | Varianz/Std | ⚠️ Weak | Opening of slide 17 (between heading and dataset line) |
+| 17→18 | Varianz/Std | Korrelation | 🔴 Broken | End of slide 17 (before `<LiteraturSource>`) |
+| 18→19 | Korrelation | U-Form SVG | ⚠️ Weak | End of slide 18 left col (after badge row) |
+| 19→20 | U-Form SVG | Werkzeugkiste | ✅ Smooth | — |
+
+### 9c. Exact proposed bridge sentences (handoff to slidev-content-transformer)
+
+**Slide 3 → 4 (end of slide 3, right column, after last bullet):**
+> *"Wir starten direkt mit Session 1 — und zwar dort, wo alle KI-Modelle anfangen: bei den Daten."*
+
+**Slide 5 → 6 (end of slide 5, before `<LiteraturSource>`):**
+> *"Diese drei Fragen — Preis, Betrug, Wettbewerb — ziehen sich als roter Faden durch den ganzen Kurs. Schauen wir zuerst, welche Methoden zu welcher Frage passen."*
+
+**Slide 6 → 7 (end of slide 6, after last italic line, before `<LiteraturSource>`):**
+> *"Welche Methode löst welche Frage — und in welcher Session? Die Übersicht zeigt Dir den Plan auf einen Blick."*
+
+**Slide 8 → 9 (end of slide 8, replacing the "Ausblick →" block):**
+Replace the current "Ausblick →" bullets with:
+> *"Statistik fängt mit einer simplen Frage an: Was ist ein typischer Schaden in unserem Portfolio? Und genau diese Frage führt uns sofort in eine Falle — die der Mittelwert stellt."*
+Note: The session roadmap in "Ausblick →" was already shown on slide 7 (Kurs-Übersicht table) — it is redundant here. Remove or condense to a single parenthetical if desired.
+
+**Slide 10 → 11 (end of slide 10, before `<LiteraturSource>`):**
+> *"Der Mittelwert allein ist für schiefe Verteilungen keine verlässliche Kennzahl. Was brauchen wir stattdessen? Modus und Median — zwei robustere Alternativen."*
+
+**Slide 11 → 12 (a) — end of slide 11 (below both column definitions):**
+> *"Modus, Median und Mittelwert — auf einer Zahlengerade nebeneinandergestellt, wird der Unterschied sofort sichtbar."*
+
+**Slide 11 → 12 (b) — caption/sub-line on slide 12 (below the SVG `<img>`):**
+> *"Rechtsschiefe Verteilung: Der Ausreißer zieht den Mittelwert weit nach rechts — Modus und Median bleiben nahe am Zentrum der Datenpunkte."*
+
+**Slide 13 → 14 (end of slide 13 left column, before `<LiteraturSource>`):**
+> *"Dieses Prinzip ist nicht versicherungsspezifisch — es gilt überall, wo Daten schief verteilt sind. Ein klassisches Beispiel aus dem Personalwesen zeigt das sofort."*
+
+**Slide 16 → 17 (opening of slide 17, between heading and dataset line):**
+> *"Portfolio B brauchte mehr Reserve — aber wie viel mehr genau? Dafür brauchen wir ein Maß, das Streuung präzise quantifiziert. Das ist die Varianz."*
+
+**Slide 17 → 18 (end of slide 17, before `<LiteraturSource>`):**
+> *"Streuung beschreibt, wie weit ein einzelnes Merkmal schwankt — etwa die Schadenshöhe. Aber wie hängen zwei Merkmale zusammen? Steigt die Schadenhäufigkeit mit dem Fahreralter? Steigt sie wirklich — oder sieht es nur so aus? Das beantwortet die Korrelation."*
+
+**Slide 18 → 19 (end of slide 18 left column, after badge row, before closing `</div>`):**
+> *"Das klingt abstrakt — die Kurve macht es sofort klar."*
+
+### 9d. Priority ranking for implementation
+
+| Rank | Transition | Type | Reason |
+|---|---|---|---|
+| 1 | Slide 8 → 9 (Warum Statistik? → Fact hook) | 🔴 Broken | EUR 7.433 appears with zero context; hardest cut in the deck for a tired student |
+| 2 | Slide 17 → 18 (Varianz → Korrelation) | 🔴 Broken | Jump from 1-variable to 2-variable with no logical bridge; will feel like a shuffled deck |
+| 3 | Slide 11 → 12 (Modus/Median → SVG) | 🔴 Broken | Silent image with no framing; requires both a closing sentence AND a diagram caption |
+| 4 | Slide 16 → 17 (Streuung 2/2 → Varianz formula) | ⚠️ Weak | Rhetorical question left unanswered by formula without a one-line bridge |
+| 5 | Slide 10 → 11 (Mittelwert formula → Modus/Median) | ⚠️ Weak | "Korrektive" in title carries it — but one extra line removes all ambiguity |
+| 6 | Slide 13 → 14 (Entscheidungstabelle → Gehalts-Beispiel) | ⚠️ Weak | Context switch from insurance to HR is unmotivated without a "principle is universal" sentence |
+| 7 | Slide 5 → 6 (Ausgangslage → Roter Faden) | ⚠️ Weak | Question hangs; forward pointer closes the loop |
+| 8 | Slide 6 → 7 (Roter Faden → Kurs-Übersicht) | ⚠️ Weak | Principle-to-table jump; one preview line fixes this |
+| 9 | Slide 3 → 4 (Lernziele → Chapter opener) | 🟢 Polish | Chapter opener is a visual reset; closing line adds warmth but not strictly needed |
+| 10 | Slide 18 → 19 (Korrelation → U-Form SVG) | 🟢 Polish | Heading "Die U-Form sichtbar gemacht" already does most of the work |
+
+### 9e. Implementation handoff notes (for slidev-content-transformer)
+
+- Fixes are **text-only** — no new layouts, no new components, no CSS changes needed.
+- Fixes at "end of slide N before `<LiteraturSource>`" mean: insert the sentence as a new paragraph *above*
+  the `<LiteraturSource :sources="[...]" />` block, never inside it.
+- Slide 11 (Modus & Median, `header-cols`): the closing sentence in fix (a) goes after the `::right::`
+  column's last bullet. In `header-cols`, content after all named slots renders full-width — a blank line
+  + the sentence should work. Transformer must verify no overflow.
+- Slide 12 (SVG only): the caption in fix (b) is a simple italics `<p>` line below the `<img>` tag.
+  Keep it to one sentence — the slide is sparse and the image is the hero.
+- Slide 17 bridge sentence goes **between** the `## Varianz & Standardabweichung — das Streuungsmaß`
+  heading and the `<div class="pb-10">` wrapper that starts the dataset display.
+- Slide 18 fix (b) goes inside the `<div class="pb-20">` of the left column, after the badge `<div>`
+  row, before the closing `</div>` of that wrapper.
+- After all transitions are implemented, send the full batch through `slide-visual-reviewer` for a single
+  pass (density check, no overflow), then `student-reviewer`. This is a prose-only pass — should clear in 1 loop.
+
+### 9f. Outcome (2026-08-10) — ✅ Implemented, 2 loops, APPROVED
+
+All 11 transition fixes + the Session 1 title fix were applied. First render surfaced 5 real overflow
+regressions (bridge sentences pushed already-dense slides past the canvas: slides 3, 5, 12, 17, 18) —
+fixed by trimming adjacent text, not by removing the bridges. Student-reviewer loop 1 found two additional
+layout bugs the automated metrics missed (citation bar visually overlapping content on slide 13 despite
+`scrollHeight` reporting no overflow — `<LiteraturSource>` is `position: absolute` and doesn't count
+toward scroll height, a recurring blind spot in this deck). Fixes: slide 13's bridge sentence was
+relocated to become slide 14's *opening* line (cleaner than a crowded footer); slide 11's bridge was
+promoted with an `<hr>` + centered-italic treatment for visual distinction; slide 3's Erwartungen lines
+were converted to proper bullets. Loop 2 re-review: **APPROVED**, zero regressions across slides 5–20.
+
+**Lesson for future clusters:** `<LiteraturSource>` and the theme footer are both `position: absolute`,
+so `slide-shots.mjs`'s `scrollHeight` metric cannot detect visual overlaps with them — only a rendered
+screenshot can. Always visually inspect slides where new content is added near the bottom of a column.
+
