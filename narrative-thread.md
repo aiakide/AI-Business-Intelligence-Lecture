@@ -134,7 +134,8 @@ a placeholder until exercises are designed.)*
 | 2a | Lagemaße: Was ist typisch? (Modus/Median/Mittelwert als KaTeX-Formel, Rechtsschiefe, Excalidraw-Zahlengerade, Entscheidungsregel) — 6 slides after Cluster 1 | 1 | Versicherer (home base) | ✅ approved (3 loops + user visual polish) | 3 |
 | 2b | Streuung & Korrelation: Wie verlässlich ist das? (Varianz/Standardabweichung KaTeX, Portfolio-Hook, Pearson r, Eis/Ertrinkende, Synthese + Regression-Brücke) — 5 slides after Cluster 2a | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
 | 1b | Daten, Stichproben & Unsicherheit (Data Mining vs. Crawling, Stichprobe/Grundgesamtheit, Konfidenzintervall/-niveau, Fehlermarge) — 4 slides inserted before Cluster 2a (Lagemaße) | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
-| | *(next: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ next | |
+| 2b-gap | Kovarianz — von einer zu zwei Variablen (Cov(X,Y) formula, sign interpretation, Fahrzeugalter/Reparaturkosten worked example, Skalenproblem → motiviert Pearson r) — 2 slides inserted between Varianz/Std and Korrelation in Cluster 2b | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
+| | *(next: z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ next | |
 | **1b** | **[GAP-INSERT] Data Mining / Crawling + Stichprobe & Grundgesamtheit + Konfidenzintervall & Fehlermarge — 4 slides, inserts BETWEEN slides "Warum beginnen wir mit Statistik?" and "Der Mittelwert lügt"** | 1 | Versicherer (home base) | 🔵 planning | — |
 | | *(next after 1b: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ queued | |
 
@@ -166,6 +167,18 @@ Stichprobe/Grundgesamtheit → Konfidenzniveau/-intervall → Fehlermarge →
   that uncertainty. Also anchors the Bootstrapping cluster later.
 - Kovarianz: Pearson r is normalized covariance. Without seeing Cov(X,Y) first,
   the r formula is opaque. This is a 1-slide insertion, not a new cluster.
+
+**Outcome (2026-08-10):** Kovarianz ended up as **2 slides** (originally planned as 1 —
+split after visual QA found the combined content overflowed by ~250px). Used a NEW
+toy dataset (Fahrzeugalter/Reparaturkosten, 4 points) rather than the insurer's 6-claim
+univariate dataset, since Kovarianz needs paired (X,Y) data. Citation: Völkl & Korb
+(2017) Kap. 4 "Bivariate Analysen" — same DOI already used on the adjacent Korrelation
+slide; the specific Kovarianz coverage inside the chapter could not be confirmed via
+full-text search (paywalled), but this is the same confidence level already accepted
+for that citation elsewhere in the cluster. Approved after 2 loops — fixes included
+making the worked-example table show its deviation arithmetic (within the ≤4-column
+guardrail, by combining both deviations into one column) and closing a unit-scaling
+ambiguity in the EUR→Cent motivating example.
 
 ### 7b. Entirely unplanned chapters (not in thread, not in deck)
 
