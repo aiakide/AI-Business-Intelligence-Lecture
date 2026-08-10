@@ -24,18 +24,18 @@ Willkommen zum Modul AI in Business Intelligence.
 -->
 
 ---
-layout: two-cols
+layout: header-cols
 ---
-
-<img class="me" src="./me.png">
 
 ## Hi, ich bin Nils 👋
 
+::left::
+
+<img class="me" src="./me.png">
+
 ::right::
 
-# Nils Uhrberg
-
-### 🧠 Machine Learning Engineer @ codecentric
+### 🧠 Machine Learning Engineer @ codecentric — Nils Uhrberg
 
 **Education 👨‍🎓**
 * 2016 - 2019 Betriebliches Informationsmanagement (B.Sc.)
@@ -48,21 +48,18 @@ layout: two-cols
 * DS/DL Mentor bei TechLabs Münster
 
 ---
-layout: two-cols
+layout: header-cols
 ---
 
 ## 🎯 Lernziele des Moduls
 
+::left::
+
 * 🔍 Verstehen der theoretischen und methodischen Grundlagen von KI
-
 * 🧠 Fähigkeit, Machine Learning (ML) und Deep Learning (DL) zu beschreiben und zu erklären
-
 * ⚙️ Auswahl, Bewertung und ggf. eigenständige Anpassung dieser Methoden
-
 * 💻 Durchführung und Anpassung praktischer Beispiele
-
 * 📊 Kritische Bewertung von BI-Daten und effektive Extraktion der enthaltenen Informationen
-
 * ⚖️ Reflexion über die Grenzen ML- und DL-Techniken
 
 ::right::
@@ -98,10 +95,12 @@ layout: chapter
 <Illustration src="/illustrations/business-analytics-bro.svg" alt="Business Intelligence & Data Science" width="90%" />
 
 ---
-layout: two-cols
+layout: header-cols
 ---
 
 ## 🏢 Deine Ausgangslage als Analyst
+
+::left::
 
 Du bist Analyst bei einem Versicherer mit **400.000 Verträgen**.
 
@@ -256,10 +255,12 @@ layout: default
 <img src="./lagemasse_vergleich.svg" alt="Vergleich Modus, Median und Mittelwert auf einer Zahlengerade" style="max-height: 440px; margin: 0 auto; display: block;" />
 
 ---
-layout: two-cols
+layout: header-cols
 ---
 
 ## Welches Lagemaß — wann?
+
+::left::
 
 | **Skalenniveau** | **Lagemaß** | **Versicherer-Beispiel** |
 |---|---|---|
@@ -290,15 +291,202 @@ layout: statement
 
 <p style="opacity:0.45; font-size:0.85em; margin-top:1.5rem;">— ein klassisches Beispiel aus der Statistik-Didaktik</p>
 
-<!--
-Gesprochene Brücke: Lagemaße zeigen die Mitte — aber wie weit streuen die Daten um diese Mitte? Das klären wir als Nächstes.
--->
+<div class="transition-bar">
+  <span class="done">✓ Bisher: Lagemaße</span>
+  <span class="now">→ Jetzt: Streuung & Korrelation</span>
+  <span class="next">○ Als Nächstes: Kovarianz & z-Transformation</span>
+</div>
 
 ---
-layout: two-cols
+layout: header-cols
+---
+
+## Gleicher Mittelwert — völlig anderes Risiko (1/2)
+
+Zwei Versicherer-Portfolios, identischer Mittelwert von EUR 1.000:
+
+::left::
+
+**Portfolio A** — enger Bereich:
+
+| Schaden | Abweichung |
+|---|---|
+| EUR 950 | −50 |
+| EUR 980 | −20 |
+| EUR 1.000 | ±0 |
+| EUR 1.020 | +20 |
+| EUR 1.050 | +50 |
+
+::right::
+
+<div class="flex flex-col items-center justify-center h-full gap-4 mt-2 pb-8">
+  <div class="text-center px-6 py-4 rounded-xl border-2" style="border-color:var(--slidev-theme-primary)">
+    <div class="text-xs font-semibold uppercase tracking-widest opacity-60 mb-1">Portfolio A — Spanne</div>
+    <div class="text-3xl font-bold" style="color:var(--slidev-theme-primary)">EUR 950 – EUR 1.050</div>
+    <div class="mt-2 text-sm font-semibold opacity-70">sehr eng &nbsp;·&nbsp; Δ = 100</div>
+  </div>
+  <div class="text-sm opacity-40 mt-2">→ Portfolio B: siehe nächste Folie</div>
+</div>
+
+---
+layout: header-cols
+---
+
+## Gleicher Mittelwert — völlig anderes Risiko (2/2)
+
+::left::
+
+**Portfolio A:** EUR 950–1.050 (Δ 100)
+
+**Portfolio B** — weiter Bereich:
+
+| Schaden | Abweichung |
+|---|---|
+| EUR 200 | −800 |
+| EUR 600 | −400 |
+| EUR 1.000 | ±0 |
+| EUR 1.400 | +400 |
+| EUR 1.800 | +800 |
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
+]" />
+
+::right::
+
+<div class="flex flex-col items-start gap-4 mt-8">
+  <div class="text-5xl font-bold" style="color:var(--slidev-theme-primary)">Spanne A</div>
+  <div class="text-2xl font-semibold">EUR 100</div>
+  <div class="text-5xl font-bold mt-4" style="color:#e05252">Spanne B</div>
+  <div class="text-2xl font-semibold">EUR 1.600</div>
+  <div class="text-sm opacity-60 mt-4">Identischer Mittelwert — 16× mehr Streuungsrisiko</div>
+  <blockquote class="mt-6"><strong>Gleicher Mittelwert. Welcher Versicherer braucht mehr Eigenkapitalreserve?</strong></blockquote>
+</div>
+
+---
+layout: default
+---
+
+## Varianz & Standardabweichung — das Streuungsmaß
+
+<div class="pb-10">
+
+Datensatz (dieselben 6 Schäden wie zuvor): **800 · 1.100 · 1.100 · 1.400 · 2.200 · 38.000 EUR**
+
+**Stichprobenvarianz** — $s^2 = \dfrac{1}{n-1}\displaystyle\sum_{i=1}^{n}(x_i - \bar{x})^2$
+
+Wir quadrieren die Abweichungen, damit sich positive und negative Ausreißer nicht gegenseitig aufheben — und damit große Abweichungen überproportional bestraft werden.
+
+<div class="text-xs opacity-50 mt-1 mb-2">
+
+Ausgerechnet: $s^2 = \dfrac{(-6{.}633)^2 + (-6{.}333)^2 + (-6{.}333)^2 + (-6{.}033)^2 + (-5{.}233)^2 + (+30{.}567)^2}{5} \approx 225{.}000{.}000$
+
+</div>
+
+<div class="text-2xl font-bold mt-3" style="color:var(--slidev-theme-primary)">
+
+Ergebnis: $s = \sqrt{s^2} \approx$ EUR 15.000
+
+</div>
+
+> ⚠️ **Ein einziger Ausreißer verändert alles:** Entfernt man den Großschaden (38.000 €), sinkt $s$ von ~EUR 15.000 auf ~**EUR 536** — ein Faktor von **28** durch einen einzigen Datenpunkt. Der Mittelwert allein hätte diesen Unterschied vollständig verborgen.
+
+</div>
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
+]" />
+
+---
+layout: header-cols
+---
+
+## Korrelation — Zusammenhang, nicht Ursache
+
+::left::
+
+<div class="pb-20">
+
+**Pearson-Korrelationskoeffizient $r$**
+
+- Misst den *linearen* Zusammenhang zweier metrischer Variablen
+- Wertebereich: $-1 \leq r \leq +1$ (0 = kein linearer Zusammenhang)
+- $r \approx 0$ bedeutet **nicht** "kein Zusammenhang"
+  - → Fahreralter–Schadenhäufigkeit: U-Form → würde $r \approx 0$ ergeben, obwohl real
+
+<div class="flex gap-2 mt-2 text-xs font-mono items-center" style="color:var(--slidev-theme-primary)">
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Jung: hoch</span>
+  <span class="opacity-40">·</span>
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Mittel: niedrig</span>
+  <span class="opacity-40">·</span>
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Alt: hoch</span>
+  <span class="opacity-60 ml-1">→ U-Form</span>
+</div>
+
+</div>
+
+::right::
+
+> **Klassisches Lehrbeispiel der Statistik:**
+>
+> An heißen Tagen wird mehr Eis verkauft — und es gibt mehr Ertrinkungstote. Eis verkaufen verursacht keine Ertrinkungstode. Die gemeinsame Ursache ist die **Temperatur** (Konfundierungsvariable).
+>
+> Korrelation zeigt einen Zusammenhang — sie sagt nichts über die Richtung oder Ursache.
+>
+> *— Spurious Correlations: ein Standardbeispiel der Statistik-Didaktik*
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
+  { title: 'Pearl & Mackenzie: The Book of Why – The New Science of Cause and Effect', url: 'https://www.basicbooks.com/titles/judea-pearl/the-book-of-why/9780465097616/', year: '2018' },
+]" />
+
+---
+layout: default
+---
+
+## Die U-Form sichtbar gemacht
+
+<img src="./fahreralter_ushap.svg" alt="Fahreralter vs. Schadenhäufigkeit: U-förmiger Zusammenhang" style="max-height: 440px; margin: 0 auto; display: block;" />
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
+]" />
+
+---
+layout: default
+---
+
+## Die deskriptive Werkzeugkiste ist komplett
+
+**Drei Fragen — drei Werkzeuge:**
+
+- 📍 **Lagemaße** *(Modus, Median, Mittelwert)* — Was ist der typische Wert?
+- 📏 **Streuungsmaße** *(Varianz $s^2$, Standardabweichung $s$)* — Wie verlässlich ist diese Typik?
+- 🔗 **Korrelation** *(Pearson $r$)* — Hängen zwei Größen zusammen?
+
+**→ Zusammen ermöglichen diese drei Werkzeuge einen ersten explorativen Datenbericht.**
+
+**Brücke nach vorn — Korrelation ist die Vorstufe der Regression:**
+
+> Ein starkes $r$ zwischen Fahreralter und Schadenhäufigkeit deutet auf eine Beziehung hin — aber $r$ sagt nur *"da ist etwas"*. Die **lineare Regression** quantifiziert diesen Zusammenhang: Wie viel ändert sich die Schadenhäufigkeit je Lebensjahr? Das ist unser nächstes Werkzeug.
+
+<div class="transition-bar">
+  <span class="done">✓ Bisher: Streuung & Korrelation</span>
+  <span class="now">→ Jetzt: Kovarianz & z-Transformation</span>
+  <span class="next">○ Als Nächstes: Lineare Regression</span>
+</div>
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
+]" />
+
+---
+layout: header-cols
 ---
 
 ## Left column
+
+::left::
 
 - Point one
 - Point two
