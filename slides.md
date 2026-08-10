@@ -291,11 +291,7 @@ layout: statement
 
 <p style="opacity:0.45; font-size:0.85em; margin-top:1.5rem;">— ein klassisches Beispiel aus der Statistik-Didaktik</p>
 
-<div class="transition-bar">
-  <span class="done">✓ Bisher: Lagemaße</span>
-  <span class="now">→ Jetzt: Streuung & Korrelation</span>
-  <span class="next">○ Als Nächstes: Kovarianz & z-Transformation</span>
-</div>
+*Der Mittelwert (21.800 €) und der Median (2.000 €) erzählen unterschiedliche Geschichten — beide sind aber nur die "Mitte". Wie weit die Werte um diese Mitte streuen, verrät uns noch nichts. Das klären wir jetzt.*
 
 ---
 layout: header-cols
@@ -469,12 +465,6 @@ layout: default
 **Brücke nach vorn — Korrelation ist die Vorstufe der Regression:**
 
 > Ein starkes $r$ zwischen Fahreralter und Schadenhäufigkeit deutet auf eine Beziehung hin — aber $r$ sagt nur *"da ist etwas"*. Die **lineare Regression** quantifiziert diesen Zusammenhang: Wie viel ändert sich die Schadenhäufigkeit je Lebensjahr? Das ist unser nächstes Werkzeug.
-
-<div class="transition-bar">
-  <span class="done">✓ Bisher: Streuung & Korrelation</span>
-  <span class="now">→ Jetzt: Kovarianz & z-Transformation</span>
-  <span class="next">○ Als Nächstes: Lineare Regression</span>
-</div>
 
 <LiteraturSource :sources="[
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },

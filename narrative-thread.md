@@ -133,7 +133,8 @@ a placeholder until exercises are designed.)*
 | 1 | Ausgangslage & Roter Faden (Motivation: Versicherer-Problem, Decision-Lifecycle, "Warum Statistik zuerst?") — slides 4–8 | 1 | Versicherer (home base) | ✅ approved | 2 |
 | 2a | Lagemaße: Was ist typisch? (Modus/Median/Mittelwert als KaTeX-Formel, Rechtsschiefe, Excalidraw-Zahlengerade, Entscheidungsregel) — 6 slides after Cluster 1 | 1 | Versicherer (home base) | ✅ approved (3 loops + user visual polish) | 3 |
 | 2b | Streuung & Korrelation: Wie verlässlich ist das? (Varianz/Standardabweichung KaTeX, Portfolio-Hook, Pearson r, Eis/Ertrinkende, Synthese + Regression-Brücke) — 4 slides after Cluster 2a | 1 | Versicherer (home base) | ✅ authored | 1 |
-| | *(next: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ next | |
+| **1b** | **[GAP-INSERT] Data Mining / Crawling + Stichprobe & Grundgesamtheit + Konfidenzintervall & Fehlermarge — 4 slides, inserts BETWEEN slides "Warum beginnen wir mit Statistik?" and "Der Mittelwert lügt"** | 1 | Versicherer (home base) | 🔵 planning | — |
+| | *(next after 1b: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ queued | |
 
 ---
 
@@ -183,43 +184,200 @@ deck and the prerequisite chain. This covers:
 covers some BI/AI foundations but NOT the Python basics — those need authoring.
 Check `ml.md` and `dl.md` in the prior deck for Scikit-Learn/PyTorch context.
 
-### 7c. Transition fix pattern (applied going forward)
+### 7c. Transition fix pattern (revised 2026-08-10 — content-driven, not a UI widget)
 
 **Problem:** Cluster-to-cluster bridges exist ONLY as invisible presenter-note
-comments (`<!-- Gesprochene Brücke: ... -->`). Two locations identified:
-1. slides.md line 294–296 — after Lagemaße, before Streuung cluster
-2. slides.md line 444–461 — after Streuung/Korrelation, before Regression (partially
-   visible but buried in body text)
+comments (`<!-- Gesprochene Brücke: ... -->`) in some places, never visible to students.
 
-**Fix pattern — "Bisher / Jetzt / Als Nächstes" micro-bar:**
-Apply a 3-token footer strip on the **synthesis slide** (last slide of every cluster).
-Implemented as a `<div class="transition-bar">` inside the existing slide layout.
-CSS goes in theme-fom/styles/layouts.css OR as a `<style>` scoped block.
+**Rejected approach:** A literal "✓ Bisher / → Jetzt / ○ Als Nächstes" status-bar
+widget was tried and explicitly rejected by the user: *"Der Übergang sollte sich aus
+den Slide-Inhalten ergeben"* — the bridge must emerge from the content itself, not a
+meta-label bolted onto the slide.
 
-```html
-<div class="transition-bar">
-  <span class="done">✓ Bisher: [vorheriges Thema]</span>
-  <span class="now">→ Jetzt: [aktuelles Thema]</span>
-  <span class="next">⬜ Als Nächstes: [nächstes Thema]</span>
-</div>
+**Correct fix — the transition IS the closing sentence/synthesis, not a separate element:**
+Every cluster's closing slide should already end with a sentence that (a) names what
+was just established and (b) poses the open question the next cluster answers. This is
+authored prose, not a UI component. Example (applied to the Lagemaße→Streuung boundary):
+
+> *"Der Mittelwert (21.800 €) und der Median (2.000 €) erzählen unterschiedliche
+> Geschichten — beide sind aber nur die 'Mitte'. Wie weit die Werte um diese Mitte
+> streuen, verrät uns noch nichts. Das klären wir jetzt."*
+
+This does the same job (signals done → next) but reads as part of the narrative, not
+as a dashboard. No new CSS class, no extra markup — just craft the last 1-2 sentences
+of every closing slide to open the door to the next topic.
+
+**Rule going forward:** Every cluster's synthesis slide ends with a content sentence
+that bridges to the next cluster. `slidev-content-transformer` and `edu-research`
+should treat this as a writing requirement, not a layout requirement. Do NOT
+reintroduce a `transition-bar`-style widget.
+
+---
+
+## 8. Cluster 1b — Insertion Plan (2026-08-10)
+
+**Cluster title:** *Daten, Stichproben & Unsicherheit — die statistische Sprache des Versicherers*
+
+**Status:** 🔵 Planning — awaiting edu-research citations, then → slidev-content-transformer
+
+**Insertion point:** Between slides "Warum beginnen wir mit Statistik?" (slides.md ~line 191)
+and "Der Mittelwert lügt" (slides.md ~line 192, layout: fact).
+
+**Slide count:** 4 slides total.
+
+**Prerequisite chain position:**
+```
+[Cluster 1 — Ausgangslage & Roter Faden]  ← already authored
+  ↓ NEW INSERTION POINT
+  [Slide 1b-1: Data Mining vs. Data Crawling]
+  [Slide 1b-2: Stichprobe & Grundgesamtheit]
+  [Slide 1b-3: Konfidenzintervall & Konfidenzniveau]
+  [Slide 1b-4: Fehlermarge + Synthese (closing sentence bridges to Lagemaße)]
+  ↓
+[Cluster 2a — Lagemaße]  ← already authored (retroactively justified by 1b)
 ```
 
-```css
-.transition-bar {
-  display: flex; gap: 1.5rem; font-size: 0.72em;
-  border-top: 2px solid var(--slidev-theme-primary);
-  padding-top: 0.5rem; margin-top: 1rem; opacity: 0.75;
-}
-.transition-bar .done { color: #888; text-decoration: line-through; }
-.transition-bar .now  { color: var(--slidev-theme-primary); font-weight: 700; }
-.transition-bar .next { opacity: 0.55; }
+---
+
+### Slide 1b-1 — Data Mining vs. Data Crawling
+
+**Layout:** `header-cols`
+*(two named concepts of equal weight — left: Data Mining / right: Data Crawling;
+heading spans the top; illustration optional but not required)*
+
+**Content density:** ≤ 4 bullets per column — keep deliberately light (vorlage: 1 slide,
+gap analysis priority: Medium). No KaTeX needed.
+
+#### 4-Tier Structure
+
+| Tier | Content |
+|---|---|
+| **Hook** | Als Versicherer hast Du 400.000 Verträge und externe Daten (Wetterdaten, Werkstattdaten, öffentliche Schadensregister). Woher kommen diese Daten überhaupt — und was macht man damit? |
+| **Foundation** | **Data Mining**: algorithmisches Aufdecken von Mustern in *bereits vorhandenen* Datensätzen (z. B. interne Vertragsdaten). Suche nach verborgenen Strukturen. **Data Crawling**: automatisiertes Extrahieren von Daten aus *externen* Quellen (z. B. Webseiten, APIs, öffentliche Register). Beschaffungsprozess, keine Analyse. Kernunterschied: Mining = *analysieren*, Crawling = *beschaffen*. |
+| **Application** | Mining: Du analysierst die 400.000 Verträge algorithmisch auf Betrugsmuster. Crawling: Du lädst automatisch aktuelle Wetterdaten von einer API, um Naturschadenwahrscheinlichkeiten anzureichern. |
+| **Synthesis** | Beide Konzepte sind Vorstufen zu allem, was folgt: erst Daten beschaffen (Crawling), dann Muster finden (Mining) — der CRISP-DM-Prozess beginnt genau hier. |
+
+**Transition-bar:** ❌ NOT on this slide (mid-cluster). Transition-bar only on 1b-4.
+
+---
+
+### Slide 1b-2 — Stichprobe & Grundgesamtheit
+
+**Layout:** `header-cols`
+*(two concepts again; left: Grundgesamtheit — right: Stichprobe; heading spans top;
+consider a small visual stat — e.g. 400.000 → 6 items — as inline callout on right side
+rather than a full illustration, to save space for explanatory bullets)*
+
+**Content density:** ≤ 5 bullets total across both columns.
+
+#### 4-Tier Structure
+
+| Tier | Content |
+|---|---|
+| **Hook** | Du hast 400.000 Verträge — aber Du analysierst gerade 6 Schadenshöhen. Warum sollte das irgendetwas über alle 400.000 aussagen? Und wann darf man das überhaupt behaupten? |
+| **Foundation** | **Grundgesamtheit (N)**: alle relevanten Objekte, über die eine Aussage gemacht werden soll. Hier: alle 400.000 Versicherungsverträge. **Stichprobe (n)**: eine repräsentative Teilmenge der Grundgesamtheit, die tatsächlich erhoben wird. Hier: die 6 Schäden aus Cluster 2a. Kernregel: Stichprobenstatistiken (z.B. Mittelwert $\bar{x}$) sind *Schätzungen* für den wahren Populationsparameter (z. B. $\mu$) — nie identisch, aber bei guter Stichprobenziehung *nah genug*. |
+| **Application** | Die 6 Schadenshöhen (800, 1.100, 1.100, 1.400, 2.200, 38.000 EUR) — das waren eine Stichprobe. Die Grundgesamtheit ist das komplette Portfolio. Der Mittelwert von EUR 7.433 ist eine *Stichprobenschätzung* des wahren Portfoliomittels μ — nicht μ selbst. |
+| **Synthesis** | Diese Unterscheidung ist ab sofort dauerhaft relevant: Jede Kennzahl, die wir berechnen (Modus, Median, Varianz, Korrelationskoeffizient) ist eine Stichprobenstatistik. Das führt unmittelbar zur nächsten Frage: Wie sicher ist diese Schätzung? → Konfidenzintervall. |
+
+**Notation note for transformer:** Use $n$ for Stichprobengröße, $N$ für Grundgesamtheit,
+$\bar{x}$ für Stichprobenmittel, $\mu$ für Populationsmittel. Keep KaTeX minimal — inline
+only, no display-mode blocks needed here.
+
+**Transition-bar:** ❌ NOT on this slide (mid-cluster).
+
+---
+
+### Slide 1b-3 — Konfidenzintervall & Konfidenzniveau
+
+**Layout:** `default`
+*(single-column narrative layout: the concept is sequential — first explain Konfidenzniveau,
+then derive Konfidenzintervall from it — a two-column split would break this logical flow.
+Optionally: a narrow KaTeX formula block centred below the prose, followed by a callout box.)*
+
+**Content density:** 4–5 prose bullets + 1 formula line + 1 highlighted callout.
+No overflow risk with default layout at this density.
+
+#### 4-Tier Structure
+
+| Tier | Content |
+|---|---|
+| **Hook** | Der Versicherer schätzt: "Die durchschnittliche Schadenshöhe in unserem Portfolio liegt bei ca. EUR 5.000." Aber wie sicher ist das — und was bedeutet "ca."? Ist ein Punkt-Schätzwert (eine einzelne Zahl) überhaupt ausreichend für eine Prämien-Entscheidung über 400.000 Verträge? |
+| **Foundation** | **Konfidenzniveau (1−α)**: die Wahrscheinlichkeit, mit der das berechnete Intervall den wahren Populationsparameter enthält. Typisch: 95 % (α = 0,05). Bedeutet: Wenn Du dieselbe Stichprobe 100× ziehst und jedes Mal ein Intervall berechnest, enthalten 95 dieser Intervalle den wahren Wert μ. **Konfidenzintervall**: das resultierende Intervall $[\bar{x} - E,\; \bar{x} + E]$, wobei $E$ die Fehlermarge ist. Wichtige Klarstellung: Das Konfidenzintervall ist KEINE Aussage über die Wahrscheinlichkeit, dass μ *in diesem spezifischen Intervall* liegt — μ ist fix, das Intervall ist zufällig. |
+| **Application** | Versicherer-Beispiel: Stichprobenmittel $\bar{x}$ = EUR 5.200, 95%-Konfidenzintervall = [EUR 4.100, EUR 6.300]. Bedeutung: "Wir sind zu 95% sicher, dass die mittlere Schadenshöhe im Portfolio zwischen EUR 4.100 und EUR 6.300 liegt." Die Prämie wird auf Basis dieses Intervalls kalkuliert — nicht eines Punktwertes. |
+| **Synthesis** | Jede probabilistische Aussage im Versicherungswesen (Betrugswahrscheinlichkeit, Schadenserwartung) ist eine Intervallschätzung mit einem zugehörigen Konfidenzniveau. Das Konfidenzintervall ist auch die Grundlage für **Bootstrapping** (Session 2) — dort erzeugen wir KIs ohne Normalverteilungsannahme. |
+
+**KaTeX block for transformer:**
+$$\bar{x} \pm E = \bar{x} \pm z_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$
+*(Keep this as a display block, briefly. Speaker notes explain: für Einsteiger reicht das
+Verständnis des Intervall-Konzepts; die Formel zeigt, dass n im Nenner steht — mehr Daten
+= kleineres Intervall = mehr Sicherheit.)*
+
+**Transition-bar:** ❌ NOT on this slide (mid-cluster).
+
+---
+
+### Slide 1b-4 — Fehlermarge + Cluster-Synthese (Synthesis slide)
+
+**Layout:** `default`
+*(Gives room for the closing bridge sentence + citation without overflow risk —
+`statement` has minimal vertical space for that much content.)*
+
+**Content density:** 1 bold headline concept + 3–4 bullet points + closing bridge sentence + citation.
+
+#### 4-Tier Structure
+
+| Tier | Content |
+|---|---|
+| **Hook** | Das Konfidenzintervall hat eine Breite — und diese Breite hat einen Namen und drei Steuergrößen. |
+| **Foundation** | **Fehlermarge E**: die halbe Intervallbreite; $E = z_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$. Sie ist abhängig von: (1) **Konfidenzniveau** — 99% → größere Fehlermarge als 95%. (2) **Streuung (s)** — heterogenere Daten → größere Fehlermarge. (3) **Stichprobengröße (n)** — mehr Daten → kleinere Fehlermarge. Merksatz: Mehr Daten und weniger Streuung → engeres Intervall → sicherere Aussagen. |
+| **Application** | Unser 6-Punkte-Sample (n=6) aus dem Portfolio (N=400.000) ergibt eine sehr breite Fehlermarge — das ist ehrlich: Mit 6 Datenpunkten kann man keine präzise Prämienkalkulation rechtfertigen. In der Praxis zieht der Versicherer Stichproben von n ≥ 300–1.000 je Risikogruppe. |
+| **Synthesis** | **Was wir jetzt wissen:** Jede Statistik, die wir über unser Portfolio berechnen, ist eine Schätzung mit Unsicherheit. Lagemaße (Modus, Median, Mittelwert) sind die ersten dieser Schätzungen — und wir kennen jetzt den Rahmen, in dem sie zu interpretieren sind. → Transition-bar: Stichprobe & Konfidenz sind das Fundament. Jetzt legen wir die ersten Bausteine darauf: **Lagemaße**. |
+
+**Transition-bar (required on this slide):**
+```
+✓ Bisher: Datenbeschaffung & statistische Sprache
+→ Jetzt: Stichprobe, Konfidenzintervall, Fehlermarge
+○ Als Nächstes: Lagemaße — Was ist typisch?
 ```
 
-**Retroactive application targets:**
-- slides.md ~line 284 ("Dasselbe Prinzip, andere Branche" statement slide) →
-  replace `<!-- Gesprochene Brücke -->` note with visible micro-bar
-- slides.md ~line 444 ("Die deskriptive Werkzeugkiste ist komplett") →
-  promote bridge prose into blockquote + add micro-bar for Regression
+---
 
-**Rule going forward:** Every synthesis/closing slide of a cluster gets the micro-bar.
-Content slides mid-cluster do NOT get it. One bar per cluster boundary only.
+### Learning Goals (Cluster 1b — alle 4 Slides)
+
+Nach diesem Cluster können Studierende:
+
+1. **Data Mining und Data Crawling begrifflich unterscheiden** — und jedem Konzept
+   einen konkreten Schritt im Datenbeschaffungs- bzw. Analyseprozess zuordnen.
+
+2. **Stichprobe und Grundgesamtheit definieren** — und erklären, warum jede
+   Statistik, die wir berechnen, eine Schätzung mit Unsicherheit ist (Stichproben-
+   vs. Populationsparameter: $\bar{x}$ vs. $\mu$).
+
+3. **Ein Konfidenzintervall lesen und interpretieren** — insbesondere die
+   häufigste Fehldeutung vermeiden ("μ liegt zu 95% in diesem Intervall" vs.
+   "95% der so berechneten Intervalle enthalten μ").
+
+4. **Die drei Steuergrößen der Fehlermarge benennen** (Konfidenzniveau, Streuung,
+   Stichprobengröße) und qualitativ erklären, in welche Richtung jede Stellschraube
+   die Intervallbreite bewegt.
+
+5. **Den Versicherer-Kontext herstellen**: Die 6 Schadenshöhen aus Cluster 2a
+   retroaktiv als Stichprobe (n=6) aus der Grundgesamtheit (N=400.000) einordnen
+   und bewerten, was das für die Verlässlichkeit der dort berechneten Lagemaße bedeutet.
+
+---
+
+### Citation requirements for edu-research (see Research Requisition Brief below)
+
+Sources needed:
+- **(a)** Data Mining vs. Data Crawling — business-analytics context, citable definition
+- **(b)** Stichprobe / Grundgesamtheit — statistics textbook, insurance-relevant if possible
+- **(c)** Konfidenzintervall / Konfidenzniveau / Fehlermarge — **NOT from Völkl & Korb**
+  (their book "Deskriptive Statistik" covers only chapters: Einleitung / Variablen &
+  Skalenniveaus / Univariate Analysen / Bivariate Analysen / Drittvariablenkontrolle /
+  Schluss — **no chapter on confidence intervals**). Alternative verified source required.
+  Candidate: Bortz & Schuster "Statistik für Human- und Sozialwissenschaftler",
+  or Fahrmeir et al. "Statistik" (Springer), or similar German-language stats textbook.
+  edu-research must verify DOI/chapter before citing.
+
+---

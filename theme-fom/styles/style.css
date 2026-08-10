@@ -59,29 +59,3 @@ footer {
   margin-top: 1.4em;
   margin-bottom: 1.4em;
 }
-
-/* Cluster transition bar: visible "Bisher / Jetzt / Als Nächstes" bridge on
-   the closing (synthesis) slide of a concept cluster. */
-.transition-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  font-size: 0.72em;
-  border-top: 2px solid var(--slidev-theme-primary);
-  padding-top: 0.5rem;
-  margin-top: 1rem;
-}
-
-.transition-bar .done {
-  color: #888;
-  text-decoration: line-through;
-}
-
-.transition-bar .now {
-  color: var(--slidev-theme-primary);
-  font-weight: 700;
-}
-
-.transition-bar .next {
-  opacity: 0.6;
-}
