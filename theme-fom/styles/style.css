@@ -59,3 +59,9 @@ footer {
   margin-top: 1.4em;
   margin-bottom: 1.4em;
 }
+
+/* Compact table: tighter row padding for data-dense worked-example tables */
+.compact-table table th,
+.compact-table table td {
+  padding: 0.25em 0.75em;
+}
