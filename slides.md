@@ -512,6 +512,63 @@ Streuung beschreibt, wie weit *ein* Merkmal schwankt. Aber hängen *zwei* Merkma
 ]" />
 
 ---
+layout: default
+---
+
+## [Kovarianz]{style="color:var(--slidev-theme-primary)"} — von einer zu zwei Variablen
+
+Die Varianz misst, wie stark **ein** Merkmal um seinen Mittelwert schwankt. Jetzt: Bewegen sich **zwei** Merkmale gemeinsam?
+
+**Idee:** Statt die Abweichungen zu quadrieren (→ Varianz), multiplizieren wir die Abweichungen beider Variablen miteinander:
+
+$$\text{Cov}(X,Y) = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})$$
+
+<div class="flex gap-2 mt-2 mb-3 text-xs font-mono items-center" style="color:var(--slidev-theme-primary)">
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Cov &gt; 0: gemeinsamer Anstieg</span>
+  <span class="opacity-40">·</span>
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Cov &lt; 0: gegenläufig</span>
+  <span class="opacity-40">·</span>
+  <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Cov ≈ 0: kein linearer Zusammenhang</span>
+</div>
+
+**(„Linear" heißt: keine Kurven wie ein U — dazu gleich mehr.)**
+
+Ein Beispiel macht das greifbar: Fahrzeugalter und Reparaturkosten bei vier Fahrzeugen.
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
+]" />
+
+---
+layout: default
+---
+
+## Kovarianz — ein Rechenbeispiel
+
+**Fahrzeugalter $X$ (Jahre) & Reparaturkosten $Y$ (EUR)** — $\bar{x} = 2{,}5$, $\bar{y} = 400$
+
+<div class="text-xs compact-table">
+
+| i | xᵢ, yᵢ | Abweichungen | Produkt |
+|:---:|:---:|:---:|:---:|
+| 1 | 1, 200 | −1,5 · −200 | +300 |
+| 2 | 2, 300 | −0,5 · −100 | +50 |
+| 3 | 3, 500 | +0,5 · +100 | +50 |
+| 4 | 4, 600 | +1,5 · +200 | +300 |
+
+</div>
+
+Summe = 700 → $\text{Cov}(X,Y) = \tfrac{700}{3} \approx 233\ \text{EUR·Jahre}$
+
+> ⚠️ **Skalenproblem:** „233 EUR·Jahre" klingt bedeutungslos — und misst Du *Y* statt in EUR in Cent, springt Cov auf 23.300 Cent·Jahre, obwohl sich am echten Zusammenhang nichts ändert.
+
+Die Lösung: Division durch $s_X \cdot s_Y$ hebt die Einheiten auf — das ergibt den einheitenlosen Pearson-Korrelationskoeffizienten $r$ (zwischen $-1$ und $+1$).
+
+<LiteraturSource :sources="[
+  { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
+]" />
+
+---
 layout: header-cols
 ---
 
