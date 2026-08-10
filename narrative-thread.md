@@ -132,7 +132,9 @@ a placeholder until exercises are designed.)*
 | — | Intro (cover, bio, Lernziele) | 0 | — | ✅ ported | — |
 | 1 | Ausgangslage & Roter Faden (Motivation: Versicherer-Problem, Decision-Lifecycle, "Warum Statistik zuerst?") — slides 4–8 | 1 | Versicherer (home base) | ✅ approved | 2 |
 | 2a | Lagemaße: Was ist typisch? (Modus/Median/Mittelwert als KaTeX-Formel, Rechtsschiefe, Excalidraw-Zahlengerade, Entscheidungsregel) — 6 slides after Cluster 1 | 1 | Versicherer (home base) | ✅ approved (3 loops + user visual polish) | 3 |
-| 2b | Streuung & Korrelation: Wie verlässlich ist das? (Varianz/Standardabweichung KaTeX, Portfolio-Hook, Pearson r, Eis/Ertrinkende, Synthese + Regression-Brücke) — 4 slides after Cluster 2a | 1 | Versicherer (home base) | ✅ authored | 1 |
+| 2b | Streuung & Korrelation: Wie verlässlich ist das? (Varianz/Standardabweichung KaTeX, Portfolio-Hook, Pearson r, Eis/Ertrinkende, Synthese + Regression-Brücke) — 5 slides after Cluster 2a | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
+| 1b | Daten, Stichproben & Unsicherheit (Data Mining vs. Crawling, Stichprobe/Grundgesamtheit, Konfidenzintervall/-niveau, Fehlermarge) — 4 slides inserted before Cluster 2a (Lagemaße) | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
+| | *(next: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ next | |
 | **1b** | **[GAP-INSERT] Data Mining / Crawling + Stichprobe & Grundgesamtheit + Konfidenzintervall & Fehlermarge — 4 slides, inserts BETWEEN slides "Warum beginnen wir mit Statistik?" and "Der Mittelwert lügt"** | 1 | Versicherer (home base) | 🔵 planning | — |
 | | *(next after 1b: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ queued | |
 
@@ -379,6 +381,43 @@ Sources needed:
   Candidate: Bortz & Schuster "Statistik für Human- und Sozialwissenschaftler",
   or Fahrmeir et al. "Statistik" (Springer), or similar German-language stats textbook.
   edu-research must verify DOI/chapter before citing.
+
+### 8a. Outcome (2026-08-10) — ✅ Implemented, 2 loops, APPROVED
+
+Authored as 4 slides inserted between "Warum beginnen wir mit Statistik?" and "Der
+Mittelwert lügt": Data Mining vs. Data Crawling → Stichprobe & Grundgesamtheit →
+Konfidenzintervall & Konfidenzniveau → Fehlermarge. Final citations (all independently
+DOI-verified, chapter titles/content confirmed against Springer's live ToC/abstract
+pages, not guessed):
+
+- **Data Mining**: Chan, Hogaboam & Cao (2022), Kap. 2 "Big Data Powering Business
+  Intelligence" — DOI `10.1007/978-3-031-05740-3`. Honesty note: this is a reasonable
+  but imperfect topical fit (book is organized by industry vertical, not by technical
+  concept); "Data Crawling" is NOT attributed to this source — framed as common
+  technical terminology instead.
+- **Stichprobe & Grundgesamtheit** and **Konfidenzintervall/Fehlermarge**: Fahrmeir,
+  Heumann et al. (2016), *Statistik — Der Weg zur Datenanalyse*, Kap. 9
+  "Parameterschätzung" — DOI `10.1007/978-3-662-50372-0`. Verified via the chapter's
+  official abstract ("Die Ziehung von Stichproben, die ein möglichst getreues Abbild
+  der Grundgesamtheit wiedergeben...") — this single chapter correctly covers both
+  sampling theory AND interval estimation, so all three slides cite it consistently.
+
+**Two citation errors were caught and corrected before this was final:**
+1. An initial research pass guessed Fahrmeir **Kap. 7** for confidence intervals —
+   verification showed Kap. 7 is actually "Mehr über Zufallsvariablen und Verteilungen".
+   The correct chapter is **Kap. 9** — confirmed by checking each chapter's title via
+   its own DOI, not by assuming a textbook's standard structure.
+2. Loop-1 student review caught that slide 10 (Stichprobe & Grundgesamtheit) initially
+   cited Völkl & Korb Kap. 2 ("Variablen und Skalenniveaus") — topically wrong (that
+   chapter is about measurement levels, not sampling). Fixed to Fahrmeir Kap. 9.
+
+Loop 1 also produced 5 pedagogical fixes (misconception-callout restructure, formula/
+example reordering, plain-language risk framing, two-beat closing paragraph, bridge-
+sentence layout consistency) — all verified landed in loop 2. **APPROVED, no loop 3
+needed.**
+
+**Lesson reinforced:** never assume a textbook chapter number from "standard structure"
+— always fetch the actual chapter DOI and check its real title/abstract before citing.
 
 ---
 
