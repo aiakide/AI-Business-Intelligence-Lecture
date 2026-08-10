@@ -76,11 +76,9 @@ layout: header-cols
 
 ### 📌 Erwartungen an Euch:
 
-**Aktive Teilnahme**: 🧑‍🏫 Engagement in Vorlesungen und Übungen.
-
-**Kritische Reflexion**: 🧠 Bewertung von Methoden und Daten im BI-Kontext.
-
-**Eigenständige Anwendung**: 🔧 Übertragung des Gelernten auf eigene Fragestellungen.
+- **Aktive Teilnahme**: 🧑‍🏫 Engagement in Vorlesungen & Übungen
+- **Kritische Reflexion**: 🧠 Methoden & Daten im BI-Kontext bewerten
+- **Eigenständige Anwendung**: 🔧 Gelerntes auf eigene Fragen übertragen
 
 ---
 layout: chapter
@@ -88,7 +86,7 @@ layout: chapter
 
 ::left::
 
-# Session 1: [Business Intelligence]{style="color:var(--slidev-theme-primary)"} & Data Science
+# Session 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
 
 ::right::
 
@@ -108,7 +106,7 @@ Du bist Analyst bei einem Versicherer mit **400.000 Verträgen**.
 - 🕵️ **Betrugsverdacht** in vielen Fällen — aber wer konkret?
 - ⚡ **Wettbewerber mit KI-Modellen** unterbieten Deine Preise
 
-> **Entscheidungsfrage:** *Wen versichere ich zu welchem Preis — und welche Schäden sind Betrug?*
+> **Entscheidungsfrage:** *Wen versichere ich zu welchem Preis — und welche Schäden sind Betrug?* Diese Fragen ziehen sich als roter Faden durch den Kurs.
 
 <LiteraturSource :sources="[
   { title: 'Accenture: Transforming Claims and Underwriting with AI (Survey Report)', url: 'https://www.accenture.com/us-en/insights/insurance/ai-insurance', year: '2022' },
@@ -141,6 +139,8 @@ layout: default
 *Diesen Lifecycle kennt die Praxis als CRISP-DM — dazu mehr später.*
 
 *Jede Session fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
+
+Welche Methode löst welche Frage — und in welcher Session? Die Übersicht zeigt Dir den Plan auf einen Blick.
 
 <LiteraturSource :sources="[
   { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
@@ -179,9 +179,7 @@ layout: default
 - 🧱 **Statistik ist das Fundament:** Jedes ML-Modell baut auf statistischen Grundprinzipien auf. Wer das Fundament nicht kennt, kann Modelle weder bewerten noch erklären.
 - 💸 **Fehler haben echte Konsequenzen:** Falsche Prämien bedeuten Verlust oder Kundenflucht; fehlerhafte Betrugserkennung erzeugt Rechts- und Diskriminierungsrisiken.
 
-**Ausblick →**
-- **Session 1:** statistisches Fundament (Verteilungen, Kennzahlen, Regression)
-- **Session 2:** erstes ML-Modell zur Betrugserkennung
+Statistik fängt mit einer simplen Frage an: Was ist ein typischer Schaden in unserem Portfolio? Und genau diese Frage führt uns sofort in eine Falle — die der Mittelwert stellt.
 
 <LiteraturSource :sources="[
   { title: 'Weber: Artificial Intelligence for Business Analytics. Springer.', url: 'https://doi.org/10.1007/978-3-658-37599-7', year: '2023' },
@@ -221,6 +219,8 @@ $$\bar{x} = \frac{800 + 1.100 + 1.100 + 1.400 + 2.200 + 38.000}{6} = \frac{44.60
 
 </div>
 
+Der Mittelwert allein ist für schiefe Verteilungen keine verlässliche Kennzahl. Was brauchen wir stattdessen? Modus und Median — zwei robustere Alternativen.
+
 <LiteraturSource :sources="[
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 2 – Variablen und Skalenniveaus', url: 'https://doi.org/10.1007/978-3-658-10675-1_2', year: '2017' },
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
@@ -245,6 +245,8 @@ layout: header-cols
 - → Typische Schadenshöhe, ausreißerrobust
 - Großschäden verschieben ihn kaum
 - Teilt Verteilung in zwei Hälften
+
+<p class="text-center italic opacity-70 mt-6" style="border-top: 1px solid var(--slidev-theme-primary); padding-top: 0.75rem;">Modus, Median und Mittelwert — auf einer Zahlengerade nebeneinandergestellt, wird der Unterschied sofort sichtbar.</p>
 
 ---
 layout: default
@@ -282,6 +284,8 @@ layout: statement
 ---
 
 ## Dasselbe Prinzip, andere Branche
+
+Dieses Prinzip gilt weit über den Versicherungskontext hinaus — ein Beispiel aus dem Personalwesen macht es sofort greifbar:
 
 9 Mitarbeiter: **2.000 €** &nbsp;·&nbsp; 1 Geschäftsführer: **200.000 €**
 
@@ -365,6 +369,8 @@ layout: default
 
 ## Varianz & Standardabweichung — das Streuungsmaß
 
+Portfolio B brauchte mehr Reserve — ein Maß, das Streuung präzise quantifiziert, sagt uns wie viel mehr: die **Varianz**.
+
 <div class="pb-10">
 
 Datensatz (dieselben 6 Schäden wie zuvor): **800 · 1.100 · 1.100 · 1.400 · 2.200 · 38.000 EUR**
@@ -385,9 +391,11 @@ Ergebnis: $s = \sqrt{s^2} \approx$ EUR 15.000
 
 </div>
 
-> ⚠️ **Ein einziger Ausreißer verändert alles:** Entfernt man den Großschaden (38.000 €), sinkt $s$ von ~EUR 15.000 auf ~**EUR 536** — ein Faktor von **28** durch einen einzigen Datenpunkt. Der Mittelwert allein hätte diesen Unterschied vollständig verborgen.
+> ⚠️ **Ein einziger Ausreißer verändert alles:** Ohne den Großschaden (38.000 €) sinkt $s$ von ~EUR 15.000 auf ~**EUR 536** — Faktor **28** durch einen einzigen Datenpunkt.
 
 </div>
+
+Streuung beschreibt, wie weit *ein* Merkmal schwankt. Aber hängen *zwei* Merkmale zusammen — etwa Fahreralter und Schadenhäufigkeit? Das beantwortet die Korrelation.
 
 <LiteraturSource :sources="[
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 3 – Univariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_3', year: '2017' },
@@ -416,7 +424,7 @@ layout: header-cols
   <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Mittel: niedrig</span>
   <span class="opacity-40">·</span>
   <span class="px-2 py-1 rounded" style="background:rgba(0,198,178,0.1)">Alt: hoch</span>
-  <span class="opacity-60 ml-1">→ U-Form</span>
+  <span class="opacity-60 ml-1">→ U-Form (die Kurve macht's sofort klar)</span>
 </div>
 
 </div>
