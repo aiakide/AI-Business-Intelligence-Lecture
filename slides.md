@@ -246,7 +246,6 @@ layout: header-cols
 - Großschäden verschieben ihn kaum
 - Teilt Verteilung in zwei Hälften
 
-<p class="text-center italic opacity-70 mt-6" style="border-top: 1px solid var(--slidev-theme-primary); padding-top: 0.75rem;">Modus, Median und Mittelwert — auf einer Zahlengerade nebeneinandergestellt, wird der Unterschied sofort sichtbar.</p>
 
 ---
 layout: default
@@ -254,7 +253,9 @@ layout: default
 
 ## Alle drei auf einen Blick
 
-<img src="./lagemasse_vergleich.svg" alt="Vergleich Modus, Median und Mittelwert auf einer Zahlengerade" style="max-height: 440px; margin: 0 auto; display: block;" />
+Modus, Median und Mittelwert — auf einer Zahlengerade nebeneinandergestellt, wird der Unterschied sofort sichtbar.
+
+<img src="./lagemasse_vergleich.svg" alt="Vergleich Modus, Median und Mittelwert auf einer Zahlengerade" style="max-height: 350px; margin: 0 auto; display: block;" />
 
 ---
 layout: header-cols
