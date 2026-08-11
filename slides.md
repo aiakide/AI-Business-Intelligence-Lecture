@@ -646,6 +646,462 @@ layout: default
 ]" />
 
 ---
+layout: default
+---
+
+## [z-Transformation]{style="color:var(--slidev-theme-primary)"}: Idee & Motivation
+
+„233 EUR·Jahre klingt bedeutungslos" — das Skalenproblem der Kovarianz kennen wir bereits. Jetzt tritt es erneut auf: Fahrzeugalter misst in Jahren (1–4), Reparaturkosten in EUR (200–600). Wie vergleichen wir diese auf einer gemeinsamen Skala?
+
+**Lösung:** Jede Beobachtung wird in Standardabweichungen vom Mittelwert ausgedrückt — unabhängig von der ursprünglichen Einheit.
+
+Für unser Zwei-Variablen-Beispiel ist das eine nette Nebenrechnung. Der eigentliche Gewinn zeigt sich, sobald ein Modell **mehrere Features gleichzeitig** verarbeitet: Ohne Standardisierung dominiert das Feature mit den größten Zahlen automatisch die Berechnung — unabhängig davon, ob es inhaltlich wichtig ist. Die z-Transformation ist deshalb Standardpraxis in **Machine-Learning-Pipelines** (Session 2) und ein Werkzeug, das Dich bis zu neuronalen Netzen begleitet.
+
+<!-- Überleitung: Wie genau das funktioniert, schauen wir uns jetzt mit der Formel an. -->
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 3 – Deskriptive Statistik', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [z-Transformation]{style="color:var(--slidev-theme-primary)"}: Formel & Anwendung
+
+Die **z-Transformation** skaliert Daten so, dass sie vergleichbar werden:
+
+$$z_i = \frac{x_i - \bar{x}}{s}$$
+
+Das Ergebnis hat stets **Mittelwert 0** und **Standardabweichung 1** — unabhängig von der ursprünglichen Einheit. Am Fahrzeugalter wird das sofort greifbar.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 3 – Deskriptive Statistik', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## z-Transformation — angewendet auf unser Beispiel
+
+**Fahrzeugalter** ($\bar{x} = 2{,}5$, $s \approx 1{,}29$):
+
+<div class="text-xs compact-table">
+
+| $X$ | $X - \bar{x}$ | $z$ |
+|:---:|:---:|:---:|
+| 1 | −1,5 | −1,16 |
+| 2 | −0,5 | −0,39 |
+| 3 | +0,5 | +0,39 |
+| 4 | +1,5 | +1,16 |
+
+</div>
+
+Jetzt kennen wir das Prinzip der Standardisierung — ein Werkzeug, das Dich durch Machine Learning bis zu neuronalen Netzen begleiten wird. Für unser Lehrbeispiel rechnen wir aus Gründen der Nachvollziehbarkeit weiter in Originaleinheiten: Als Nächstes legen wir die Regressionsgerade direkt über die Rohdaten.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 3 – Deskriptive Statistik', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [Die Regressionsgerade]{style="color:var(--slidev-theme-primary)"} — Die Idee
+
+Pearson $r \approx 0{,}99$ sagt: starker linearer Zusammenhang zwischen Fahrzeugalter und Reparaturkosten. Aber $r$ sagt nur „da ist etwas" — nicht wie viel EUR jedes zusätzliche Lebensjahr kostet. Dafür brauchen wir eine Gerade.
+
+**OLS-Idee:** Lege $\hat{Y} = a + bX$ so, dass die Summe der quadrierten Residuen minimal wird.
+
+<!-- Überleitung: Wie wir diese Minimierung konkret berechnen, sehen wir auf der nächsten Folie. -->
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [Die Regressionsgerade]{style="color:var(--slidev-theme-primary)"} — Die Formeln
+
+Zur Berechnung der optimalen Regressionsgeraden nutzen wir die **Methode der kleinsten Quadrate (OLS)**, um $a$ (Achsenabschnitt) und $b$ (Steigung) zu finden:
+
+$$b = \frac{\text{Cov}(X,Y)}{s_X^2} \qquad a = \bar{y} - b \cdot \bar{x}$$
+
+Wir kennen bereits aus vorherigen Berechnungen: $\text{Cov}(X,Y) = \tfrac{700}{3} \approx 233$ und $s_X^2 = \tfrac{5}{3}$.
+
+Rechnen wir es aus.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [Die Regressionsgerade]{style="color:var(--slidev-theme-primary)"} — Die Berechnung
+
+**Berechnung der Koeffizienten $a$ und $b$:**
+
+$$b = \frac{700/3}{5/3} = \frac{700}{5} = 140\ \text{EUR/Jahr}$$
+
+$$a = 400 - 140 \times 2{,}5 = 50\ \text{EUR}$$
+
+**Unser Regressionsmodell:**
+
+$\hat{Y} = 50 + 140X$ — pro Lebensjahr **+140 EUR** Reparaturkosten.
+
+**Vorhersage für ein 5 Jahre altes Fahrzeug:**
+
+$\hat{Y} = 50 + (140 \times 5) = 50 + 700 = \mathbf{750\ \text{EUR}}$
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [R²]{style="color:var(--slidev-theme-primary)"} — Das Bestimmtheitsmaß
+
+Das Modell macht Vorhersagen — aber wie gut? **R² (Bestimmtheitsmaß)** misst, welcher Anteil der Gesamtstreuung von $Y$ durch das Modell erklärt wird:
+
+$$R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}$$
+
+- $SS_{\text{res}} = \sum (Y - \hat{Y})^2$ — Residualstreuung (unerklärter Rest)
+- $SS_{\text{tot}} = \sum (Y - \bar{Y})^2$ — Gesamtstreuung
+
+**Wertebereich:** $0 \leq R^2 \leq 1$ — ein $R^2 = 1$ bedeutet perfekte Vorhersage, $R^2 = 0$ bedeutet das Modell erklärt nichts.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## [R²]{style="color:var(--slidev-theme-primary)"} — Unser Beispiel
+
+**Unser Fahrzeugalter-Beispiel:** Modell $\hat{Y} = 50 + 140X$
+
+<div class="text-xs compact-table">
+
+| $X$ | $Y$ (echt) | $\hat{Y}$ (Modell) | $Y - \hat{Y}$ | $(Y-\hat{Y})^2$ |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | 200 | 190 | +10 | 100 |
+| 2 | 300 | 330 | −30 | 900 |
+| 3 | 500 | 470 | +30 | 900 |
+| 4 | 600 | 610 | −10 | 100 |
+
+</div>
+
+$SS_{\text{res}} = \sum (Y - \hat{Y})^2 = 100 + 900 + 900 + 100 = 2.000\ \text{EUR}^2$
+
+$SS_{\text{tot}}$ (Gesamtstreuung der echten $Y$-Werte) $= 100.000\ \text{EUR}^2$
+
+$$R^2 = 1 - \frac{2.000}{100.000} = 0{,}98$$
+
+**Das Fahrzeugalter erklärt 98 % der Varianz in den Reparaturkosten** — ein fast perfektes lineares Modell für dieses kleine Beispiel.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## $R^2$ in der Praxis
+
+98 % der Schwankungen in den Reparaturkosten werden durch das Fahrzeugalter erklärt — nur 2 % sind Rauschen.
+
+- **Einordnung:** $R^2 = 0{,}98$ ist außergewöhnlich hoch (4 Datenpunkte, didaktisches Beispiel) — in echten Versicherungsmodellen gilt $R^2 \geq 0{,}6$–$0{,}7$ bereits als gutes Ergebnis.
+- ⚠️ **Hohes $R^2$ ist kein Kausalitätsbeweis** — wie Korrelation $\neq$ Kausalität, bereits bekannt.
+
+Lineare Regression sagt eine Zahl vorher (EUR). Was aber, wenn die Zielvariable *„Betrug: ja/nein"* ist? Eine Gerade kann Werte außerhalb $[0,1]$ produzieren — ungeeignet. Das lösen wir jetzt mit der logistischen Regression.
+
+<LiteraturSource title="Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 12 – Regressionsanalyse" url="https://doi.org/10.1007/978-3-662-50372-0" year="2016" />
+
+---
+layout: default
+---
+
+## Logistische Regression: [Idee & Sigmoid]{style="color:var(--slidev-theme-primary)"}
+
+**Wo lineare Regression an ihre Grenzen stößt:**
+
+Unser Regressionsmodell für Reparaturkosten kann Werte von −200 EUR oder 150 % liefern — für eine **Wahrscheinlichkeit** ist das sinnlos. Für die Frage *„Betrug: Ja/Nein?"* brauchen wir ein Modell, das immer im Bereich $[0, 1]$ bleibt.
+
+**Die Lösung — die Sigmoid-Funktion:**
+
+Die logistische Regression "quetscht" die lineare Vorhersage $z = \beta_0 + \beta_1 x_1 + \ldots$ mit der Sigmoid-Funktion in eine Wahrscheinlichkeit:
+
+<small style="opacity:0.65">(Du siehst ab hier $\beta_0, \beta_1$ statt $a, b$ — dieselbe Idee, nur in der Notation, die in ML-Kontexten üblich ist.)</small>
+
+$$\hat{p} = \sigma(z) = \frac{1}{1 + e^{-z}}$$
+
+Egal wie groß oder klein $z$ wird — $\hat{p}$ bleibt immer zwischen 0 und 1.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 13 – Logistische Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4.4 – Logistic Regression', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Logistische Regression: [Anwendung]{style="color:var(--slidev-theme-primary)"}
+
+**Anwendung im Versicherungsfall:**
+
+Statt *„Schadenshöhe in EUR"* sagt das Modell *„Wahrscheinlichkeit für Betrug"* vorher. Ein Wert von $\hat{p} = 0{,}8$ bedeutet: **80 % Wahrscheinlichkeit für einen Betrugsfall** — direkt handlungsrelevant für die Schadenabteilung.
+
+**Beispiel:** Für einen Kunden mit 3 Vorschäden berechnet das Modell $\hat{p} = 0{,}72$ — eine Betrugswahrscheinlichkeit von 72 %. Ab einem Schwellenwert (z. B. 50 %) wird der Fall zur manuellen Prüfung markiert. Der Schwellenwert lässt sich je nach Risikoappetit anpassen: ein niedrigerer Wert erkennt mehr Betrugsfälle, akzeptiert aber auch mehr Fehlalarme.
+
+> Die Logistische Regression ist der Türöffner zu Klassifikationsproblemen und ein fundamentales Werkzeug im Supervised Machine Learning.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 13 – Logistische Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4.4 – Logistic Regression', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Logit & [Odds Ratio]{style="color:var(--slidev-theme-primary)"}
+
+**Von der Wahrscheinlichkeit zur linearen Welt — und zurück:**
+
+Die Sigmoid-Funktion lässt sich umkehren: Statt $\hat{p}$ direkt zu modellieren, modelliert die logistische Regression den **Logit** — den natürlichen Logarithmus der Odds:
+
+$$\text{logit}(\hat{p}) = \ln\!\left(\frac{\hat{p}}{1 - \hat{p}}\right) = \beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k$$
+
+**Beispiel:** Bei $\hat{p} = 0{,}8$ ist der Logit $\ln(0{,}8 / 0{,}2) = \ln(4) \approx 1{,}39$.
+
+Im Logit-Raum sind die Feature-Einflüsse **additiv** — genau wie in der linearen Regression.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 13 – Logistische Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4.4 – Logistic Regression', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Odds Ratio — [Interpretation]{style="color:var(--slidev-theme-primary)"}
+
+**Odds Ratio — den Koeffizient direkt interpretieren:**
+
+| Begriff | Formel | Bedeutung |
+|---|---|---|
+| Odds | $\frac{\hat{p}}{1 - \hat{p}}$ | Verhältnis Betrug vs. kein Betrug |
+| Odds Ratio | $e^{\beta_j}$ | Faktor, um den die Odds steigen, wenn $x_j$ um 1 steigt |
+
+**Beispiel Betrugsmodell:** Das Merkmal *„Anzahl Vorfälle"* hat einen Koeffizienten $\beta = 0{,}405$, also $e^{0{,}405} \approx 1{,}5$ — mit jedem zusätzlichen Vorfall steigt die Betrugs-Chance um den **Faktor 1,5**.
+
+> Logit & Odds Ratio ermöglichen eine direkte Interpretation einzelner Merkmale — eine Eigenschaft, die bei komplexeren ML-Modellen (Random Forest, Neural Networks) oft verloren geht.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 13 – Logistische Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4.4 – Logistic Regression', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Interaktionseffekte: [Die Idee]{style="color:var(--slidev-theme-primary)"}
+
+**Was, wenn zwei Variablen gemeinsam mehr erklären als jede für sich?**
+
+<!-- Definition (ausführlich): Ein Interaktionseffekt liegt vor, wenn der Einfluss einer unabhängigen Variable x₁ (z.B. Fahreralter) auf die abhängige Variable y (z.B. Schadenhäufigkeit) davon abhängt, welchen Wert eine dritte Variable x₂ (z.B. Geschlecht) annimmt. Die Effekte sind nicht mehr additiv — sie interagieren. -->
+
+Ein **Interaktionseffekt** liegt vor, wenn der Einfluss von $x_1$ auf $y$ davon abhängt, welchen Wert $x_2$ annimmt — die Effekte sind **nicht mehr additiv**.
+
+**Versicherungsbeispiel:**
+
+- Junge Männer zeigen deutlich höhere Schadenhäufigkeiten als junge Frauen
+- Bei älteren Fahrenden (60+) nivelliert sich dieser Unterschied stark
+- Ein einfaches Modell $y = \beta_0 + \beta_1 \cdot \text{Alter} + \beta_2 \cdot \text{Geschlecht}$ würde dieses Muster **nicht abbilden** — es setzt parallele Effekte voraus
+
+> **Interaktionseffekte** erlauben es, komplexere Realitäten zu modellieren, die über die simple Addition von Einzeleffekten hinausgehen.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 15 – Multiple Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Cohen, West, Aiken: Applied Multiple Regression/Correlation Analysis, Kap. 7 – Interactions', url: 'https://doi.org/10.4324/9781410606266', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Interaktionseffekte: [Interpretation & Beispiel]{style="color:var(--slidev-theme-primary)"}
+
+**Wie modellieren wir Interaktionen — und was bedeuten die Koeffizienten?**
+
+In der multiplen Regression wird ein Interaktionsterm durch **Multiplikation** der beteiligten Variablen erzeugt:
+
+$$y = \beta_0 + \beta_1 \cdot \text{Alter} + \beta_2 \cdot \text{Geschlecht} + \beta_3 \cdot (\text{Alter} \times \text{Geschlecht}) + \varepsilon$$
+
+Der Koeffizient $\beta_3$ beschreibt, **wie stark sich der Alterseffekt zwischen den Gruppen unterscheidet**.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 15 – Multiple Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Cohen, West, Aiken: Applied Multiple Regression/Correlation Analysis, Kap. 7 – Interactions', url: 'https://doi.org/10.4324/9781410606266', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Interaktionseffekte: [Konkrete Interpretation]{style="color:var(--slidev-theme-primary)"}
+
+**Konkrete Interpretation der Koeffizienten:**
+
+| Gruppe | Effekt des Alters auf Schadenhäufigkeit |
+|---|---|
+| Männer ($x_2 = 1$) | $\beta_1 + \beta_3$ |
+| Frauen ($x_2 = 0$) | $\beta_1$ |
+
+Der Koeffizient $\beta_1$ gilt nur noch für Frauen (Referenzkategorie, $x_2 = 0$). Für Männer kommt $\beta_3$ dazu — das ist der **Unterschied im Alterseffekt** zwischen den Gruppen.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 15 – Multiple Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Cohen, West, Aiken: Applied Multiple Regression/Correlation Analysis, Kap. 7 – Interactions', url: 'https://doi.org/10.4324/9781410606266', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Interaktionseffekte: [Grafische Interpretation]{style="color:var(--slidev-theme-primary)"}
+
+**Tipp — Grafik schlägt Formel:** Getrennte Regressionslinien machen Crossover-Interaktionen sofort sichtbar.
+
+<img src="./interaktionseffekt_diagramm.svg" alt="Zwei Regressionslinien für Männer und Frauen mit Crossover-Interaktion: großer Abstand bei jungen Fahrern, Annäherung bei älteren Fahrern" style="max-height: 270px; margin: 0 auto; display: block;" />
+
+> Parallele Linien = kein Interaktionseffekt. Das Auseinanderlaufen und Annähern hier ist der visuelle Fingerabdruck der Interaktion.
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 15 – Multiple Regression', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+  { title: 'Cohen, West, Aiken: Applied Multiple Regression/Correlation Analysis, Kap. 7 – Interactions', url: 'https://doi.org/10.4324/9781410606266', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Bootstrapping: [Die Idee]{style="color:var(--slidev-theme-primary)"}
+
+**Wie schätzt Du die Unsicherheit einer Statistik, wenn die Daten klein oder schief verteilt sind?**
+
+Traditionelle Formeln für Konfidenzintervalle setzen oft Normalverteilung voraus — eine Annahme, die bei kleinen Portfolios oder stark rechtsschiefen Schadensverteilungen schnell verletzt wird.
+
+**Bootstrapping** löst dieses Problem durch *Resampling*:
+
+1. **Ziehe wiederholt** Stichproben *mit Zurücklegen* aus Deinen $n$ Beobachtungen (*Bootstrap-Stichprobe*).
+2. **Berechne die Statistik** (z.B. $\bar{x}^*$ oder $\hat{\beta}^*$) für jede der $B$ Stichproben.
+3. **Schätze die Unsicherheit** aus der Verteilung der $B$ Bootstrap-Statistiken → Konfidenzintervall.
+
+**Versicherungsbeispiel:** Ein kleines Portfolio mit rechtsschiefer Schadensgröße liefert via Bootstrapping ein robustes Konfidenzintervall — **ohne Normalitätsannahme**.
+
+<blockquote class="mb-4">Bootstrapping liefert robuste Konfidenzintervalle ohne Normalitätsannahme.</blockquote>
+
+<LiteraturSource :sources="[
+  { title: 'Efron, Hastie: Computer Age Statistical Inference, Kap. 10 – The Bootstrap', url: 'https://doi.org/10.1017/CBO9781316576533', year: '2016' },
+  { title: 'Davison, Hinkley: Bootstrap Methods and their Application, Kap. 2', url: 'https://doi.org/10.1017/CBO9780511802843', year: '1997' },
+]" />
+
+---
+layout: default
+---
+
+## Signifikanz: [Die Frage]{style="color:var(--slidev-theme-primary)"}
+
+Unser Versicherungsmodell sagt, dass ältere Fahrzeuge höhere Reparaturkosten haben. Aber ist dieser Effekt **echt**, oder nur Zufall in unserer Stichprobe?
+
+**Statistische Signifikanz** beantwortet die Frage: Wie wahrscheinlich ist es, ein beobachtetes Ergebnis (oder ein noch extremeres) zu sehen, *wenn die Nullhypothese wahr wäre*?
+
+Diese Frage stellt sich bei jedem Regressionskoeffizienten, den wir bisher berechnet haben — ob $b = 140\ \text{EUR/Jahr}$ oder $\beta_3$ im Interaktionsmodell.
+
+- **Nullhypothese (H₀):** Es gibt keinen Effekt — z. B. *„Fahrzeugalter hat keinen Einfluss auf Reparaturkosten"*
+- **Alternativhypothese (H₁):** Es gibt einen Effekt — *„Ältere Fahrzeuge verursachen höhere Reparaturkosten"*
+
+<LiteraturSource :sources="[
+  { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
+  { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## Signifikanz: [Ein Beispiel]{style="color:var(--slidev-theme-primary)"}
+
+Unser Modell hat einen Regressionskoeffizienten $b = 140\ \text{EUR/Jahr}$ berechnet. Ein Signifikanztest (z. B. ein $t$-Test auf den Koeffizienten) prüft: Wie wahrscheinlich ist ein Koeffizient dieser Größe, wenn der wahre Effekt in Wirklichkeit null wäre? Das Ergebnis ist der $p$-Wert.
+
+**Beispiel — $p$-Wert von 0,03:**
+
+> Würde das Fahrzeugalter die Reparaturkosten *nicht* beeinflussen (H₀ wäre wahr), hätten wir einen Koeffizienten von 140 EUR/Jahr oder ein noch stärkeres Ergebnis in **nur 3 % der Fälle** beobachtet.
+
+Die Signifikanzprüfung hilft uns, echte Muster von zufälligem Rauschen zu trennen — die Grundlage jeder datenbasierten Entscheidung.
+
+<LiteraturSource :sources="[
+  { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
+  { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## $p$-Wert und [Entscheidungsregeln]{style="color:var(--slidev-theme-primary)"}
+
+Ein kleiner $p$-Wert — und nun? Was ist die Schwelle, ab der wir an Zufall glauben, und ab wann an einen echten Effekt?
+
+Der **$p$-Wert** quantifiziert die Wahrscheinlichkeit, das beobachtete (oder ein extremeres) Ergebnis zu erhalten, *unter der Annahme, dass H₀ wahr ist*.
+
+**Entscheidungsregel mit Signifikanzschwelle $\alpha$:**
+
+| Bedingung | Entscheidung | Bedeutung |
+|:---|:---|:---|
+| $p < \alpha$ | H₀ verwerfen | Effekt ist statistisch signifikant |
+| $p \geq \alpha$ | H₀ beibehalten | Kein ausreichender Beweis für Effekt |
+
+<small>Gängige Wahl: $\alpha = 0{,}05$ (5 %)</small>
+
+<LiteraturSource :sources="[
+  { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
+  { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## $p$-Wert: [Anwendung im Modell]{style="color:var(--slidev-theme-primary)"}
+
+**Anwendung im Versicherungsmodell:**
+
+Unser Modell liefert $p = 0{,}01$ für den „Alter"-Effekt bei $\alpha = 0{,}05$ → $p < \alpha$: Wir verwerfen H₀. Der Alterseffekt ist **statistisch signifikant** — ältere Fahrzeuge haben nachweislich höhere Reparaturkosten.
+
+*   **Wichtig:** Der $p$-Wert ist kein Alleinurteil.
+*   Effektgröße, Stichprobengröße und Domänenwissen sind ebenso entscheidend, um valide Schlussfolgerungen zu ziehen und Fehlinterpretationen zu vermeiden.
+
+<LiteraturSource :sources="[
+  { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
+  { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
+]" />
+
+---
 layout: header-cols
 ---
 

@@ -1,0 +1,39 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "opencode",
+  "elements": [
+    {"type":"text","id":"title","x":100,"y":18,"width":600,"height":33,"text":"Interaktionseffekt: Alter × Geschlecht","fontSize":24,"strokeColor":"#1e1e1e","fontFamily":1},
+    {"type":"text","id":"subtitle","x":100,"y":52,"width":600,"height":24,"text":"Schadenhäufigkeit nach Alter, getrennt nach Geschlecht","fontSize":16,"strokeColor":"#757575","fontFamily":1},
+
+    {"type":"arrow","id":"yaxis","x":100,"y":500,"width":0,"height":-400,"points":[[0,0],[0,-400]],"endArrowhead":"arrow","strokeColor":"#757575","strokeWidth":2},
+    {"type":"text","id":"ylabel1","x":10,"y":230,"width":90,"height":19,"text":"Schaden-","fontSize":14,"strokeColor":"#757575","fontFamily":1},
+    {"type":"text","id":"ylabel2","x":6,"y":250,"width":100,"height":19,"text":"häufigkeit","fontSize":14,"strokeColor":"#757575","fontFamily":1},
+
+    {"type":"arrow","id":"xaxis","x":100,"y":500,"width":600,"height":0,"points":[[0,0],[600,0]],"endArrowhead":"arrow","strokeColor":"#757575","strokeWidth":2},
+    {"type":"text","id":"xlabel","x":690,"y":495,"width":60,"height":22,"text":"Alter","fontSize":16,"strokeColor":"#757575","fontFamily":1},
+    {"type":"text","id":"jungLabel","x":112,"y":508,"width":50,"height":16,"text":"jung","fontSize":13,"strokeColor":"#757575","fontFamily":1},
+    {"type":"text","id":"altLabel","x":600,"y":508,"width":40,"height":16,"text":"alt","fontSize":13,"strokeColor":"#757575","fontFamily":1},
+
+    {"type":"line","id":"mLine","x":130,"y":150,"width":560,"height":190,"points":[[0,0],[560,190]],"strokeColor":"#2563eb","strokeWidth":4,"roughness":1},
+    {"type":"ellipse","id":"mDotStart","x":124,"y":144,"width":12,"height":12,"backgroundColor":"#2563eb","fillStyle":"solid","strokeColor":"#2563eb"},
+    {"type":"ellipse","id":"mDotEnd","x":684,"y":334,"width":12,"height":12,"backgroundColor":"#2563eb","fillStyle":"solid","strokeColor":"#2563eb"},
+    {"type":"text","id":"mLabel","x":460,"y":100,"width":110,"height":22,"text":"Männer","fontSize":17,"strokeColor":"#2563eb","fontFamily":1},
+
+    {"type":"line","id":"fLine","x":130,"y":400,"width":560,"height":-90,"points":[[0,0],[560,-90]],"strokeColor":"#c2255c","strokeWidth":4,"roughness":1},
+    {"type":"ellipse","id":"fDotStart","x":124,"y":394,"width":12,"height":12,"backgroundColor":"#c2255c","fillStyle":"solid","strokeColor":"#c2255c"},
+    {"type":"ellipse","id":"fDotEnd","x":684,"y":304,"width":12,"height":12,"backgroundColor":"#c2255c","fillStyle":"solid","strokeColor":"#c2255c"},
+    {"type":"text","id":"fLabel","x":460,"y":430,"width":110,"height":22,"text":"Frauen","fontSize":17,"strokeColor":"#c2255c","fontFamily":1},
+
+    {"type":"arrow","id":"gapArrow","x":165,"y":150,"width":0,"height":248,"points":[[0,0],[0,248]],"strokeColor":"#757575","strokeWidth":1.5,"startArrowhead":"arrow","endArrowhead":"arrow"},
+    {"type":"text","id":"gapLabel1","x":180,"y":225,"width":230,"height":19,"text":"große Differenz","fontSize":13,"strokeColor":"#757575","fontFamily":1},
+    {"type":"text","id":"gapLabel2","x":180,"y":245,"width":230,"height":19,"text":"bei jungen Fahrern","fontSize":13,"strokeColor":"#757575","fontFamily":1},
+
+    {"type":"arrow","id":"convArrow","x":645,"y":300,"width":0,"height":34,"points":[[0,0],[0,34]],"strokeColor":"#757575","strokeWidth":1.5,"startArrowhead":"arrow","endArrowhead":"arrow"},
+    {"type":"text","id":"convLabel1","x":420,"y":190,"width":260,"height":19,"text":"kaum Unterschied","fontSize":12,"strokeColor":"#757575","fontFamily":1},
+    {"type":"text","id":"convLabel2","x":420,"y":208,"width":260,"height":19,"text":"bei älteren Fahrern","fontSize":12,"strokeColor":"#757575","fontFamily":1}
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  }
+}
