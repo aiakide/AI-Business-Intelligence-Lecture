@@ -135,9 +135,13 @@ a placeholder until exercises are designed.)*
 | 2b | Streuung & Korrelation: Wie verlässlich ist das? (Varianz/Standardabweichung KaTeX, Portfolio-Hook, Pearson r, Eis/Ertrinkende, Synthese + Regression-Brücke) — 5 slides after Cluster 2a | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
 | 1b | Daten, Stichproben & Unsicherheit (Data Mining vs. Crawling, Stichprobe/Grundgesamtheit, Konfidenzintervall/-niveau, Fehlermarge) — 4 slides inserted before Cluster 2a (Lagemaße) | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
 | 2b-gap | Kovarianz — von einer zu zwei Variablen (Cov(X,Y) formula, sign interpretation, Fahrzeugalter/Reparaturkosten worked example, Skalenproblem → motiviert Pearson r) — 2 slides inserted between Varianz/Std and Korrelation in Cluster 2b | 1 | Versicherer (home base) | ✅ approved (2 loops) | 2 |
-| | *(next: z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ next | |
-| **1b** | **[GAP-INSERT] Data Mining / Crawling + Stichprobe & Grundgesamtheit + Konfidenzintervall & Fehlermarge — 4 slides, inserts BETWEEN slides "Warum beginnen wir mit Statistik?" and "Der Mittelwert lügt"** | 1 | Versicherer (home base) | 🔵 planning | — |
-| | *(next after 1b: Kovarianz explizit → z-Transformation → Lineare Regression — von der Korrelation zum Modell)* | 1 | Versicherer | ⬜ queued | |
+| 2c | z-Transformation & Lineare Regression (Standardisierung, Ŷ = a + bX, Bestimmtheitsmaß R²) — Kulminationspunkt des Statistik-Bogens; Brücke zu Session 2 ML — 8 Slides (z-Trafo Idee/Motivation, z-Trafo Formel/Anwendung, z-Trafo Beispiel, Regressionsgerade Idee/Formeln/Berechnung, R² Bestimmtheitsmaß/Unser Beispiel, R² in der Praxis) | 1 | Versicherer (Fahrzeugalter/Reparaturkosten — selbes Dataset aus Kovarianz-Cluster, jetzt Modell drübergelegt) | ✅ approved (2 loops + 1 follow-up polish pass) | 3 |
+| 2d | Logistische Regression (+ Logit / Odds Ratio) — Überwindet die Grenzen der linearen Regression bei binären Zielgrößen (z.B. Betrug: Ja/Nein) — 4 Slides (Idee & Sigmoid, Anwendung, Logit & Odds Ratio, Odds Ratio Interpretation) | 1 | Versicherer (Betrugserkennung) | ✅ approved (1 loop + 1 follow-up polish pass) | 2 |
+| 2e | Interaktionseffekte — Wenn der Effekt eines Merkmals vom Wert eines anderen abhängt (z.B. Schadenshäufigkeit nach Alter UND Geschlecht) — 4 Slides (Die Idee, Interpretation & Beispiel, Konkrete Interpretation, Grafische Interpretation mit Excalidraw-Diagramm) | 2 | Versicherer (Schadensanalyse) | ✅ approved (1 loop + 1 follow-up polish pass) | 2 |
+| 2f | Bootstrapping — Robuste Schätzung von Parametern und Konfidenzintervallen ohne starke Annahmen über die Verteilungsform | 2 | Versicherer (kleine Stichproben, komplexe Verteilungen) | ✅ approved (1 loop) | 1 |
+| 2g | Signifikanz — Entscheidungen unter Unsicherheit: Ist ein beobachteter Effekt "echt" oder Zufall? — 2 Slides (Die Frage, Ein Beispiel) | 2 | Versicherer (Tarifänderung, Betrugserkennung) | ✅ approved (1 loop + 1 follow-up polish pass) | 2 |
+| — | *(next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Session 2 Supervised ML; Python-Grundlagen-Gap noch offen, siehe 7b)* | 2 | Versicherer | ⬜ next | — |
+
 
 ---
 
@@ -566,3 +570,100 @@ were converted to proper bullets. Loop 2 re-review: **APPROVED**, zero regressio
 so `slide-shots.mjs`'s `scrollHeight` metric cannot detect visual overlaps with them — only a rendered
 screenshot can. Always visually inspect slides where new content is added near the bottom of a column.
 
+---
+
+## 10. Session 1 completion — z-Transformation through Signifikanz (2026-08-11)
+
+**Trigger:** Continuation of Session 1 Statistik-Bogen authoring after Cluster 2b-gap
+(Kovarianz) was approved. This closes out clusters 2c–2g, completing the full
+Statistik & Regression prerequisite chain for Session 1/2.
+
+### 10a. Clusters authored this pass
+
+- **2c — z-Transformation & Lineare Regression** (8 slides): Standardisierung → OLS
+  (Ŷ = a + bX) → Bestimmtheitsmaß R². Uses the Fahrzeugalter/Reparaturkosten dataset
+  established in the Kovarianz cluster, now with a model laid over it. Originally
+  planned as 3 slides but split to 8 across two evaluation-loop rounds after visual
+  QA found repeated `<v-click>` overflow (content fine collapsed, broke once fully
+  revealed) and one slide ("R² in der Praxis") was found genuinely missing after an
+  earlier accidental `git checkout` in-session — reconstructed from the original
+  wording (R²=0.98-is-unusually-high caveat + correlation≠causation reminder).
+- **2d — Logistische Regression (+ Logit / Odds Ratio)** (4 slides): Sigmoid function
+  as the fix for linear regression's [0,1]-violation on probability outputs, then
+  Logit/Odds Ratio for coefficient interpretability. Split from 2 to 4 slides during
+  the evaluation loop for the same v-click-overflow reason as 2c.
+- **2e — Interaktionseffekte** (4 slides): Product-term interaction (Alter × Geschlecht),
+  concrete coefficient interpretation table, and a **custom Excalidraw diagram**
+  (`interaktionseffekt_diagramm.svg`, user-authored/exported) showing two crossing
+  regression lines (Männer/Frauen) — added after student-reviewer flagged that the
+  "Grafik schlägt Formel" slide title initially promised a graphic the deck didn't
+  deliver (pure prose describing a chart that didn't exist).
+- **2f — Bootstrapping** (1 slide): Resampling-mit-Zurücklegen as the annahmefreie
+  alternative to parametric confidence intervals, motivated by the rechtsschiefe
+  Schadensverteilung established earlier in Session 1 (the 38.000 EUR Ausreißer).
+- **2g — Signifikanz** (2 slides): H₀/H₁ framing → p-Wert → Entscheidungsregel mit α,
+  closing the Statistik-Bogen. Split "Die Frage" into two slides after a real 49px
+  scrollHeight overflow was found on re-verification.
+
+### 10b. Evaluation-loop pattern (recurring lesson, reinforced across all 5 clusters)
+
+**Pattern observed 3 times independently (2c, 2d/2e/2f/2g batch, and the diagram
+follow-up):** slides pass initial visual QA when `<v-click>` blocks are still
+collapsed, then overflow once the instructor reveals all clicks. `slide-shots.mjs`'s
+default screenshot only captures the first-click state — **always re-run visual QA
+with all `<v-click>` blocks fully revealed**, not just the initial render. This
+caused 7 of 13 slides to be missed on the first QA pass and only caught on
+re-verification.
+
+**Fix pattern applied consistently:** where content genuinely didn't need
+progressive disclosure (i.e. v-click was used to manage density rather than for
+pedagogical pacing), the wrapper was removed and the slide was split instead —
+simpler to reason about and avoids the collapsed/revealed discrepancy entirely.
+
+### 10c. Student-review follow-up round (2026-08-11) — 5 targeted fixes, all resolved
+
+First full-arc student review (z-Transformation → Signifikanz) returned **APPROVED
+WITH MINOR NOTES**, flagging 5 issues. User requested all 5 be addressed as a
+follow-up round (not a fresh 3-loop cycle, since the cluster was already approved):
+
+1. **z-Transformation motivation was orphaned** — introduced right before a
+   regression computed in raw units, so "why standardize now?" had no good answer.
+   Fixed by reframing the motivation around the real payoff (multi-feature ML
+   pipelines in Session 2, where unstandardized features let the largest-magnitude
+   one dominate) and rewriting the bridge sentence to be honest about why the
+   worked example stays in original units.
+2. **Interaktionseffekte "Grafische Interpretation" slide had no graphic** — see
+   10a above; user built the diagram directly via the Excalidraw MCP tool and
+   exported the SVG themselves (`public/interaktionseffekt_diagramm.svg`).
+3. **Silent notation shift** ($a,b$ in OLS → $\beta_0,\beta_1$ from logistic
+   regression onward) — fixed with a one-line inline bridge note on the first
+   slide where β-notation appears.
+4. **R² worked example asked students to trust an unverified sum** — SS_res was
+   stated as `100+900+900+100` with no visible residual calculation. Fixed by
+   inserting a residuals table (X, Y, Ŷ, Y−Ŷ, (Y−Ŷ)²) before the SS_res line —
+   exactly at the 5-column guardrail edge but confirmed to fit.
+5. **"Signifikanz: Ein Beispiel" was too thin**, stating p=0.03 with no connection
+   to a real number. Fixed by grounding it explicitly in the b=140 EUR/Jahr
+   coefficient already established earlier in the arc.
+
+**Outcome:** Re-verified via a second student-review pass — **APPROVED WITH MINOR
+NOTES** (down to 2 non-blocking cosmetic notes: slide "z-Transformation: Formel &
+Anwendung" reads sparse now that its neighbor absorbed more content; the three
+custom SVG diagrams use relative `./file.svg` paths instead of the `/absolute`
+convention used by `<Illustration>` — low-risk housekeeping, not fixed in this pass).
+
+### 10d. Status: Session 1 Statistik & Regression prerequisite chain — COMPLETE ✅
+
+Every topic in the `## 3. Prerequisite chain` list for `[Session 1 — Statistik &
+Regression]` is now authored and approved: Data Mining/Crawling → Stichprobe/
+Grundgesamtheit → Konfidenzniveau/-intervall → Lagemaße → Varianz/Standardabweichung
+→ Kovarianz → Korrelation → z-Transformation → Lineare Regression → Logistische
+Regression (+ Logit/Odds Ratio) → Bootstrapping → Signifikanz.
+
+**Remaining gap (unchanged from section 7b):** the Python/Tools chapter (vorlage
+slides 9–25 — Python Basics, Datenstrukturen, Jupyter, Docker, Kubernetes, GitHub,
+CRISP-DM detail, NumPy/Pandas/Scikit-Learn/Matplotlib) is still **not scheduled** in
+either the deck or the prerequisite chain. This was identified in the 2026-08-10 gap
+analysis and remains open — recommended next step before starting Session 2 content,
+since CRISP-DM and Python basics are referenced in passing (slide 8) but never
+delivered as their own cluster.
