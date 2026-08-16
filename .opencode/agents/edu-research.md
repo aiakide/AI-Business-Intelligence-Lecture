@@ -4,7 +4,9 @@ description: >-
   Conducts academically rigorous, verified educational research across all topics 
   of the AI & Business Intelligence lecture, returning sources ready for the <LiteraturSource /> component.
 mode: subagent
-model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+models: 
+  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+  - gemma4
 tools:
   bash: true
   web_search: true

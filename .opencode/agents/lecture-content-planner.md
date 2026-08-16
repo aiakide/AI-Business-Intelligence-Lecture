@@ -4,7 +4,9 @@ description: >-
   Orchestrates, structures, and refines the narrative flow and pedagogical scaffolding 
   of presentation slides based dynamically on the lecture's active script and structural blueprint.
 mode: subagent
-model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+models: 
+  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+  - gemma4
 tools:
   bash: true
   web_search: true

@@ -1,0 +1,8 @@
+node_modules
+node_modules/
+dist/
+.opencode/node_modules
+.opencode/package-lock.json
+package-lock.json
+dist
+slidev-review

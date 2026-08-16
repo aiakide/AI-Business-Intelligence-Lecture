@@ -4,7 +4,9 @@ description: >-
   Transforms dense technical research, academic source material, and complex AI/BI 
   concepts into didactically sound, visually optimized, and compliant Slidev presentation slides.
 mode: subagent
-model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+models: 
+  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+  - qwen3.8
 tools:
   bash: true
   web_search: true

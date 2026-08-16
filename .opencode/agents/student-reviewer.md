@@ -4,7 +4,9 @@ description: >-
   Evaluates lecture slide content from an authentic student perspective, balancing 
   academic rigor with the practical learning constraints of working professionals.
 mode: subagent
-model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+models: 
+  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
+  - gemma4
 tools:
   bash: true
   web_search: true
