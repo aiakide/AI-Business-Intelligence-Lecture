@@ -1,7 +1,7 @@
 ---
 name: lecture-content-planner
 description: Orchestrates, structures, and refines the narrative flow and pedagogical scaffolding of presentation slides based dynamically on the lecture's active script and structural blueprint.
-model: claude-opus-5
+model: claude-haiku-4-5-20251001
 tools: all
 settings:
   temperature: 0.3

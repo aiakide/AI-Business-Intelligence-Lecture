@@ -1,7 +1,7 @@
 ---
 name: storyset-illustrator
 description: Finds matching Storyset graphics in the 'Bro' style based on slide descriptions and automatically adapts them to your brand color.
-model: claude-opus-5
+model: claude-haiku-4-5-20251001
 tools: all
 settings:
   temperature: 0.3
