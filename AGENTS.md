@@ -34,13 +34,14 @@ An **earlier Slidev deck already covers some topics** and lives outside this rep
 
 ## Claude Code Agents
 
-Six specialized agents in `.claude/agents/` implement a structured multi-agent lecture authoring loop:
+Seven specialized agents in `.claude/agents/` implement a structured multi-agent lecture authoring loop:
 
 | Agent | Role | Key Responsibility |
 |-------|------|-------------------|
 | **lecture-content-planner** 🎓 | Orchestrator | Plans narrative flow, pedagogical structure, layout assignments |
 | **edu-research** 🔬 | Researcher | Verifies concepts, returns citations, pedagogical guidance |
 | **slidev-content-transformer** 🎨 | Author | Writes German slides, enforces layout & density rules |
+| **diagram-generator** 📊 | Diagram Designer | Generates custom SVG diagrams (flowcharts, architectures, visualizations) |
 | **slide-visual-reviewer** 🔍 | QA (Layout) | Renders slides, audits overflow/clipping/readability |
 | **student-reviewer** 🧑‍🎓 | QA (Pedagogy) | Reviews from student POV, flags cognitive overload |
 | **storyset-illustrator** 🎨 | Illustrator | Finds & customizes Storyset "Bro" graphics |
@@ -69,6 +70,8 @@ A. PLAN       lecture-content-planner — Where, why, what layout?
 B. RESEARCH   edu-research            — Verify & find citations
               ↓ (research output)
 C. AUTHOR     slidev-content-transformer — Write German slides
+              ├─→ [if custom diagram needed]
+              │   diagram-generator   — Generate SVG flowchart/architecture/visualization
               ↓ (markdown + illustrations)
 D. VISUAL QA  slide-visual-reviewer   — Overflow? Clipping? Density OK?
               ↓ (layout feedback)
@@ -81,6 +84,19 @@ F. YOU        User gate               — Approve or give feedback
 - Maximum **3 full loops** per cluster. If feedback persists after loop 3, escalate to user.
 - Visual-only fixes (layout tweaks) don't count as a loop.
 - On approval, planner updates `narrative-thread.md` before next cluster.
+
+**Using diagram-generator:**
+When the transformer needs a custom diagram (flowchart, architecture, data visualization), request it from `@diagram-generator`:
+```
+Type: Flowchart | Architecture | Visualization | Concept Map
+Description: [What the diagram shows]
+Key Elements: [Nodes, stages, or data points]
+Highlight: [What's emphasized?]
+Language: German
+Width: 800
+```
+
+The agent returns complete SVG code ready to paste into slides.
 
 ---
 
