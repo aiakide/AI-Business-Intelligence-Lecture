@@ -1,20 +1,33 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "disabled_providers": [
-    "requesty", "opencode"
+    "requesty"
   ],
     "enabled_providers": [
-     "ollama"
+     "ollama","anthropic"
   ],
+  "plugin": ["@thehugeman/opencode-anthropic-auth-community@latest"],
   "mcp": {
     "excalidraw": {
       "type": "remote",
       "url": "https://mcp.excalidraw.com",
       "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
     }
   },
-  "plugin": ["oh-my-opencode"],
   "provider": {
+     "anthropic": {
+      "options": {
+        "baseURL": "https://api.anthropic.com/v1"
+      }
+    },
    "ollama": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama",
