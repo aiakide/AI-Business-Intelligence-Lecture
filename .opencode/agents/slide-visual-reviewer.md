@@ -5,9 +5,7 @@ description: >-
   reports per-slide readability problems (overflow, clipping, bad wrapping,
   density). Read-only visual QA — produces feedback, never edits slides.md.
 mode: subagent
-models: 
-  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
-  - qwen3.8
+#model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
 tools:
   bash: true
   read: true

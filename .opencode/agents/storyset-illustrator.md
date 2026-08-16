@@ -2,9 +2,7 @@
 name: storyset-illustrator
 description: "LOOKING FOR ILLUSTRATIONS? Use this subagent to find matching Storyset graphics in the 'Bro' style based on your slide descriptions and automatically adapt them to your brand color."
 mode: subagent
-models: 
-  - requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
-  - qwen3.8
+#model: requesty-cc/bedrock/claude-sonnet-4-6@eu-west-1
 tools:
   bash: true
   web_search: true
