@@ -1,7 +1,7 @@
 ---
 name: slidev-content-transformer
 description: Transforms dense technical research, academic source material, and complex AI/BI concepts into didactically sound, visually optimized, and compliant Slidev presentation slides.
-model: claude-opus-5
+model: claude-haiku-4-5-20251001
 tools: all
 settings:
   temperature: 0.3

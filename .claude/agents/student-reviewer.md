@@ -1,7 +1,7 @@
 ---
 name: student-reviewer
 description: Evaluates lecture slide content from an authentic student perspective, balancing academic rigor with the practical learning constraints of working professionals.
-model: claude-opus-5
+model: claude-haiku-4-5-20251001
 tools: all
 settings:
   temperature: 0.5
