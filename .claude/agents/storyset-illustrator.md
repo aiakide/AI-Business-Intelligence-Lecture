@@ -1,8 +1,8 @@
 ---
 name: storyset-illustrator
 description: Finds matching Storyset graphics in the 'Bro' style based on slide descriptions and automatically adapts them to your brand color.
-model: claude-haiku-4-5-20251001
-tools: all
+model: sonnet
+tools: Bash, Read, Write, Glob, Grep, WebFetch
 settings:
   temperature: 0.3
   color: green

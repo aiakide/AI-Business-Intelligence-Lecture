@@ -40,11 +40,6 @@ zum Versicherer zurück. So bleibt der Faden erhalten, ohne einen Use Case zu er
 ### Full expanded chain (updated 2026-08-10 after vorlage gap analysis)
 
 ```
-[Session 0 / S1-Intro]
-  Python Basics (Syntax, Datenstrukturen, Jupyter) →
-  Python Libraries (NumPy, Pandas, Matplotlib, Scikit-Learn overview) →
-  CRISP-DM (Prozessrahmen) →
-
 [Session 1 — Statistik & Regression]
   Data Mining vs. Data Crawling (Begriffsdefinitionen) →
   Stichprobe & Grundgesamtheit →
@@ -60,7 +55,14 @@ zum Versicherer zurück. So bleibt der Faden erhalten, ohne einen Use Case zu er
   Bootstrapping →
   Signifikanz →
 
-[Session 2 — Supervised ML]
+[Session 2 — Python-Vertiefung: von der Formel zum Code]  (repositioned 2026-08-16, see §11)
+  Statistik-Grundlagen in Python (Lagemaße, Streuung, Korrelation, z-Trafo, Regression) →
+  Kontrollstrukturen (if/elif/else, Schleifen) →
+  Funktionen →
+  Objektorientierte Programmierung (Klassen, Objekte, Methoden) →
+  3rd-Party-Libraries (NumPy, Pandas, Matplotlib, Scikit-Learn-Ausblick) →
+
+[Session 2 — Supervised ML, Fortsetzung]
   Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) →
   Metriken: Accuracy, Precision, Recall, F1-Score →
   Supervised ML Algorithmen: Random Forest, KNN →
@@ -91,11 +93,20 @@ zum Versicherer zurück. So bleibt der Faden erhalten, ohne einen Use Case zu er
 vor Regression, keine Metriken vor Train/Val-Split, kein Konfidenzintervall vor
 Stichprobe/Grundgesamtheit). Flag violations immediately.
 
-**Identified prerequisite gap (2026-08-10):** The Python/Tools block (vorlage slides
-9–25) has NO coverage in our current deck and is not yet in our session plan. It must
-be scheduled — either as a dedicated early Session 1 cluster, or as a standalone
-"Session 0 / Tools" session inserted before the Statistik content. See Gap Analysis
-notes in section 7 below.
+**Resolved 2026-08-16 (superseded the 2026-08-10 gap note below):** the Python code-
+literacy block is scheduled **after** the Statistik-Bogen, not before it — user
+decision, see §11. It is a deliberate departure from vorlage ordering (vorlage puts
+Python before Statistik): the pedagogical bet is that Lagemaße/Streuung/Korrelation/
+Regression are more motivating to implement in code *once the student already
+understands the math*, rather than teaching bare syntax with no application target.
+The residual gap — Jupyter/Docker/Kubernetes/GitHub/CRISP-DM-Detail (vorlage slides
+15–19) — is explicitly **not** covered by §11 and remains open; see §11 note.
+Original 2026-08-10 gap note (kept for audit trail, no longer the active plan):
+
+> The Python/Tools block (vorlage slides 9–25) has NO coverage in our current deck and
+> is not yet in our session plan. It must be scheduled — either as a dedicated early
+> Session 1 cluster, or as a standalone "Session 0 / Tools" session inserted before the
+> Statistik content. See Gap Analysis notes in section 7 below.
 
 ## 4. Shared assets
 
@@ -140,7 +151,12 @@ a placeholder until exercises are designed.)*
 | 2e | Interaktionseffekte — Wenn der Effekt eines Merkmals vom Wert eines anderen abhängt (z.B. Schadenshäufigkeit nach Alter UND Geschlecht) — 4 Slides (Die Idee, Interpretation & Beispiel, Konkrete Interpretation, Grafische Interpretation mit Excalidraw-Diagramm) | 2 | Versicherer (Schadensanalyse) | ✅ approved (1 loop + 1 follow-up polish pass) | 2 |
 | 2f | Bootstrapping — Robuste Schätzung von Parametern und Konfidenzintervallen ohne starke Annahmen über die Verteilungsform | 2 | Versicherer (kleine Stichproben, komplexe Verteilungen) | ✅ approved (1 loop) | 1 |
 | 2g | Signifikanz — Entscheidungen unter Unsicherheit: Ist ein beobachteter Effekt "echt" oder Zufall? — 2 Slides (Die Frage, Ein Beispiel) | 2 | Versicherer (Tarifänderung, Betrugserkennung) | ✅ approved (1 loop + 1 follow-up polish pass) | 2 |
-| — | *(next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Session 2 Supervised ML; Python-Grundlagen-Gap noch offen, siehe 7b)* | 2 | Versicherer | ⬜ next | — |
+| 11a | Statistik-Grundlagen in Python (Lagemaße/Streuung/Korrelation/z-Transformation/Regression als Code, `statistics`+NumPy, n−1-vs-ddof-Fallgrube, R²=0,98-Rückbezug zu Cluster 2c, Checkpoint-Slide als Brücke zu Kontrollstrukturen) — 10 Slides | 2 | Versicherer (home base) | ✅ approved (3 visual-QA loops + 1 student-review follow-up) | 4 |
+| 11b | Kontrollstrukturen (if/elif/else, for-Schleife, while-Schleife mit break-Safeguard; match/case als kurzer Fun-Fact statt eigener Folie; Ergebnis-Beispiel bewusst "kein Ausreißer" statt geschönt; Synthese "Kopier-Falle" als Brücke zu Funktionen) — 6 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up) | 3 |
+| 11c | Funktionen (`def`/Parameter/Default/`return`, Umbau des Ausreißer-Checks aus 11b in `ist_ausreisser(schaden, schwelle=10000)`, List-Comprehension-Vorschau, Brücke zu OOP) — 3 Slides | 2 | Versicherer (home base) | ✅ approved (1 visual-QA loop, 2 Nachbesserungsrunden für dieselbe Folie + 1 student-review follow-up) | 3 |
+| 11d | OOP (Klasse-vs-Objekt-Analogie, `class`/`__init__`, `self`-Bindung, Methoden — `ist_ausreisser()` aus 11c als Methode umgebaut, mehrere `Schaden`-Objekte + List-Comprehension, Brücke zu Pandas/11e) — 5 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up) | 3 |
+| 11e | 3rd-Party-Libraries (NumPy-Vektorisierung, Pandas Series als Synthese-Demo zu 11a, DataFrame `.corr()`, Matplotlib-Streudiagramm mit echtem SVG, Scikit-Learn-Ausblick als eigene schlanke Folie, Abschluss-Folie "Was Du jetzt kannst" mit Brücke zu Train/Val-Split) — 6 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up + 1 user design-review split) | 3 |
+| — | *(§11 Python-Vertiefung KOMPLETT — 30 Slides über 11a–11e (10+6+3+5+6). next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Supervised ML, außerhalb §11. Jupyter/Docker/K8s/GitHub/CRISP-DM-Detail-Gap weiterhin offen, siehe §11 Schlussnote)* | 2 | Versicherer | ⬜ next | — |
 
 
 ---
@@ -660,10 +676,524 @@ Grundgesamtheit → Konfidenzniveau/-intervall → Lagemaße → Varianz/Standar
 → Kovarianz → Korrelation → z-Transformation → Lineare Regression → Logistische
 Regression (+ Logit/Odds Ratio) → Bootstrapping → Signifikanz.
 
-**Remaining gap (unchanged from section 7b):** the Python/Tools chapter (vorlage
-slides 9–25 — Python Basics, Datenstrukturen, Jupyter, Docker, Kubernetes, GitHub,
-CRISP-DM detail, NumPy/Pandas/Scikit-Learn/Matplotlib) is still **not scheduled** in
-either the deck or the prerequisite chain. This was identified in the 2026-08-10 gap
-analysis and remains open — recommended next step before starting Session 2 content,
-since CRISP-DM and Python basics are referenced in passing (slide 8) but never
-delivered as their own cluster.
+**Content-gap fix (2026-08-17):** user caught that the Pearson-$r$ **formula itself**
+was never shown anywhere in the deck — only described in prose ("Division durch
+$s_X \cdot s_Y$ hebt die Einheiten auf") on the "Kovarianz — ein Rechenbeispiel" slide,
+inconsistent with every other concept in this arc (Kovarianz, Varianz, Regression all
+get an explicit KaTeX formula). Fixed by adding
+$r = \frac{\text{Cov}(X,Y)}{s_X \cdot s_Y}$ inline on that same slide, right where the
+concept is introduced. First attempt used a display-mode `$$...$$` block plus a separate
+"Wertebereich" line — that overflowed into the footer (a repeat of the recurring
+`<LiteraturSource>`-is-`position:absolute` blind spot from §9f: metrics reported clean,
+screenshot showed real collision). Fixed by inlining the formula into the existing
+closing sentence instead of adding new display-block lines, and dropping the
+"Wertebereich" line since the very next slide ("Korrelation — Zusammenhang, nicht
+Ursache") already states the $-1 \leq r \leq +1$ range. Verified clean on re-render.
+**Lesson: this deck's `default`-layout slides have near-zero vertical headroom by
+default — prefer extending an existing line inline over adding a new display-mode
+block or paragraph, and always re-render after adding a formula to an already-dense
+slide.**
+
+**Remaining gap (unchanged from section 7b) — superseded placement, see §11:** the
+Python/Tools chapter (vorlage slides 9–25 — Python Basics, Datenstrukturen, Jupyter,
+Docker, Kubernetes, GitHub, CRISP-DM detail, NumPy/Pandas/Scikit-Learn/Matplotlib) was
+originally recommended *before* Session 2. The user decided (2026-08-16) to place the
+**code-literacy** portion of this gap *after* the Statistik-Bogen instead — see §11
+for the accepted plan and rationale. The **tooling** portion (Jupyter/Docker/K8s/
+GitHub/CRISP-DM-Detail) is still unscheduled; §11 does not close it.
+
+---
+
+## 11. Cluster set — Python-Vertiefung: von der Formel zum Code (planned 2026-08-16)
+
+**Status:** 🔵 Planning — awaiting edu-research citations, then → slidev-content-transformer
+
+**Trigger:** User decision to place Python code-literacy *after* the completed
+Statistik-Bogen (§10), not before it (contra vorlage ordering, contra the original
+§7b gap-analysis recommendation — see the resolved note in §3). Rationale: students
+already understand *what* Lagemaße, Streuung, Korrelation, z-Transformation and
+Regression mean and *why* they matter — Python becomes the tool that computes what
+they already understand, rather than bare syntax with no application target yet.
+This is a deliberate pedagogical bet, not an oversight; flag if a later review
+suggests reordering.
+
+**User-specified sequence (verbatim intent):**
+1. Statistik-Grundlagen aus §10 in Python nachbauen (code-first re-implementation)
+2. Kontrollstrukturen: if / elif / else ("switch"), Schleifen
+3. Funktionen
+4. Objektorientierte Programmierung (OOP)
+5. Relevante 3rd-Party-Libraries (u. a. Pandas)
+
+**Insertion point:** Immediately after "Signifikanz: Entscheidungsregel" (last slide
+of §10, current end of authored content in `slides.md`, right before the demo/
+placeholder slides). Before "Trainingsdatensatz / Validierungsdatensatz".
+
+**Continuity rule (critical — this is what makes the Roter Faden work here):** every
+sub-cluster below reuses a dataset **already established** in §10/earlier clusters —
+no new toy data is introduced except where explicitly noted. This is what turns "now
+learn Python" into "now compute the things you already understand" rather than a
+context switch:
+- **6 Schadenshöhen** (800, 1.100, 1.100, 1.400, 2.200, 38.000 EUR) — from Lagemaße/
+  Streuung (§Cluster 2a/2b)
+- **Fahrzeugalter/Reparaturkosten** (4-Punkte-Datensatz) — from Kovarianz/Korrelation/
+  z-Transformation/Regression (§Cluster 2b-gap/2c)
+- **Alter × Geschlecht → Schadenshäufigkeit** — from Interaktionseffekte (§Cluster 2e),
+  reusable as the OOP application example (a `Police`/`Schaden`-Klasse with these
+  exact attributes)
+
+**Overall bridge sentence opening the cluster (goes at the top of sub-cluster A,
+after Signifikanz's closing line):**
+> *"Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und
+> Regression verstanden — von Hand gerechnet. Aber kein Versicherer wertet 400.000
+> Verträge mit dem Taschenrechner aus. Genau das übernimmt Code. Schauen wir, wie
+> dieselben Berechnungen in Python aussehen."*
+
+**Budget note (§5 flag):** this is a 5-part cluster (~18–22 slides estimated below)
+inside the already-dense "Session 2" slot. Per the AGENTS.md over-authoring warning,
+the transformer should treat the per-sub-cluster slide counts below as an upper
+bound, not a target — collapse where density guardrails allow (e.g. combine two
+tightly related code snippets on one slide if both fit within the 5–7 bullet /
+one-code-block density limit).
+
+---
+
+### 11a. Statistik-Grundlagen in Python
+
+**Layout:** mostly `default` (code + short prose reads best single-column); consider
+`header-cols` only where a "von Hand" vs. "in Python" comparison is the point.
+
+**Estimated slides:** 4–5.
+
+| Tier | Content |
+|---|---|
+| **Hook** | Siehe Overall-Bridge-Satz oben — die Distanz zwischen "400.000 Verträge" und "6 Werte per Hand" wird jetzt geschlossen. |
+| **Foundation** | Python-Grundsyntax kurz streifen (Variablen, `print()`, Kommentare `#`) — nicht neu vorstellen, sondern implizit über die Beispiele einführen. Kein eigenes "Was ist Python?"-Slide (das wäre der separate Tooling-Gap, siehe Schlussnote). |
+| **Application** | Reihe von Codebeispielen, je eine kompakte `python`-Codezelle + 1–2 Ergebniszeilen, unter Wiederverwendung der o.g. Datensätze: `statistics.mean()/median()/mode()` auf die 6 Schadenshöhen; `statistics.variance()/stdev()` (Bezug zur Rechtsschiefe/Ausreißer 38.000 EUR); `numpy.corrcoef()` auf Fahrzeugalter/Reparaturkosten; manuelle z-Transformation-Zeile (`(x - mean) / std`); Regressionsgerade über `numpy.polyfit()` — bewusst NICHT scikit-learn hier (das kommt geplant in 11e/Session-2-ML als Ausblick, nicht vorgezogen). |
+| **Synthesis** | *"Fünf Zeilen Code liefern, was vorher mehrere Rechenschritte brauchte. Aber echte Datenanalyse besteht nicht nur aus Berechnungen — sie braucht Entscheidungslogik: Ist ein Schaden ein Ausreißer oder nicht? Das erfordert eine neue Fähigkeit: Programme, die Entscheidungen treffen."* → Brücke zu 11b. |
+
+**Research requisition (edu-research):** verified citation for Python's `statistics`/
+`numpy` module usage in a business-analytics teaching context (technical-depth:
+Beginner-Friendly). Confirm module names/function signatures are current (no
+deprecated APIs) rather than relying on the vorlage's screenshots, which contain
+OCR-garbled code and should NOT be copied verbatim (see vorlage_skript.md lines
+532–534, 585 — corrupted variable names).
+
+---
+
+### 11b. Kontrollstrukturen (if/elif/else, Schleifen)
+
+**Layout:** `default`.
+
+**Estimated slides:** 3–4.
+
+| Tier | Content |
+|---|---|
+| **Hook** | Der 38.000-EUR-Schaden aus dem 6-Werte-Sample ist der bekannte Ausreißer (aus §Cluster 2a/2f) — wie entscheidet ein Programm automatisch, ob ein neuer Schaden "auffällig" ist? Bei 400.000 Verträgen kann niemand das von Hand durchsehen. |
+| **Foundation** | `if / elif / else` als Entscheidungslogik; Python hat kein klassisches `switch` — kurzer Hinweis auf `match/case` (Python ≥3.10) als das nächstliegende Äquivalent, aber Fokus bleibt auf `if/elif/else` als Hauptform. `for`-Schleife (Iteration über eine Liste) und `while`-Schleife (Iteration bis Bedingung erfüllt) klar unterscheiden. |
+| **Application** | `for schaden in schadenshoehen: if schaden > schwelle: print(...)` über die 6-Werte-Liste, Schwelle z. B. 10.000 EUR → markiert exakt den bekannten Ausreißer. Zweites Beispiel: `while`-Schleife, die eine laufende Summe akkumuliert, bis ein Budget-Limit erreicht ist (Prämienreserve-Framing). |
+| **Synthesis** | *"Die Ausreißer-Prüfung ist nützlich — aber wenn wir sie zehnmal an zehn Stellen im Code brauchen, kopieren wir denselben Block immer wieder. Das ist fehleranfällig. Die Lösung: Logik einmal definieren, überall wiederverwenden."* → Brücke zu 11c. |
+
+**Research requisition (edu-research):** citation for control-flow fundamentals in a
+data-analysis teaching context (Beginner-Friendly). Verify Python's `match/case`
+minimum version claim (3.10) before stating it as fact.
+
+---
+
+### 11c. Funktionen
+
+**Layout:** `default`.
+
+**Estimated slides:** 3.
+
+| Tier | Content |
+|---|---|
+| **Hook** | Direkt aus 11b: der Ausreißer-Check aus dem letzten Slide wurde gerade kopiert — was, wenn die Schwelle sich später ändert, oder wir denselben Check an 5 Stellen im Code brauchen? |
+| **Foundation** | `def funktionsname(parameter):`, `return`-Wert, Default-Argumente (`schwelle=10000`). Betonen: eine Funktion kapselt Logik + macht sie wiederverwendbar UND testbar. |
+| **Application** | Die Ausreißer-Prüfung aus 11b wird zu `def ist_ausreisser(schaden, schwelle=10000): return schaden > schwelle` umgebaut; danach `[s for s in schadenshoehen if ist_ausreisser(s)]` als Vorschau auf List Comprehension (kurz erwähnen, nicht vertiefen). Zweites Beispiel optional: eine `berechne_praemie(schaden, risikofaktor)`-Funktion. |
+| **Synthesis** | *"Jetzt haben wir wiederverwendbare Funktionen — aber sie kennen die Versicherungsdaten nicht direkt: Schwelle, Schadenshöhe, Risikofaktor werden bei jedem Aufruf neu übergeben. Was, wenn Daten UND die Funktionen, die zu ihnen gehören, gemeinsam an einem Ort leben sollten?"* → Brücke zu 11d. |
+
+**Research requisition (edu-research):** citation for functions/reusability as a
+software-engineering-for-data-science practice (Beginner-Friendly).
+
+---
+
+### 11d. Objektorientierte Programmierung (OOP)
+
+**Layout:** `default`, evtl. ein Slide `header-cols` für "Klasse (Bauplan) vs. Objekt
+(Instanz)"-Gegenüberstellung.
+
+**Estimated slides:** 4 (dichtestes Unterthema — Klassenkonzept, Instanziierung,
+Methoden, und eine bewusste Einordnungs-/Synthesefolie, um Overload zu vermeiden).
+
+| Tier | Content |
+|---|---|
+| **Hook** | Direkt aus 11c: Schwelle, Schadenshöhe, Risikofaktor lose als Variablen/Parameter herumzureichen wird unübersichtlich, sobald wir mit *vielen* Schäden gleichzeitig arbeiten (genau der Fall bei 400.000 Verträgen). |
+| **Foundation** | `class`, `__init__` (Konstruktor), Attribute (Instanzdaten), Methoden (Funktionen, die zur Klasse gehören und auf `self` zugreifen). Klasse = Bauplan, Objekt = konkrete Instanz — explizit mit einer Analogie verankern (z. B. "Klasse = Vertragsformular-Vorlage, Objekt = ein konkret ausgefüllter Vertrag"). |
+| **Application** | Eine `Schaden`-Klasse mit Attributen `hoehe`, `alter_fahrer`, `geschlecht` (Rückgriff auf den Interaktionseffekte-Datensatz aus §Cluster 2e) und einer Methode `ist_ausreisser(self, schwelle=10000)`, die die 11c-Funktion als Methode wiederverwendet. Kurze Demonstration: mehrere `Schaden`-Objekte in einer Liste, Iteration mit der 11b-Schleifenlogik. |
+| **Synthesis** | *"Objekte, die Daten UND Verhalten bündeln — genau das ist, was professionelle Data-Science-Bibliotheken längst für uns tun. Ein Pandas-DataFrame ist im Kern auch nur ein Objekt mit Daten und Methoden. Wir müssen es nicht mehr selbst bauen."* → Brücke zu 11e. |
+
+**Research requisition (edu-research):** citation for OOP fundamentals in a Python-
+for-data-science teaching context (Beginner-Friendly). Flag: this sub-cluster is the
+density risk of the whole set — if visual QA finds `<v-click>` overflow (the
+recurring pattern from §10b), split rather than compress; do not cut the
+class-vs-object analogy, it is the one plain-language anchor for an abstract topic.
+
+---
+
+### 11e. 3rd-Party-Libraries (NumPy, Pandas, Matplotlib, Scikit-Learn-Ausblick)
+
+**Layout:** `default`, evtl. `header-cols` für den "Von Hand vs. Pandas"-Vergleich.
+
+**Estimated slides:** 4–5.
+
+| Tier | Content |
+|---|---|
+| **Hook** | *"Wir haben Statistik-Berechnungen, Kontrollstrukturen, Funktionen und Klassen selbst gebaut. Frage: Bauen echte Data Scientists das jeden Tag neu? Nein — dafür gibt es Bibliotheken."* |
+| **Foundation** | **NumPy**: numerische Arrays, vektorisierte Operationen (schneller als reine Python-Schleifen — Rückbezug zur 11b `for`-Schleife). **Pandas**: `Series` (1D) und `DataFrame` (2D, tabellarisch) — das Herzstück; Kernoperationen (Import, Filtern, Sortieren, Aggregieren) im Überblick. **Matplotlib**: Basis-Visualisierung. **Scikit-Learn**: nur als *Ausblick* ankündigen ("kommt in der nächsten Einheit, wenn wir Random Forest und KNN trainieren") — NICHT hier vertiefen, das gehört zu Supervised ML. |
+| **Application** | Zentrale Synthese-Demo: die 6 Schadenshöhen als `pandas.Series`, `.mean()/.median()/.std()` in einer Zeile — direkter Vergleich zur 11a-`statistics`-Version ("dieselbe Berechnung, jetzt mit dem Werkzeug, das echte Data Scientists tatsächlich nutzen"). Optional: `df.corr()` auf dem Fahrzeugalter/Reparaturkosten-Datensatz als DataFrame, Rückbezug zu Korrelation (§Cluster 2b). Ein `matplotlib`-Streudiagramm des Datensatzes als visueller Abschluss. |
+| **Synthesis** | Schlusssatz für den GESAMTEN §11-Cluster: *"Damit hast Du das Handwerkszeug: Du verstehst die Statistik dahinter, kannst sie in reinem Python nachbauen — und kennst jetzt die Werkzeuge, mit denen echte Versicherer ihre 400.000 Verträge tatsächlich auswerten. Der nächste Schritt: Wie trainiert man ein Modell, das nicht nur beschreibt, sondern vorhersagt, wer als Nächstes einen Schaden meldet?"* → Brücke zu Trainingsdatensatz/Validierungsdatensatz (Supervised ML). |
+
+**Research requisition (edu-research):** citation for NumPy/Pandas/Matplotlib usage
+in applied business-analytics contexts (Beginner-Friendly to Strategic-Framework).
+Verify current Pandas API calls (no deprecated methods) — same caution as 11a re:
+vorlage's corrupted code screenshots.
+
+---
+
+### 11f. Slide-count summary & sequencing note
+
+| Sub-cluster | Topic | Est. slides |
+|---|---|---|
+| 11a | Statistik-Grundlagen in Python | 4–5 |
+| 11b | Kontrollstrukturen | 3–4 |
+| 11c | Funktionen | 3 |
+| 11d | OOP | 4 |
+| 11e | 3rd-Party-Libraries | 4–5 |
+| **Total** | | **~18–21** |
+
+Each sub-cluster's Synthesis line is also its bridge to the next (per §9c convention
+— content-driven transitions, no UI widget). Hand this plan to `edu-research` for the
+five requisition briefs above, then `slidev-content-transformer`, then the normal
+`slide-visual-reviewer` → `student-reviewer` loop per AGENTS.md workflow. Given §10b's
+recurring `<v-click>`-overflow lesson, instruct the transformer to re-check every
+slide with all clicks revealed, not just the first-click state.
+
+**Explicitly out of scope for §11 (still open — do not silently fold in):** Jupyter
+Notebooks, Docker, Kubernetes, GitHub, and CRISP-DM-as-its-own-cluster (CRISP-DM is
+currently only namechecked on slide 8). These are tooling/process topics, not
+code-literacy topics, and the user's 2026-08-16 request did not include them. Needs a
+separate decision on whether/where to schedule them.
+
+---
+
+### 11g. Outcome — Cluster 11a (2026-08-17) — ✅ Implemented, APPROVED
+
+Authored via the full `AGENTS.md` loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` → `student-reviewer` → targeted fix → re-verify). Final result:
+**10 slides** (grew from the originally planned 4–5 — see density lesson below), inserted
+right after "$p$-Wert: Anwendung im Modell" (which received the cluster's opening bridge
+sentence), covering: Lagemaße in Python → Streuung (`statistics` n−1) → Streuung (NumPy
+`ddof`-Fallgrube) → Korrelation (`numpy.corrcoef`) → z-Transformation (Zentrieren /
+Skalieren, split) → Lineare Regression (`numpy.polyfit`) → Modellgüte (R²=0,98, explicitly
+tied back to the value already established in Cluster 2c, not a new claim) → Checkpoint
+(non-code rhythm-break slide teasing an outlier-flagging rule) → Die Synthese (bridge to
+11b/Kontrollstrukturen).
+
+**Config bug fixed in passing:** all 7 `.claude/agents/*.md` files had `tools: all`, an
+unrecognized value that silently spawned every custom subagent with **zero tools**
+(confirmed failure: `Agent 'edu-research' would be spawned with zero tools`). Fixed to
+explicit per-agent tool lists (e.g. `edu-research: Read, Glob, Grep, WebFetch, WebSearch`;
+`slidev-content-transformer: Read, Write, Edit, Glob, Grep, Bash`) matching each agent's
+actual role. `tools: "*"` was tried first and also failed — this harness requires an
+explicit comma-separated tool list, not a wildcard. **If a custom subagent invocation
+fails with a zero-tools error again, check this file's `tools:` line first.**
+
+**Recurring density lesson (reinforced 3x in this single cluster — same failure mode as
+§10b, different trigger):** every time content was *added* to an already-passing slide
+(a trimmed sentence restored as a bridge, a new code block for R² validation, a
+two-step decomposition of one formula), that slide overflowed again on the next visual-QA
+pass — even when the addition looked small in isolation. Metrics caught most of it
+(`scrollHeight`/`clippedElements`), but one text/credit-line overlap (Lagemaße slide) only
+showed up in the screenshot, not the numeric metrics — consistent with §9f's warning that
+`<LiteraturSource>` is `position: absolute` and invisible to scrollHeight. **Rule
+going forward:** treat "add content to a slide that already passed QA" as a trigger for a
+fresh visual-QA pass, never assume a small addition is safe — and when in doubt, default
+to splitting into a new slide rather than growing an existing one, especially for slides
+carrying a code block + output + prose (this pattern consistently has near-zero headroom
+in this deck's `default` layout).
+
+**Student-review follow-up (targeted, not a fresh 3-loop cycle — same pattern as §10c):**
+3 fixes applied: (1) z-Transformation decomposed into two labeled steps with real computed
+intermediate values instead of one dense one-liner, (2) Regression got a prediction/R²
+validation block — using the deck's own already-verified R²=0,98, not the reviewer's
+illustrative (and incorrect for this dataset) R²=1,0 example, (3) a new non-code
+"Checkpoint" slide inserted to break 6 consecutive code-slides' worth of monotony and give
+the Kontrollstrukturen bridge a concrete teaser example (outlier-flagging rule stated in
+plain German, no code — that's 11b's job).
+
+**User design-review follow-up (2026-08-17), 3 more fixes, verified clean:**
+1. Added a short `layout: section` title/divider slide ("Von der Formel zum Code") right
+   before "Lagemaße in Python" — the cluster previously had no lead-in title slide of its
+   own. Deliberately used `section` (lightweight, centered) rather than `chapter` (reserved
+   for full Session openers in this deck) since this is a sub-cluster within Session 2, not
+   a new session.
+2. "Die deskriptive Werkzeugkiste ist komplett" (the pre-existing descriptive-stats recap
+   slide, unrelated to this cluster but flagged in the same review) stayed in place but
+   gained one sentence explicitly calling back to the U-Form pitfall ($r \approx 0$ despite
+   a real relationship) shown on the immediately preceding slide — it previously recapped
+   the three descriptive tools generically without acknowledging the caveat the student had
+   just seen, which read as a disconnected repeat rather than a continuation.
+3. "Checkpoint" and "Die Synthese" (both single dense prose paragraphs making nearly the
+   same point) were merged into one slide ("Von der Berechnung zur Entscheidung") using a
+   bullet/blockquote/emoji-callout structure instead of two walls of text — net slide count
+   for the cluster stayed at 10 (+1 title slide, −1 from the merge).
+
+**Cluster 11a final slide count: 10.** ✅ APPROVED.
+
+**Follow-up correction (2026-08-17, same day):** user still found slide 26 confusing after
+fix #2 above. Re-inspection found the real problem was not placement but a **factual
+contradiction**: the slide's closing bridge blockquote said *"Ein starkes $r$ zwischen
+**Fahreralter** und Schadenhäufigkeit..."* — but "Fahreralter" (driver age) is exactly the
+U-Form example just shown TWO slides earlier to have $r \approx 0$ (non-linear, weak
+Pearson correlation despite a real relationship). The bridge was claiming a strong
+correlation for the one example already established to have a weak one. Worse, the
+following z-Transformation/Regression slides actually use a *different* dataset —
+**Fahrzeugalter** (vehicle age) vs. Reparaturkosten, $r \approx 0{,}99$ — so the bridge was
+also foreshadowing the wrong variable for what came next. "Fahreralter" vs. "Fahrzeugalter"
+are easy to conflate in German, which likely caused the original mix-up during drafting.
+**Fixed** by rewriting the blockquote to explicitly contrast the two: *"Anders als beim
+Fahreralter ist der Zusammenhang zwischen Fahrzeugalter und Reparaturkosten tatsächlich
+linear und stark ($r \approx 0{,}99$)..."* — this both resolves the contradiction and
+correctly sets up the dataset the next slides actually use. **Lesson: when a "feels
+wrong" report persists after a placement/emphasis fix, re-check for a literal factual
+contradiction before assuming it's a tone/ordering issue — this one was a copy-paste-style
+variable mix-up, not a structural problem.**
+
+**Second follow-up correction (2026-08-17, same day):** even after the above fix, user
+still didn't understand the slide's core claim: "komplett" reads as "the statistics arc is
+finished," but a large amount of content follows (Regression, Logistische Regression,
+Interaktionseffekte, Bootstrapping, Signifikanz, and the entire Python cluster). The slide
+never stated *what* was complete — it needed to explicitly scope "komplett" to the
+**deskriptive** category only, as distinct from the **vorhersagende/schließende** category
+that follows and *builds on* these three tools rather than extending the same list.
+**Fixed** by: (1) retitling to "Drei Werkzeuge zum Beschreiben — jetzt wird's
+vorhersagend" (explicit deskriptiv→prädiktiv framing in the title itself, not just body
+text), (2) rewording the synthesis line to "Diese drei Werkzeuge sind jetzt komplett —
+aber nur für die Beschreibung. Sie sagen nichts über die Zukunft voraus," (3) closing the
+bridge blockquote with "baut auf diesen drei Werkzeugen auf, statt sie zu ersetzen" so the
+relationship between what's done and what follows is explicit. Verified clean after one
+overflow-and-trim iteration (the first version of this fix overflowed; trimmed the
+redundant phrasing to fit). **Lesson: a word like "komplett" needs its scope stated in the
+same sentence, not left implicit — otherwise it reads as "the whole topic is done" to a
+student who doesn't yet know the deskriptiv/prädiktiv distinction exists.**
+
+---
+
+### 11h. Outcome — Cluster 11b (2026-08-17) — ✅ Implemented, APPROVED
+
+Authored via the full loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` ×2 → `student-reviewer` → targeted fix → re-verify). Final
+result: **6 slides**, inserted right after "Von der Berechnung zur Entscheidung"
+(cluster 11a's closing slide, which already set up the exact motivating example this
+cluster pays off). Covers: if/elif/else (real arithmetic on the 45.000-EUR example —
+verified to correctly land as *not* an outlier at the 55.150 EUR/2,5σ threshold,
+deliberately not forced into a more dramatic "yes it's an outlier" result) → for-Schleife
+(code + output, split across 2 slides) → while-Schleife with a `break` safeguard against
+`IndexError` (code + output, split across 2 slides) → Synthese "Die
+Kopier-Falle" (bridge to 11c/Funktionen). `match`/`case` (Python 3.10+) was
+originally its own slide per the plan, then demoted to a one-sentence aside on the
+Synthese slide after student-review flagged it as diluting focus for a non-developer
+audience — net cluster size dropped from 7 to 6 slides.
+
+**Same density pattern as 11a, again:** 3 of the first 5 authored slides overflowed on
+first visual-QA pass (code block + output block + prose is consistently too dense for
+this deck's `default` layout) — fixed by splitting `for` and `while` each into a
+code-slide + output-slide pair, and trimming the if/elif/else closing line. One
+additional footer-collision (metrics-invisible, screenshot-only) surfaced on a
+follow-up pass after a "fix" — same blind spot logged repeatedly since §9f/§11g.
+
+**Student-review follow-up (targeted, not a fresh cycle):** 3 fixes — (1) the
+if/elif/else "kein Ausreißer" result got one clause tying it back to the threshold
+number so the (correct but undramatic) outcome doesn't read as a dud, (2) short
+navigation-bridge lines added to both split code/output slide pairs ("→ Und die
+Ausgabe?" / "Die Schleife von der letzten Folie, jetzt mit Ausgabe:") since the two
+sparse post-split slides had headroom to spare, (3) match/case demoted from standalone
+slide to one-sentence aside (see above). A 4th suggestion (a full iteration-by-iteration
+execution trace for the while-loop) was deliberately **not** applied — judged too much
+added density for a cluster that had just been split twice for exactly that reason.
+
+**User design-review reversal (2026-08-17, same day):** the navigation-bridge lines from
+fix (2) above were explicitly reverted per user feedback: for a slide legitimately split
+in two only because it didn't fit as one, no bridge/reference text is wanted between the
+two halves — and reusing the *same* title on both halves (rather than differentiating,
+e.g. "…— über die bekannten Schadenshöhen" / "…— Die Ausgabe") is fine in this case.
+Both split pairs (`for`, `while`) now share one title across their two slides and carry
+no cross-referencing line. **Lesson: a split-for-density pair doesn't need to earn its
+split with extra connective tissue — a plain continuation (same title, code then output,
+no meta-commentary) reads fine and was preferred over the "helpful" bridge text.**
+
+---
+
+### 11i. Outcome — Cluster 11c (2026-08-17) — ✅ Implemented, APPROVED
+
+Authored via the full loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` → 2 targeted trim rounds on the same slide →
+`student-reviewer` → follow-up fixes → re-verify). Final result: **3 slides**, the
+shortest sub-cluster in §11 so far — inserted right after "Die Kopier-Falle" (11b's
+closing slide, which already fully set up the motivation). Covers: `def`/Parameter/
+`return` (the 11b outlier-check rebuilt as `ist_ausreisser(schaden, schwelle=10000)`)
+→ Anwendung über das Portfolio (list comprehension as a light preview, explicitly
+not taught as a new core topic) → bridge to 11d/OOP.
+
+**Same footer-collision pattern as 11a/11b, this time needing two trim rounds on one
+slide:** the opening "Funktionen" slide (code block + 4-bullet structure list) failed
+visual QA once, got trimmed to a single dense inline sentence, still failed on
+re-verification (still touching the credit line), then got trimmed a second time
+(shorter intro, condensed code, no blank lines between calls) before passing with
+~380px of clearance. **Lesson reinforced: a first trim pass that "should" free enough
+space doesn't guarantee it — always re-render and re-check pixel-level clearance
+after every trim, not just after the first one.**
+
+**Student-review follow-up:** 3 fixes, all low-risk text edits (no re-added density
+risk, using the ~380px headroom the second trim round had freed): (1) the
+over-compressed "Struktur:" one-liner was restored to 3 short bullets — the earlier
+overflow-driven compression had gone further than necessary once headroom existed
+again, (2) the closing OOP-bridge slide gained one clarifying sentence ("Du musst
+Funktionen dafür noch nicht meistern, nur die Lücke sehen, die sie offenlässt.") to
+soften what the reviewer flagged as a fast conceptual jump for only 3 slides of
+functions content — reframed as an explicit preview rather than expecting mastery.
+Two other reviewer suggestions were **not** applied: a second full applied-functions
+example before the OOP bridge (would have grown the cluster and re-introduced the
+density risk just resolved) and a side-by-side loop-vs-comprehension code comparison
+on the application slide (would require a second code block on one slide — a pattern
+that has caused overflow in every prior cluster in this deck).
+
+---
+
+### 11j. Outcome — Cluster 11d (2026-08-17) — ✅ Implemented, APPROVED
+
+Authored via the full loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` → fix round → re-verify → `student-reviewer` → follow-up fixes
+→ re-verify → one final fix). Final result: **5 slides**, inserted right after
+"Von Funktionen zu Objekten — der nächste Schritt" (11c's closing slide). Covers:
+Klasse-vs-Objekt (Bauplan/Vertragsformular-Analogie, concept-only, `header-cols`) →
+`class`/`__init__` (the `Schaden`-Klasse, `self`-Bindung) → Methoden (11c's
+`ist_ausreisser()` rebuilt as a method — split across 2 slides, old function-call style
+then new method-call style, same title on both per the established split convention) →
+Anwendung + Synthese (multiple `Schaden` objects + list comprehension, bridge to
+11e/Pandas). Explicitly out of scope per the plan: Vererbung, Polymorphismus,
+Encapsulation, `@staticmethod`/`@classmethod`, magic methods beyond `__init__`.
+
+**Same footer-collision pattern, again — 3 of 4 first-draft slides needed fixes**,
+including one real (not just tight) text/credit-line overlap on the closing synthesis
+slide, exactly the recurring §9f/§11g/§11h/§11i blind spot. All fixed and re-verified.
+
+**Student-review follow-up (4 fixes):** (1) a one-line forward-pointer added to the
+concept-only Klasse/Objekt slide so it doesn't feel like a dead end before code
+appears, (2) the `self`-explanation expanded from a vacuous "Python passes it
+automatically" into 2 (later merged to fit) bullets that explicitly connect `self` to
+a concrete method call, (3) the weak code-comment-only old/new contrast on the
+Methoden slide was upgraded to a **full second code block — done via a 2-slide split**
+(same title, no bridge, per the user's established convention) rather than cramming a
+second code block onto an already-tight slide, (4) the synthesis slide's closing
+paragraph — cut hard to ~20 words in the pre-review fix round — was expanded back to
+~3 sentences that re-anchor the original 400.000-Verträge motivation and give a
+concrete Pandas example (`df.describe()`) instead of a bare "wie Pandas" name-drop.
+One more real footer collision surfaced on the `class`/`__init__` slide after the
+`self`-explanation expansion (4 bullets was one too many) — fixed by merging 2 bullets
+back into 1, re-verified clean.
+
+**Lesson reinforced (3rd time in §11): expanding a slide that just passed QA is not
+free, even when the expansion looks small** — re-render and pixel-check after every
+content addition, not just after the first draft.
+
+---
+
+### 11k. Outcome — Cluster 11e (2026-08-17) — ✅ Implemented, APPROVED — §11 Python-Vertiefung block COMPLETE
+
+Authored via the full loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` → fix round → re-verify → `student-reviewer` → follow-up
+fixes incl. one new SVG diagram → re-verify). Final result: **5 slides**, the last
+sub-cluster of §11 — inserted right after "Schäden als Objekte" (11d's closing slide).
+Covers: NumPy (Arrays/Vektorisierung, brief — deliberately does not repeat 11a's
+corrcoef/polyfit examples) → Pandas Series (**the payoff moment of the entire §11
+arc**: the same 6 Schadenshöhen from 11a's `statistics`-module version, now as
+`pandas.Series.mean()/median()/std()` in one line) → Pandas DataFrame `.corr()`
+(Fahrzeugalter/Reparaturkosten, r≈0,99 matching the already-established value) →
+Matplotlib scatter plot (with a real embedded SVG, see below) → Scikit-Learn
+one-sentence outlook + the **full §11-block synthesis**, bridging to the actual next
+deck topic: Trainingsdatensatz/Validierungsdatensatz (Train/Val-Split).
+
+**Same footer-collision pattern once more (1 of 5 slides):** the DataFrame `.corr()`
+slide overlapped its credit line — fixed by removing a redundant "Ausgabe:" table
+block (the result was already shown as a code comment) and trimming a repetitive
+closing paragraph.
+
+**Content-accuracy catch during the same fix (not just a layout issue):** that closing
+paragraph originally claimed *"Korrelation ist nicht Kausalität — Alter und Abnutzung
+sind gekoppelt, aber eines verursacht nicht das andere"* — factually shaky for THIS
+dataset, since vehicle age plausibly *does* cause higher repair costs (wear over time),
+and this exact dataset has been used throughout the deck as the example of a genuine,
+strong linear relationship (it's what the Regression/R²=0,98 clusters were built on).
+The correlation≠causation lesson was already correctly taught elsewhere (Eis/
+Ertrinkende example, Cluster 2b) — forcing it onto a dataset where it doesn't actually
+apply undermines the lesson rather than reinforcing it. Fixed by dropping the claim
+entirely and keeping only the accurate "matches your hand calculation" point. **Lesson
+(reinforces the Fahreralter/Fahrzeugalter mix-up from earlier the same day): don't
+staple a pedagogical caveat onto every slide that mentions correlation — check whether
+it's actually true for THIS specific dataset before repeating a lesson from elsewhere.**
+
+**Student-review follow-up (3 fixes, one involving new visual asset creation):**
+(1) NumPy slide gained one clause explicitly naming the NumPy→Pandas relationship
+("NumPy liefert die Geschwindigkeit — Pandas baut darauf auf") since reviewer found
+the two libraries felt like disconnected name-drops without it, (2) Pandas Series
+slide's code comment was changed from a vague "alle drei auf einmal" to the actual
+printed output values (`7433.33 1250.0 15000.0`) so the "identical to your hand
+calculation" claim is verifiable, not just asserted, (3) the Matplotlib slide's
+**biggest gap** — a "Sichtbar machen" (visualization) slide with no actual
+visualization, just code claiming a plot would look a certain way — was fixed by
+generating a real SVG scatter plot via the `diagram-generator` agent (reading the
+theme's actual primary color from `theme-fom/styles/layouts.css` rather than
+guessing), converting the slide from `layout: default` to `layout: header-cols`
+(code left, chart right), and embedding it via `<img>` per the existing
+`fahreralter_ushap.svg` convention. Deliberately did **not** apply reviewer's fourth
+suggestion (a DataFrame preview table on the `.corr()` slide) since that slide had
+just been trimmed to fix an overflow — re-adding content there would have undone the
+fix.
+
+**§11 Python-Vertiefung block — COMPLETE.** 29 slides across 11a (10) + 11b (6) +
+11c (3) + 11d (5) + 11e (6), spanning from "Statistik in Python" through OOP to
+professional libraries, closing with an explicit bridge to Supervised ML. Every
+sub-cluster went through the full research→author→visual-QA→student-review loop, and
+every cluster needed at least one visual-QA fix round — the recurring
+`<LiteraturSource>`-is-`position:absolute` blind spot (first logged §9f, reinforced
+§11g/h/i/j/k) held true across all five. Remaining open gap unchanged: the
+Jupyter/Docker/Kubernetes/GitHub/CRISP-DM-Detail tooling chapter (§11 intro note) is
+still unscheduled — a separate decision, not part of this arc.
+
+**Post-approval user design-review (2026-08-17, same day) — 3 more slide-level fixes
+after the loop closed:**
+1. "Matplotlib — Sichtbar machen" title was too vague (visible *what*?) — renamed to
+   "Matplotlib — Korrelation sichtbar machen", tying the title to what the slide
+   actually demonstrates.
+2. "Scikit-Learn — Ausblick & Gesamtsynthese" was doing two unrelated jobs on one
+   slide (a one-sentence library teaser AND the entire §11-block recap/bridge) and
+   used the disliked "Synthese" meta-label (same objection as the "Kopier-Falle"
+   rename earlier the same day). **Split into two slides**: "Scikit-Learn — ein
+   Ausblick" (just the teaser) and "Was Du jetzt kannst" (the recap + bridge to
+   Train/Val-Split, no meta-label in the title). §11e is now **6 slides**, §11 total
+   **30 slides**.
+
+**Lesson (3rd occurrence of the same pattern in one day, see also §11g's Kovarianz
+fix and the "Kopier-Falle"/"Die Kopier-Falle" rename): process-role words in slide
+titles — "Synthese", "Anwendung + Synthese", vague verbs like "Sichtbar machen"
+without an object — consistently read as unclear or off-putting to the user. Default
+to content-descriptive titles from the start; don't wait for a design-review pass to
+catch this category of issue.**
+
+**Next up:** Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg
+Supervised ML (outside §11, resumes the main prerequisite chain from §3).
+
+**Next up:** 11c — Funktionen.
+
+**Next up:** 11b — Kontrollstrukturen (if/elif/else, Schleifen).

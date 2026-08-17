@@ -1,8 +1,8 @@
 ---
 name: edu-research
 description: Conducts academically rigorous, verified educational research across all topics of the AI & Business Intelligence lecture, returning sources ready for the <LiteraturSource /> component.
-model: claude-haiku-4-5-20251001
-tools: all
+model: haiku
+tools: Read, Glob, Grep, WebFetch, WebSearch
 settings:
   temperature: 0.2
   color: blue
