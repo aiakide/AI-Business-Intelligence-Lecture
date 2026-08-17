@@ -1,8 +1,8 @@
 ---
 name: slide-visual-reviewer
 description: Renders every slide of the Slidev deck headlessly, screenshots each one, and reports per-slide readability problems (overflow, clipping, bad wrapping, density). Read-only visual QA — produces feedback, never edits slides.md.
-model: claude-haiku-4-5-20251001
-tools: all
+model: sonnet
+tools: Bash, Read, Glob, Grep, BashOutput, KillShell
 settings:
   temperature: 0.2
   color: orange

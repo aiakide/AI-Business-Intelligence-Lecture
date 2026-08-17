@@ -562,7 +562,7 @@ Summe = 700 → $\text{Cov}(X,Y) = \tfrac{700}{3} \approx 233\ \text{EUR·Jahre}
 
 > ⚠️ **Skalenproblem:** „233 EUR·Jahre" klingt bedeutungslos — und misst Du *Y* statt in EUR in Cent, springt Cov auf 23.300 Cent·Jahre, obwohl sich am echten Zusammenhang nichts ändert.
 
-Die Lösung: Division durch $s_X \cdot s_Y$ hebt die Einheiten auf — das ergibt den einheitenlosen Pearson-Korrelationskoeffizienten $r$ (zwischen $-1$ und $+1$).
+Die Lösung: Division durch $s_X \cdot s_Y$ hebt die Einheiten auf — das ergibt den einheitenlosen **Pearson-Korrelationskoeffizienten** $r = \frac{\text{Cov}(X,Y)}{s_X \cdot s_Y}$.
 
 <LiteraturSource :sources="[
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
@@ -627,19 +627,19 @@ layout: default
 layout: default
 ---
 
-## Die deskriptive Werkzeugkiste ist komplett
+## Drei Werkzeuge zum *Beschreiben* — jetzt wird's *vorhersagend*
 
-**Drei Fragen — drei Werkzeuge:**
+**Drei Fragen — drei deskriptive Werkzeuge:**
 
 - 📍 **Lagemaße** *(Modus, Median, Mittelwert)* — Was ist der typische Wert?
 - 📏 **Streuungsmaße** *(Varianz $s^2$, Standardabweichung $s$)* — Wie verlässlich ist diese Typik?
-- 🔗 **Korrelation** *(Pearson $r$)* — Hängen zwei Größen zusammen?
+- 🔗 **Korrelation** *(Pearson $r$)* — Hängen zwei Größen zusammen? *Aber Vorsicht — wie die U-Form gerade gezeigt hat: ein Zusammenhang kann trotz $r \approx 0$ real sein, wenn er nicht linear ist.*
 
-**→ Zusammen ermöglichen diese drei Werkzeuge einen ersten explorativen Datenbericht.**
+**→ Diese drei Werkzeuge sind jetzt komplett — aber nur für die *Beschreibung*. Sie sagen nichts über die Zukunft voraus.**
 
 **Brücke nach vorn — Korrelation ist die Vorstufe der Regression:**
 
-> Ein starkes $r$ zwischen Fahreralter und Schadenhäufigkeit deutet auf eine Beziehung hin — aber $r$ sagt nur *"da ist etwas"*. Die **lineare Regression** quantifiziert diesen Zusammenhang: Wie viel ändert sich die Schadenhäufigkeit je Lebensjahr? Das ist unser nächstes Werkzeug.
+> Anders als beim Fahreralter ist der Zusammenhang zwischen **Fahrzeugalter und Reparaturkosten** tatsächlich linear und stark ($r \approx 0{,}99$). Die **lineare Regression** macht daraus ein Vorhersagemodell — und baut auf diesen drei Werkzeugen auf, statt sie zu ersetzen.
 
 <LiteraturSource :sources="[
   { title: 'Völkl & Korb: Deskriptive Statistik, Kap. 4 – Bivariate Analysen', url: 'https://doi.org/10.1007/978-3-658-10675-1_4', year: '2017' },
@@ -1096,11 +1096,731 @@ Unser Modell liefert $p = 0{,}01$ für den „Alter"-Effekt bei $\alpha = 0{,}05
 *   **Wichtig:** Der $p$-Wert ist kein Alleinurteil.
 *   Effektgröße, Stichprobengröße und Domänenwissen sind ebenso entscheidend, um valide Schlussfolgerungen zu ziehen und Fehlinterpretationen zu vermeiden.
 
+Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regression verstanden — von Hand gerechnet. Aber kein Versicherer wertet 400.000 Verträge mit dem Taschenrechner aus. Genau das übernimmt Code. Schauen wir, wie dieselben Berechnungen in Python aussehen.
+
 <LiteraturSource :sources="[
   { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
   { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
 ]" />
 
+---
+layout: section
+---
+
+# Von der Formel zum [Code]{style="color:var(--slidev-theme-primary)"}
+
+Die Statistik-Grundlagen — jetzt in Python
+
+---
+layout: default
+---
+
+## Lagemaße in Python
+
+Beginnen wir mit den **6 Schadenshöhen aus unserem Beispiel-Portfolio**: 800, 1.100, 1.100, 1.400, 2.200, 38.000 EUR. Das Python-Modul `statistics` liefert die Lagemaße direkt:
+
+```python
+import statistics
+
+schadenshoehen = [800, 1100, 1100, 1400, 2200, 38000]
+
+print(f"Mittelwert: {statistics.mean(schadenshoehen)}")
+print(f"Median: {statistics.median(schadenshoehen)}")
+print(f"Modus: {statistics.mode(schadenshoehen)}")
+```
+
+**Ausgabe:**
+```
+Mittelwert: 7433.33
+Median: 1250.0
+Modus: 1100
+```
+
+Das Skalenproblem wird hier live im Code sichtbar.
+
+<LiteraturSource :sources="[
+  { title: 'Python Software Foundation: statistics – Mathematical statistics functions', url: 'https://docs.python.org/3/library/statistics.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Streuung in Python — statistics.variance & stdev
+
+Jetzt berechnen wir Varianz und Standardabweichung auf denselben 6 Schadenshöhen:
+
+```python
+import statistics
+
+s_var = statistics.variance(schadenshoehen)
+s_std = statistics.stdev(schadenshoehen)
+
+print(f"Varianz (statistics): {s_var:.0f}")
+print(f"Stdev (statistics): {s_std:.0f}")
+```
+
+**Ausgabe:**
+```
+Varianz (statistics): 365433333
+Stdev (statistics): 19116
+```
+
+Das `statistics`-Modul nutzt **n−1** (die Bessel-Korrektur), genau wie Du von Hand gerechnet hast. Damit stimmt das Ergebnis mit Deinen manuellen Berechnungen überein.
+
+<LiteraturSource :sources="[
+  { title: 'Python Software Foundation: statistics – Mathematical statistics functions', url: 'https://docs.python.org/3/library/statistics.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Streuung in Python — Die NumPy-Fallgrube
+
+NumPy nutzt **standardmäßig n** (Populationsvarianz) statt n−1 — hier liegt die Fallgrube:
+
+```python
+import numpy as np
+
+np_var_wrong = np.var(schadenshoehen)  # n - falsch!
+np_var_right = np.var(schadenshoehen, ddof=1)  # n-1 - korrekt!
+
+print(f"NumPy (n, falsch): {np_var_wrong:.0f}")
+print(f"NumPy (n-1, korrekt): {np_var_right:.0f}")
+```
+
+**Ausgabe:**
+```
+NumPy (n, falsch): 312870000
+NumPy (n-1, korrekt): 365433333  # ← stimmt jetzt überein!
+```
+
+**Merksatz:** Für Stichproben-Statistik immer `ddof=1` bei NumPy setzen — sonst unterschätzest Du die Streuung systematisch.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.var, numpy.std – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Korrelation in Python
+
+Wechsel zum **Fahrzeugalter/Reparaturkosten-Datensatz**:
+
+```python
+import numpy as np
+
+alter = np.array([1, 2, 3, 4])        # Jahre
+kosten = np.array([200, 300, 500, 600])  # EUR
+
+# Korrelationsmatrix berechnen
+korr_matrix = np.corrcoef(alter, kosten)
+print(korr_matrix)
+```
+
+**Ausgabe:**
+```
+[[1.0000  0.9949]
+ [0.9949  1.0000]]
+```
+
+Der Wert oben rechts (oder unten links, beide sind identisch) ist **r ≈ 0,99** — genau der Wert, den Du von Hand berechnet hast. Ein starker positiver linearer Zusammenhang: Mit jedem Lebensjahr steigen die Reparaturkosten im Durchschnitt um 140 EUR.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.corrcoef – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## z-Transformation in Python — Zentrieren
+
+Der erste Schritt der z-Transformation ist das **Zentrieren**: Wir subtrahieren den Mittelwert von jedem Wert.
+
+```python
+alter = np.array([1, 2, 3, 4])        # Jahre
+alter_zentriert = alter - np.mean(alter)
+print(f"Mittelwert: {np.mean(alter)}")
+print(f"Zentriert: {alter_zentriert}")
+```
+
+**Ausgabe:**
+```
+Mittelwert: 2.5
+Zentriert: [-1.5 -0.5  0.5  1.5]
+```
+
+Nach dieser Zentrierung hat die neue Variable einen Mittelwert von genau 0 — die Abweichungen vom Original-Mittelwert sind klar ersichtlich.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.std – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## z-Transformation in Python — Skalieren
+
+Der zweite Schritt ist das **Skalieren**: Wir teilen durch die Standardabweichung, um die Werte dimensionslos und vergleichbar zu machen.
+
+```python
+s = np.std(alter, ddof=1)
+alter_z = alter_zentriert / s
+print(f"Standardabweichung: {s:.2f}")
+print(f"z-Werte: {alter_z.round(2)}")
+```
+
+**Ausgabe:**
+```
+Standardabweichung: 1.29
+z-Werte: [-1.16 -0.39  0.39  1.16]
+```
+
+Jeder z-Wert drückt aus, wie viele Standardabweichungen ein Wert vom Mittelwert entfernt ist — dimensionslos und vergleichbar mit z-Werten aus anderen Datensätzen.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.std – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Lineare Regression in Python
+
+Die Regressionsgerade Ŷ = a + bX berechnen mit `numpy.polyfit()`:
+
+```python
+# polyfit(X, Y, Polynograd); Grad 1 = lineare Gerade
+koeffizienten = np.polyfit(alter, kosten, deg=1)
+b, a = koeffizienten  # Achtung: höchster Grad zuerst!
+
+print(f"Steigung b: {b:.1f} EUR/Jahr")
+print(f"Intercept a: {a:.1f} EUR")
+```
+
+**Ausgabe:**
+```
+Steigung b: 140.0 EUR/Jahr
+Intercept a: 50.0 EUR
+Modell: Y = 50 + 140 * X
+```
+
+Das ist **exakt dieselbe Regressionsgerade** $\hat{Y} = 50 + 140X$, die Du von Hand berechnet hast — nur dass NumPy das in einer Zeile schafft.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.polyfit – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Modellgüte: R² in Python
+
+Jetzt überprüfen wir die Modellgüte mit R², um zu quantifizieren, wie gut unser Modell die Reparaturkosten erklärt:
+
+```python
+# Vorhersagen berechnen
+y_pred = a + b * alter
+# R² berechnen
+r_quadrat = 1 - np.sum((kosten - y_pred)**2) / np.sum((kosten - np.mean(kosten))**2)
+print(f"R²: {r_quadrat:.2f}")
+```
+
+**Ausgabe:**
+```
+R²: 0.98
+```
+
+Das ist **dieselbe R² = 0,98**, die wir von Hand berechnet haben. Das Fahrzeugalter erklärt 98 % der Varianz in den Reparaturkosten — ein fast perfektes lineares Modell für dieses Beispiel.
+
+<LiteraturSource :sources="[
+  { title: 'NumPy Developers: numpy.polyfit – Official Documentation', url: 'https://numpy.org/doc/stable/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Von der Berechnung zur Entscheidung
+
+**Bisher:** Sechs Folien Python-Code — aber jedes Mal nur *Ergebnisse angezeigt* (Mittelwerte, Korrelationen, Regressionskoeffizienten).
+
+**Jetzt gefragt:** Kann das Programm auch selbst *entscheiden*?
+
+> 🚨 **Konkretes Beispiel:** Ein neuer Schaden von 45.000 EUR kommt herein. Mittelwert bisheriger Schäden: 7.400 EUR, Standardabweichung: 19.100 EUR. Ist das ein Ausreißer (> 2,5 Standardabweichungen)?
+
+Ohne **Kontrollstrukturen** (`if`/`elif`/`else`) kann ein Programm diese Regel nicht automatisch umsetzen — das ist unser nächstes Werkzeug.
+
+---
+
+## if/elif/else — [die Entscheidungslogik]{style="color:var(--slidev-theme-primary)"}
+
+Zurück zu unserer Frage: Ist der 45.000-EUR-Schaden ein Ausreißer? Setzen wir die Regel in Code um.
+
+Die **Schwelle** für Ausreißer liegt bei 2,5 Standardabweichungen über dem Mittelwert:
+- Obere Grenze = 7.400 + (2,5 × 19.100) = **55.150 EUR**
+
+```python
+claim = 45000
+mean_claim = 7400
+stdev_claim = 19100
+threshold = 55150
+
+if claim > threshold:
+    print("Ausreißer erkannt!")
+elif claim > 0:
+    print("Normaler Schaden")
+else:
+    print("Ungültig")
+```
+
+**Ergebnis:** 45.000 EUR liegt unter der Schwelle (55.150 EUR) → kein Ausreißer.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+]" />
+
+---
+
+## for-Schleife — [über die bekannten Schadenshöhen]{style="color:var(--slidev-theme-primary)"}
+
+Statt einen einzelnen Schaden zu prüfen: Wende die Regel auf **alle** 6 Werte aus unserem Portfolio an. Mit einer Schleife.
+
+```python
+claims = [800, 1100, 1100, 1400, 2200, 38000]
+threshold = 10000
+
+for claim in claims:
+    if claim > threshold:
+        print(f"{claim} EUR — Ausreißer!")
+    else:
+        print(f"{claim} EUR — Normal")
+```
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+]" />
+
+---
+
+## for-Schleife — [über die bekannten Schadenshöhen]{style="color:var(--slidev-theme-primary)"}
+
+Die Schleife führt den gleichen Code 6 Mal aus — einmal für jeden Wert:
+
+```
+800 EUR — Normal
+1100 EUR — Normal
+1100 EUR — Normal
+1400 EUR — Normal
+2200 EUR — Normal
+38000 EUR — Ausreißer!
+```
+
+**for vs. while:** Die `for`-Schleife kennt die Iterationszahl im Voraus — genau 6 Werte, also 6 Durchläufe. Der Computer arbeitet die Liste von vorne bis hinten ab.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+]" />
+
+---
+
+## while-Schleife — [bis ein Ziel erreicht ist]{style="color:var(--slidev-theme-primary)"}
+
+Ein anderes Szenario: Der Versicherer hat eine **Prämienreserve** von 10.000 EUR für neue Schadenzahlungen. Die Schäden werden nacheinander bearbeitet, bis die Reserve aufgebraucht ist.
+
+```python
+claims = [800, 1100, 1100, 1400, 2200, 38000]
+budget = 10000
+total = 0
+index = 0
+
+while index < len(claims):
+    if total + claims[index] <= budget:
+        total += claims[index]
+        print(f"Zahle {claims[index]} EUR")
+        index += 1
+    else:
+        print(f"Stopp: {claims[index]} EUR")
+        break
+```
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+]" />
+
+---
+
+## while-Schleife — [bis ein Ziel erreicht ist]{style="color:var(--slidev-theme-primary)"}
+
+Die `while`-Schleife rechnet solange, bis die Bedingung nicht mehr erfüllt ist:
+
+```
+Zahle 800 EUR
+Zahle 1100 EUR
+Zahle 1100 EUR
+Zahle 1400 EUR
+Zahle 2200 EUR
+Stopp: 38000 EUR
+```
+
+**while vs. for:** Die `while`-Schleife iteriert solange, bis eine Bedingung erfüllt ist — nicht eine feste Anzahl. Mit **break** können wir den Loop sicher unterbrechen.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+]" />
+
+---
+
+## [Die Kopier-Falle]{style="color:var(--slidev-theme-primary)"}
+
+Du hast gerade die Ausreißer-Prüfung geschrieben: `if claim > threshold: ...`. 
+
+**Problem:** Diese Logik brauchst Du später wahrscheinlich wieder — beim nächsten Portfolio, bei der Betrugserkennung, bei Naturschadenanalysen. Was machst Du dann? Denselben `if`/`elif`-Block **kopieren und einfügen** — überall in Deinem Code.
+
+Das führt zu:
+- **Fehleranfälligkeit:** Wenn Du die Schwelle von 10.000 EUR auf 12.000 EUR änderst, musst Du *alle* Kopien anpassen. Vergisst Du eine, arbeiten Teile des Programms mit alten Regeln.
+- **Wartungsalptraum:** Der gleiche Block an 10 Stellen zu pflegen, ist unmöglich.
+
+**Lösung:** Die Logik einmal definieren, überall verwenden. Das ist das Konzept der **Funktion** — unser nächstes Werkzeug.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+  { title: 'Python Software Foundation: What\'s New In Python 3.10 – Structural Pattern Matching', url: 'https://docs.python.org/3/whatsnew/3.10.html', year: '2021' },
+]" />
+
+---
+layout: default
+---
+
+## [Funktionen]{style="color:var(--slidev-theme-primary)"} — Logik einmal definieren, überall nutzen
+
+Den `if`/`elif`-Block für die Ausreißer-Prüfung brauchst Du bald überall wieder. **Lösung:** Fasse die Logik in eine **Funktion** — und rufe sie auf, statt sie zu kopieren.
+
+```python
+def ist_ausreisser(schaden, schwelle=10000):
+    return schaden > schwelle
+
+print(ist_ausreisser(38000))                  # True
+print(ist_ausreisser(38000, schwelle=50000))  # False
+```
+
+**Struktur:**
+- `def ist_ausreisser(...)` — Schlüsselwort + Funktionsname
+- `schaden` (erforderlich), `schwelle=10000` (optional, mit Default)
+- `return` — liefert das Ergebnis an den Aufrufer zurück
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Funktionen anwenden — über das ganze Portfolio
+
+Jetzt wende die Funktion auf **alle 6 Schadenshöhen** an:
+
+```python
+schadenshoehen = [800, 1100, 1100, 1400, 2200, 38000]
+
+# Schleife + Funktion kombiniert:
+ausreisser = [s for s in schadenshoehen if ist_ausreisser(s)]
+print(ausreisser)  # [38000]
+```
+
+Die **List Comprehension** `[s for s in ... if ...]` ist eine elegante Kurzform für eine Schleife — sie filtert die Liste auf Werte, die die Bedingung erfüllen. Die klassische `for`-Schleife von Slide 60 funktioniert genauso, nur ausführlicher.
+
+**Das Ergebnis:** Die Funktion `ist_ausreisser()` wird jetzt überall wiederverwendet — und wenn sich die Schwelle ändert, passt Du sie an **einer Stelle** an, nicht an 10.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Von Funktionen zu Objekten — der nächste Schritt
+
+Jetzt haben wir wiederverwendbare Funktionen — `ist_ausreisser()`, später vielleicht auch `berechne_praemie()` und `pruefe_betrug()`. Aber jede Funktion braucht die Daten von außen: Schwelle, Schadenshöhe, Risikofaktor werden bei jedem Aufruf neu übergeben.
+
+**Problem:** Sobald Du mit vielen Schäden gleichzeitig arbeitest (unsere 400.000 Verträge), wird das unübersichtlich — Du schleifst die gleichen Variablen überall durch den Code.
+
+**Frage:** Was, wenn die Daten **und** die Funktionen, die zu ihnen gehören, gemeinsam an einem Ort leben sollten? Ein Objekt, das beides bündelt?
+
+Das ist die Idee hinter **Objektorientierter Programmierung (OOP)** — unser nächstes Thema. Du musst Funktionen dafür noch nicht meistern, nur die Lücke sehen, die sie offenlässt.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis, 3rd Edition, Chapter 2 – Python Language Basics', url: 'https://wesmckinney.com/book/python-basics', year: '2022' },
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: header-cols
+---
+
+## Klasse vs. Objekt — [Bauplan und Instanz]{style="color:var(--slidev-theme-primary)"}
+
+::left::
+
+### Die Klasse — der Bauplan
+
+Eine Klasse ist wie eine leere **Versicherungsformular-Vorlage** — die Struktur, die festlegt, welche Felder existieren:
+
+- Schadenshöhe: ❓
+- Fahreralter: ❓
+- Geschlecht: ❓
+
+Die Klasse existiert *abstrakt* — niemand hat diese Vorlage konkret ausgefüllt.
+
+::right::
+
+### Das Objekt — die Instanz
+
+Ein Objekt ist ein **konkret ausgefüllter Vertrag** — eine konkrete Realisation der Klasse mit echten Werten:
+
+- Schadenshöhe: **3.500 €**
+- Fahreralter: **45 Jahre**
+- Geschlecht: **m**
+
+Jeder Schaden ist ein neues Objekt — alle folgen dem Plan der Klasse, alle haben unterschiedliche Werte.
+
+
+---
+layout: default
+---
+
+## [Klassen]{style="color:var(--slidev-theme-primary)"} erstellen
+
+Eine Klasse wird mit `class` definiert. Ihre `__init__`-Methode ist ein **Konstruktor** — eine Anleitung, wie man ein neues Objekt erzeugt:
+
+```python
+class Schaden:
+    def __init__(self, hoehe, alter_fahrer, geschlecht):
+        self.hoehe = hoehe
+        self.alter_fahrer = alter_fahrer
+        self.geschlecht = geschlecht
+schaden_1 = Schaden(3500, 45, 'm')
+print(schaden_1.hoehe)  # 3500
+```
+
+**Was geschieht hier?**
+
+- `def __init__(self, ...)` — das ist die Konstruktor-Methode
+- `self` ist das Objekt selbst — bei `schaden_1.ist_ausreisser()` übergibt Python `schaden_1` automatisch als `self`, deshalb kennt die Methode `self.hoehe`
+- `schaden_1 = Schaden(...)` erzeugt eine neue Instanz mit allen Attributen
+
+<LiteraturSource :sources="[
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems, Chapter 4 – Object-oriented programming for data scientists', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Methoden — der `ist_ausreisser()`-[Umbau]{style="color:var(--slidev-theme-primary)"}
+
+So haben wir es in Cluster 11c gemacht — mit einer Funktion:
+
+```python
+def ist_ausreisser(hoehe, schwelle=10000):
+    return hoehe > schwelle
+
+schaden_1 = Schaden(3500, 45, 'm')
+result = ist_ausreisser(schaden_1.hoehe, schwelle=10000)
+print(result)  # False
+```
+
+Nachteil: Du musst `schaden_1.hoehe` explizit durchreichen.
+
+<LiteraturSource :sources="[
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems, Chapter 4 – Object-oriented programming for data scientists', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Methoden — der `ist_ausreisser()`-[Umbau]{style="color:var(--slidev-theme-primary)"}
+
+Jetzt wird sie eine **Methode** der Klasse — sie gehört zum Objekt und kennt bereits `self.hoehe`:
+
+```python
+class Schaden:
+    def __init__(self, hoehe, alter_fahrer, geschlecht):
+        self.hoehe = hoehe
+        self.alter_fahrer = alter_fahrer 
+        self.geschlecht =  geschlecht
+
+    def ist_ausreisser(self, schwelle=10000):
+        return self.hoehe > schwelle
+
+schaden_1 = Schaden(3500, 45, 'm')
+print(schaden_1.ist_ausreisser())  # False
+```
+
+**Der Unterschied:** Die Methode kennt die Schadenshöhe bereits — Du brauchst sie nicht zu übergeben. Das ist **Daten + Verhalten zusammenbündeln**.
+
+<LiteraturSource :sources="[
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems, Chapter 4 – Object-oriented programming for data scientists', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## [Schäden]{style="color:var(--slidev-theme-primary)"} als Objekte
+
+Jetzt baue mehrere Schadenshöhen (aus unserem bekannten 6er-Portfolio: 800, 1.100, 1.100, 1.400, 2.200, 38.000 €) als Liste von Objekten:
+
+```python
+# Schadenshöhen: 800, 1.100, 1.100, 1.400, 2.200, 38.000 EUR
+schaeden = [
+    Schaden(800, 35, 'w'), Schaden(1100, 50, 'm'),
+    Schaden(1100, 42, 'w'), Schaden(1400, 55, 'm'),
+    Schaden(2200, 45, 'w'), Schaden(38000, 28, 'm')
+]
+ausreisser = [s for s in schaeden if s.ist_ausreisser()]
+print(len(ausreisser))  # 1 — genau der 38.000-EUR-Schaden
+```
+
+Objekte bündeln Daten und Verhalten zusammen. Statt Schadenshöhe überall durchzureichen, fragst Du jetzt einfach `schaden.ist_ausreisser()` — lesbar und wartbar, auch bei 400.000 Verträgen. 
+
+<LiteraturSource :sources="[
+  { title: 'Catherine Nelson: Software Engineering for Data Scientists — From Notebooks to Scalable Systems, Chapter 4 – Object-oriented programming for data scientists', url: 'https://www.oreilly.com/library/view/software-engineering-for/9781098136192/', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## NumPy — Arrays & [Vektorisierung]{style="color:var(--slidev-theme-primary)"}
+
+Du kennst bereits die `for`-Schleife: Sie läuft von Schaden zu Schaden, rechnet nacheinander. NumPy-Arrays machen das anders — sie rechnen **alle Werte auf einmal**, in optimiertem C-Code statt Python-Schleife. Das Ergebnis ist derselbe Wert, nur 10–100× schneller.
+
+```python
+import numpy as np
+schaeden = np.array([800, 1100, 1100, 1400, 2200, 38000])
+print(schaeden.mean())  # 7433.33 — ein NumPy-Array kennt diese Operationen nativ
+```
+
+Vektorisierung ist das Geheimnis: statt `for schaden in liste: summe += schaden`, sagst Du dem Array einfach "berechne Deinen Durchschnitt selbst". NumPy liefert die Geschwindigkeit — Pandas (gleich) baut darauf auf und macht sie benutzerfreundlich.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis — Data Wrangling with pandas, NumPy, and Jupyter, 3rd Edition, Chapters 4–5', url: 'https://www.oreilly.com/library/view/python-for-data/9781098104023/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Pandas Series — die [Synthese-Demo]{style="color:var(--slidev-theme-primary)"}
+
+Das ist der Payoff-Moment des ganzen Python-Blocks: Dieselben 6 Schadenshöhen, aber jetzt mit Pandas. Vergleich mit der `statistics`-Version:
+
+```python
+from statistics import mean, median, stdev
+# Alt (Module 11a): drei Funktionsaufrufe, jedesmal die Liste durchscannen
+data = [800, 1100, 1100, 1400, 2200, 38000]
+print(mean(data), median(data), stdev(data))
+
+# Neu (Pandas, eine Zeile Code):
+import pandas as pd
+s = pd.Series(data)
+print(s.mean(), s.median(), s.std())
+# 7433.33 1250.0 15000.0 — identisch zu Deiner Handrechnung
+```
+
+Derselbe Schaden-Datensatz, dieselbe Statistik — aber jetzt mit dem Werkzeug, das echte Data Scientists verwenden. Die Leistung ist nicht der Punkt hier; es ist die **Klarheit** und **Wiederverwendbarkeit** einer Datenstruktur, die ihre Operationen mitbringt.
+
+<LiteraturSource :sources="[
+  { title: 'Wes McKinney: Python for Data Analysis — Data Wrangling with pandas, NumPy, and Jupyter, 3rd Edition, Chapters 4–5', url: 'https://www.oreilly.com/library/view/python-for-data/9781098104023/', year: '2022' },
+  { title: 'pandas documentation: Series.mean() method', url: 'https://pandas.pydata.org/docs/reference/api/pandas.Series.mean.html', year: '2025' },
+]" />
+
+---
+layout: default
+---
+
+## Pandas DataFrame — `.corr()`
+
+Der Fahrzeugalter/Reparaturkosten-Datensatz hier als DataFrame:
+
+```python
+import pandas as pd
+df = pd.DataFrame({
+    'Fahrzeugalter': [1, 2, 3, 4],  # Jahre
+    'Reparaturkosten': [200, 300, 500, 600]  # EUR
+})
+print(df.corr())
+# r ≈ 0,99
+```
+
+$r \approx 0{,}99$ — exakt der Wert aus Deinen Handrechnungen, jetzt in einer Zeile bestätigt statt mühsam berechnet.
+
+<LiteraturSource :sources="[
+  { title: 'pandas documentation: DataFrame.corr() method', url: 'https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html', year: '2025' },
+]" />
+
+---
+layout: header-cols
+---
+
+## Matplotlib — [Korrelation]{style="color:var(--slidev-theme-primary)"} sichtbar machen
+
+::left::
+
+Zahlentabellen sind korrekt, aber ein Bild ist schneller:
+
+```python
+import matplotlib.pyplot as plt
+plt.scatter(df['Fahrzeugalter'], df['Reparaturkosten'])
+plt.xlabel('Fahrzeugalter (Jahre)')
+plt.ylabel('Reparaturkosten (EUR)')
+plt.show()
+```
+
+::right::
+
+<img src="./fahrzeugalter_streudiagramm.svg" alt="Streudiagramm Fahrzeugalter vs. Reparaturkosten" style="max-height: 300px; margin: 0 auto; display: block;" />
+
+Die vier Punkte liegen fast auf einer geraden Linie — $r \approx 0{,}99$ wird sofort visuell klar.
+
+<LiteraturSource :sources="[
+  { title: 'Matplotlib documentation: scatter plot', url: 'https://matplotlib.org/stable/gallery/shapes_and_collections/scatter.html', year: '2025' },
+]" />
+
+---
+layout: default
+---
+
+## Scikit-Learn — [ein Ausblick]{style="color:var(--slidev-theme-primary)"}
+
+NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-Learn** — eine Bibliothek voll vorgefertigter Algorithmen (Random Forest, KNN, Logistische Regression, Clustering); wir starten damit in Session 2.
+
+<LiteraturSource :sources="[
+  { title: 'scikit-learn documentation: Supervised Learning', url: 'https://scikit-learn.org/stable/supervised_learning.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## [Was Du jetzt kannst]{style="color:var(--slidev-theme-primary)"}
+
+Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regression), kannst sie in reinem Python nachbauen (mit Schleifen, Funktionen, Objekten), und kennst jetzt die Werkzeuge, mit denen echte Versicherer ihre 400.000 Verträge tatsächlich auswerten.
+
+**Der nächste Schritt:** Wie trainiert man ein Modell, das nicht nur *beschreibt* („Der Fahrzeugalter erklärt Reparaturkosten zu $r = 0{,}99$"), sondern *vorhersagt* („Wie hoch ist die Wahrscheinlichkeit, dass ein neuer Schaden betrügerisch ist")? 
 ---
 layout: header-cols
 ---

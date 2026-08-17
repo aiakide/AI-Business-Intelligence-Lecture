@@ -1,8 +1,8 @@
 ---
 name: diagram-generator
 description: Generates custom, high-quality SVG diagrams and visualizations that match the FOM design system, from flowcharts to architectural diagrams to data visualizations.
-model: claude-opus-5
-tools: all
+model: opus
+tools: Read, Write, Edit, Bash, Glob, Grep
 settings:
   temperature: 0.4
   color: cyan
