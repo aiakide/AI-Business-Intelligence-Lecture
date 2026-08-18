@@ -1115,6 +1115,89 @@ Die Statistik-Grundlagen — jetzt in Python
 layout: default
 ---
 
+## Variablen, Listen & `print()`
+
+Variablen sind wie **benannte Speicherkisten** für Deine Schadenswerte. Mit `=` weist Du einem Namen einen Wert zu:
+
+```python
+schadenshoehen = [800, 1100, 1100, 1400, 2200, 38000]
+
+print(f"Unsere Schadenshöhen: {schadenshoehen}")
+print(f"Anzahl der Schäden: {len(schadenshoehen)}")
+print(f"Gesamtsumme: {sum(schadenshoehen)} EUR")
+```
+
+**Ausgabe:**
+```
+Unsere Schadenshöhen: [800, 1100, 1100, 1400, 2200, 38000]
+Anzahl der Schäden: 6
+Gesamtsumme: 43600 EUR
+```
+
+Die `print()`-Funktion mit **f-Strings** (das `f` vor den Anführungszeichen) lässt Dich Variablen direkt in Text einbetten — und die Klammern `[]` erstellen eine **Liste**, die mehrere Werte speichert.
+
+<LiteraturSource :sources="[
+  { title: 'Python Software Foundation: The Python Tutorial — Section 3.2 (Numbers and Strings)', url: 'https://docs.python.org/3/tutorial/introduction.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Module & `import`
+
+Niemand schreibt jede Funktion selbst. **Module** sind Sammlungen von vorgefertigtem Code, die Du per `import` verfügbar machst:
+
+```python
+import statistics
+import numpy as np
+
+schadenshoehen = [800, 1100, 1100, 1400, 2200, 38000]
+
+print(statistics.mean(schadenshoehen))  # 7433.33
+print(np.mean(schadenshoehen))          # 7433.33
+```
+
+Es gibt zwei Quellen:
+- **Standard-Library** — mit Python installiert, z.B. `statistics`
+- **Third-Party-Pakete** — separat installiert, z.B. `numpy`
+
+Das `as np` ist eine **Alias-Konvention**: Du gibst dem Modul einen Kurznamen, um ihn später schneller zu tippen.
+
+<LiteraturSource :sources="[
+  { title: 'Python Software Foundation: The Python Tutorial — Section 6 (Modules)', url: 'https://docs.python.org/3/tutorial/modules.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Funktionsaufrufe lesen — [Punkt-Notation]{style="color:var(--slidev-theme-primary)"}
+
+Jede Zeile wie `statistics.mean(schadenshoehen)` folgt dem gleichen Muster: **Modul . Funktion ( Argument )**
+
+Das bedeutet: „Rufe die Funktion `mean` aus dem Modul `statistics` auf, und gib ihr die Liste `schadenshoehen` mit."
+
+Das Gleiche werden wir in Kürze sehen — diesmal mit allen drei Lagemaßen. 
+
+```python
+import statistics
+
+schadenshoehen = [800, 1100, 1100, 1400, 2200, 38000]
+
+print(f"Mittelwert: {statistics.mean(schadenshoehen)}")
+print(f"Median: {statistics.median(schadenshoehen)}")
+print(f"Modus: {statistics.mode(schadenshoehen)}")
+```
+
+<LiteraturSource :sources="[
+  { title: 'Python Software Foundation: The Python Tutorial — Section 7 (Input and Output)', url: 'https://docs.python.org/3/tutorial/inputoutput.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
 ## Lagemaße in Python
 
 Beginnen wir mit den **6 Schadenshöhen aus unserem Beispiel-Portfolio**: 800, 1.100, 1.100, 1.400, 2.200, 38.000 EUR. Das Python-Modul `statistics` liefert die Lagemaße direkt:
