@@ -156,7 +156,8 @@ a placeholder until exercises are designed.)*
 | 11c | Funktionen (`def`/Parameter/Default/`return`, Umbau des Ausreißer-Checks aus 11b in `ist_ausreisser(schaden, schwelle=10000)`, List-Comprehension-Vorschau, Brücke zu OOP) — 3 Slides | 2 | Versicherer (home base) | ✅ approved (1 visual-QA loop, 2 Nachbesserungsrunden für dieselbe Folie + 1 student-review follow-up) | 3 |
 | 11d | OOP (Klasse-vs-Objekt-Analogie, `class`/`__init__`, `self`-Bindung, Methoden — `ist_ausreisser()` aus 11c als Methode umgebaut, mehrere `Schaden`-Objekte + List-Comprehension, Brücke zu Pandas/11e) — 5 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up) | 3 |
 | 11e | 3rd-Party-Libraries (NumPy-Vektorisierung, Pandas Series als Synthese-Demo zu 11a, DataFrame `.corr()`, Matplotlib-Streudiagramm mit echtem SVG, Scikit-Learn-Ausblick als eigene schlanke Folie, Abschluss-Folie "Was Du jetzt kannst" mit Brücke zu Train/Val-Split) — 6 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up + 1 user design-review split) | 3 |
-| — | *(§11 Python-Vertiefung KOMPLETT — 30 Slides über 11a–11e (10+6+3+5+6). next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Supervised ML, außerhalb §11. Jupyter/Docker/K8s/GitHub/CRISP-DM-Detail-Gap weiterhin offen, siehe §11 Schlussnote)* | 2 | Versicherer | ⬜ next | — |
+| 11.0 | Python-Grundsyntax (Vorspann vor 11a, retrofitted 2026-08-18: Variablen/Listen/`print()`+f-Strings, Module & `import` — Standardbibliothek vs. Third-Party, Punkt-Notation `modul.funktion(argument)`, Full-Circle-Moment mit 11a's erstem Codeblock) — 3 Slides | 2 | Versicherer (home base) | ✅ approved (1 visual-QA loop + 1 student-review follow-up) | 2 |
+| — | *(§11 Python-Vertiefung KOMPLETT — 33 Slides über 11.0 + 11a–11e (3+10+6+3+5+6). next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Supervised ML, außerhalb §11. Jupyter/Docker/K8s/GitHub/CRISP-DM-Detail-Gap weiterhin offen, siehe §11 Schlussnote)* | 2 | Versicherer | ⬜ next | — |
 
 
 ---
@@ -757,6 +758,52 @@ one-code-block density limit).
 
 ---
 
+### 11.0 — Python-Grundsyntax (Vorspann, inserted 2026-08-18, retrofitted before 11a)
+
+**Trigger:** After 11a–11e were fully authored/approved, user noticed a real gap: 11a's
+very first slide ("Lagemaße in Python") already uses `import statistics`, list literals,
+`print()` with f-strings, and dot-notation function calls (`statistics.mean(...)`) — and
+11a's later slides use `import numpy as np` / `np.array(...)` — with **zero** prior
+explanation of what any of that syntax means. The formal "was ist ein Package"
+explanation doesn't land until 11e, four sub-clusters later. Not a reordering problem
+(moving 11e earlier would break the already-built 11d→11e "OOP primes you to understand
+DataFrames as objects" bridge) — a **missing-primer** problem. Fix: add a short syntax
+primer immediately before 11a, scoped *exactly* to what 11a's code actually uses — no
+more. Considered and rejected: moving all of 11e before 11b (breaks the OOP bridge);
+stripping NumPy out of 11a entirely (would lose the `ddof` statistics-vs-NumPy pitfall
+slide, one of 11a's strongest teaching moments — see §11g).
+
+**Naming note:** deliberately NOT relettered into the 11a–11e sequence (i.e. not "11a"
+with everything else shifting to 11b–11f) to avoid rewriting cross-references across
+§11g–§11k's already-approved outcome logs. Labeled "11.0" — sorts before 11a, no
+renumbering of shipped content.
+
+**Insertion point:** Immediately after the "Von der Formel zum Code" section-divider
+slide (the `layout: section` slide that opens the whole Python-Vertiefung block),
+before "Lagemaße in Python" (11a's first slide).
+
+**Scope (verified against every code block actually used in 11a — nothing beyond this):**
+1. **Variablen, Listen & `print()`** — assignment (`=`), a list literal
+   (`schadenshoehen = [800, 1100, ...]`), and `print()` including an f-string example
+   (`print(f"Mittelwert: {...}")`) — 11a's very first code block uses all three at once.
+2. **Module & `import`** — what a module/package is; standard library (`statistics`,
+   ships with Python) vs. third-party package (`numpy`, needs installing) — enough to
+   make `import statistics` / `import numpy as np` legible, not a packaging deep-dive
+   (no `pip install` mechanics, no virtual envs — out of scope, too advanced for this
+   audience at this point).
+3. **Funktionsaufrufe lesen — Punkt-Notation** — `modul.funktion(argument)` as a
+   pattern (`statistics.mean(schadenshoehen)`, `np.array([...])`) so the dot-syntax
+   itself isn't a mystery. Close with an explicit "jetzt kannst Du die 11a-Beispiele
+   lesen" bridge.
+
+**Estimated slides:** 3, `default` layout, ONE code block per slide (per the density
+lesson reinforced across every other §11 sub-cluster).
+
+**Continuity:** use Dataset A (6 Schadenshöhen) as the running example throughout, since
+that's exactly what 11a's first slides use — no new toy data.
+
+---
+
 ### 11a. Statistik-Grundlagen in Python
 
 **Layout:** mostly `default` (code + short prose reads best single-column); consider
@@ -1190,6 +1237,49 @@ titles — "Synthese", "Anwendung + Synthese", vague verbs like "Sichtbar machen
 without an object — consistently read as unclear or off-putting to the user. Default
 to content-descriptive titles from the start; don't wait for a design-review pass to
 catch this category of issue.**
+
+---
+
+### 11l. Outcome — Cluster 11.0 (2026-08-18) — ✅ Implemented, APPROVED — retrofitted prerequisite gap closed
+
+**Trigger:** After 11a–11e shipped, user noticed 11a's very first code block (`import
+statistics`, list literal, `print(f"...")`, `statistics.mean(...)`) used syntax that was
+never explained anywhere — the formal "what is a package" content didn't land until
+11e, four sub-clusters later. See §11.0's planning entry (above §11a) for the full
+trigger analysis and the two rejected alternatives (reordering 11e earlier; stripping
+NumPy out of 11a).
+
+Authored via the full loop (`edu-research` → `slidev-content-transformer` →
+`slide-visual-reviewer` → fix round → re-verify → `student-reviewer` → follow-up fix
+→ re-verify). Final result: **3 slides**, inserted between the "Von der Formel zum
+Code" section-divider and "Lagemaße in Python" (11a's first slide) — i.e. now the true
+start of the whole Python-Vertiefung arc. Covers: Variablen/Listen/`print()`+f-Strings
+→ Module & `import` (Standardbibliothek vs. Third-Party, explicitly NOT `pip install`/
+venvs) → Punkt-Notation (`modul.funktion(argument)`), closing with a deliberate
+**"full-circle" moment**: slide 3's code block is byte-identical to 11a's first code
+block, so the student sees the exact same lines twice — first as "here's the pattern,"
+then (on the very next slide, in 11a) as "here's what it computes."
+
+**Same footer-collision pattern once more:** slide 3 (Punkt-Notation) originally
+included its own full "Ausgabe:" output block — redundant, since 11a's next slide
+shows the identical code with its own output seconds later — and this pushed the
+slide 67px past the canvas into the credit line. Fixed by removing the duplicate
+Ausgabe block entirely (code-only is fine here; the output payoff is deliberately
+deferred one slide).
+
+**Student-review follow-up (1 fix):** reviewer flagged that removing the Ausgabe block
+left a validation gap — a true first-time-ever-seeing-code student has no way to
+confirm "did I read that dot-notation correctly?" before the next slide. Fixed by
+adding a single compact line with the output values in parentheses as a "Selbstcheck"
+hint (not a full re-added Ausgabe block, which would have reintroduced the overflow
+just fixed) — low-risk, one line, addresses the confidence gap without re-growing the
+slide.
+
+**§11 Python-Vertiefung block, final total: 33 slides** (11.0's 3 + 11a's 10 + 11b's 6
++ 11c's 3 + 11d's 5 + 11e's 6). Every sub-cluster — six now, including this
+retrofitted one — went through the full loop and needed at least one visual-QA fix
+round; the `<LiteraturSource>`-is-`position:absolute` footer-collision blind spot
+(§9f) held true in 100% of sub-clusters, no exceptions.
 
 **Next up:** Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg
 Supervised ML (outside §11, resumes the main prerequisite chain from §3).
