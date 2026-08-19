@@ -1906,6 +1906,33 @@ Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regressi
 **Der nächste Schritt:** Wie trainiert man ein Modell, das nicht nur *beschreibt* („Der Fahrzeugalter erklärt Reparaturkosten zu $r = 0{,}99$"), sondern *vorhersagt* („Wie hoch ist die Wahrscheinlichkeit, dass ein neuer Schaden betrügerisch ist")? 
 
 ---
+layout: section
+---
+
+# Professionelle Tools & Workflows
+
+---
+layout: default
+---
+
+## <img :src="'/logos/jupyter.svg'" class="inline-block h-9 align-middle mr-2" /> Jupyter Notebooks — Dein interaktives Notizbuch
+
+Wir haben bisher Python-Code geschrieben — Zeile für Zeile, in reiner Textdatei. Aber echte Data Scientists arbeiten nicht in einer `.py`-Datei alleine. Sie nutzen ein **interaktives Notizbuch**, in dem Code, Dokumentation und Visualisierungen zusammenleben.
+
+**Jupyter Notebook**: eine Arbeitsumgebung mit:
+- **Code-Zellen** — schreib Python, führe es aus, sehe das Ergebnis sofort
+- **Markdown-Zellen** — dokumentiere, erkläre, binde Formeln ein
+- **Visualisierungen** — Grafiken direkt inline, kein extra Fenster
+
+Der Name "Jupyter" steht für **Julia + Python + R** — die drei beliebtesten Sprachen der Datenwissenschaft. Open Source, von Millionen genutzt.
+
+**In der Praxis:** In der folgenden Übung nutzt Du **Google Colab** — Jupyter Notebooks direkt im Browser, ohne lokale Installation. Google stellt die Umgebung bereit, Du klickst auf "Ausführen".
+
+<LiteraturSource :sources="[
+  { title: 'Python Data Science Handbook', url: 'https://jakevdp.github.io/PythonDataScienceHandbook/', year: '2016' }
+]" />
+
+---
 layout: header-cols
 ---
 
@@ -1913,7 +1940,7 @@ layout: header-cols
 
 ::left::
 
-Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks vertiefen genau diesen Block — mit lauffähigem Demo-Code und Übungszellen zum Selbst-Lösen.
+Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks in Google Colab vertiefen genau diesen Block — mit lauffähigem Demo-Code und Übungszellen zum Selbst-Lösen.
 
 1. Python-Grundsyntax
 2. Statistik in Python
@@ -1922,11 +1949,171 @@ Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks vertiefen genau diesen Bloc
 5. Objektorientierte Programmierung
 6. NumPy, Pandas & Matplotlib
 
-> 🎯 **Dein Auftrag:** Notebooks öffnen, Demo-Zellen ausführen, 🎯-Übungen selbst lösen.
+> 🎯 **Dein Auftrag:** Notebooks in Colab öffnen, Demo-Zellen ausführen, 🎯-Übungen selbst lösen.
 
 ::right::
 
 <Illustration src="/illustrations/coding-bro.svg" alt="Python-Übung" width="90%" />
+
+---
+layout: default
+---
+
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Gleiche Umgebung überall
+
+In Google Colab übernimmt Google die Umgebung für Dich. Ein Data-Science-Team im Unternehmen hat dieses Privileg nicht: verschiedene Rechner, verschiedene Python-Versionen, ein Produktionsserver mit wieder anderen. Derselbe Code funktioniert plötzlich nicht mehr überall gleich.
+
+**Docker löst genau dieses Problem:** Es packt Deinen Code *und alle seine Abhängigkeiten* in eine Box — das ist ein **Container**. Diese Box läuft überall identisch, weil sie alles Nötige mitbringt.
+
+**Die Konzepte:**
+- **Docker-Image** = das "Rezept" (Blaupause): "Nimm Python 3.11, installiere pandas 2.0 und scikit-learn 1.3, kopiere meinen Code rein"
+- **Running Container** = eine Kopie des Rezepts, gerade am Laufen. Du kannst 10 Kopien gleichzeitig starten
+
+**Im Versicherer-Fall:** Dein Betrugserkennung-Modell als Docker-Image — jeder, der es ausführt, bekommt exakt das gleiche Resultat, ob 400.000 Schäden pro Minute oder 100 pro Tag.
+
+<LiteraturSource :sources="[
+  { title: 'Docker for Data Science', url: 'https://www.amazon.com/Docker-Data-Science-Extensible-Infrastructure/dp/1484230116', year: '2017' }
+]" />
+
+---
+layout: default
+---
+
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Automatische Orchestrierung
+
+Dein Docker-Container läuft. Jetzt: Der Code crasht — automatisch einen neuen Container starten. Zu viele Anfragen — automatisch mehr starten. Traffic sinkt — automatisch abfahren. Kein Team könnte das von Hand machen, 24/7.
+
+**Kubernetes** ist ein Orchestrierungssystem für Docker-Container. Du sagst: *"Ich möchte 5 Replicas meines Modells laufen haben."* Kubernetes startet 5 Container. Einer crasht — Kubernetes startet einen neuen. Traffic steigt — Kubernetes startet automatisch mehr.
+
+**Das Wichtigste:** Du beschreibst, *was* Du brauchst ("5 Replicas"), nicht *wie* das System es umsetzen soll — Kubernetes übernimmt den Rest. Das nennt man **deklarativ**.
+
+**Im Versicherer-Fall:** Dein Fahrzeugschadenmodell hat 99 % Genauigkeit. Unwetter im Norden bringt 10× mehr Anfragen — Kubernetes erkennt die lange Warteschlange und startet automatisch 50 neue Replicas. Danach fährt es sie wieder herunter. Alles ohne menschliches Zutun. Bei einem kleineren Bestand sind es vielleicht 3 statt 50 — das Prinzip bleibt gleich.
+
+<LiteraturSource :sources="[
+  { title: 'Designing Machine Learning Systems', url: 'https://www.oreilly.com/library/view/designing-machine-learning-systems/9781098107963/', year: '2022' }
+]" />
+
+---
+layout: default
+---
+
+## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Versionskontrolle
+
+Alle diese Container, alle diese Konfigurationen — wer verwaltet das? Wie stellt man sicher, dass nicht versehentlich eine alte Version deployed wird?
+
+Der Data Scientist schreibt den Klassifikationscode. Der DevOps-Engineer schreibt die Kubernetes-Konfiguration. Die Datenbeschafferin ändert die Datenquelle. Ohne zentrale Verwaltung: Chaos.
+
+**Git** ist ein Versionskontrollsystem — es speichert *jede* Änderung an Deinen Dateien:
+- Wer hat es geändert?
+- Wann?
+- Warum? (die Commit-Message)
+
+Du kannst auf frühere Versionen zurückgehen, "Branches" (parallele Versionen) erstellen, um Features zu testen, und sie später mit `merge` zusammenführen.
+
+Aber wo lebt dieses Repository, und wie arbeitet ein ganzes Team gemeinsam daran?
+
+---
+layout: default
+---
+
+## <img :src="'/logos/github.svg'" class="inline-block h-9 align-middle mr-2" /> GitHub — Zusammenarbeit im Team
+
+**GitHub** ist der Server, auf dem Dein Git-Repository lebt — plus ein Web-Interface und Features wie **Pull Requests**: *"Ich habe diese Änderung gemacht, bitte review sie, bevor ich sie in `main` merge."*
+
+**Im Versicherer-Team:** Entwickler A fixt einen Bug im Datenimport auf Branch `fix/raw-data-encoding`. Entwickler B schreibt parallele Tests auf `feature/automated-validation`. Ein Reviewer approved beide, merged sie in `main` — Production lädt automatisch die neue Version.
+
+**Audit Trail:** Jede Änderung ist nachvollziehbar. Das ist entscheidend in der Versicherung.
+
+Alle diese Werkzeuge — Jupyter, Docker, Kubernetes, GitHub — sind Mittel zu einem Zweck. Der Zweck ist ein **Prozess**.
+
+<LiteraturSource :sources="[
+  { title: 'Data Science: A First Introduction, Ch. 12 — Collaboration with Version Control', url: 'https://datasciencebook.ca/version-control.html', year: '2024' }
+]" />
+
+---
+layout: default
+---
+
+## CRISP-DM — Die 6 Phasen
+
+Wir haben jetzt mehrere Sessions lang Statistik und Code gelernt. Aber in welcher *Reihenfolge* wenden wir alle diese Werkzeuge an, um ein echtes Problem zu lösen? Gibt es einen Standard dafür?
+
+**CRISP-DM** *(Cross-Industry Standard Process for Data Mining)* ist das Framework, das genau das definiert. Es strukturiert Data-Mining-Projekte in **6 Phasen**:
+
+1. **Business Understanding** — Was ist das Problem? Warum ist es wichtig?
+2. **Data Understanding** — Welche Daten habe ich? Wie verteilen sie sich? Wo sind Lücken?
+3. **Data Preparation** — Bereinigung, Transformation, Feature Engineering
+4. **Modeling** — Algorithmusauswahl, Training
+5. **Evaluation** — Validierung, Metriken, Überprüfung
+6. **Deployment** — das Modell geht live: Model Serving, Monitoring, Retraining-Trigger — genau das, wofür wir gerade Docker und Kubernetes kennengelernt haben
+
+<LiteraturSource :sources="[
+  { title: 'The CRISP-DM Model: The New Blueprint for Data Mining (Colin Shearer, Journal of Data Warehousing vol. 5)', url: 'https://www.scirp.org/reference/ReferencesPapers?ReferenceID=1592780', year: '2000' }
+]" />
+
+---
+layout: default
+---
+
+## CRISP-DM — Der Kreislauf
+
+CRISP-DM ist **zyklisch**, nicht linear:
+
+- Evaluation zeigt "das Modell ist nicht gut genug"? → zurück zu Data Preparation oder Modeling
+- Deployment zeigt Datendrift im Livebetrieb? → zurück zu Data Understanding
+- Neue Geschäftsanforderung? → zurück zu Business Understanding
+
+Das ist normal — das ist der Punkt. Kein Projekt läuft die 6 Phasen einmal durch und ist fertig.
+
+Es ist beruhigend zu wissen: wir folgen keinem willkürlichen Plan — wir folgen dem Standard, den die ganze Industrie nutzt.
+
+---
+layout: default
+---
+
+## CRISP-DM — Unser Weg (1/2)
+
+Wo genau stehen wir im CRISP-DM-Prozess gerade? Hier die ersten drei Phasen:
+
+| Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
+|---|---|---|
+| **Business Understanding** | Session 1 | *"Wir brauchen Betrugsdetection, Preismodelle, Kundengruppen"* |
+| **Data Understanding** | Session 1 | Stichprobe, Konfidenz, Lagemaße, Varianz, Korrelation |
+| **Data Preparation** | Sessions 2–8 | Transformation, Feature Selection, Outlier-Behandlung |
+
+---
+layout: default
+---
+
+## CRISP-DM — Unser Weg (2/2)
+
+Und die letzten drei Phasen:
+
+| Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
+|---|---|---|
+| **Modeling** | Sessions 2–6 | Regression, Random Forest, Clustering, Deep Learning |
+| **Evaluation** | Session 2 | Train/Val-Split, Metriken, Kreuzvalidierung |
+| **Deployment** | Heute + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
+
+Mit jedem neuen Algorithmus wenden wir diese Phasen an — manchmal in wenigen Minuten (ein schnelles Experiment), manchmal in Wochen (ein echtes Produktionsmodell). Aber die Struktur bleibt immer gleich.
+
+---
+layout: default
+---
+
+## Drei Ebenen, ein Prozess
+
+Es gibt drei Ebenen, auf denen Du arbeitest, und über all dem liegt ein Prozess, den wir ab jetzt bei jedem Algorithmus wieder anwenden:
+
+**Ebene 1: Code** (Python) — wie schreibe ich Statistik und Machine Learning in Code  
+**Ebene 2: Infrastruktur** (Jupyter, Docker, Kubernetes) — wo und wie läuft dieser Code, und wie skaliert es  
+**Ebene 3: Zusammenarbeit** (GitHub) — wie arbeiten Teams zusammen, ohne sich zu blockieren
+
+**Ebene 0: Prozess** (CRISP-DM) — in welcher Reihenfolge wenden wir alles an, um ein echtes Problem zu lösen
+
+Mit diesen Werkzeugen kannst Du Daten analysieren *und dafür sorgen, dass Deine Analyse in der echten Welt funktioniert* — zuverlässig, skalierbar, und als Team.
+
+Jetzt lernen wir den nächsten Schritt: wie man ein Modell baut, das nicht nur *beschreibt*, sondern *vorhersagt*. Das ist Supervised Learning. Und es beginnt mit einer fundamentalen Frage: **Wie teile ich meine Daten, um ein verlässliches Vorhersagemodell zu trainieren?** Das ist der Train/Validation-Split — der Schlüssel zu allem, was folgt.
 
 ---
 layout: header-cols

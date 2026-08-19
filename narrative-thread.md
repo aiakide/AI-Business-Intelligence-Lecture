@@ -1281,9 +1281,79 @@ retrofitted one — went through the full loop and needed at least one visual-QA
 round; the `<LiteraturSource>`-is-`position:absolute` footer-collision blind spot
 (§9f) held true in 100% of sub-clusters, no exceptions.
 
-**Next up:** Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg
-Supervised ML (outside §11, resumes the main prerequisite chain from §3).
+**Next up:** Tooling chapter (§12) — scheduled immediately after Python-Vertiefung exercise, before Supervised ML.
 
-**Next up:** 11c — Funktionen.
+**Next up (after Tooling):** Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Supervised ML (outside §11, resumes the main prerequisite chain from §3).
 
-**Next up:** 11b — Kontrollstrukturen (if/elif/else, Schleifen).
+---
+
+## 12. Cluster — Tooling & Professional Workflows (planned 2026-08-19)
+
+**Status:** ✅ Authored, QA'd, uncommitted (2026-08-19) — 12 content slides in `slides.md`. Visual QA (`slide-visual-reviewer`) and student-perspective QA (`student-reviewer`) both run; overflow findings from the first visual pass fixed and re-verified clean.
+
+**Placement correction (2026-08-19):** Split across the exercise instead of grouped entirely after it. Jupyter Notebooks now sits *before* the Python-Vertiefung exercise (students need to know what a notebook is before opening one), the exercise stays in place, and Docker/Kubernetes/Git/GitHub/CRISP-DM (4 slides)/Synthesis follow *after* the exercise. Final order: Section divider "Professionelle Tools & Workflows" → Jupyter Notebooks → Exercise (Python-Vertiefung) → Docker → Kubernetes → Git — Versionskontrolle → GitHub — Zusammenarbeit im Team → CRISP-DM — Die 6 Phasen → CRISP-DM — Der Kreislauf → CRISP-DM — Unser Weg (1/2) → CRISP-DM — Unser Weg (2/2) → Synthesis ("Drei Ebenen, ein Prozess"). Bridge sentences at every seam were rewritten to match.
+
+**QA round 1 findings (visual):** Docker, GitHub, CRISP-DM Overview, and the CRISP-DM Mapping table all overflowed the canvas (up to 34% on the table) and collided with the `<LiteraturSource>` footer — the known blind spot held true again. Kubernetes was borderline (exactly at the pixel ceiling).
+
+**QA round 1 findings (student):** Flow judged pedagogically sound (Jupyter-before-exercise correct, bridges natural). Gaps: `[kommende Sessions]` in the mapping table too vague for paying professionals; exercise slide doesn't say where the notebooks live; "deklarativ" introduced without scaffolding; enterprise-scale examples (400k Schäden/Minute) may feel remote for SME-focused consultants; CRISP-DM Overview doing double duty (phases + cyclicity).
+
+**Fixes applied (2026-08-19):** Docker trimmed and merged closing paragraphs (also folds in an SME-scaling note). Kubernetes reframed "deklarativ" to lead with the plain-language explanation; its closing bridge paragraph moved to open the new Git slide. GitHub split into "Git — Versionskontrolle" + "GitHub — Zusammenarbeit im Team". CRISP-DM Overview split into "Die 6 Phasen" + "Der Kreislauf" (cyclicity now has room for concrete loop-back examples). Mapping table split into "Unser Weg (1/2)" + "(2/2)", 3 rows each, `[kommende Sessions]` replaced with concrete session ranges. Re-verified clean by a second visual QA pass — 0 overflow, 0 clipping across all 12 slides.
+
+**Known follow-up (not fixed):** the exercise slide references "sechs Jupyter Notebooks in Google Colab" but no `.ipynb` files exist in the repo yet and there's no actual Colab link — didn't fabricate one. See TODO.md.
+
+**Correction (2026-08-19/20, from user):** notebooks run in **Google Colab**, not locally. Rewrote the Jupyter slide (mentions Colab explicitly), the exercise CTA ("Notebooks in Colab öffnen"), and the Docker slide's hook — it previously claimed students "just wrote code on their own machine," which is false under Colab. Reframed around: Colab manages *your* environment for you, but a company Data-Science team doesn't have that privilege across its own machines/servers — that's still Docker's real problem, just without the false premise. First version of the reframed Docker hook overflowed again (confirmed visually, metric false-negative as before); trimmed and re-verified — fits now but at only ~7.5px margin, flagged as fragile (same status as the CRISP-DM "Die 6 Phasen" slide — no room for future edits without re-checking).
+
+**Tool logos added (2026-08-20):** small inline SVG logos (devicon, MIT-licensed) next to the heading on Jupyter/Docker/Kubernetes/Git/GitHub slides — `public/logos/{jupyter,docker,kubernetes,git,github}.svg`, referenced via `<img :src="'/logos/…svg'" class="inline-block h-9 align-middle mr-2" />`. **Gotcha:** a static `src="..."` attribute on `<img>` inside a markdown heading breaks the build — Slidev/Vue statically transforms it into a build-time import, which Vite's `server.fs.allow` then rejects for `/logos/*` (even though the file is served fine at runtime, e.g. via `<Illustration>`). Must use a dynamic `:src="'/path'"` binding instead. Re-verified clean on all 5 slides after the fix; Docker remains margin-fragile (unrelated to the logo, pre-existing).
+
+**Trigger:** TODO item 1 (oldest open gap, flagged 2026-08-10). The Tooling chapter (Jupyter/Docker/Kubernetes/GitHub/CRISP-DM-Detail from vorlage slides 15–19) was explicitly out of scope for §11 (Python-Vertiefung is code-literacy only, not tooling/process). Now scheduled as a standalone professional-workflows cluster.
+
+**Correction (2026-08-19, from edu-research):** the plan below originally assumed CRISP-DM has 5 phases. Verified against Shearer (2000) and IBM/SPSS documentation: **CRISP-DM has 6 phases** — Business Understanding, Data Understanding, Data Preparation, Modeling, Evaluation, **and Deployment as its own distinct phase** (not merged into Evaluation). The 12e/12f slide content must include Deployment explicitly — for the insurer case, framed as model serving, monitoring/retraining triggers, and operational handoff. This also strengthens the bridge to the Tooling topics already covered (Docker/Kubernetes are literally the Deployment-phase tools), so lead with that connection on the CRISP-DM slides rather than treating Deployment as an afterthought.
+
+**Research citations gathered (edu-research, 2026-08-19):**
+| Topic | Source | Year |
+|---|---|---|
+| Jupyter Notebooks | Jake VanderPlas, *Python Data Science Handbook* — https://jakevdp.github.io/PythonDataScienceHandbook/ | 2016 |
+| Docker | Joshua Cook, *Docker for Data Science* (Apress) | 2017 |
+| Kubernetes | Chip Huyen, *Designing Machine Learning Systems* (O'Reilly) | 2022 |
+| GitHub/Git | *Data Science: A First Introduction*, Ch. 12 "Collaboration with Version Control" — https://datasciencebook.ca/version-control.html | 2024 |
+| CRISP-DM | Colin Shearer, "The CRISP-DM Model: The New Blueprint for Data Mining", Journal of Data Warehousing vol. 5 | 2000 |
+
+Full plan document (4-tier structure per topic, placement rationale, handoff notes) at:
+`/private/tmp/claude-501/-Users-nils-projects-fom-repos-ai-business-intelligence-lecture/2463354a-ef29-4450-9e45-8132767eaee5/scratchpad/tooling-cluster-plan.md`
+
+**Placement decision:** Insert immediately after the Python-Vertiefung exercise placeholder (line ~1912 in slides.md), creating Session 2b context ("Tooling & Professional Workflows") before Supervised ML (Train/Val-Split) begins. This creates a natural progression:
+- Session 2a: Statistik wrap-up (Signifikanz) + Python code-literacy (33 slides) + Exercise
+- Session 2b: Tooling (9–10 slides) + Supervised ML begins
+- Sessions 3+: Continue per prerequisite chain
+
+**Pedagogical rationale:** Students now understand code (Python-Vertiefung), so the where/how/why of code infrastructure becomes meaningful. Jupyter is the tool they'll use in upcoming labs. Docker/K8s explain the production reality. GitHub explains team collaboration. CRISP-DM anchors the entire process — revealing that students have been following this framework implicitly all along. This bridges from individual code literacy → professional/production context → algorithm training.
+
+**Scope:** 5 tooling topics from vorlage + CRISP-DM detail as dedicated cluster (not just a namecheck):
+- Jupyter Notebooks (1–2 slides)
+- Docker (1–2 slides)
+- Kubernetes (1–2 slides)
+- GitHub (1–2 slides)
+- CRISP-DM Overview (1 slide)
+- CRISP-DM Mapping — Our insurer case (1–2 slides)
+- Synthesis & bridge to Supervised ML (1 slide)
+
+**Total: 7–11 slides, estimated 9–10 final.**
+
+**Continuity rule:** Anchor all examples to the Versicherer home-base case — fraud detection model in production, deployed to 400k contracts, team collaboration on the pipeline, version control for reproducibility.
+
+**Citation requirements:** Five research requisition briefs dispatched to edu-research:
+1. Jupyter Notebooks (beginner-friendly overview, why it's the standard for data science)
+2. Docker (reproducibility problem + container solution, data-science framing, not DevOps)
+3. Kubernetes (orchestration/auto-scaling for ML workloads, production-deployment angle)
+4. GitHub (version control in collaborative data science context, reproducibility angle)
+5. CRISP-DM (framework definition + phase count verification — 5 vs. 6 phase versions exist)
+
+All briefs require verified sources (not guesses). See planning document in scratchpad for detailed research requisitions.
+
+**4-Tier pedagogical structure per topic:**
+- Hook: Why this tool matters to data scientists
+- Foundation: Clear definition and core concepts
+- Application: Versicherer case example
+- Synthesis: Bridge sentence to next topic
+
+**Style notes (per §11k lesson):** No meta-labels like "Synthese", "Überblick", or vague process-titles in slide headings. Content-descriptive titles only ("Jupyter Notebooks", "Docker", etc.). Bridge sentences must be authored prose, emerging from content, not a UI widget.
