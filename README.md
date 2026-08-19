@@ -57,6 +57,11 @@ It probes Storyset for matching "Bro" slugs, runs `scripts/storyset.mjs`, and
 reports the resulting file paths so they can be placed with `<Illustration>`.
 Restart opencode after adding or editing the agent so it loads.
 
+## Credits
+
+Illustrations in `public/illustrations/` are by [Storyset](https://storyset.com)
+("Bro" style), recolored to the theme's brand color.
+
 ## License note
 
 Storyset free use requires crediting Storyset — always use the `<Illustration>`
