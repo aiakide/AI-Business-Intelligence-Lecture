@@ -57,12 +57,16 @@ pattern is `https://storyset.com/illustration/<slug>/bro`. Slugs are lowercase,
 hyphen-separated English keywords (e.g. `data-analysis`, `artificial-intelligence`).
 
 Probe candidates with a HEAD/GET status check (a `200` means the slug exists,
-`404` means it does not):
+`404` means it does not). Issue **one `curl` call per candidate** (not wrapped
+in a `for` loop) and always cap it with `-m <seconds>` — this project's
+permission allowlist covers bare `curl ...` commands, but a shell loop is a
+different top-level command and would need separate approval, which can hang
+forever if you're running as a background subagent with no one to approve it:
 
 ```bash
-for s in teaching data-analysis machine-learning; do
-  echo "$(curl -s -o /dev/null -w '%{http_code}' "https://storyset.com/illustration/$s/bro")  $s"
-done
+curl -s -m 8 -o /dev/null -w '%{http_code}  teaching\n' "https://storyset.com/illustration/teaching/bro"
+curl -s -m 8 -o /dev/null -w '%{http_code}  data-analysis\n' "https://storyset.com/illustration/data-analysis/bro"
+curl -s -m 8 -o /dev/null -w '%{http_code}  machine-learning\n' "https://storyset.com/illustration/machine-learning/bro"
 ```
 
 If a slug returns `404`, try synonyms (e.g. `machine-learning` → `analytics`,
