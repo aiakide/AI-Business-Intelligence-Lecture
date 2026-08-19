@@ -1904,6 +1904,30 @@ layout: default
 Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regression), kannst sie in reinem Python nachbauen (mit Schleifen, Funktionen, Objekten), und kennst jetzt die Werkzeuge, mit denen echte Versicherer ihre 400.000 Verträge tatsächlich auswerten.
 
 **Der nächste Schritt:** Wie trainiert man ein Modell, das nicht nur *beschreibt* („Der Fahrzeugalter erklärt Reparaturkosten zu $r = 0{,}99$"), sondern *vorhersagt* („Wie hoch ist die Wahrscheinlichkeit, dass ein neuer Schaden betrügerisch ist")? 
+
+---
+layout: header-cols
+---
+
+## 💻 [Übung]{style="color:var(--slidev-theme-primary)"} — Python-Vertiefung in der Praxis
+
+::left::
+
+Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks vertiefen genau diesen Block — mit lauffähigem Demo-Code und Übungszellen zum Selbst-Lösen.
+
+1. Python-Grundsyntax
+2. Statistik in Python
+3. Kontrollstrukturen
+4. Funktionen
+5. Objektorientierte Programmierung
+6. NumPy, Pandas & Matplotlib
+
+> 🎯 **Dein Auftrag:** Notebooks öffnen, Demo-Zellen ausführen, 🎯-Übungen selbst lösen.
+
+::right::
+
+<Illustration src="/illustrations/coding-bro.svg" alt="Python-Übung" width="90%" />
+
 ---
 layout: header-cols
 ---
