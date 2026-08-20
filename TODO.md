@@ -7,9 +7,29 @@
 > is the source of truth for sequencing and stays authoritative if this list and it
 > ever disagree.
 
-**Current state:** Session 1 (Statistik & Regression) and the Python-Vertiefung arc
-(§11.0 + 11a–11e, 33 slides) are complete and approved. The deck then falls into
-unused Slidev template/demo slides — nothing past that point is real content yet.
+**Current state:** Session 1 (Statistik & Regression), Session 2 (Python-Vertiefung,
+§11.0 + 11a–11e, 33 slides), and Session 3 (Tools & Workflows, §12) are complete and
+approved, each now with its own `layout: chapter` session-opener slide. The deck then
+falls into unused Slidev template/demo slides — nothing past that point is real
+content yet.
+
+**Session renumbering (2026-08-20/21, from user):** Python-Vertiefung and Tools &
+Workflows each got their own `layout: chapter` session-opener slide (matching the
+Session 1 style), promoting them to Session 2 and Session 3 respectively (previously
+planned as sub-blocks "2a"/"2b" within Session 2 — see narrative-thread.md §12). Every
+session from Supervised ML onward shifts by +2 versus older references in this file
+and in narrative-thread.md's history: old Session 2 (Supervised ML) → **Session 4**,
+old Session 3 (Clustering) → **Session 5**, old Session 4 (DL) → **Session 6**, old
+Session 5 (NLP) → **Session 7**, old Sessions 6–8 (Vertiefungen) → **Sessions 8–10**.
+Items below already use the new numbers; historical entries in narrative-thread.md's
+dated log are left as-written (they're a record of what was true when written, not a
+live spec) but flagged with a pointer to this correction where relevant.
+
+**Known stale content (not fixed, flagged only):** the "📝 Orga & Erwartungen" slide
+near the top of the deck still lists a generic four-session placeholder ("Session 1:
+Einführung ML", "Session 2: Grundlagen DL", ...) that never matched the real structure,
+even before this renumbering. Needs a real editorial pass once the full session
+structure (through Session 10) is locked in — out of scope for this renumbering itself.
 
 ## 1. Tooling chapter (oldest open gap — flagged 2026-08-10, complete 2026-08-19)
 - [x] Jupyter Notebooks — research → authoring → QA → done (placed *before* the Python-Vertiefung exercise)
@@ -27,19 +47,19 @@ unused Slidev template/demo slides — nothing past that point is real content y
 Named explicitly in the Modulbeschreibung's "Methodische Grundlagen." Deliberately
 deferred from §11 (Python-Vertiefung is code-literacy only, not tooling/process). Now scheduled as professional-workflows bridge.
 
-## 2. Rest of Session 2 — Supervised ML (narrative-thread's own "next up")
+## 2. Session 4 — Supervised ML (narrative-thread's own "next up")
 - [ ] Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split)
 - [ ] Metriken: Accuracy, Precision, Recall, F1-Score
 - [ ] Algorithmen: Random Forest, KNN
 
-## 3. Session 3 — Unsupervised / Clustering
+## 3. Session 5 — Unsupervised / Clustering
 - [ ] Clusteranalyse-Prozess
 - [ ] Algorithmen: K-Means, Agglomerativ, BIRCH, DBSCAN, Spectral, Mean Shift, Gaussian Mixture
 - [ ] WCSS & Elbow Method
 
 Case: Kunden-/Versichertensegmentierung.
 
-## 4. Session 4 — Deep Learning
+## 4. Session 6 — Deep Learning
 - [ ] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand)
 - [ ] Batch / Epoch
 - [ ] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax)
@@ -47,14 +67,14 @@ Case: Kunden-/Versichertensegmentierung.
 
 Case: Kfz-Schadensfotos.
 
-## 5. Session 5 — NLP
+## 5. Session 7 — NLP
 - [ ] Transformer (Multi-Head Attention, Sequenzverarbeitung)
 - [ ] NLP-Grundlagen (Tokenisierung, Morphologie, Syntax, Semantik, Diskurs)
 - [ ] Sentimentanalyse
 
 Case: Freitext aus Schadensmeldungen / Kundenbewertungen.
 
-## 6. Sessions 6–8 — Vertiefungen
+## 6. Sessions 8–10 — Vertiefungen
 - [ ] Maximum-Likelihood-Methode
 - [ ] Faktorenanalyse
 - [ ] Eigenwerte
@@ -64,10 +84,11 @@ Session budget calls for a 30–60 min interactive exercise per session. Only on
 placeholder exists so far (after Python-Vertiefung).
 - [x] Exercise placeholder — after Python-Vertiefung (§11)
 - [ ] Exercise — Session 1 (Statistik & Regression)
-- [ ] Exercise — Session 3 (Unsupervised / Clustering)
-- [ ] Exercise — Session 4 (Deep Learning)
-- [ ] Exercise — Session 5 (NLP)
-- [ ] Exercise — Sessions 6–8 (Vertiefungen)
+- [ ] Exercise — Session 3 (Tools & Workflows) — not in the original session budget, consider whether one is warranted
+- [ ] Exercise — Session 5 (Unsupervised / Clustering)
+- [ ] Exercise — Session 6 (Deep Learning)
+- [ ] Exercise — Session 7 (NLP)
+- [ ] Exercise — Sessions 8–10 (Vertiefungen)
 
 ## 8. Open decision — curriculum literal-example coverage
 The Modulbeschreibung names *Handschrifterkennung* and *Objekt-/Gesichtserkennung*

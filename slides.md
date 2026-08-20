@@ -86,7 +86,7 @@ layout: chapter
 
 ::left::
 
-# Session 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
+# Kapitel 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
 
 ::right::
 
@@ -138,9 +138,9 @@ layout: default
 
 *Diesen Lifecycle kennt die Praxis als CRISP-DM — dazu mehr später.*
 
-*Jede Session fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
+*Jedes Kapitel fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
 
-Welche Methode löst welche Frage — und in welcher Session? Die Übersicht zeigt Dir den Plan auf einen Blick.
+Welche Methode löst welche Frage — und in welchem Kapitel? Die Übersicht zeigt Dir den Plan auf einen Blick.
 
 <LiteraturSource :sources="[
   { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
@@ -155,14 +155,14 @@ layout: default
 
 *Jede Frage erfordert eine neue Methode — und jede Methode baut auf der vorherigen auf.*
 
-| Geschäftsfrage | Methode | Session |
+| Geschäftsfrage | Methode | Kapitel |
 |---|---|---|
-| Schadenhöhe schätzen | Regression (Statistik) | S1 |
-| Betrug erkennen? | Klassifikation (ML) | S2 |
-| Kundengruppen finden | Clustering | S3 |
-| Schadenfoto auswerten | Deep Learning / CV | S4 |
-| Meldungstext lesen | NLP | S5 |
-| Prognose & Strategie | Vertiefung / Kombination | S6–8 |
+| Schadenhöhe schätzen | Regression (Statistik) | K1 |
+| Betrug erkennen? | Klassifikation (ML) | K4 |
+| Kundengruppen finden | Clustering | K5 |
+| Schadenfoto auswerten | Deep Learning / CV | K6 |
+| Meldungstext lesen | NLP | K7 |
+| Prognose & Strategie | Vertiefung / Kombination | K8–10 |
 
 <LiteraturSource :sources="[
   { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
@@ -655,7 +655,7 @@ layout: default
 
 **Lösung:** Jede Beobachtung wird in Standardabweichungen vom Mittelwert ausgedrückt — unabhängig von der ursprünglichen Einheit.
 
-Für unser Zwei-Variablen-Beispiel ist das eine nette Nebenrechnung. Der eigentliche Gewinn zeigt sich, sobald ein Modell **mehrere Features gleichzeitig** verarbeitet: Ohne Standardisierung dominiert das Feature mit den größten Zahlen automatisch die Berechnung — unabhängig davon, ob es inhaltlich wichtig ist. Die z-Transformation ist deshalb Standardpraxis in **Machine-Learning-Pipelines** (Session 2) und ein Werkzeug, das Dich bis zu neuronalen Netzen begleitet.
+Für unser Zwei-Variablen-Beispiel ist das eine nette Nebenrechnung. Der eigentliche Gewinn zeigt sich, sobald ein Modell **mehrere Features gleichzeitig** verarbeitet: Ohne Standardisierung dominiert das Feature mit den größten Zahlen automatisch die Berechnung — unabhängig davon, ob es inhaltlich wichtig ist. Die z-Transformation ist deshalb Standardpraxis in **Machine-Learning-Pipelines** (Kapitel 4) und ein Werkzeug, das Dich bis zu neuronalen Netzen begleitet.
 
 <!-- Überleitung: Wie genau das funktioniert, schauen wir uns jetzt mit der Formel an. -->
 
@@ -1102,6 +1102,18 @@ Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regr
   { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
   { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
 ]" />
+
+---
+layout: chapter
+---
+
+::left::
+
+# Kapitel 2: [Python-Vertiefung]{style="color:var(--slidev-theme-primary)"}
+
+::right::
+
+<Illustration src="/illustrations/coding-bro.svg" alt="Python-Vertiefung" width="90%" />
 
 ---
 layout: section
@@ -1889,7 +1901,7 @@ layout: default
 
 ## Scikit-Learn — [ein Ausblick]{style="color:var(--slidev-theme-primary)"}
 
-NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-Learn** — eine Bibliothek voll vorgefertigter Algorithmen (Random Forest, KNN, Logistische Regression, Clustering); wir starten damit in Session 2.
+NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-Learn** — eine Bibliothek voll vorgefertigter Algorithmen (Random Forest, KNN, Logistische Regression, Clustering); wir starten damit in Kapitel 4.
 
 <LiteraturSource :sources="[
   { title: 'scikit-learn documentation: Supervised Learning', url: 'https://scikit-learn.org/stable/supervised_learning.html', year: '2024' },
@@ -1906,10 +1918,16 @@ Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regressi
 **Der nächste Schritt:** Wie trainiert man ein Modell, das nicht nur *beschreibt* („Der Fahrzeugalter erklärt Reparaturkosten zu $r = 0{,}99$"), sondern *vorhersagt* („Wie hoch ist die Wahrscheinlichkeit, dass ein neuer Schaden betrügerisch ist")? 
 
 ---
-layout: section
+layout: chapter
 ---
 
-# Professionelle Tools & Workflows
+::left::
+
+# Kapitel 3: [Tools & Workflows]{style="color:var(--slidev-theme-primary)"}
+
+::right::
+
+<Illustration src="/illustrations/devops-tools-bro.svg" alt="Tools & Workflows" width="90%" />
 
 ---
 layout: default
@@ -1959,17 +1977,26 @@ Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks in Google Colab vertiefen g
 layout: default
 ---
 
-## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Gleiche Umgebung überall
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Das Problem
 
 In Google Colab übernimmt Google die Umgebung für Dich. Ein Data-Science-Team im Unternehmen hat dieses Privileg nicht: verschiedene Rechner, verschiedene Python-Versionen, ein Produktionsserver mit wieder anderen. Derselbe Code funktioniert plötzlich nicht mehr überall gleich.
 
-**Docker löst genau dieses Problem:** Es packt Deinen Code *und alle seine Abhängigkeiten* in eine Box — das ist ein **Container**. Diese Box läuft überall identisch, weil sie alles Nötige mitbringt.
+Jedes Software-Team kennt diesen Satz: *"Bei mir auf dem Rechner funktioniert's doch..."*
 
-**Die Konzepte:**
-- **Docker-Image** = das "Rezept" (Blaupause): "Nimm Python 3.11, installiere pandas 2.0 und scikit-learn 1.3, kopiere meinen Code rein"
-- **Running Container** = eine Kopie des Rezepts, gerade am Laufen. Du kannst 10 Kopien gleichzeitig starten
+Die Lösung dafür heißt **Docker**.
 
-**Im Versicherer-Fall:** Dein Betrugserkennung-Modell als Docker-Image — jeder, der es ausführt, bekommt exakt das gleiche Resultat, ob 400.000 Schäden pro Minute oder 100 pro Tag.
+---
+layout: default
+---
+
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Image & Container
+
+**Docker löst genau dieses Problem:** Es packt Deinen Code *und alle seine Abhängigkeiten* in eine Box — das ist ein **Container**, der überall identisch läuft.
+
+- **Docker-Image** = das "Rezept" (Blaupause)
+- **Running Container** = eine laufende Kopie davon. Du kannst 10 Kopien gleichzeitig starten
+
+<img :src="'/docker-image-container-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Docker for Data Science', url: 'https://www.amazon.com/Docker-Data-Science-Extensible-Infrastructure/dp/1484230116', year: '2017' }
@@ -1979,15 +2006,33 @@ In Google Colab übernimmt Google die Umgebung für Dich. Ein Data-Science-Team 
 layout: default
 ---
 
-## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Automatische Orchestrierung
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Im Versicherer-Fall
+
+Dein Betrugserkennung-Modell als Docker-Image — jeder, der es ausführt, bekommt exakt das gleiche Resultat, ob 400.000 Schäden pro Minute oder 100 pro Tag.
+
+Aber eine Kopie reicht nicht: Wer startet 100 Kopien gleichzeitig, verwaltet sie, ersetzt abgestürzte automatisch? Das übernimmt **Kubernetes**.
+
+---
+layout: default
+---
+
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Wozu Orchestrierung?
 
 Dein Docker-Container läuft. Jetzt: Der Code crasht — automatisch einen neuen Container starten. Zu viele Anfragen — automatisch mehr starten. Traffic sinkt — automatisch abfahren. Kein Team könnte das von Hand machen, 24/7.
 
-**Kubernetes** ist ein Orchestrierungssystem für Docker-Container. Du sagst: *"Ich möchte 5 Replicas meines Modells laufen haben."* Kubernetes startet 5 Container. Einer crasht — Kubernetes startet einen neuen. Traffic steigt — Kubernetes startet automatisch mehr.
+**Kubernetes** ist ein Orchestrierungssystem für Docker-Container — es übernimmt genau diese Aufgabe, dauerhaft und automatisch.
 
-**Das Wichtigste:** Du beschreibst, *was* Du brauchst ("5 Replicas"), nicht *wie* das System es umsetzen soll — Kubernetes übernimmt den Rest. Das nennt man **deklarativ**.
+---
+layout: default
+---
 
-**Im Versicherer-Fall:** Dein Fahrzeugschadenmodell hat 99 % Genauigkeit. Unwetter im Norden bringt 10× mehr Anfragen — Kubernetes erkennt die lange Warteschlange und startet automatisch 50 neue Replicas. Danach fährt es sie wieder herunter. Alles ohne menschliches Zutun. Bei einem kleineren Bestand sind es vielleicht 3 statt 50 — das Prinzip bleibt gleich.
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Deklarativ
+
+Du sagst: *"Ich möchte 5 Replicas meines Modells laufen haben."* Einer crasht — Kubernetes startet einen neuen. Traffic steigt — Kubernetes startet automatisch mehr.
+
+**Das Wichtigste:** Du beschreibst, *was* Du brauchst, nicht *wie* es umgesetzt wird — Kubernetes übernimmt den Rest. Das nennt man **deklarativ**.
+
+<img :src="'/kubernetes-orchestration-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Designing Machine Learning Systems', url: 'https://www.oreilly.com/library/view/designing-machine-learning-systems/9781098107963/', year: '2022' }
@@ -1997,9 +2042,17 @@ Dein Docker-Container läuft. Jetzt: Der Code crasht — automatisch einen neuen
 layout: default
 ---
 
-## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Versionskontrolle
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Im Versicherer-Fall
+
+Dein Fahrzeugschadenmodell hat 99 % Genauigkeit. Unwetter im Norden bringt 10× mehr Anfragen — Kubernetes erkennt die lange Warteschlange und startet automatisch 50 neue Replicas. Danach fährt es sie wieder herunter. Alles ohne menschliches Zutun. Bei einem kleineren Bestand sind es vielleicht 3 statt 50 — das Prinzip bleibt gleich.
 
 Alle diese Container, alle diese Konfigurationen — wer verwaltet das? Wie stellt man sicher, dass nicht versehentlich eine alte Version deployed wird?
+
+---
+layout: default
+---
+
+## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Versionskontrolle
 
 Der Data Scientist schreibt den Klassifikationscode. Der DevOps-Engineer schreibt die Kubernetes-Konfiguration. Die Datenbeschafferin ändert die Datenquelle. Ohne zentrale Verwaltung: Chaos.
 
@@ -2008,7 +2061,19 @@ Der Data Scientist schreibt den Klassifikationscode. Der DevOps-Engineer schreib
 - Wann?
 - Warum? (die Commit-Message)
 
-Du kannst auf frühere Versionen zurückgehen, "Branches" (parallele Versionen) erstellen, um Features zu testen, und sie später mit `merge` zusammenführen.
+Aber Teams arbeiten nicht linear — mehrere Leute ändern gleichzeitig verschiedene Dinge, ohne sich gegenseitig zu blockieren. Wie geht das?
+
+---
+layout: default
+---
+
+## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Branches & Merges
+
+- **Commit** = ein Schnappschuss Deiner Änderungen, mit Autor, Zeitstempel und Commit-Message
+- **Branch** = eine parallele Entwicklungslinie — Du entwickelst ein Feature, ohne den Hauptstand (`main`) zu gefährden
+- **Merge** = die Branch-Linie wird wieder in `main` zusammengeführt
+
+<img :src="'/git-branch-merge-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 Aber wo lebt dieses Repository, und wie arbeitet ein ganzes Team gemeinsam daran?
 
@@ -2036,7 +2101,7 @@ layout: default
 
 ## CRISP-DM — Die 6 Phasen
 
-Wir haben jetzt mehrere Sessions lang Statistik und Code gelernt. Aber in welcher *Reihenfolge* wenden wir alle diese Werkzeuge an, um ein echtes Problem zu lösen? Gibt es einen Standard dafür?
+Wir haben jetzt mehrere Kapitel lang Statistik und Code gelernt. Aber in welcher *Reihenfolge* wenden wir alle diese Werkzeuge an, um ein echtes Problem zu lösen? Gibt es einen Standard dafür?
 
 **CRISP-DM** *(Cross-Industry Standard Process for Data Mining)* ist das Framework, das genau das definiert. Es strukturiert Data-Mining-Projekte in **6 Phasen**:
 
@@ -2057,15 +2122,11 @@ layout: default
 
 ## CRISP-DM — Der Kreislauf
 
-CRISP-DM ist **zyklisch**, nicht linear:
+CRISP-DM ist **zyklisch**, nicht linear — die klassische Darstellung zeigt das als Kreis, mit den Daten im Zentrum jeder Phase:
 
-- Evaluation zeigt "das Modell ist nicht gut genug"? → zurück zu Data Preparation oder Modeling
-- Deployment zeigt Datendrift im Livebetrieb? → zurück zu Data Understanding
-- Neue Geschäftsanforderung? → zurück zu Business Understanding
+<img :src="'/crisp-dm-cycle-diagram.svg'" style="max-height: 270px; margin: 0.5rem auto 0; display: block;" />
 
-Das ist normal — das ist der Punkt. Kein Projekt läuft die 6 Phasen einmal durch und ist fertig.
-
-Es ist beruhigend zu wissen: wir folgen keinem willkürlichen Plan — wir folgen dem Standard, den die ganze Industrie nutzt.
+Evaluation oder Deployment schicken uns oft zurück zu einer früheren Phase — das ist normal, kein Scheitern.
 
 ---
 layout: default
@@ -2077,9 +2138,9 @@ Wo genau stehen wir im CRISP-DM-Prozess gerade? Hier die ersten drei Phasen:
 
 | Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
 |---|---|---|
-| **Business Understanding** | Session 1 | *"Wir brauchen Betrugsdetection, Preismodelle, Kundengruppen"* |
-| **Data Understanding** | Session 1 | Stichprobe, Konfidenz, Lagemaße, Varianz, Korrelation |
-| **Data Preparation** | Sessions 2–8 | Transformation, Feature Selection, Outlier-Behandlung |
+| **Business Understanding** | Kapitel 1 | *"Wir brauchen Betrugsdetection, Preismodelle, Kundengruppen"* |
+| **Data Understanding** | Kapitel 1 | Stichprobe, Konfidenz, Lagemaße, Varianz, Korrelation |
+| **Data Preparation** | Kapitel 4–10 | Transformation, Feature Selection, Outlier-Behandlung |
 
 ---
 layout: default
@@ -2091,29 +2152,21 @@ Und die letzten drei Phasen:
 
 | Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
 |---|---|---|
-| **Modeling** | Sessions 2–6 | Regression, Random Forest, Clustering, Deep Learning |
-| **Evaluation** | Session 2 | Train/Val-Split, Metriken, Kreuzvalidierung |
-| **Deployment** | Heute + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
+| **Modeling** | Kapitel 4–8 | Regression, Random Forest, Clustering, Deep Learning |
+| **Evaluation** | Kapitel 4 | Train/Val-Split, Metriken, Kreuzvalidierung |
+| **Deployment** | Kapitel 3 + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
 
 Mit jedem neuen Algorithmus wenden wir diese Phasen an — manchmal in wenigen Minuten (ein schnelles Experiment), manchmal in Wochen (ein echtes Produktionsmodell). Aber die Struktur bleibt immer gleich.
 
 ---
-layout: default
+layout: statement
 ---
 
-## Drei Ebenen, ein Prozess
+## Von der Infrastruktur zum Modell
 
-Es gibt drei Ebenen, auf denen Du arbeitest, und über all dem liegt ein Prozess, den wir ab jetzt bei jedem Algorithmus wieder anwenden:
+Jetzt lernen wir den nächsten Schritt: wie man ein Modell baut, das nicht nur *beschreibt*, sondern *vorhersagt*.
 
-**Ebene 1: Code** (Python) — wie schreibe ich Statistik und Machine Learning in Code  
-**Ebene 2: Infrastruktur** (Jupyter, Docker, Kubernetes) — wo und wie läuft dieser Code, und wie skaliert es  
-**Ebene 3: Zusammenarbeit** (GitHub) — wie arbeiten Teams zusammen, ohne sich zu blockieren
-
-**Ebene 0: Prozess** (CRISP-DM) — in welcher Reihenfolge wenden wir alles an, um ein echtes Problem zu lösen
-
-Mit diesen Werkzeugen kannst Du Daten analysieren *und dafür sorgen, dass Deine Analyse in der echten Welt funktioniert* — zuverlässig, skalierbar, und als Team.
-
-Jetzt lernen wir den nächsten Schritt: wie man ein Modell baut, das nicht nur *beschreibt*, sondern *vorhersagt*. Das ist Supervised Learning. Und es beginnt mit einer fundamentalen Frage: **Wie teile ich meine Daten, um ein verlässliches Vorhersagemodell zu trainieren?** Das ist der Train/Validation-Split — der Schlüssel zu allem, was folgt.
+Das ist **Supervised Learning** — und es beginnt mit dem **Train/Validation-Split**, der Grundlage für alles, was folgt.
 
 ---
 layout: header-cols
