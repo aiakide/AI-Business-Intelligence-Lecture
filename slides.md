@@ -93,6 +93,43 @@ layout: chapter
 <Illustration src="/illustrations/business-analytics-bro.svg" alt="Business Intelligence & Data Science" width="90%" />
 
 ---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Stichprobe, Konfidenzintervall und Fehlermarge als Basis jeder Aussage über Daten
+- Warum Mittelwert, Median und Modus unterschiedliche Geschichten erzählen können
+- Wie Kovarianz und Korrelation Zusammenhänge beschreiben — ohne Kausalität zu beweisen
+
+📊 **Anwenden & Bewerten:**
+- Lagemaße, Streuung, Kovarianz und Korrelation für einen Datensatz von Hand berechnen
+- Eine lineare Regressionsgerade herleiten und mit R² ihre Güte beurteilen
+- Eine logistische Regression zur Klassifikation (z. B. Betrug ja/nein) aufstellen und interpretieren
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Warum Korrelation nicht Kausalität bedeutet — und wo das in der Praxis zu Fehlschlüssen führt
+- Interaktionseffekte erkennen, die ein rein additives Modell übersieht
+- p-Werte und statistische Signifikanz einordnen, ohne sie mit praktischer Relevanz zu verwechseln
+
+Das sind die Werkzeuge, auf denen jedes Modell in diesem Kurs aufbaut.
+
+---
 layout: header-cols
 ---
 
@@ -1139,6 +1176,43 @@ layout: chapter
 <Illustration src="/illustrations/coding-bro.svg" alt="Python-Vertiefung" width="90%" />
 
 ---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Grundsyntax: Variablen, Datentypen, Funktionsaufrufe und Kontrollstrukturen (if/for/while)
+- Objektorientierte Programmierung: Klasse vs. Objekt, Attribute, Methoden
+- Wofür NumPy, Pandas und Matplotlib jeweils stehen — und wie sie zusammenspielen
+
+📊 **Anwenden & Bewerten:**
+- Die Statistik-Berechnungen aus Kapitel 1 (Lagemaße, Streuung, z-Transformation, Regression, R²) in Python nachbauen
+- Eine eigene Klasse mit Methoden schreiben, um Schadensfälle als Objekte zu modellieren
+- Mit Pandas und Matplotlib einen Datensatz laden, aufbereiten und visualisieren
+
+<LiteraturSource :sources="[
+  { title: 'Python Data Science Handbook', url: 'https://jakevdp.github.io/PythonDataScienceHandbook/', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Wann sich vektorisierter NumPy-Code lohnt — und wann eine einfache Schleife reicht
+- Typische Fallstricke (Kopier-Falle, NumPy-Streuungs-Fallgrube) erkennen, bevor sie zu falschen Ergebnissen führen
+- Warum Scikit-Learn der nächste logische Schritt ist, sobald Code wiederverwendbar sein soll
+
+Das ist die Code-Basis, auf der jedes Modell ab jetzt aufbaut.
+
+---
 layout: section
 ---
 
@@ -1951,6 +2025,43 @@ layout: chapter
 ::right::
 
 <Illustration src="/illustrations/devops-tools-bro.svg" alt="Tools & Workflows" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Wofür Jupyter Notebooks, Docker und Kubernetes jeweils gebraucht werden — und welches Problem jedes löst
+- Git/GitHub als Versionskontrolle und Team-Kollaborationswerkzeug
+- CRISP-DM als Prozessrahmen, der Data-Science-Projekte strukturiert
+
+📊 **Anwenden & Bewerten:**
+- Ein Colab-Notebook öffnen und lauffähigen Code darin ausführen
+- Den Unterschied zwischen Image und Container an einem eigenen Beispiel erklären
+- Die CRISP-DM-Phasen auf den eigenen Versicherer-Case (Betrugserkennung) mappen
+
+<LiteraturSource :sources="[
+  { title: 'The CRISP-DM Model: The New Blueprint for Data Mining (Colin Shearer, Journal of Data Warehousing vol. 5)', url: 'https://www.scirp.org/reference/ReferencesPapers?ReferenceID=1592780', year: '2000' }
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Warum Reproduzierbarkeit (Docker) und Skalierbarkeit (Kubernetes) über den Prototyp hinaus zum Problem werden
+- Wann ein deklarativer Ansatz (Kubernetes) einem imperativen vorzuziehen ist
+- Warum CRISP-DM ein Kreislauf ist, kein linearer Prozess
+
+Diese Werkzeuge begleiten Dich ab jetzt bei jedem Modell, das wir bauen.
 
 ---
 layout: default
