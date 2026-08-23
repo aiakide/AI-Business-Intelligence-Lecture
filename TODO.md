@@ -83,7 +83,7 @@ Case: Freitext aus Schadensmeldungen / Kundenbewertungen.
 Session budget calls for a 30–60 min interactive exercise per session. Only one
 placeholder exists so far (after Python-Vertiefung).
 - [x] Exercise placeholder — after Python-Vertiefung (§11)
-- [ ] Exercise — Session 1 (Statistik & Regression)
+- [x] Exercise — Session 1 (Statistik & Regression) — pen-and-paper worksheet (not a notebook: Kapitel 1 is explicitly hand-calculation, code comes in Kapitel 2), lives in the sibling `exercise` repo at `exercise/session-1/00-statistik/uebung.md` + `loesung.md` (not in this repo — kept alongside the Session-1 Python-Vertiefung notebooks in `01-python-vertiefung/`), wired into slides.md as a `header-cols` exercise slide before the Kapitel-2 chapter divider
 - [ ] Exercise — Session 3 (Tools & Workflows) — not in the original session budget, consider whether one is warranted
 - [ ] Exercise — Session 5 (Unsupervised / Clustering)
 - [ ] Exercise — Session 6 (Deep Learning)

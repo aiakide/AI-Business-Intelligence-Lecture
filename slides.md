@@ -1096,12 +1096,35 @@ Unser Modell liefert $p = 0{,}01$ für den „Alter"-Effekt bei $\alpha = 0{,}05
 *   **Wichtig:** Der $p$-Wert ist kein Alleinurteil.
 *   Effektgröße, Stichprobengröße und Domänenwissen sind ebenso entscheidend, um valide Schlussfolgerungen zu ziehen und Fehlinterpretationen zu vermeiden.
 
-Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regression verstanden — von Hand gerechnet. Aber kein Versicherer wertet 400.000 Verträge mit dem Taschenrechner aus. Genau das übernimmt Code. Schauen wir, wie dieselben Berechnungen in Python aussehen.
+Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regression verstanden — von Hand gerechnet. Zeit, das selbst an einem eigenen Fall durchzurechnen. Denn eines ist klar: Kein Versicherer wertet 400.000 Verträge so aus — genau das übernimmt gleich Code.
 
 <LiteraturSource :sources="[
   { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
   { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
 ]" />
+
+---
+layout: header-cols
+---
+
+## 💻 [Übung]{style="color:var(--slidev-theme-primary)"} — Statistik als Fundament
+
+::left::
+
+Zeit, selbst zu rechnen: Ein Aufgabenblatt mit zwei Kfz-Versicherer-Datensätzen führt Dich von Hand durch den gesamten Block — Lagemaße bis Odds Ratio.
+
+1. Lagemaße & Streuung
+2. Kovarianz & Korrelation
+3. z-Transformation
+4. Lineare Regression (OLS von Hand)
+5. Logistische Regression & Odds Ratio
+6. *(Bonus)* Signifikanz in der Praxis
+
+> 🎯 **Dein Auftrag:** Aufgabenblatt durchrechnen — von Hand oder mit Python, ganz wie Du magst.
+
+::right::
+
+<Illustration src="/illustrations/analytics-bro.svg" alt="Statistik-Übung" width="90%" />
 
 ---
 layout: chapter
