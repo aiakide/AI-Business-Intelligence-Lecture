@@ -1391,3 +1391,67 @@ All briefs require verified sources (not guesses). See planning document in scra
 **Correction (2026-08-23, from user):** Python is fine for the Statistik-Übung too — dont frame it as calculator-vs-Python opposition. Softened the exercise slide CTA ("von Hand oder mit Python, ganz wie Du magst" instead of "Taschenrechner statt Python") and the worksheet intro (recommends hand-calculating at least Aufgabe 1 for understanding, then Python is explicitly fine for the rest). Kapitel-1-is-hand-calculation framing for the *lecture content itself* stays untouched — this only relaxes how the exercise is pitched to students.
 
 **Relocation (2026-08-23, from user):** Moved the worksheet + solution out of this repo's `uebungen/` into the sibling `exercise` repo at `exercise/session-1/00-statistik/uebung.md` + `loesung.md` — that repo already holds the Session-1 Python-Vertiefung notebooks (`session-1/01-python-vertiefung/`, six `.ipynb` files, resolving the TODO.md follow-up about missing notebooks). `00-` prefix sorts the Statistik worksheet before `01-python-vertiefung`, matching chapter order. `lecture/uebungen/` removed (was untracked, never committed). No change to `slides.md` — it never linked the file path directly.
+
+**Decision (2026-08-23, from user):** Kapitel 3 (Tools & Workflows) gets no dedicated exercise — TODO.md §7 item closed as wont-do rather than left open. Matches §5's own budget table, which never had a Kapitel-3 row (it did not exist as a chapter when that table was authored).
+
+---
+
+## 16. Altmaterial-Assessment: ml.md / dl.md (2026-08-23)
+
+User bat um Analyse zweier Altdateien aus einem früheren Durchgang derselben Vorlesung, um Wiederverwendbares für die noch offenen Kapitel zu identifizieren:
+- `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/ml.md` → Kapitel 4 (Supervised ML) + Kapitel 5 (Clustering)
+- `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` → Kapitel 6 (Deep Learning)
+
+Zwei parallele general-purpose-Agents haben beide Dateien gegen TODO.md, die Modulbeschreibung und den aktuellen `slides.md`-Stil abgeglichen. Kernbefunde und Entscheidungen in TODO.md §2/§3/§4/§8 festgehalten (dort die maßgebliche Quelle). Zusammenfassung:
+
+**ml.md:** Kapitel 4 fachlich fast komplett abgedeckt (Train/Val-Split, alle Metriken, KNN, Random Forest) — gute Wiederverwendungsbasis, aber jedes Beispiel nutzt einen anderen Fremd-Case (Spam/Katze-Hund/Kreditkarten/Krebs) statt durchgängig Kfz-Versicherer, muss also umgeschrieben werden. Kapitel 5 nur teilweise (K-Means/DBSCAN vorhanden, BIRCH/Agglomerativ/Spectral/Gaussian-Mixture/Elbow fehlen — BIRCH ist in der Modulbeschreibung explizit genannt).
+
+**dl.md:** \"ML vs. DL\" und \"Batch/Epoch\" gut abgedeckt und reusable. Softmax fehlt komplett (neu recherchieren). Code ist durchgehend PyTorch statt Keras — **User-Entscheidung: bei PyTorch bleiben**, dl.md-Code direkt als Basis nutzbar. Sigmoid bleibt trotz ReLU-Verdrängung in Hidden Layers im Scope — bewusster Callback zur Sigmoid-Formel der logistischen Regression aus Kapitel 1. dl.md deckt mehr ab als das Kapitel-6-Budget hergibt (voller Optimizer-Zoo, komplette CNN-Theorie, Transfer Learning) — Überschuss als Kandidat für Kapitel 8–10 vormerken, nicht in Kapitel 6 pressen. Kein Kfz-Schadensfotos-Case vorhanden (durchgehend MNIST/ImageNet).
+
+**Entscheidung MNIST/Handschrifterkennung (2026-08-23, from user):** Als Zusatzbeispiel neben Kfz-Schadensfotos aufnehmen (nicht statt dessen) — dl.md liefert dafür bereits funktionierenden PyTorch-CNN-Code als Ausgangsbasis. Löst TODO.md §8 für Handschrifterkennung; Objekt-/Gesichtserkennung bleibt offen.
+
+**Weiterer Fund:** Ein drittes Nachbarrepo `/Users/nils/projects/fom/repos/exercise-fom-ai-bi/exercises/` enthält alte DL-Notebooks (MLP, CNN/CIFAR-10, Transfer-Learning) als mögliche Codegerüst-Kandidaten für spätere Übungen — noch nicht geprüft, nur registriert.
+
+**Naechster Schritt (User-Entscheidung):** Mit Kapitel 4 (Supervised ML) starten — am besten vorbereitet, kaum Lücken, direkter Anschluss an Kapitel 1/2.
+
+---
+
+## 17. Kapitel 4 — Supervised ML: authored & QA'd (2026-08-23)
+
+Vollständiger Durchlauf über den etablierten Pipeline: lecture-content-planner (Cluster-Plan) → edu-research (Quellenverifikation) → slidev-content-transformer (Autoring) → slide-visual-reviewer (QA, 2 Runden) → manuelle Nachbesserung von 3 Slides. Siehe TODO.md §2 für den finalen Status.
+
+**Wichtige Prozess-Lektion:** Der lecture-content-planner-Agent hatte in seinem ersten Durchlauf die TODO.md-Checkboxen für Kapitel 4 fälschlich als erledigt markiert, obwohl er nur geplant und `slides.md` nicht angefasst hatte — per `git diff` aufgefallen und korrigiert, bevor die eigentliche Autoring-Stufe überhaupt startete. Lehre: nach jedem Planungs-Agenten-Lauf `git diff --stat` prüfen, bevor man Fortschrittsmeldungen glaubt.
+
+**Dichte-Problem in Runde 1:** Der erste Autoring-Durchlauf produzierte 14 Slides, von denen 9 Overflow/Footer-Kollisionen hatten (zu viele Bullets/Absätze pro Slide, Schlusssätze kollidierten wiederholt mit der Quellen-/Footer-Zeile). Fix-Runde: Splitten in mehr, schlankere Slides (14→20) statt Schriftgröße/Layout-Tricks — konsistent mit der bereits etablierten Lehre aus der Statistik-Übungs-Slide (siehe weiter oben in diesem Dokument bei der Kapitel-1-Statistik-Übung). Zweite QA-Runde: 18/20 sauber, verbleibende 2 (Precision-vs-Recall, KNN) manuell direkt gefixt (Schlusssätze gekürzt/verschoben, Zitate neu verteilt statt dupliziert) und spot-verifiziert.
+
+**Case-Kontinuität:** Alle Beispiele auf Kfz-Versicherer-Betrugserkennung umgeschrieben (1.000-Testfälle-Confusion-Matrix mit TP=15/TN=950/FP=30/FN=5, konsistent über Accuracy/Precision/Recall/F1 nachgerechnet; KNN- und Random-Forest-Beispiele mit Schadenhöhe/Fahrzeugalter-Merkmalen) statt der Fremd-Cases aus dem ml.md-Altmaterial.
+
+**Offen:** Kein Übungs-Aufgabenblatt+Lösung im `exercise`-Repo (nur die In-Deck-Exercise-Slide) — siehe TODO.md §7.
+
+---
+
+## 18. Kapitel 4 Expansion: Diagramme + Entscheidungsbäume/Random-Forest/Gradient-Boosting-Progression (2026-08-23)
+
+User-Feedback nach dem ersten Kapitel-4-Durchlauf (§14): zu wenig grafische Erklärungen (0 Diagramme) und fehlende Algorithmen. Klärung im Dialog: KNN ist **kein** Clustering (häufige Verwechslung mit K-Means wegen des Namens — KNN ist supervised/Kapitel 4, K-Means unsupervised/Kapitel 5) — dafür wurde eine explizite Klarstellungs-Slide ergänzt. Zusätzlich gewünscht: eigenständige Baum-Progression Entscheidungsbäume → Random Forest → Gradient Boosting statt des bisherigen Ein-Satz-Einstiegs zu Bäumen.
+
+**Prozess-Lektion (wiederholt):** Der lecture-content-planner-Agent hat *zweimal in Folge* (§17 und hier) nur ein Planungsdokument im Scratchpad erzeugt, ohne tatsächlich Subagenten zu beauftragen — er hat schlicht kein Agent-Tool zur Verfügung (Tools: nur Read/Write/Edit/Glob/Grep). Lehre: Der Planner ist ein Dokumenten-Autor, kein Orchestrator — nach jedem Planner-Lauf `git diff --stat` prüfen und die eigentliche Subagenten-Kette (edu-research, diagram-generator, slidev-content-transformer, slide-visual-reviewer) selbst dispatchen, nicht dem Planner überlassen.
+
+**5 neue Diagramme** (alle in `public/`, im FOM-Design-System per `diagram-generator`-Subagent erstellt, nicht aus dem ml.md-Altmaterial migriert): `overfitting-underfitting-lernkurve.svg`, `knn-nachbarn-diagramm.svg`, `entscheidungsbaum-split-diagramm.svg`, `random-forest-ensemble-diagramm.svg`, `gradient-boosting-sequenz-diagramm.svg`.
+
+**Neue Baum-Progression:** Entscheidungsbäume: Die Idee → Entscheidungsbaum im Beispiel (+ Diagramm) → Random Forest: Ensemble Learning durch Bagging (+ Diagramm) → Random Forest: Feature Importance & Praxis → Gradient Boosting: Die Idee (+ Diagramm) → Gradient Boosting: In der Praxis → aktualisierte Faustregel-Slide (jetzt mit allen vier Algorithmen: KNN, Random Forest, Gradient Boosting, Ausblick Deep Learning).
+
+**Zwei technische Lehren aus der QA (siehe TODO.md §2 für Details):**
+1. `<img src="/datei.svg">` (statisches Binding) bricht Vite's `server.fs.allow` für Dateien direkt in `public/` — muss `<img :src="'/datei.svg'">` (dynamisches Binding) sein. War schon einmal dokumentiert (Zeile ~1308, Tool-Logo-SVGs), der content-transformer-Agent hat es trotzdem übersehen. Diese Lehre braucht offenbar eine prominentere Stelle (z.B. AGENTS.md oder eine Style-Checkliste), damit sie nicht ein drittes Mal übersehen wird.
+2. Eine explizite `max-height` auf einem CSS-Mehrspalten-Container (`column-count`) fixt keinen Overflow, sondern verlagert ihn von vertikal auf horizontal (Spalten laufen seitlich aus dem Canvas). Der robuste Fix ist `column-fill: balance` ohne `max-height`, kombiniert mit genug Spalten/kleiner Schrift, damit der natürliche Inhalt in die verfügbare Höhe passt.
+
+**Betroffen, aber kein Kapitel-4-Inhalt:** Die automatisch aggregierte Literaturverzeichnis-Slide (`theme-fom/components/Literaturverzeichnis.vue`) ist mit den neuen Kapitel-4-Quellen auf 39 Einträge gewachsen und lief über — jetzt auf 5-spaltiges `column-fill: balance`-Layout umgestellt. Das ist ein wachsendes Problem (jedes neue Kapitel fügt weitere Quellen hinzu) — im Auge behalten, falls Kapitel 5+ die Kapazität erneut sprengt.
+
+---
+
+## 19. Git-Recovery + Kapitel-4-Umbenennung (2026-08-23)
+
+Zwischen §18 und diesem Eintrag hatte jemand (außerhalb dieser Session) `main` extern per Hard-Reset auf `origin/main`s Stand zurückgesetzt und den Feature-Branch mit den Commits `a8b39c1` (Kapitel-Terminologie + Tooling-Diagramme) und `669a0b2` (Kapitel-1-Statistik-Übung) gelöscht. Der Hard-Reset hat auch den Working-Tree zurückgesetzt — die gesamte Kapitel-4-Arbeit (§16–§18) war zu diesem Zeitpunkt bereits auf der jetzt veralteten Basis (vor der Kapitel-Umbenennung) neu entstanden, ohne dass das sofort auffiel (die Slides sagten "Session 4" statt "Kapitel 4" — genau das hat der User dann bemerkt und angesprochen).
+
+**Wiederherstellung:** Beide Commits waren noch als Objekte im Repo vorhanden (nicht garbage-collected). Neuer Branch `kapitel-4-supervised-ml` von `669a0b2` erstellt (korrekte Basis: Kapitel-Terminologie + Statistik-Übung intakt), der komplette Kapitel-4-Block (~25 Slides, per Skript aus der veralteten Kopie extrahiert und "Session 4" → "Kapitel 4" umbenannt) am selben Ankerpunkt ("Von der Infrastruktur zum Modell"-Bridge-Slide) wieder eingefügt — anstelle des dort ungenutzten Slidev-Boilerplates. Die 5 SVG-Diagramme waren als untracked Dateien vom Reset nicht betroffen und mussten nicht wiederhergestellt werden. Visuell erneut verifiziert nach dem Splice — keine Regressionen.
+
+**Terminologie-Entscheidung (2026-08-23, from user):** Der Foliensatz nennt seine Top-Level-Blöcke durchgängig **"Kapitel"**, nicht "Session" — das war schon länger die Konvention in `slides.md` selbst (jede `layout: chapter`-Opener-Slide sagt "Kapitel N"), aber `TODO.md` und dieses Dokument nutzten historisch "Session N". Jetzt vereinheitlicht: `TODO.md` komplett auf Kapitel-Sprache umgestellt (inkl. einer expliziten Terminologie-Notiz ganz oben in der Datei), dieser Nachtrag ebenso. Ältere datierte Einträge weiter oben in diesem Dokument (§1–§12 u.a.) behalten ihre historische "Session N"-Sprache bei — sie sind ein Protokoll dessen, was zum Zeitpunkt des Schreibens galt, keine lebende Spezifikation; nicht rückwirkend umgeschrieben, um die Historie nicht zu verfälschen. Jede neue Planung ab jetzt nutzt "Kapitel N".

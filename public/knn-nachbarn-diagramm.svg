@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 600" width="100%" height="auto" role="img" aria-label="Streudiagramm zur k-Naechsten-Nachbarn-Klassifikation: Schadenhoehe gegen Fahrzeugalter, historische Betrugs- und Legitimfaelle sowie eine neue Anfrage mit ihren fuenf naechsten Nachbarn">
+  <title>KNN: Klassifikation eines neuen Schadenfalls über die 5 nächsten Nachbarn</title>
+
+  <!-- Transparente Flaeche: keine Hintergrundfarbe, damit die SVG auf dem Folienhintergrund sitzt -->
+
+  <!-- ===== Callout / Ergebnis-Annotation ===== -->
+  <g>
+    <rect x="286" y="22" width="384" height="46" rx="4" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <text x="478" y="51" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="600"
+          fill="#1e1e1e" text-anchor="middle">K = 5: 3× Betrug + 2× Legitim → Votum: Betrug</text>
+  </g>
+
+  <!-- ===== Gridlines (dezent) ===== -->
+  <g stroke="#e8e8e8" stroke-width="1">
+    <!-- horizontal: 5 / 10 / 15 Jahre -->
+    <line x1="100" y1="353.3" x2="620" y2="353.3" />
+    <line x1="100" y1="226.7" x2="620" y2="226.7" />
+    <line x1="100" y1="100"   x2="620" y2="100" />
+    <!-- vertikal: 10.000 / 20.000 / 30.000 EUR -->
+    <line x1="273.3" y1="100" x2="273.3" y2="480" />
+    <line x1="446.7" y1="100" x2="446.7" y2="480" />
+    <line x1="620"   y1="100" x2="620"   y2="480" />
+  </g>
+
+  <!-- ===== Achsen ===== -->
+  <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+    <line x1="100" y1="100" x2="100" y2="480" />
+    <line x1="100" y1="480" x2="620" y2="480" />
+  </g>
+
+  <!-- Y-Achse: Ticks und Beschriftung (Fahrzeugalter 0-15 Jahre) -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" fill="#1e1e1e">
+    <g stroke="#1e1e1e" stroke-width="2">
+      <line x1="94" y1="480"   x2="100" y2="480" />
+      <line x1="94" y1="353.3" x2="100" y2="353.3" />
+      <line x1="94" y1="226.7" x2="100" y2="226.7" />
+      <line x1="94" y1="100"   x2="100" y2="100" />
+    </g>
+    <text x="86" y="484"   text-anchor="end">0</text>
+    <text x="86" y="357.3" text-anchor="end">5</text>
+    <text x="86" y="230.7" text-anchor="end">10</text>
+    <text x="86" y="104"   text-anchor="end">15</text>
+  </g>
+
+  <!-- X-Achse: Ticks und Beschriftung (Schadenhoehe 0-30.000 EUR) -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" fill="#1e1e1e">
+    <g stroke="#1e1e1e" stroke-width="2">
+      <line x1="100"   y1="480" x2="100"   y2="486" />
+      <line x1="273.3" y1="480" x2="273.3" y2="486" />
+      <line x1="446.7" y1="480" x2="446.7" y2="486" />
+      <line x1="620"   y1="480" x2="620"   y2="486" />
+    </g>
+    <text x="100"   y="502" text-anchor="middle">0</text>
+    <text x="273.3" y="502" text-anchor="middle">10.000</text>
+    <text x="446.7" y="502" text-anchor="middle">20.000</text>
+    <text x="620"   y="502" text-anchor="middle">30.000</text>
+  </g>
+
+  <!-- ===== Nachbarschaftsradius (K=5) ===== -->
+  <circle cx="308" cy="277.3" r="96" fill="#00c6b2" fill-opacity="0.06"
+          stroke="#757575" stroke-width="1.5" stroke-dasharray="6 5" />
+
+  <!-- ===== Verbindungslinien zu den 5 naechsten Nachbarn ===== -->
+  <g stroke="#757575" stroke-width="1.5" stroke-dasharray="4 3">
+    <line x1="308" y1="277.3" x2="325.3" y2="315.3" /><!-- Betrug   13.000 / 6,5 -->
+    <line x1="308" y1="277.3" x2="264.7" y2="252"   /><!-- Legitim   9.500 / 9   -->
+    <line x1="308" y1="277.3" x2="360"   y2="252"   /><!-- Betrug   15.000 / 9   -->
+    <line x1="308" y1="277.3" x2="386"   y2="315.3" /><!-- Betrug   16.500 / 6,5 -->
+    <line x1="308" y1="277.3" x2="282"   y2="366"   /><!-- Legitim  10.500 / 4,5 -->
+  </g>
+
+  <!-- ===== Datenpunkte: Legitim (teal) ===== -->
+  <g fill="#00c6b2" stroke="#ffffff" stroke-width="1.5">
+    <circle cx="264.7" cy="252"   r="7" /><!--  9.500 EUR / 9,0 J -->
+    <circle cx="282"   cy="366"   r="7" /><!-- 10.500 EUR / 4,5 J -->
+    <circle cx="221.3" cy="201.3" r="7" /><!--  7.000 EUR / 11,0 J -->
+    <circle cx="186.7" cy="302.7" r="7" /><!--  5.000 EUR / 7,0 J -->
+    <circle cx="169.3" cy="378.7" r="7" /><!--  4.000 EUR / 4,0 J -->
+    <circle cx="152"   cy="163.3" r="7" /><!--  3.000 EUR / 12,5 J -->
+    <circle cx="247.3" cy="138"   r="7" /><!--  8.500 EUR / 13,5 J -->
+    <circle cx="420.7" cy="150.7" r="7" /><!-- 18.500 EUR / 13,0 J -->
+    <circle cx="481.3" cy="416.7" r="7" /><!-- 22.000 EUR /  2,5 J -->
+  </g>
+
+  <!-- ===== Datenpunkte: Betrug (dunkelrot), Haeufung bei hoher Schadenhoehe ===== -->
+  <g fill="#c0392b" stroke="#ffffff" stroke-width="1.5">
+    <circle cx="325.3" cy="315.3" r="7" /><!-- 13.000 EUR / 6,5 J -->
+    <circle cx="360"   cy="252"   r="7" /><!-- 15.000 EUR / 9,0 J -->
+    <circle cx="386"   cy="315.3" r="7" /><!-- 16.500 EUR / 6,5 J -->
+    <circle cx="464"   cy="277.3" r="7" /><!-- 21.000 EUR / 8,0 J -->
+    <circle cx="516"   cy="328"   r="7" /><!-- 24.000 EUR / 6,0 J -->
+    <circle cx="559.3" cy="239.3" r="7" /><!-- 26.500 EUR / 9,5 J -->
+  </g>
+
+  <!-- ===== Neue Anfrage: 12.000 EUR / 8 Jahre ===== -->
+  <g>
+    <path d="M0,-13 L3.23,-4.45 L12.36,-4.02 L5.23,1.7 L7.64,10.52 L0,5.5
+             L-7.64,10.52 L-5.23,1.7 L-12.36,-4.02 L-3.23,-4.45 Z"
+          transform="translate(308 277.3)" fill="#f5a623" stroke="#1e1e1e" stroke-width="1.5" stroke-linejoin="round" />
+    <!-- Leader-Linie zur Beschriftung -->
+    <line x1="308" y1="292" x2="308" y2="386" stroke="#1e1e1e" stroke-width="1.5" />
+    <text x="308" y="404" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="600"
+          fill="#1e1e1e" text-anchor="middle">Neue Anfrage</text>
+  </g>
+
+  <!-- ===== Achsentitel ===== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e">
+    <text x="360" y="530" text-anchor="middle">Schadenhöhe (EUR)</text>
+    <text x="34" y="290" text-anchor="middle" transform="rotate(-90 34 290)">Fahrzeugalter (Jahre)</text>
+  </g>
+
+  <!-- ===== Legende ===== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" fill="#1e1e1e">
+    <circle cx="106" cy="566" r="7" fill="#c0392b" stroke="#ffffff" stroke-width="1.5" />
+    <text x="120" y="571">Betrug</text>
+
+    <circle cx="216" cy="566" r="7" fill="#00c6b2" stroke="#ffffff" stroke-width="1.5" />
+    <text x="230" y="571">Legitim</text>
+
+    <path d="M0,-13 L3.23,-4.45 L12.36,-4.02 L5.23,1.7 L7.64,10.52 L0,5.5
+             L-7.64,10.52 L-5.23,1.7 L-12.36,-4.02 L-3.23,-4.45 Z"
+          transform="translate(330 566) scale(0.8)" fill="#f5a623" stroke="#1e1e1e" stroke-width="1.8" stroke-linejoin="round" />
+    <text x="345" y="571">Neue Anfrage</text>
+
+    <line x1="470" y1="566" x2="502" y2="566" stroke="#757575" stroke-width="1.5" stroke-dasharray="4 3" />
+    <text x="512" y="571" fill="#757575">Distanz zu den 5 Nachbarn</text>
+  </g>
+</svg>

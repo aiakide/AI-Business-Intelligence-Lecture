@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="auto"
+     role="img" aria-labelledby="titleTree descTree">
+  <title id="titleTree">Entscheidungsbaum zur Betrugserkennung im Kfz-Schadenfall</title>
+  <desc id="descTree">Ein binaerer Entscheidungsbaum mit drei Ebenen teilt 60 Schadenfaelle auf.
+  Die Wurzel prueft, ob die Schadenhoehe groesser als 10.000 Euro ist. Trifft das zu (40 Faelle), folgt eine zweite
+  Pruefung, ob das Fahrzeugalter groesser als fuenf Jahre ist: Ist auch das erfuellt, endet der Pfad im Blatt
+  Hohes Betrugsrisiko mit 35 Betrugsfaellen und 87 Prozent Reinheit; andernfalls im Blatt Niedriges Risiko mit
+  5 legitimen Faellen und 80 Prozent. Trifft die Wurzelbedingung nicht zu (20 Faelle), endet der Pfad direkt im Blatt
+  Niedriges Risiko mit 95 Prozent legitimen Faellen. Die Splits nach Schadenhoehe und Fahrzeugalter hat der Algorithmus
+  selbststaendig aus den Daten gelernt.</desc>
+
+  <defs>
+    <!-- Pfeilspitze fuer die Kanten des Baums -->
+    <marker id="tree-ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#00C6B2"/>
+    </marker>
+  </defs>
+
+  <!-- ============================================================
+       KANTEN (zuerst gezeichnet, damit die Boxen darueber liegen)
+       Elbow-Routing: senkrecht runter, waagerecht, senkrecht in den Kindknoten
+       ============================================================ -->
+  <g fill="none" stroke="#00C6B2" stroke-width="2.5" stroke-linejoin="round"
+     marker-end="url(#tree-ah)">
+    <!-- Wurzel -> Fahrzeugalter-Knoten (Bedingung erfuellt) -->
+    <path d="M 420 114 L 420 152 L 225 152 L 225 186"/>
+    <!-- Wurzel -> Blatt "Niedriges Risiko" (Bedingung nicht erfuellt) -->
+    <path d="M 420 114 L 420 152 L 620 152 L 620 186"/>
+    <!-- Fahrzeugalter -> Blatt "Hohes Betrugsrisiko" -->
+    <path d="M 225 262 L 225 300 L 110 300 L 110 334"/>
+    <!-- Fahrzeugalter -> Blatt "Niedriges Risiko" -->
+    <path d="M 225 262 L 225 300 L 340 300 L 340 334"/>
+  </g>
+
+  <!-- Kantenbeschriftungen Ebene 1 -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700"
+     fill="#00C6B2" text-anchor="middle">
+    <text x="316" y="145">Ja</text>
+    <text x="524" y="145">Nein</text>
+    <!-- Ebene 2 -->
+    <text x="163" y="293">Ja</text>
+    <text x="287" y="293">Nein</text>
+  </g>
+
+  <!-- ============================================================
+       EBENE 1 — WURZELKNOTEN: erster Split (Schadenhoehe)
+       ============================================================ -->
+  <rect x="290" y="38" width="260" height="76" rx="4" fill="#f5f5f5" stroke="#00C6B2" stroke-width="2.5"/>
+  <text x="420" y="70" font-family="Montserrat, Helvetica, sans-serif" font-size="15.5" font-weight="700"
+        fill="#1e1e1e" text-anchor="middle">Schadenhöhe &gt; EUR 10.000?</text>
+  <text x="420" y="94" font-family="Montserrat, Helvetica, sans-serif" font-size="13"
+        fill="#757575" text-anchor="middle">60 Fälle</text>
+
+  <!-- ============================================================
+       EBENE 2 — INNERER KNOTEN: zweiter Split (Fahrzeugalter)
+       ============================================================ -->
+  <rect x="105" y="186" width="240" height="76" rx="4" fill="#f5f5f5" stroke="#00C6B2" stroke-width="2.5"/>
+  <text x="225" y="218" font-family="Montserrat, Helvetica, sans-serif" font-size="15.5" font-weight="700"
+        fill="#1e1e1e" text-anchor="middle">Fahrzeugalter &gt; 5 Jahre?</text>
+  <text x="225" y="242" font-family="Montserrat, Helvetica, sans-serif" font-size="13"
+        fill="#757575" text-anchor="middle">40 Fälle</text>
+
+  <!-- ============================================================
+       EBENE 2 — BLATT rechts: direkte Entscheidung, kein weiterer Split
+       ============================================================ -->
+  <rect x="505" y="186" width="230" height="76" rx="4" fill="#e9f7ef" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="620" y="218" font-family="Montserrat, Helvetica, sans-serif" font-size="15.5" font-weight="700"
+        fill="#1e1e1e" text-anchor="middle">Niedriges Risiko</text>
+  <text x="620" y="242" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="600"
+        fill="#15803d" text-anchor="middle">20 Fälle · 95 % legitim</text>
+
+  <!-- ============================================================
+       EBENE 3 — BLATT links: hohes Betrugsrisiko
+       ============================================================ -->
+  <rect x="15" y="334" width="190" height="80" rx="4" fill="#fdecec" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="110" y="368" font-family="Montserrat, Helvetica, sans-serif" font-size="15" font-weight="700"
+        fill="#1e1e1e" text-anchor="middle">Hohes Betrugsrisiko</text>
+  <text x="110" y="392" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="600"
+        fill="#b91c1c" text-anchor="middle">35 Betrug · 87 %</text>
+
+  <!-- ============================================================
+       EBENE 3 — BLATT rechts: niedriges Risiko
+       ============================================================ -->
+  <rect x="245" y="334" width="190" height="80" rx="4" fill="#e9f7ef" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="340" y="368" font-family="Montserrat, Helvetica, sans-serif" font-size="15" font-weight="700"
+        fill="#1e1e1e" text-anchor="middle">Niedriges Risiko</text>
+  <text x="340" y="392" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="600"
+        fill="#15803d" text-anchor="middle">5 legitim · 80 %</text>
+
+  <!-- ============================================================
+       FUSSNOTE — didaktischer Kern: die Splits sind gelernt, nicht gesetzt
+       ============================================================ -->
+  <line x1="15" y1="446" x2="785" y2="446" stroke="#e8e8e8" stroke-width="1.5"/>
+  <text x="15" y="470" font-family="Montserrat, Helvetica, sans-serif" font-size="12.5"
+        fill="#757575">Der Algorithmus wählt Split-Merkmal und Schwellenwert selbst — er sucht die Frage, die die
+        Fälle am reinsten trennt.</text>
+</svg>
