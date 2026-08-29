@@ -2387,7 +2387,7 @@ layout: default
 
 **Overfitting:** Das Modell hat die Trainingsdaten auswendig gelernt — Trainings-Error sinkt, Validierungs-Error *steigt*. **Underfitting:** das Modell ist zu einfach, beide Errors bleiben hoch. Optimal ist die Mitte: beide Errors niedrig, kein Auseinanderdriften.
 
-<img :src="'/overfitting-underfitting-lernkurve.svg'" alt="Lernkurve: Trainingsfehler sinkt, Validierungsfehler ist U-förmig mit Minimum" style="max-height: 240px; margin: 0 auto; display: block;" />
+<img :src="'/overfitting-underfitting-lernkurve.svg'" alt="Lernkurve: Trainingsfehler sinkt, Validierungsfehler ist U-förmig mit Minimum" style="max-height: 320px; margin: 0 auto; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 7 – Model Assessment and Selection', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
@@ -2401,16 +2401,7 @@ layout: default
 
 Ein Klassifikationsmodell trifft für jeden Fall eine von vier möglichen Aussagen:
 
-| | **Modell: Betrug** | **Modell: Kein Betrug** |
-|:---|:---:|:---:|
-| **Wirklich: Betrug** | ✅ TP | ❌ FN |
-| **Wirklich: Kein Betrug** | ❌ FP | ✅ TN |
-
-**Was bedeutet das?**
-- **TP (True Positive):** Betrug erkannt → richtig
-- **FN (False Negative):** Betrug übersehen → kostspielig
-- **FP (False Positive):** Falschalarm → ärgerlich
-- **TN (True Negative):** Legitim erkannt → richtig
+<img :src="'/confusion-matrix-typen-diagramm.svg'" alt="2x2-Matrix: Modell-Vorhersage (Betrug/Kein Betrug) gegen tatsächlichen Zustand, mit TP, FN, FP, TN" style="max-height: 340px; margin: 0 auto; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
@@ -2422,13 +2413,9 @@ layout: default
 
 ## Confusion Matrix im Beispiel: 1.000 Testfälle
 
-**Szenarien:**
-- Tatsächliche Betrugsfälle: 20 (2 % Quote)
-- TP = 15, FN = 5 (Betrug: 15 erkannt, 5 übersehen)
-- FP = 30 (legitim fälschlich als Betrug markiert)
-- TN = 950 (legitim korrekt erkannt)
+Tatsächliche Betrugsfälle: 20 (2 % Quote) — legitime Fälle: 980.
 
-**Konsistenzcheck:** 15 + 5 + 30 + 950 = 1.000 ✓
+<img :src="'/confusion-matrix-beispiel-diagramm.svg'" alt="Confusion Matrix mit konkreten Zahlen: TP 15, FN 5, FP 30, TN 950, Summe 1.000" style="max-height: 280px; margin: 0 auto; display: block;" />
 
 Aus diesen vier Zahlen berechnen wir Accuracy, Precision, Recall und F1-Score.
 
@@ -2450,7 +2437,11 @@ $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
 $$\text{Accuracy} = \frac{15 + 950}{15 + 950 + 30 + 5} = \frac{965}{1000} = 0{,}965 = 96{,}5\%$$
 
-96,5 % klingt hervorragend! Aber hier ist der **kritische Haken:** Wenn der Versicherer ein Modell bauen würde, das *immer* "Kein Betrug" sagt, hätte es 98 % Accuracy (980 von 1.000 Fällen sind tatsächlich legitim) — und würde **100 % der Betrugsfälle übersehen**. Accuracy ist eine **Falle bei unbalancierten Klassen**.
+96,5 % klingt hervorragend!
+
+> ⚠️ **Der kritische Haken — Accuracy ist eine Falle bei unbalancierten Klassen**
+>
+> Ein Modell, das *immer* "Kein Betrug" sagt, hätte 98 % Accuracy (980 von 1.000 Fällen sind tatsächlich legitim) — und würde **100 % der Betrugsfälle übersehen**.
 
 Das erklärt, warum wir Precision und Recall separat messen müssen.
 
@@ -2470,6 +2461,17 @@ layout: default
 $$\text{Precision} = \frac{TP}{TP + FP} = \frac{15}{15 + 30} = \frac{15}{45} \approx 0{,}333 = 33{,}3\%$$
 
 Das Modell markiert 45 Fälle als Betrug. Aber nur 15 davon sind echt — **66,7 % sind Fehlalarme**. Precision misst, wie sehr ich dem Modell *trauen kann*.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Géron, Aurélien: Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (3rd ed.)', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Precision vs. Recall — zwei Seiten einer Medaille
 
 **Recall:** Von den tatsächlichen Betrugsfällen, wie viele erkennt das Modell?
 
@@ -2557,16 +2559,20 @@ layout: default
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## k-Nearest Neighbors (KNN) — Lerne von der Vergangenheit
 
+::left::
+
 **Idee:** Um zu entscheiden, ob *dieser* neue Schadensfall Betrug ist, schau auf die K ähnlichsten Fälle aus der Vergangenheit. Wenn die meisten davon Betrug waren, sag "Betrug". Sonst sag "Legitim".
 
-<img :src="'/knn-nachbarn-diagramm.svg'" alt="KNN-Beispiel: Neuer Fall von 5 Nachbarn umgeben, 3 sind Betrug, 2 legitim. Majority Voting: Betrug." style="max-height: 230px; margin: 0 auto; display: block;" />
-
 **Majority Voting:** 3 von 5 Nachbarn sagen Betrug → Modell sagt **Betrug**
+
+::right::
+
+<img :src="'/knn-nachbarn-diagramm.svg'" alt="KNN-Beispiel: Neuer Fall von 5 Nachbarn umgeben, 3 sind Betrug, 2 legitim. Majority Voting: Betrug." style="max-height: 280px; margin: 0 auto; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Cover, T., Hart, P.: Nearest neighbor pattern classification. IEEE Transactions on Information Theory, 13(1)', url: 'https://doi.org/10.1109/TIT.1967.1053964', year: '1967' },
@@ -2578,15 +2584,11 @@ layout: default
 
 ## KNN in der Praxis — einfach, aber begrenzt
 
-**Vorteile:**
-- Funktioniert "ohne Training" — nur Daten speichern (Lazy Learning)
-- Keine Annahmen über Datenverteilung nötig
-- Funktioniert für beliebig komplexe Entscheidungsgrenzen
-
-**Nachteile:**
-- Alle Trainingsdaten müssen im Speicher bleiben (bei 400.000 Fällen problematisch)
-- Vorhersagen sind langsam (jede Vorhersage braucht Vergleich mit allen Trainingsfällen)
-- "Curse of Dimensionality" — mit vielen Features werden die Distanzen schnell uneindeutig
+| ✅ **Vorteile** | ❌ **Nachteile** |
+|---|---|
+| Funktioniert "ohne Training" — nur Daten speichern (Lazy Learning) | Alle Trainingsdaten müssen im Speicher bleiben (bei 400.000 Fällen problematisch) |
+| Keine Annahmen über Datenverteilung nötig | Vorhersagen sind langsam (jede Vorhersage braucht Vergleich mit allen Trainingsfällen) |
+| Funktioniert für beliebig komplexe Entscheidungsgrenzen | "Curse of Dimensionality" — mit vielen Features werden die Distanzen schnell uneindeutig |
 
 **Praxis im Versicherer-Portfolio:**
 KNN passt für kleine Subsets (z.B. Großschäden > EUR 50.000), nicht für 400.000 Verträge. Für große Datenmengen brauchst du einen robusteren Algorithmus.
@@ -2599,32 +2601,11 @@ KNN passt für kleine Subsets (z.B. Großschäden > EUR 50.000), nicht für 400.
 layout: default
 ---
 
-## KNN vs. K-Means — eine Verwechslung mit Folgen
-
-Beide Algorithmen haben "K" im Namen, lösen aber völlig unterschiedliche Probleme:
-
-| Aspekt | KNN | K-Means |
-|---|---|---|
-| **Typ** | Supervised (braucht Labels) | Unsupervised (keine Labels) |
-| **Ziel** | Klassifikation eines neuen Falls | Segmentierung in K Gruppen |
-| **Vorhersage** | Mehrheitsvotum der K Nachbarn | Nähe zum nächsten Cluster-Zentrum |
-| **Kapitel** | Hier (Kapitel 4) | Kapitel 5 (Clustering) |
-
-KNN braucht gelabelte Daten, K-Means findet Muster *ohne* Labels — zwei verschiedene ML-Welten trotz ähnlichem Namen.
-
-<LiteraturSource :sources="[
-  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 2 – Overview of Supervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
-]" />
-
----
-layout: default
----
-
 ## Entscheidungsbäume: Die Idee
 
-**Hook:** Ein Analyst trifft Vorhersagen mit Wenn-Dann-Fragen: "Schaden > EUR 10.000? Auto älter als 5 Jahre?" — genau das ist ein Entscheidungsbaum.
+**Ausgangsfrage:** Ein Analyst trifft Vorhersagen mit Wenn-Dann-Fragen: "Schaden > EUR 10.000? Auto älter als 5 Jahre?" — genau das ist ein Entscheidungsbaum.
 
-**Foundation — drei Kernideen:**
+**Funktionsprinzip — drei Kernideen:**
 - **Rekursive binäre Splits:** Der Baum teilt Daten iterativ in immer kleinere, homogenere Gruppen auf
 - **Blattknoten = Vorhersage:** Am Ende jedes Pfads sitzt eine Entscheidung (Betrug oder Legitim)
 - **Interpretierbar:** Im Gegensatz zu Neural Networks können wir *genau sehen*, warum der Baum so entschieden hat
