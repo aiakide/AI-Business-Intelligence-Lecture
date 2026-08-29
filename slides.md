@@ -86,11 +86,48 @@ layout: chapter
 
 ::left::
 
-# Session 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
+# Kapitel 1: [Statistik]{style="color:var(--slidev-theme-primary)"} als Fundament
 
 ::right::
 
 <Illustration src="/illustrations/business-analytics-bro.svg" alt="Business Intelligence & Data Science" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Stichprobe, Konfidenzintervall und Fehlermarge als Basis jeder Aussage über Daten
+- Warum Mittelwert, Median und Modus unterschiedliche Geschichten erzählen können
+- Wie Kovarianz und Korrelation Zusammenhänge beschreiben — ohne Kausalität zu beweisen
+
+📊 **Anwenden & Bewerten:**
+- Lagemaße, Streuung, Kovarianz und Korrelation für einen Datensatz von Hand berechnen
+- Eine lineare Regressionsgerade herleiten und mit R² ihre Güte beurteilen
+- Eine logistische Regression zur Klassifikation (z. B. Betrug ja/nein) aufstellen und interpretieren
+
+<LiteraturSource :sources="[
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Warum Korrelation nicht Kausalität bedeutet — und wo das in der Praxis zu Fehlschlüssen führt
+- Interaktionseffekte erkennen, die ein rein additives Modell übersieht
+- p-Werte und statistische Signifikanz einordnen, ohne sie mit praktischer Relevanz zu verwechseln
+
+Das sind die Werkzeuge, auf denen jedes Modell in diesem Kurs aufbaut.
 
 ---
 layout: header-cols
@@ -138,9 +175,9 @@ layout: default
 
 *Diesen Lifecycle kennt die Praxis als CRISP-DM — dazu mehr später.*
 
-*Jede Session fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
+*Jedes Kapitel fügt eine Werkzeugschicht hinzu — weil die vorherige an ihre Grenzen stößt.*
 
-Welche Methode löst welche Frage — und in welcher Session? Die Übersicht zeigt Dir den Plan auf einen Blick.
+Welche Methode löst welche Frage — und in welchem Kapitel? Die Übersicht zeigt Dir den Plan auf einen Blick.
 
 <LiteraturSource :sources="[
   { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
@@ -155,14 +192,14 @@ layout: default
 
 *Jede Frage erfordert eine neue Methode — und jede Methode baut auf der vorherigen auf.*
 
-| Geschäftsfrage | Methode | Session |
+| Geschäftsfrage | Methode | Kapitel |
 |---|---|---|
-| Schadenhöhe schätzen | Regression (Statistik) | S1 |
-| Betrug erkennen? | Klassifikation (ML) | S2 |
-| Kundengruppen finden | Clustering | S3 |
-| Schadenfoto auswerten | Deep Learning / CV | S4 |
-| Meldungstext lesen | NLP | S5 |
-| Prognose & Strategie | Vertiefung / Kombination | S6–8 |
+| Schadenhöhe schätzen | Regression (Statistik) | K1 |
+| Betrug erkennen? | Klassifikation (ML) | K4 |
+| Kundengruppen finden | Clustering | K5 |
+| Schadenfoto auswerten | Deep Learning / CV | K6 |
+| Meldungstext lesen | NLP | K7 |
+| Prognose & Strategie | Vertiefung / Kombination | K8–10 |
 
 <LiteraturSource :sources="[
   { title: 'Chan, Hogaboam & Cao: Applied Artificial Intelligence in Business. Springer.', url: 'https://doi.org/10.1007/978-3-031-05740-3', year: '2022' },
@@ -655,7 +692,7 @@ layout: default
 
 **Lösung:** Jede Beobachtung wird in Standardabweichungen vom Mittelwert ausgedrückt — unabhängig von der ursprünglichen Einheit.
 
-Für unser Zwei-Variablen-Beispiel ist das eine nette Nebenrechnung. Der eigentliche Gewinn zeigt sich, sobald ein Modell **mehrere Features gleichzeitig** verarbeitet: Ohne Standardisierung dominiert das Feature mit den größten Zahlen automatisch die Berechnung — unabhängig davon, ob es inhaltlich wichtig ist. Die z-Transformation ist deshalb Standardpraxis in **Machine-Learning-Pipelines** (Session 2) und ein Werkzeug, das Dich bis zu neuronalen Netzen begleitet.
+Für unser Zwei-Variablen-Beispiel ist das eine nette Nebenrechnung. Der eigentliche Gewinn zeigt sich, sobald ein Modell **mehrere Features gleichzeitig** verarbeitet: Ohne Standardisierung dominiert das Feature mit den größten Zahlen automatisch die Berechnung — unabhängig davon, ob es inhaltlich wichtig ist. Die z-Transformation ist deshalb Standardpraxis in **Machine-Learning-Pipelines** (Kapitel 4) und ein Werkzeug, das Dich bis zu neuronalen Netzen begleitet.
 
 <!-- Überleitung: Wie genau das funktioniert, schauen wir uns jetzt mit der Formel an. -->
 
@@ -1096,12 +1133,84 @@ Unser Modell liefert $p = 0{,}01$ für den „Alter"-Effekt bei $\alpha = 0{,}05
 *   **Wichtig:** Der $p$-Wert ist kein Alleinurteil.
 *   Effektgröße, Stichprobengröße und Domänenwissen sind ebenso entscheidend, um valide Schlussfolgerungen zu ziehen und Fehlinterpretationen zu vermeiden.
 
-Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regression verstanden — von Hand gerechnet. Aber kein Versicherer wertet 400.000 Verträge mit dem Taschenrechner aus. Genau das übernimmt Code. Schauen wir, wie dieselben Berechnungen in Python aussehen.
+Wir haben jetzt die Mathematik hinter Mittelwert, Streuung, Korrelation und Regression verstanden — von Hand gerechnet. Zeit, das selbst an einem eigenen Fall durchzurechnen. Denn eines ist klar: Kein Versicherer wertet 400.000 Verträge so aus — genau das übernimmt gleich Code.
 
 <LiteraturSource :sources="[
   { title: 'Wasserstein & Lazar: The ASA Statement on p-Values: Context, Process, and Purpose', url: 'https://doi.org/10.1080/00031305.2016.1154108', year: '2016' },
   { title: 'Amrhein, Greenland & McShane: Scientists rise up against statistical significance', url: 'https://doi.org/10.1038/d41586-019-00857-9', year: '2019' },
 ]" />
+
+---
+layout: header-cols
+---
+
+## 💻 [Übung]{style="color:var(--slidev-theme-primary)"} — Statistik als Fundament
+
+::left::
+
+Zeit, selbst zu rechnen: Ein Aufgabenblatt mit zwei Kfz-Versicherer-Datensätzen führt Dich von Hand durch den gesamten Block — Lagemaße bis Odds Ratio.
+
+1. Lagemaße & Streuung
+2. Kovarianz & Korrelation
+3. z-Transformation
+4. Lineare Regression (OLS von Hand)
+5. Logistische Regression & Odds Ratio
+6. *(Bonus)* Signifikanz in der Praxis
+
+> 🎯 **Dein Auftrag:** Aufgabenblatt durchrechnen — von Hand oder mit Python, ganz wie Du magst.
+
+::right::
+
+<Illustration src="/illustrations/analytics-bro.svg" alt="Statistik-Übung" width="90%" />
+
+---
+layout: chapter
+---
+
+::left::
+
+# Kapitel 2: [Python-Vertiefung]{style="color:var(--slidev-theme-primary)"}
+
+::right::
+
+<Illustration src="/illustrations/coding-bro.svg" alt="Python-Vertiefung" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Grundsyntax: Variablen, Datentypen, Funktionsaufrufe und Kontrollstrukturen (if/for/while)
+- Objektorientierte Programmierung: Klasse vs. Objekt, Attribute, Methoden
+- Wofür NumPy, Pandas und Matplotlib jeweils stehen — und wie sie zusammenspielen
+
+📊 **Anwenden & Bewerten:**
+- Die Statistik-Berechnungen aus Kapitel 1 (Lagemaße, Streuung, z-Transformation, Regression, R²) in Python nachbauen
+- Eine eigene Klasse mit Methoden schreiben, um Schadensfälle als Objekte zu modellieren
+- Mit Pandas und Matplotlib einen Datensatz laden, aufbereiten und visualisieren
+
+<LiteraturSource :sources="[
+  { title: 'Python Data Science Handbook', url: 'https://jakevdp.github.io/PythonDataScienceHandbook/', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Wann sich vektorisierter NumPy-Code lohnt — und wann eine einfache Schleife reicht
+- Typische Fallstricke (Kopier-Falle, NumPy-Streuungs-Fallgrube) erkennen, bevor sie zu falschen Ergebnissen führen
+- Warum Scikit-Learn der nächste logische Schritt ist, sobald Code wiederverwendbar sein soll
+
+Das ist die Code-Basis, auf der jedes Modell ab jetzt aufbaut.
 
 ---
 layout: section
@@ -1889,7 +1998,7 @@ layout: default
 
 ## Scikit-Learn — [ein Ausblick]{style="color:var(--slidev-theme-primary)"}
 
-NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-Learn** — eine Bibliothek voll vorgefertigter Algorithmen (Random Forest, KNN, Logistische Regression, Clustering); wir starten damit in Session 2.
+NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-Learn** — eine Bibliothek voll vorgefertigter Algorithmen (Random Forest, KNN, Logistische Regression, Clustering); wir starten damit in Kapitel 4.
 
 <LiteraturSource :sources="[
   { title: 'scikit-learn documentation: Supervised Learning', url: 'https://scikit-learn.org/stable/supervised_learning.html', year: '2024' },
@@ -1906,10 +2015,53 @@ Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regressi
 **Der nächste Schritt:** Wie trainiert man ein Modell, das nicht nur *beschreibt* („Der Fahrzeugalter erklärt Reparaturkosten zu $r = 0{,}99$"), sondern *vorhersagt* („Wie hoch ist die Wahrscheinlichkeit, dass ein neuer Schaden betrügerisch ist")? 
 
 ---
-layout: section
+layout: chapter
 ---
 
-# Professionelle Tools & Workflows
+::left::
+
+# Kapitel 3: [Tools & Workflows]{style="color:var(--slidev-theme-primary)"}
+
+::right::
+
+<Illustration src="/illustrations/devops-tools-bro.svg" alt="Tools & Workflows" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Wofür Jupyter Notebooks, Docker und Kubernetes jeweils gebraucht werden — und welches Problem jedes löst
+- Git/GitHub als Versionskontrolle und Team-Kollaborationswerkzeug
+- CRISP-DM als Prozessrahmen, der Data-Science-Projekte strukturiert
+
+📊 **Anwenden & Bewerten:**
+- Ein Colab-Notebook öffnen und lauffähigen Code darin ausführen
+- Den Unterschied zwischen Image und Container an einem eigenen Beispiel erklären
+- Die CRISP-DM-Phasen auf den eigenen Versicherer-Case (Betrugserkennung) mappen
+
+<LiteraturSource :sources="[
+  { title: 'The CRISP-DM Model: The New Blueprint for Data Mining (Colin Shearer, Journal of Data Warehousing vol. 5)', url: 'https://www.scirp.org/reference/ReferencesPapers?ReferenceID=1592780', year: '2000' }
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Warum Reproduzierbarkeit (Docker) und Skalierbarkeit (Kubernetes) über den Prototyp hinaus zum Problem werden
+- Wann ein deklarativer Ansatz (Kubernetes) einem imperativen vorzuziehen ist
+- Warum CRISP-DM ein Kreislauf ist, kein linearer Prozess
+
+Diese Werkzeuge begleiten Dich ab jetzt bei jedem Modell, das wir bauen.
 
 ---
 layout: default
@@ -1959,17 +2111,26 @@ Zeit, selbst Hand anzulegen: Sechs Jupyter Notebooks in Google Colab vertiefen g
 layout: default
 ---
 
-## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Gleiche Umgebung überall
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Das Problem
 
 In Google Colab übernimmt Google die Umgebung für Dich. Ein Data-Science-Team im Unternehmen hat dieses Privileg nicht: verschiedene Rechner, verschiedene Python-Versionen, ein Produktionsserver mit wieder anderen. Derselbe Code funktioniert plötzlich nicht mehr überall gleich.
 
-**Docker löst genau dieses Problem:** Es packt Deinen Code *und alle seine Abhängigkeiten* in eine Box — das ist ein **Container**. Diese Box läuft überall identisch, weil sie alles Nötige mitbringt.
+Jedes Software-Team kennt diesen Satz: *"Bei mir auf dem Rechner funktioniert's doch..."*
 
-**Die Konzepte:**
-- **Docker-Image** = das "Rezept" (Blaupause): "Nimm Python 3.11, installiere pandas 2.0 und scikit-learn 1.3, kopiere meinen Code rein"
-- **Running Container** = eine Kopie des Rezepts, gerade am Laufen. Du kannst 10 Kopien gleichzeitig starten
+Die Lösung dafür heißt **Docker**.
 
-**Im Versicherer-Fall:** Dein Betrugserkennung-Modell als Docker-Image — jeder, der es ausführt, bekommt exakt das gleiche Resultat, ob 400.000 Schäden pro Minute oder 100 pro Tag.
+---
+layout: default
+---
+
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Image & Container
+
+**Docker löst genau dieses Problem:** Es packt Deinen Code *und alle seine Abhängigkeiten* in eine Box — das ist ein **Container**, der überall identisch läuft.
+
+- **Docker-Image** = das "Rezept" (Blaupause)
+- **Running Container** = eine laufende Kopie davon. Du kannst 10 Kopien gleichzeitig starten
+
+<img :src="'/docker-image-container-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Docker for Data Science', url: 'https://www.amazon.com/Docker-Data-Science-Extensible-Infrastructure/dp/1484230116', year: '2017' }
@@ -1979,15 +2140,33 @@ In Google Colab übernimmt Google die Umgebung für Dich. Ein Data-Science-Team 
 layout: default
 ---
 
-## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Automatische Orchestrierung
+## <img :src="'/logos/docker.svg'" class="inline-block h-9 align-middle mr-2" /> Docker — Im Versicherer-Fall
+
+Dein Betrugserkennung-Modell als Docker-Image — jeder, der es ausführt, bekommt exakt das gleiche Resultat, ob 400.000 Schäden pro Minute oder 100 pro Tag.
+
+Aber eine Kopie reicht nicht: Wer startet 100 Kopien gleichzeitig, verwaltet sie, ersetzt abgestürzte automatisch? Das übernimmt **Kubernetes**.
+
+---
+layout: default
+---
+
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Wozu Orchestrierung?
 
 Dein Docker-Container läuft. Jetzt: Der Code crasht — automatisch einen neuen Container starten. Zu viele Anfragen — automatisch mehr starten. Traffic sinkt — automatisch abfahren. Kein Team könnte das von Hand machen, 24/7.
 
-**Kubernetes** ist ein Orchestrierungssystem für Docker-Container. Du sagst: *"Ich möchte 5 Replicas meines Modells laufen haben."* Kubernetes startet 5 Container. Einer crasht — Kubernetes startet einen neuen. Traffic steigt — Kubernetes startet automatisch mehr.
+**Kubernetes** ist ein Orchestrierungssystem für Docker-Container — es übernimmt genau diese Aufgabe, dauerhaft und automatisch.
 
-**Das Wichtigste:** Du beschreibst, *was* Du brauchst ("5 Replicas"), nicht *wie* das System es umsetzen soll — Kubernetes übernimmt den Rest. Das nennt man **deklarativ**.
+---
+layout: default
+---
 
-**Im Versicherer-Fall:** Dein Fahrzeugschadenmodell hat 99 % Genauigkeit. Unwetter im Norden bringt 10× mehr Anfragen — Kubernetes erkennt die lange Warteschlange und startet automatisch 50 neue Replicas. Danach fährt es sie wieder herunter. Alles ohne menschliches Zutun. Bei einem kleineren Bestand sind es vielleicht 3 statt 50 — das Prinzip bleibt gleich.
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Deklarativ
+
+Du sagst: *"Ich möchte 5 Replicas meines Modells laufen haben."* Einer crasht — Kubernetes startet einen neuen. Traffic steigt — Kubernetes startet automatisch mehr.
+
+**Das Wichtigste:** Du beschreibst, *was* Du brauchst, nicht *wie* es umgesetzt wird — Kubernetes übernimmt den Rest. Das nennt man **deklarativ**.
+
+<img :src="'/kubernetes-orchestration-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Designing Machine Learning Systems', url: 'https://www.oreilly.com/library/view/designing-machine-learning-systems/9781098107963/', year: '2022' }
@@ -1997,9 +2176,17 @@ Dein Docker-Container läuft. Jetzt: Der Code crasht — automatisch einen neuen
 layout: default
 ---
 
-## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Versionskontrolle
+## <img :src="'/logos/kubernetes.svg'" class="inline-block h-9 align-middle mr-2" /> Kubernetes — Im Versicherer-Fall
+
+Dein Fahrzeugschadenmodell hat 99 % Genauigkeit. Unwetter im Norden bringt 10× mehr Anfragen — Kubernetes erkennt die lange Warteschlange und startet automatisch 50 neue Replicas. Danach fährt es sie wieder herunter. Alles ohne menschliches Zutun. Bei einem kleineren Bestand sind es vielleicht 3 statt 50 — das Prinzip bleibt gleich.
 
 Alle diese Container, alle diese Konfigurationen — wer verwaltet das? Wie stellt man sicher, dass nicht versehentlich eine alte Version deployed wird?
+
+---
+layout: default
+---
+
+## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Versionskontrolle
 
 Der Data Scientist schreibt den Klassifikationscode. Der DevOps-Engineer schreibt die Kubernetes-Konfiguration. Die Datenbeschafferin ändert die Datenquelle. Ohne zentrale Verwaltung: Chaos.
 
@@ -2008,7 +2195,19 @@ Der Data Scientist schreibt den Klassifikationscode. Der DevOps-Engineer schreib
 - Wann?
 - Warum? (die Commit-Message)
 
-Du kannst auf frühere Versionen zurückgehen, "Branches" (parallele Versionen) erstellen, um Features zu testen, und sie später mit `merge` zusammenführen.
+Aber Teams arbeiten nicht linear — mehrere Leute ändern gleichzeitig verschiedene Dinge, ohne sich gegenseitig zu blockieren. Wie geht das?
+
+---
+layout: default
+---
+
+## <img :src="'/logos/git.svg'" class="inline-block h-9 align-middle mr-2" /> Git — Branches & Merges
+
+- **Commit** = ein Schnappschuss Deiner Änderungen, mit Autor, Zeitstempel und Commit-Message
+- **Branch** = eine parallele Entwicklungslinie — Du entwickelst ein Feature, ohne den Hauptstand (`main`) zu gefährden
+- **Merge** = die Branch-Linie wird wieder in `main` zusammengeführt
+
+<img :src="'/git-branch-merge-diagram.svg'" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
 Aber wo lebt dieses Repository, und wie arbeitet ein ganzes Team gemeinsam daran?
 
@@ -2036,7 +2235,7 @@ layout: default
 
 ## CRISP-DM — Die 6 Phasen
 
-Wir haben jetzt mehrere Sessions lang Statistik und Code gelernt. Aber in welcher *Reihenfolge* wenden wir alle diese Werkzeuge an, um ein echtes Problem zu lösen? Gibt es einen Standard dafür?
+Wir haben jetzt mehrere Kapitel lang Statistik und Code gelernt. Aber in welcher *Reihenfolge* wenden wir alle diese Werkzeuge an, um ein echtes Problem zu lösen? Gibt es einen Standard dafür?
 
 **CRISP-DM** *(Cross-Industry Standard Process for Data Mining)* ist das Framework, das genau das definiert. Es strukturiert Data-Mining-Projekte in **6 Phasen**:
 
@@ -2057,15 +2256,11 @@ layout: default
 
 ## CRISP-DM — Der Kreislauf
 
-CRISP-DM ist **zyklisch**, nicht linear:
+CRISP-DM ist **zyklisch**, nicht linear — die klassische Darstellung zeigt das als Kreis, mit den Daten im Zentrum jeder Phase:
 
-- Evaluation zeigt "das Modell ist nicht gut genug"? → zurück zu Data Preparation oder Modeling
-- Deployment zeigt Datendrift im Livebetrieb? → zurück zu Data Understanding
-- Neue Geschäftsanforderung? → zurück zu Business Understanding
+<img :src="'/crisp-dm-cycle-diagram.svg'" style="max-height: 270px; margin: 0.5rem auto 0; display: block;" />
 
-Das ist normal — das ist der Punkt. Kein Projekt läuft die 6 Phasen einmal durch und ist fertig.
-
-Es ist beruhigend zu wissen: wir folgen keinem willkürlichen Plan — wir folgen dem Standard, den die ganze Industrie nutzt.
+Evaluation oder Deployment schicken uns oft zurück zu einer früheren Phase — das ist normal, kein Scheitern.
 
 ---
 layout: default
@@ -2077,9 +2272,9 @@ Wo genau stehen wir im CRISP-DM-Prozess gerade? Hier die ersten drei Phasen:
 
 | Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
 |---|---|---|
-| **Business Understanding** | Session 1 | *"Wir brauchen Betrugsdetection, Preismodelle, Kundengruppen"* |
-| **Data Understanding** | Session 1 | Stichprobe, Konfidenz, Lagemaße, Varianz, Korrelation |
-| **Data Preparation** | Sessions 2–8 | Transformation, Feature Selection, Outlier-Behandlung |
+| **Business Understanding** | Kapitel 1 | *"Wir brauchen Betrugsdetection, Preismodelle, Kundengruppen"* |
+| **Data Understanding** | Kapitel 1 | Stichprobe, Konfidenz, Lagemaße, Varianz, Korrelation |
+| **Data Preparation** | Kapitel 4–10 | Transformation, Feature Selection, Outlier-Behandlung |
 
 ---
 layout: default
@@ -2091,94 +2286,480 @@ Und die letzten drei Phasen:
 
 | Phase | Wo sind wir im Modul? | Das konkrete Beispiel |
 |---|---|---|
-| **Modeling** | Sessions 2–6 | Regression, Random Forest, Clustering, Deep Learning |
-| **Evaluation** | Session 2 | Train/Val-Split, Metriken, Kreuzvalidierung |
-| **Deployment** | Heute + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
+| **Modeling** | Kapitel 4–8 | Regression, Random Forest, Clustering, Deep Learning |
+| **Evaluation** | Kapitel 4 | Train/Val-Split, Metriken, Kreuzvalidierung |
+| **Deployment** | Kapitel 3 + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
 
 Mit jedem neuen Algorithmus wenden wir diese Phasen an — manchmal in wenigen Minuten (ein schnelles Experiment), manchmal in Wochen (ein echtes Produktionsmodell). Aber die Struktur bleibt immer gleich.
-
----
-layout: default
----
-
-## Drei Ebenen, ein Prozess
-
-Es gibt drei Ebenen, auf denen Du arbeitest, und über all dem liegt ein Prozess, den wir ab jetzt bei jedem Algorithmus wieder anwenden:
-
-**Ebene 1: Code** (Python) — wie schreibe ich Statistik und Machine Learning in Code  
-**Ebene 2: Infrastruktur** (Jupyter, Docker, Kubernetes) — wo und wie läuft dieser Code, und wie skaliert es  
-**Ebene 3: Zusammenarbeit** (GitHub) — wie arbeiten Teams zusammen, ohne sich zu blockieren
-
-**Ebene 0: Prozess** (CRISP-DM) — in welcher Reihenfolge wenden wir alles an, um ein echtes Problem zu lösen
-
-Mit diesen Werkzeugen kannst Du Daten analysieren *und dafür sorgen, dass Deine Analyse in der echten Welt funktioniert* — zuverlässig, skalierbar, und als Team.
-
-Jetzt lernen wir den nächsten Schritt: wie man ein Modell baut, das nicht nur *beschreibt*, sondern *vorhersagt*. Das ist Supervised Learning. Und es beginnt mit einer fundamentalen Frage: **Wie teile ich meine Daten, um ein verlässliches Vorhersagemodell zu trainieren?** Das ist der Train/Validation-Split — der Schlüssel zu allem, was folgt.
-
----
-layout: header-cols
----
-
-## Left column
-
-::left::
-
-- Point one
-- Point two
-- Point three
-
-::right::
-
-<Illustration src="/illustrations/teaching-bro.svg" alt="Teaching" width="90%" />
-
----
-layout: header-cols
----
-
-# Heading spanning the top
-
-::left::
-
-## Left
-
-- Point one
-- Point two
-
-::right::
-
-## Right
-
-- Point three
-- Point four
-
----
-layout: section
----
-
-# Section divider
-
----
-layout: fact
----
-
-# 42
-
-The answer to everything
 
 ---
 layout: statement
 ---
 
-# A bold statement goes here
+## Von der Infrastruktur zum Modell
+
+Jetzt lernen wir den nächsten Schritt: wie man ein Modell baut, das nicht nur *beschreibt*, sondern *vorhersagt*.
+
+Das ist **Supervised Learning** — und es beginnt mit dem **Train/Validation-Split**, der Grundlage für alles, was folgt.
 
 ---
-layout: center
-class: text-center
+layout: chapter
 ---
 
-# Thank You
+::left::
 
-Questions?
+# Kapitel 4: [Supervised Learning]{style="color:var(--slidev-theme-primary)"}
+
+Vom Trainieren zum Vorhersagen — Klassifikation in der Praxis
+
+::right::
+
+<Illustration src="/illustrations/artificial-intelligence-bro.svg" alt="Supervised Machine Learning" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Anwenden
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Train/Validation/Test-Split als Goldstandard für sauberes Modelltraining
+- Overfitting & Underfitting als fundamentale ML-Probleme
+- Confusion Matrix, Accuracy, Precision, Recall und F1-Score sinnvoll interpretieren
+
+📊 **Anwenden & Bewerten:**
+- Metriken aus Testdaten von Hand berechnen (Confusion Matrix → alle Formeln)
+- Für ein Betrugsproblem die *richtige* Metrik auswählen (Recall vs. Precision)
+- KNN und Random Forest praktisch einsetzen und Hyperparameter anpassen
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 7 – Model Assessment and Selection', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Trade-offs zwischen Modellkomplexität, Interpretierbarkeit und Leistung bewerten
+- Warum Black-Box-Modelle (KNN, Random Forest) trotz mangelnder Explainability oft gewählt werden
+- Geschäftliche Kosten von Falschalarmen vs. übersehenen Betrugsfällen quantifizieren
+
+Das sind die Kriterien, an denen wir unsere Modelle am Ende des Kapitels messen.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 7 – Model Assessment and Selection', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Vom Training zum Test
+
+Du kennst die **Logistische Regression** — sie sagt Betrugswahrscheinlichkeiten vorher. Aber wie weiß ich, ob mein Modell **echt gut ist** oder nur die Trainingsdaten auswendig gelernt hat?
+
+**Das Problem:** Test auf den *gleichen* Daten wie Training → schöne Illusion, aber echte Vorhersagen versagen oft.
+
+**Die Lösung — Daten aufteilen:**
+1. **Training Set** — Modell lernt Muster
+2. **Validation Set** — Hyperparameter justieren
+3. **Test Set** — finale Performance messen
+
+> Die Test-Performance ist die einzige Zahl, auf die zählt — alles andere ist Selbstbetrug.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 7 – Model Assessment and Selection', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Fahrmeir, Heumann et al.: Statistik – Der Weg zur Datenanalyse, Kap. 9 – Parameterschätzung', url: 'https://doi.org/10.1007/978-3-662-50372-0', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Overfitting vs. Underfitting — das Kernproblem
+
+**Overfitting:** Das Modell hat die Trainingsdaten auswendig gelernt — Trainings-Error sinkt, Validierungs-Error *steigt*. **Underfitting:** das Modell ist zu einfach, beide Errors bleiben hoch. Optimal ist die Mitte: beide Errors niedrig, kein Auseinanderdriften.
+
+<img :src="'/overfitting-underfitting-lernkurve.svg'" alt="Lernkurve: Trainingsfehler sinkt, Validierungsfehler ist U-förmig mit Minimum" style="max-height: 320px; margin: 0 auto; display: block;" />
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 7 – Model Assessment and Selection', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Confusion Matrix — vier Ergebnis-Typen
+
+Ein Klassifikationsmodell trifft für jeden Fall eine von vier möglichen Aussagen:
+
+<img :src="'/confusion-matrix-typen-diagramm.svg'" alt="2x2-Matrix: Modell-Vorhersage (Betrug/Kein Betrug) gegen tatsächlichen Zustand, mit TP, FN, FP, TN" style="max-height: 340px; margin: 0 auto; display: block;" />
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Confusion Matrix im Beispiel: 1.000 Testfälle
+
+Tatsächliche Betrugsfälle: 20 (2 % Quote) — legitime Fälle: 980.
+
+<img :src="'/confusion-matrix-beispiel-diagramm.svg'" alt="Confusion Matrix mit konkreten Zahlen: TP 15, FN 5, FP 30, TN 950, Summe 1.000" style="max-height: 280px; margin: 0 auto; display: block;" />
+
+Aus diesen vier Zahlen berechnen wir Accuracy, Precision, Recall und F1-Score.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Accuracy — die täuschend einfache Metrik
+
+**Accuracy** ist der Anteil korrekt klassifizierter Fälle:
+
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+**Mit unseren Zahlen:**
+
+$$\text{Accuracy} = \frac{15 + 950}{15 + 950 + 30 + 5} = \frac{965}{1000} = 0{,}965 = 96{,}5\%$$
+
+96,5 % klingt hervorragend!
+
+> ⚠️ **Der kritische Haken — Accuracy ist eine Falle bei unbalancierten Klassen**
+>
+> Ein Modell, das *immer* "Kein Betrug" sagt, hätte 98 % Accuracy (980 von 1.000 Fällen sind tatsächlich legitim) — und würde **100 % der Betrugsfälle übersehen**.
+
+Das erklärt, warum wir Precision und Recall separat messen müssen.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Géron, Aurélien: Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (3rd ed.)', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Precision vs. Recall — zwei Seiten einer Medaille
+
+**Precision:** Von den Fällen, die das Modell als "Betrug" markiert, wie viele sind *wirklich* Betrug?
+
+$$\text{Precision} = \frac{TP}{TP + FP} = \frac{15}{15 + 30} = \frac{15}{45} \approx 0{,}333 = 33{,}3\%$$
+
+Das Modell markiert 45 Fälle als Betrug. Aber nur 15 davon sind echt — **66,7 % sind Fehlalarme**. Precision misst, wie sehr ich dem Modell *trauen kann*.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Géron, Aurélien: Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (3rd ed.)', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Precision vs. Recall — zwei Seiten einer Medaille
+
+**Recall:** Von den tatsächlichen Betrugsfällen, wie viele erkennt das Modell?
+
+$$\text{Recall} = \frac{TP}{TP + FN} = \frac{15}{15 + 5} = \frac{15}{20} = 0{,}75 = 75\%$$
+
+Es gibt 20 echte Betrugsfälle, das Modell erwischt 15 — **25 % Betrugsfälle entgehen unerkannt**. Recall misst, wie *vollständig* das Modell ist.
+
+**Die Spannung:** Precision hochfahren senkt oft Recall — restriktive Modelle haben wenige Fehlalarme, übersehen aber mehr echte Betrugsfälle.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Géron, Aurélien: Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (3rd ed.)', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## F1-Score — Precision und Recall ausbalancieren
+
+**F1-Score** ist das harmonische Mittel aus Precision und Recall — es bestraft Modelle, die eine der beiden Metriken vernachlässigen:
+
+$$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = 2 \cdot \frac{0{,}333 \times 0{,}75}{0{,}333 + 0{,}75} \approx 0{,}462 = 46{,}2\%$$
+
+Der F1-Score von 46,2 % ist *deutlich* niedriger als die Accuracy von 96,5 %. Das offenbart: Das Modell klassifiziert zwar insgesamt viele Fälle richtig, aber die Betrugsvorhersage ist schlecht balanciert (hohe Fehlalarme, schwache Erkennung).
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Géron, Aurélien: Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (3rd ed.)', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', year: '2022' },
+]" />
+
+---
+layout: default
+---
+
+## Welche Metrik wähle ich?
+
+- **Accuracy:** Nur bei balancierten Klassen — sonst Fallen-Metrik
+- **Precision:** Wenn Falschalarme teuer sind (Kundenbeschwerde bei falschem Verdacht)
+- **Recall:** Wenn übersehene Fälle teuer sind (unerkannter Betrug = EUR 15.000 Schaden)
+- **F1-Score:** Wenn beide Fehler gleich gewichtig sind
+
+Die richtige Wahl ist eine *Geschäftsfrage*, keine mathematische.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Business-Kosten: Baseline-Modell (Recall 75 %)
+
+**Kosten pro Fall:**
+- Unerkannter Betrug: EUR 15.000 Schaden
+- Falschalarm: EUR 500 (Untersuchung + Kundenverstimmung)
+
+**Unser Modell mit Recall 75 % auf 1.000 Fällen:**
+- 5 Betrugsfälle entgehen unerkannt → EUR 75.000 Verlust
+- 30 Fehlalarme → EUR 15.000 Kosten
+- **Gesamtschaden: EUR 90.000**
+
+Können wir es besser machen?
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Alternative: Aggressiveres Modell (Recall 95 %)
+
+**Hyperparameter ändern → mehr Betrug-Vorhersagen:**
+- 1 Betrugsfall entgeht unerkannt → EUR 15.000 Verlust
+- 150 Fehlalarme → EUR 75.000 Kosten
+- **Gesamtschaden: EUR 90.000**
+
+**Die Lektion:** Precision vs. Recall ist nicht eine mathematische Frage — es ist eine Geschäftsfrage. Hier kosten beide Strategien gleich viel. Die Wahl hängt von Risiko-Toleranz ab, nicht vom Algorithmus.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 4 – Linear Methods for Classification', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: header-cols
+---
+
+## k-Nearest Neighbors (KNN) — Lerne von der Vergangenheit
+
+::left::
+
+**Idee:** Um zu entscheiden, ob *dieser* neue Schadensfall Betrug ist, schau auf die K ähnlichsten Fälle aus der Vergangenheit. Wenn die meisten davon Betrug waren, sag "Betrug". Sonst sag "Legitim".
+
+**Majority Voting:** 3 von 5 Nachbarn sagen Betrug → Modell sagt **Betrug**
+
+::right::
+
+<img :src="'/knn-nachbarn-diagramm.svg'" alt="KNN-Beispiel: Neuer Fall von 5 Nachbarn umgeben, 3 sind Betrug, 2 legitim. Majority Voting: Betrug." style="max-height: 280px; margin: 0 auto; display: block;" />
+
+<LiteraturSource :sources="[
+  { title: 'Cover, T., Hart, P.: Nearest neighbor pattern classification. IEEE Transactions on Information Theory, 13(1)', url: 'https://doi.org/10.1109/TIT.1967.1053964', year: '1967' },
+]" />
+
+---
+layout: default
+---
+
+## KNN in der Praxis — einfach, aber begrenzt
+
+| ✅ **Vorteile** | ❌ **Nachteile** |
+|---|---|
+| Funktioniert "ohne Training" — nur Daten speichern (Lazy Learning) | Alle Trainingsdaten müssen im Speicher bleiben (bei 400.000 Fällen problematisch) |
+| Keine Annahmen über Datenverteilung nötig | Vorhersagen sind langsam (jede Vorhersage braucht Vergleich mit allen Trainingsfällen) |
+| Funktioniert für beliebig komplexe Entscheidungsgrenzen | "Curse of Dimensionality" — mit vielen Features werden die Distanzen schnell uneindeutig |
+
+**Praxis im Versicherer-Portfolio:**
+KNN passt für kleine Subsets (z.B. Großschäden > EUR 50.000), nicht für 400.000 Verträge. Für große Datenmengen brauchst du einen robusteren Algorithmus.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 2 – Overview of Supervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Entscheidungsbäume: Die Idee
+
+**Ausgangsfrage:** Ein Analyst trifft Vorhersagen mit Wenn-Dann-Fragen: "Schaden > EUR 10.000? Auto älter als 5 Jahre?" — genau das ist ein Entscheidungsbaum.
+
+**Funktionsprinzip — drei Kernideen:**
+- **Rekursive binäre Splits:** Der Baum teilt Daten iterativ in immer kleinere, homogenere Gruppen auf
+- **Blattknoten = Vorhersage:** Am Ende jedes Pfads sitzt eine Entscheidung (Betrug oder Legitim)
+- **Interpretierbar:** Im Gegensatz zu Neural Networks können wir *genau sehen*, warum der Baum so entschieden hat
+
+**Die Herausforderung:** Ein einzelner Baum neigt zu Overfitting — er passt sich zu genau an die Trainingsdaten an. Wie reduzieren wir dieses Risiko? Mit mehreren unabhängigen Bäumen statt einem.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 8 – Tree-Based Methods', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Entscheidungsbaum im Beispiel
+
+<img :src="'/entscheidungsbaum-split-diagramm.svg'" alt="Entscheidungsbaum mit Wurzel, Splits und Blattknoten für Betrugserkennung" style="max-height: 260px; margin: 0 auto; display: block;" />
+
+Wurzel splittet nach dem besten Feature (Schadenhöhe), innere Knoten verfeinern (Fahrzeugalter), Blätter liefern die Vorhersage. Ein Baum allein ist mächtig, aber nicht robust — hundert unterschiedliche Bäume, das ist Random Forest.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 8 – Tree-Based Methods', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Random Forest: Ensemble Learning durch Bagging
+
+100 Analysten, die unabhängig arbeiten, entscheiden oft besser als einer. **Bootstrap-Sampling:** jeder Baum trainiert auf einer zufälligen Stichprobe der Daten. **Majority Voting:** bei der Vorhersage gewinnt die häufigste Klasse.
+
+<img :src="'/random-forest-ensemble-diagramm.svg'" alt="Random Forest: 100 Bäume, die parallel abstimmen" style="max-height: 220px; margin: 0 auto; display: block;" />
+
+Random Forest ist parallel und robust gegen Overfitting. Sequenziell statt parallel — jeder Baum korrigiert gezielt die Fehler des Vorgängers — das ist Gradient Boosting.
+
+<LiteraturSource :sources="[
+  { title: 'Breiman, L.: Random Forests. Machine Learning, 45(1), 5–32', url: 'https://doi.org/10.1023/A:1010933404324', year: '2001' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 15 – Ensemble Methods', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Random Forest: Feature Importance & Praxis
+
+**Feature Importance — wertvolles Geschäftswissen:**
+Random Forest zeigt, welche Features am meisten zur Vorhersage beitragen. Im Betrugsmodell: Schadenhöhe (32 %), Fahrzeugalter (18 %), Kundenalter (15 %) — die Versicherung weiß, worauf sie achten muss.
+
+**Warum Random Forest in der Praxis so beliebt:**
+- Robust gegen Overfitting (Bootstrap & Voting wirken wie natürliche Regularisierung)
+- Schnell in der Vorhersage (parallele Bäume auf Multi-Core in Millisekunden)
+- Hyperparameter-stabil (Ergebnisse ändern sich nicht wild bei Variationen)
+
+**Nachteile:** Black-Box — wir sehen nicht *warum* ein Fall als Betrug klassifiziert wird. Aber die hohe Accuracy ist oft den Interpretationsverlust wert.
+
+<LiteraturSource :sources="[
+  { title: 'Breiman, L.: Random Forests. Machine Learning, 45(1), 5–32', url: 'https://doi.org/10.1023/A:1010933404324', year: '2001' },
+]" />
+
+---
+layout: default
+---
+
+## Gradient Boosting: Die Idee
+
+Random Forest stimmt *parallel* ab. Gradient Boosting baut *sequenziell*: Baum 2 lernt, die Fehler (Residuen) von Baum 1 zu korrigieren, Baum 3 die Restfehler — und so weiter, bis der Fehler klein ist.
+
+<img :src="'/gradient-boosting-sequenz-diagramm.svg'" alt="Gradient Boosting: Bäume werden sequenziell gebaut, jeder korrigiert die Fehler des Vorgängers" style="max-height: 220px; margin: 0 auto; display: block;" />
+
+**Der Trade-off:** oft 2–5 % höhere Accuracy als Random Forest, aber mehr Rechenzeit und steigendes Overfitting-Risiko bei zu vielen Iterationen.
+
+<LiteraturSource :sources="[
+  { title: 'Friedman, J.H.: Greedy Function Approximation: A Gradient Boosting Machine', url: 'https://doi.org/10.1214/aos/1013203451', year: '2001' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 10 – Boosting and Additive Trees', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Gradient Boosting: In der Praxis
+
+**XGBoost — der Standard:**
+Wenn Du "Gradient Boosting" hörst, meinst du meist **XGBoost** (Extreme Gradient Boosting) — eine optimierte Open-Source-Implementierung, die im Kaggle-Wettbewerb unschlagbar ist.
+
+**Hyperparameter der Accuracy:**
+- **Learning Rate:** Wie schnell lernt Baum K von den Residuen? Kleine Werte (0.01–0.1) sind sicherer, langsamer aber robuster
+- **Tiefe & Iterationen:** Tiefe 3–6, Iterationen 100–500 — mehr Bäume = bessere Accuracy, aber Overfitting-Risiko
+- **Overfitting-Vorsicht:** Im Gegensatz zu Random Forest brauchst du hier aktives Monitoring via Validation Set
+
+**Wann welches?** Random Forest für schnelles, stabiles Prototyping — Gradient Boosting, wenn 2–5 % bessere Accuracy den Mehraufwand rechtfertigt.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 10 – Boosting and Additive Trees', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Faustregel: Wann welcher Algorithmus?
+
+**Tabellarische Daten, schnelle erste Lösung:**
+→ Random Forest. Robust, schnell zu trainieren, stabile Hyperparameter, gute Baseline-Accuracy.
+
+**Tabellarische Daten mit Accuracy-Fokus:**
+→ Gradient Boosting (XGBoost). Oft 2–5 % besser als Random Forest, aber komplexer und Overfitting-anfälliger — für Production-Systeme, wenn Precision kritisch ist.
+
+**Kleine, strukturierte Feature-Sets:**
+→ k-Nearest Neighbors (KNN). Schnell zu implementieren, aber speicherintensiv — nur für kleine Datenmengen.
+
+**Bilder** (Kfz-Schadensfotos, Dokumenten-Scans):
+→ Convolutional Neural Networks (CNN). Kommt in Kapitel 6.
+
+**Text** (Betrugs-Verdachtsbeschreibungen, Chat-Protokolle):
+→ Natural Language Processing (NLP). Kommt in Kapitel 7.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 10 – Boosting and Additive Trees', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 15 – Ensemble Methods', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: header-cols
+---
+
+## 💻 Übung — Betrugserkennung klassifizieren
+
+::left::
+
+**Deine Aufgaben (siehe Aufgabenblatt):**
+
+1. Berechne Accuracy, Precision, Recall, F1-Score aus TP/TN/FP/FN
+2. KNN von Hand: Finde 5 nächste Nachbarn, wende Majority Voting an
+3. Business-Entscheidung: Wann wählst du Recall? Rechne die Kosten aus
+
+Alle Details im separaten Aufgabenblatt — oder mit Python und Scikit-Learn üben.
+
+::right::
+
+<Illustration src="/illustrations/robotics-bro.svg" alt="Klassifikation & Vorhersage" width="90%" />
+
+---
+layout: statement
+---
+
+# Danke & Diskussion
+
+**Fragen zur Klassifikation?**
+
+Deine Kapitel-4-Challenges: Train/Validation-Split, Confusion Matrix berechnen, KNN, Random Forest und Gradient Boosting verstehen — und wissen, wann welcher Algorithmus passt.
+
 
 ---
 layout: default

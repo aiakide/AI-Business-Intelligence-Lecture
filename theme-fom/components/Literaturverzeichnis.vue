@@ -24,12 +24,16 @@ const sources = computed(() => parseSources(rawSlides as string))
 <style scoped>
 .literaturverzeichnis ol {
   margin: 0;
-  padding-left: 1.4em;
-  font-size: 0.8rem;
-  line-height: 1.45;
+  padding-left: 1.1em;
+  font-size: 0.54rem;
+  line-height: 1.1;
+  column-count: 5;
+  column-fill: balance;
+  column-gap: 1em;
+  width: 100%;
 }
 .literaturverzeichnis li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.16rem;
   break-inside: avoid;
   color: #333;
 }

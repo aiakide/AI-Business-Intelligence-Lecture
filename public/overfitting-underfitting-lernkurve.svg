@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="auto"
+     role="img" aria-label="Lernkurve: Trainingsfehler faellt monoton mit steigender Modell-Komplexitaet, Validierungsfehler ist U-foermig mit Minimum bei Baumtiefe 7">
+
+  <title>Lernkurve: Underfitting, Optimum und Overfitting</title>
+  <desc>Diagramm mit Modell-Komplexitaet (Baumtiefe 1 bis 20) auf der X-Achse und Error-Rate in Prozent auf der Y-Achse. Der Trainingsfehler faellt monoton, der Validierungsfehler faellt zunaechst, erreicht bei Baumtiefe 7 sein Minimum und steigt danach wieder an. Drei Zonen: Underfitting links, Optimal in der Mitte, Overfitting rechts.</desc>
+
+  <style>
+    .t    { font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .zone { font-size: 15px; font-weight: 700; }
+    .zsub { font-size: 11.5px; fill: #757575; }
+    .ax   { font-size: 14px; font-weight: 600; fill: #1e1e1e; }
+    .tick { font-size: 12px; fill: #757575; }
+    .leg  { font-size: 13px; font-weight: 600; fill: #1e1e1e; }
+    .ann  { font-size: 12px; font-weight: 600; fill: #1e1e1e; }
+  </style>
+
+  <!-- ============ Hintergrund-Zonen (dezent getoent) ============ -->
+  <!-- Underfitting: Baumtiefe 1-5 -->
+  <rect x="90" y="60" width="136.8" height="340" fill="#f5f5f5" />
+  <!-- Optimal: Baumtiefe 5-9 -->
+  <rect x="226.8" y="60" width="136.9" height="340" fill="#e2f7f4" />
+  <!-- Overfitting: Baumtiefe 9-20 -->
+  <rect x="363.7" y="60" width="376.3" height="340" fill="#f5f5f5" />
+  <!-- Zonentrenner -->
+  <g stroke="#ffffff" stroke-width="2">
+    <line x1="226.8" y1="60" x2="226.8" y2="400" />
+    <line x1="363.7" y1="60" x2="363.7" y2="400" />
+  </g>
+
+  <!-- ============ Zonen-Beschriftung ============ -->
+  <text class="t zone" x="158" y="42"   text-anchor="middle" fill="#757575">Underfitting</text>
+  <text class="t zsub" x="158" y="58"   text-anchor="middle">Modell zu einfach</text>
+
+  <text class="t zone" x="295.3" y="42" text-anchor="middle" fill="#00c6b2">Optimal</text>
+  <text class="t zsub" x="295.3" y="58" text-anchor="middle">bestes Verh&#228;ltnis</text>
+
+  <text class="t zone" x="552" y="42"   text-anchor="middle" fill="#757575">Overfitting</text>
+  <text class="t zsub" x="552" y="58"   text-anchor="middle">Modell lernt Trainingsdaten auswendig</text>
+
+  <!-- ============ Gridlines ============ -->
+  <g stroke="#e0e0e0" stroke-width="1">
+    <line x1="90" y1="315" x2="740" y2="315" />
+    <line x1="90" y1="230" x2="740" y2="230" />
+    <line x1="90" y1="145" x2="740" y2="145" />
+    <line x1="90" y1="60"  x2="740" y2="60"  />
+  </g>
+
+  <!-- ============ Achsen ============ -->
+  <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+    <line x1="90" y1="60"  x2="90"  y2="400" />
+    <line x1="90" y1="400" x2="740" y2="400" />
+  </g>
+
+  <!-- Y-Ticks -->
+  <g stroke="#1e1e1e" stroke-width="2">
+    <line x1="84" y1="400" x2="90" y2="400" />
+    <line x1="84" y1="315" x2="90" y2="315" />
+    <line x1="84" y1="230" x2="90" y2="230" />
+    <line x1="84" y1="145" x2="90" y2="145" />
+    <line x1="84" y1="60"  x2="90" y2="60"  />
+  </g>
+  <g class="t tick" text-anchor="end">
+    <text x="76" y="404">0 %</text>
+    <text x="76" y="319">25 %</text>
+    <text x="76" y="234">50 %</text>
+    <text x="76" y="149">75 %</text>
+    <text x="76" y="64">100 %</text>
+  </g>
+
+  <!-- X-Ticks: Baumtiefe 1, 5, 10, 15, 20 -->
+  <g stroke="#1e1e1e" stroke-width="2">
+    <line x1="90"  y1="400" x2="90"  y2="406" />
+    <line x1="226.8" y1="400" x2="226.8" y2="406" />
+    <line x1="397.9" y1="400" x2="397.9" y2="406" />
+    <line x1="568.9" y1="400" x2="568.9" y2="406" />
+    <line x1="740" y1="400" x2="740" y2="406" />
+  </g>
+  <g class="t tick" text-anchor="middle">
+    <text x="90"    y="422">1</text>
+    <text x="226.8" y="422">5</text>
+    <text x="397.9" y="422">10</text>
+    <text x="568.9" y="422">15</text>
+    <text x="740"   y="422">20</text>
+  </g>
+
+  <!-- ============ Optimum: gestrichelte Hilfslinie ============ -->
+  <line x1="295.3" y1="60" x2="295.3" y2="400" stroke="#1e1e1e" stroke-width="1.5"
+        stroke-dasharray="6 5" opacity="0.55" />
+
+  <!-- ============ Kurve: Validierungsfehler (U-foermig, teal) ============ -->
+  <path fill="none" stroke="#00c6b2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+        d="M 90.0 162.0 L 98.6 174.0 L 107.1 185.0 L 115.7 195.1 L 124.2 204.4 L 132.8 213.0 L 141.3 220.9 L 149.9 228.1 L 158.4 234.8 L 167.0 240.9 L 175.5 246.6 L 184.1 251.8 L 192.6 256.6 L 201.2 261.0 L 209.7 265.0 L 218.3 268.7 L 226.8 272.2 L 235.4 275.3 L 243.9 278.2 L 252.5 280.9 L 261.1 283.3 L 269.6 285.6 L 278.2 287.7 L 286.7 289.6 L 295.3 291.4 L 303.8 291.3 L 312.4 291.1 L 320.9 290.7 L 329.5 290.3 L 338.0 289.8 L 346.6 289.1 L 355.1 288.4 L 363.7 287.6 L 372.2 286.7 L 380.8 285.8 L 389.3 284.8 L 397.9 283.8 L 406.4 282.6 L 415.0 281.5 L 423.6 280.3 L 432.1 279.1 L 440.7 277.8 L 449.2 276.5 L 457.8 275.1 L 466.3 273.8 L 474.9 272.4 L 483.4 271.0 L 492.0 269.5 L 500.5 268.1 L 509.1 266.6 L 517.6 265.1 L 526.2 263.6 L 534.7 262.0 L 543.3 260.5 L 551.8 258.9 L 560.4 257.4 L 568.9 255.8 L 577.5 254.2 L 586.1 252.6 L 594.6 251.0 L 603.2 249.4 L 611.7 247.8 L 620.3 246.1 L 628.8 244.5 L 637.4 242.9 L 645.9 241.2 L 654.5 239.6 L 663.0 237.9 L 671.6 236.3 L 680.1 234.6 L 688.7 233.0 L 697.2 231.3 L 705.8 229.6 L 714.3 228.0 L 722.9 226.3 L 731.4 224.6 L 740.0 222.9" />
+
+  <!-- ============ Kurve: Trainingsfehler (monoton fallend, rot) ============ -->
+  <path fill="none" stroke="#d64545" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+        d="M 90.0 179.0 L 98.6 195.1 L 107.1 210.0 L 115.7 223.8 L 124.2 236.5 L 132.8 248.3 L 141.3 259.2 L 149.9 269.2 L 158.4 278.5 L 167.0 287.2 L 175.5 295.1 L 184.1 302.5 L 192.6 309.3 L 201.2 315.6 L 209.7 321.5 L 218.3 326.8 L 226.8 331.8 L 235.4 336.4 L 243.9 340.7 L 252.5 344.7 L 261.1 348.3 L 269.6 351.7 L 278.2 354.8 L 286.7 357.7 L 295.3 360.4 L 303.8 362.8 L 312.4 365.1 L 320.9 367.2 L 329.5 369.2 L 338.0 371.0 L 346.6 372.6 L 355.1 374.2 L 363.7 375.6 L 372.2 376.9 L 380.8 378.2 L 389.3 379.3 L 397.9 380.3 L 406.4 381.3 L 415.0 382.2 L 423.6 383.0 L 432.1 383.8 L 440.7 384.5 L 449.2 385.2 L 457.8 385.8 L 466.3 386.3 L 474.9 386.8 L 483.4 387.3 L 492.0 387.8 L 500.5 388.2 L 509.1 388.5 L 517.6 388.9 L 526.2 389.2 L 534.7 389.5 L 543.3 389.8 L 551.8 390.0 L 560.4 390.3 L 568.9 390.5 L 577.5 390.7 L 586.1 390.9 L 594.6 391.1 L 603.2 391.2 L 611.7 391.4 L 620.3 391.5 L 628.8 391.6 L 637.4 391.8 L 645.9 391.9 L 654.5 392.0 L 663.0 392.1 L 671.6 392.1 L 680.1 392.2 L 688.7 392.3 L 697.2 392.4 L 705.8 392.4 L 714.3 392.5 L 722.9 392.5 L 731.4 392.6 L 740.0 392.6" />
+
+  <!-- ============ Optimum-Marker am Minimum der Validierungskurve ============ -->
+  <circle cx="295.3" cy="291.4" r="9" fill="#ffffff" stroke="#1f9d55" stroke-width="3" />
+  <circle cx="295.3" cy="291.4" r="4" fill="#1f9d55" />
+
+  <!-- Annotation zum Optimum -->
+  <g class="t">
+    <line x1="295.3" y1="282" x2="295.3" y2="196" stroke="#1f9d55" stroke-width="1.5" />
+    <rect x="196" y="164" width="200" height="32" rx="4" fill="#ffffff" stroke="#1f9d55" stroke-width="1.8" />
+    <text class="ann" x="296" y="184" text-anchor="middle" fill="#1f9d55">bester Kompromiss: Tiefe 7</text>
+  </g>
+
+  <!-- Annotation Overfitting-Schere -->
+  <g class="t">
+    <line x1="672" y1="240" x2="672" y2="386" stroke="#757575" stroke-width="1.5" stroke-dasharray="4 4" />
+    <line x1="666" y1="240" x2="678" y2="240" stroke="#757575" stroke-width="1.5" />
+    <line x1="666" y1="386" x2="678" y2="386" stroke="#757575" stroke-width="1.5" />
+    <text class="zsub" x="686" y="309">L&#252;cke w&#228;chst</text>
+  </g>
+
+  <!-- ============ Legende ============ -->
+  <g class="t">
+    <rect x="404" y="316" width="248" height="62" rx="4" fill="#ffffff" stroke="#e0e0e0" stroke-width="1.5" />
+    <line x1="420" y1="336" x2="452" y2="336" stroke="#d64545" stroke-width="3" stroke-linecap="round" />
+    <text class="leg" x="462" y="341">Trainingsfehler</text>
+    <line x1="420" y1="360" x2="452" y2="360" stroke="#00c6b2" stroke-width="3" stroke-linecap="round" />
+    <text class="leg" x="462" y="365">Validierungsfehler</text>
+  </g>
+
+  <!-- ============ Achsentitel ============ -->
+  <g class="t ax">
+    <text x="415" y="452" text-anchor="middle">Modell-Komplexit&#228;t (Baumtiefe)</text>
+    <text x="26" y="230" text-anchor="middle" transform="rotate(-90 26 230)">Error-Rate</text>
+  </g>
+
+</svg>

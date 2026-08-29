@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="auto"
+     role="img" aria-labelledby="titleCM descCM">
+  <title id="titleCM">Confusion Matrix: vier Ergebnis-Typen eines Klassifikationsmodells</title>
+  <desc id="descCM">2x2-Matrix mit Modell-Vorhersage (Betrug / Kein Betrug) als Spalten und tatsaechlichem Zustand (Betrug / Kein Betrug) als Zeilen. Vier Zellen: True Positive oben links (gruen), False Negative oben rechts (rot), False Positive unten links (rot), True Negative unten rechts (gruen).</desc>
+
+  <style>
+    .t     { font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .hdr   { font-size: 15px; font-weight: 700; fill: #1e1e1e; }
+    .axlbl { font-size: 14px; font-weight: 700; fill: #1e1e1e; }
+    .code  { font-size: 30px; font-weight: 800; }
+    .name  { font-size: 15px; font-weight: 700; fill: #1e1e1e; }
+    .desc  { font-size: 12.5px; fill: #4a4a4a; }
+  </style>
+
+  <!-- ============ Achsenbeschriftungen ============ -->
+  <text class="t axlbl" x="400" y="26" text-anchor="middle">Modell sagt vorher</text>
+
+  <text class="t axlbl" x="26" y="250" text-anchor="middle" transform="rotate(-90 26 250)">Tatsaechlich ist</text>
+
+  <!-- Spaltenkoepfe -->
+  <rect x="215" y="42" width="270" height="36" rx="6" fill="#f5f5f5" />
+  <text class="t hdr" x="350" y="65" text-anchor="middle">Betrug</text>
+
+  <rect x="493" y="42" width="270" height="36" rx="6" fill="#f5f5f5" />
+  <text class="t hdr" x="628" y="65" text-anchor="middle">Kein Betrug</text>
+
+  <!-- Zeilenkoepfe -->
+  <rect x="45" y="86" width="162" height="150" rx="6" fill="#f5f5f5" />
+  <text class="t hdr" x="126" y="156" text-anchor="middle">Betrug</text>
+
+  <rect x="45" y="244" width="162" height="150" rx="6" fill="#f5f5f5" />
+  <text class="t hdr" x="126" y="314" text-anchor="middle">Kein Betrug</text>
+
+  <!-- ============ Zellen ============ -->
+  <!-- TP: Wirklich Betrug, Modell Betrug -> richtig (gruen) -->
+  <rect x="215" y="86" width="270" height="150" rx="8" fill="#e2f7f4" stroke="#00c6b2" stroke-width="2" />
+  <text class="t code" x="350" y="140" text-anchor="middle" fill="#1f9d55">TP</text>
+  <text class="t name" x="350" y="163" text-anchor="middle">True Positive</text>
+  <text class="t desc" x="350" y="184" text-anchor="middle">Betrug erkannt</text>
+  <text class="t desc" x="350" y="200" text-anchor="middle">→ richtig</text>
+
+  <!-- FN: Wirklich Betrug, Modell Kein Betrug -> Fehler (rot) -->
+  <rect x="493" y="86" width="270" height="150" rx="8" fill="#fdeaea" stroke="#ef4444" stroke-width="2" />
+  <text class="t code" x="628" y="140" text-anchor="middle" fill="#ef4444">FN</text>
+  <text class="t name" x="628" y="163" text-anchor="middle">False Negative</text>
+  <text class="t desc" x="628" y="184" text-anchor="middle">Betrug übersehen</text>
+  <text class="t desc" x="628" y="200" text-anchor="middle">→ kostspielig</text>
+
+  <!-- FP: Wirklich Kein Betrug, Modell Betrug -> Fehler (rot) -->
+  <rect x="215" y="244" width="270" height="150" rx="8" fill="#fdeaea" stroke="#ef4444" stroke-width="2" />
+  <text class="t code" x="350" y="298" text-anchor="middle" fill="#ef4444">FP</text>
+  <text class="t name" x="350" y="321" text-anchor="middle">False Positive</text>
+  <text class="t desc" x="350" y="342" text-anchor="middle">Falschalarm</text>
+  <text class="t desc" x="350" y="358" text-anchor="middle">→ ärgerlich</text>
+
+  <!-- TN: Wirklich Kein Betrug, Modell Kein Betrug -> richtig (gruen) -->
+  <rect x="493" y="244" width="270" height="150" rx="8" fill="#e2f7f4" stroke="#00c6b2" stroke-width="2" />
+  <text class="t code" x="628" y="298" text-anchor="middle" fill="#1f9d55">TN</text>
+  <text class="t name" x="628" y="321" text-anchor="middle">True Negative</text>
+  <text class="t desc" x="628" y="342" text-anchor="middle">Legitim erkannt</text>
+  <text class="t desc" x="628" y="358" text-anchor="middle">→ richtig</text>
+
+  <!-- ============ Legende ============ -->
+  <g transform="translate(215, 420)">
+    <rect x="0" y="0" width="16" height="16" rx="3" fill="#e2f7f4" stroke="#00c6b2" stroke-width="2" />
+    <text class="t desc" x="24" y="13">Richtige Vorhersage</text>
+    <rect x="200" y="0" width="16" height="16" rx="3" fill="#fdeaea" stroke="#ef4444" stroke-width="2" />
+    <text class="t desc" x="224" y="13">Falsche Vorhersage</text>
+  </g>
+</svg>

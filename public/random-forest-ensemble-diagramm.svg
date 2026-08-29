@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="100%" height="auto"
+     role="img" aria-label="Vier Entscheidungsbaeume aus unterschiedlichen Bootstrap-Stichproben stimmen per Mehrheitsvotum ab: drei von vier sagen Betrug, die Ensemble-Entscheidung lautet Betrug">
+
+  <title>Random Forest: Bagging und Majority Voting</title>
+  <desc>Vier auf unterschiedlichen Bootstrap-Stichproben trainierte Entscheidungsbaeume liefern die Einzelergebnisse Betrug, Betrug, Betrug und Legitim. Das Majority Voting fasst sie zusammen: 3 von 4 sagen Betrug (75 Prozent), die Ensemble-Entscheidung lautet Betrug.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#00c6b2" />
+    </marker>
+  </defs>
+
+  <style>
+    .t    { font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .hd   { font-size: 17px; font-weight: 700; fill: #1e1e1e; }
+    .card { font-size: 13px; font-weight: 700; fill: #1e1e1e; }
+    .sub  { font-size: 10.5px; fill: #757575; }
+    .res  { font-size: 12.5px; font-weight: 700; fill: #ffffff; }
+    .resg { font-size: 12.5px; font-weight: 700; fill: #ffffff; }
+    .vhd  { font-size: 15px; font-weight: 700; fill: #1e1e1e; }
+    .vtxt { font-size: 13px; fill: #1e1e1e; }
+    .vhl  { font-size: 15px; font-weight: 700; fill: #00c6b2; }
+    .foot { font-size: 11px; fill: #757575; }
+  </style>
+
+  <!-- ============ Ueberschrift ============ -->
+  <text class="t hd" x="450" y="26" text-anchor="middle">Bootstrap-Stichproben erzeugen unterschiedliche B&#228;ume</text>
+
+  <!-- ============ Baum 1 ============ -->
+  <g>
+    <rect x="60" y="42" width="180" height="166" rx="6" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <text class="t card" x="150" y="66" text-anchor="middle">Baum 1</text>
+    <text class="t sub"  x="150" y="83" text-anchor="middle">Stichprobe 1</text>
+    <!-- Baumstruktur: zwei Ebenen, links verzweigt -->
+    <g transform="translate(150,108)" stroke="#00c6b2" stroke-width="2" fill="none">
+      <line x1="0" y1="0" x2="-30" y2="34" />
+      <line x1="0" y1="0" x2="30"  y2="34" />
+      <line x1="-30" y1="34" x2="-46" y2="68" />
+      <line x1="-30" y1="34" x2="-14" y2="68" />
+      <circle cx="0"   cy="0"  r="8" fill="#00c6b2" />
+      <circle cx="-30" cy="34" r="7" fill="#ffffff" />
+      <circle cx="30"  cy="34" r="6" fill="#bff1ec" />
+      <circle cx="-46" cy="68" r="6" fill="#bff1ec" />
+      <circle cx="-14" cy="68" r="6" fill="#bff1ec" />
+    </g>
+  </g>
+  <rect x="90" y="220" width="120" height="32" rx="4" fill="#00c6b2" stroke="#00c6b2" stroke-width="2" />
+  <text class="t res" x="150" y="241" text-anchor="middle">Betrug</text>
+
+  <!-- ============ Baum 2 ============ -->
+  <g>
+    <rect x="260" y="42" width="180" height="166" rx="6" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <text class="t card" x="350" y="66" text-anchor="middle">Baum 2</text>
+    <text class="t sub"  x="350" y="83" text-anchor="middle">Stichprobe 2</text>
+    <!-- Baumstruktur: rechts verzweigt, flacher -->
+    <g transform="translate(350,108)" stroke="#00c6b2" stroke-width="2" fill="none">
+      <line x1="0" y1="0" x2="-26" y2="34" />
+      <line x1="0" y1="0" x2="26"  y2="34" />
+      <line x1="26" y1="34" x2="10"  y2="68" />
+      <line x1="26" y1="34" x2="44"  y2="68" />
+      <circle cx="0"   cy="0"  r="8" fill="#00c6b2" />
+      <circle cx="-26" cy="34" r="6" fill="#bff1ec" />
+      <circle cx="26"  cy="34" r="7" fill="#ffffff" />
+      <circle cx="10"  cy="68" r="6" fill="#bff1ec" />
+      <circle cx="44"  cy="68" r="6" fill="#bff1ec" />
+    </g>
+  </g>
+  <rect x="290" y="220" width="120" height="32" rx="4" fill="#00c6b2" stroke="#00c6b2" stroke-width="2" />
+  <text class="t res" x="350" y="241" text-anchor="middle">Betrug</text>
+
+  <!-- ============ Baum 3 ============ -->
+  <g>
+    <rect x="460" y="42" width="180" height="166" rx="6" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <text class="t card" x="550" y="66" text-anchor="middle">Baum 3</text>
+    <text class="t sub"  x="550" y="83" text-anchor="middle">Stichprobe 3</text>
+    <!-- Baumstruktur: drei Aeste an der Wurzel -->
+    <g transform="translate(550,108)" stroke="#00c6b2" stroke-width="2" fill="none">
+      <line x1="0" y1="0" x2="-34" y2="34" />
+      <line x1="0" y1="0" x2="0"   y2="34" />
+      <line x1="0" y1="0" x2="34"  y2="34" />
+      <line x1="-34" y1="34" x2="-34" y2="68" />
+      <circle cx="0"   cy="0"  r="8" fill="#00c6b2" />
+      <circle cx="-34" cy="34" r="7" fill="#ffffff" />
+      <circle cx="0"   cy="34" r="6" fill="#bff1ec" />
+      <circle cx="34"  cy="34" r="6" fill="#bff1ec" />
+      <circle cx="-34" cy="68" r="6" fill="#bff1ec" />
+    </g>
+  </g>
+  <rect x="490" y="220" width="120" height="32" rx="4" fill="#00c6b2" stroke="#00c6b2" stroke-width="2" />
+  <text class="t res" x="550" y="241" text-anchor="middle">Betrug</text>
+
+  <!-- ============ Baum 4 (abweichendes Votum) ============ -->
+  <g>
+    <rect x="660" y="42" width="180" height="166" rx="6" fill="#f5f5f5" stroke="#757575" stroke-width="2" />
+    <text class="t card" x="750" y="66" text-anchor="middle">Baum 4</text>
+    <text class="t sub"  x="750" y="83" text-anchor="middle">Stichprobe 4</text>
+    <!-- Baumstruktur: beidseitig verzweigt, tiefer -->
+    <g transform="translate(750,108)" stroke="#757575" stroke-width="2" fill="none">
+      <line x1="0" y1="0" x2="-26" y2="34" />
+      <line x1="0" y1="0" x2="26"  y2="34" />
+      <line x1="-26" y1="34" x2="-44" y2="68" />
+      <line x1="-26" y1="34" x2="-10" y2="68" />
+      <line x1="26" y1="34" x2="12"  y2="68" />
+      <line x1="26" y1="34" x2="44"  y2="68" />
+      <circle cx="0"   cy="0"  r="8" fill="#757575" />
+      <circle cx="-26" cy="34" r="7" fill="#ffffff" />
+      <circle cx="26"  cy="34" r="7" fill="#ffffff" />
+      <circle cx="-44" cy="68" r="6" fill="#e8e8e8" />
+      <circle cx="-10" cy="68" r="6" fill="#e8e8e8" />
+      <circle cx="12"  cy="68" r="6" fill="#e8e8e8" />
+      <circle cx="44"  cy="68" r="6" fill="#e8e8e8" />
+    </g>
+  </g>
+  <rect x="690" y="220" width="120" height="32" rx="4" fill="#757575" stroke="#757575" stroke-width="2" />
+  <text class="t resg" x="750" y="241" text-anchor="middle">Legitim</text>
+
+  <!-- ============ Fan-in: konvergierende Pfeile ============ -->
+  <line x1="150" y1="252" x2="150" y2="298" stroke="#00c6b2" stroke-width="2.5" />
+  <line x1="350" y1="252" x2="350" y2="298" stroke="#00c6b2" stroke-width="2.5" />
+  <line x1="550" y1="252" x2="550" y2="298" stroke="#00c6b2" stroke-width="2.5" />
+  <line x1="750" y1="252" x2="750" y2="298" stroke="#757575" stroke-width="2.5" />
+  <!-- Sammelbalken -->
+  <line x1="150" y1="298" x2="750" y2="298" stroke="#00c6b2" stroke-width="2.5" />
+  <!-- Stamm in die Voting-Box -->
+  <line x1="450" y1="298" x2="450" y2="340" stroke="#00c6b2" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <!-- ============ Majority Voting ============ -->
+  <rect x="180" y="344" width="540" height="96" rx="6" fill="#ffffff" stroke="#00c6b2" stroke-width="2.5" />
+  <path d="M180 350 a6 6 0 0 1 6 -6 h528 a6 6 0 0 1 6 6 v22 h-540 z" fill="#00c6b2" />
+  <text class="t vhd" x="450" y="365" text-anchor="middle" fill="#ffffff">Majority Voting</text>
+  <text class="t vtxt" x="450" y="399" text-anchor="middle">3 von 4 B&#228;umen sagen <tspan font-weight="700">Betrug</tspan> (75 %)</text>
+  <text class="t vhl"  x="450" y="425" text-anchor="middle">&#8594; Ensemble-Entscheidung: Betrug</text>
+
+  <!-- ============ Fussnote ============ -->
+  <text class="t foot" x="450" y="464" text-anchor="middle">Einzelne Fehlentscheidungen werden durch die Mehrheit ausgeglichen &#8211; das Ensemble ist stabiler als jeder einzelne Baum.</text>
+
+</svg>
