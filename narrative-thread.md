@@ -1931,13 +1931,18 @@ Needed sources:
 |---|---|---|---|---|---|
 | 6.0 | Kapitel 6 Opener + Lernziele (chapter layout + 2 Lernziele-Folien, 3-Tier Bloom's) — **3 Folien** | 6 | — (structural) | ✅ approved | 1 |
 | 6.1 | ML vs. Deep Learning (Architektur, Datenbedarf, Rechenaufwand, Interpretierbarkeit) — **4-Tier Cluster: Hook (Fotos statt Tabellen) / Foundation (Features manuell vs. automatisch) / Application (Versicherer-Szenarien + Pérez-Zarate 2024 Insurance Case) / Synthesis (Brücke zu Batch/Epoch)** — **5 Folien** (layouts: 1×default Hook, 1×header-cols Architecture, 3×default Data+Heuristic+Synthesis) | 6 | Versicherer (primary: Kfz-Schadensfotos; secondary: Betrugserkennung ML-Vergleich) | ✅ approved (2 visual-QA-Runden + 1 student-review) | 2 |
-| 6.2–6.5 | Batch/Epoch, Aktivierungsfunktionen (Softmax neu), Neuronales Netz (PyTorch), MNIST | 6 | Versicherer (Schadensfotos, primary) + MNIST (secondary) | ⬜ next | — |
+| 6.2 | **Batch & Epoch** — GPU-Speicher begrenzt, Training-Mechanik (4-Tier: Hook Memory-Bridge von 6.1 / Foundation 1: Batch-Definition + Beispiel / Foundation 2: Epoch-Definition + Overfitting-Note / Application+Synthesis: PyTorch DataLoader Code + Bridge zu 6.3-Aktivierungsfunktionen). **4 Folien** (layouts: 4×default). Slides 3726–3802 in slides.md. | 6 | Versicherer (Schadensfotos 100.000÷64≈1.563 Steps-Beispiel) | ✅ approved (1 visual-QA-Runde + 1 student-review + 2 Nachbesserungs-Fixrunden) | 3 |
+| 6.3–6.5 | Aktivierungsfunktionen (Softmax neu), Neuronales Netz (PyTorch), MNIST | 6 | Versicherer (Schadensfotos, primary) + MNIST (secondary) | ⬜ next | — |
+
+**QA-Historie Cluster 6.2 (2026-09-02):** Quellenrecherche lieferte mehrere kommerzielle Blog-Quellen (MachineLearningMastery, Acecloud.ai, Nebius, Dasroot.net) unterhalb des im Deck sonst üblichen akademischen Zitierstandards (Nature/IEEE/ACM/arXiv/MDPI) — gefiltert auf die zwei soliden Quellen (Goodfellow et al. 2016, offizielle PyTorch-Doku); illustrative Speicher-/VRAM-Zahlen bewusst ohne exakte Quellenangabe als plausible Schätzung formuliert. Visual QA: alle 4 Slides clean (kein Overflow/Clipping). Student-Review: "minor fixes needed" — Code-Folie hatte unerklärten Jargon (DataLoader, Forward/Backward-Pass, optimizer.step), Epoch-Folie erwähnte unerklärte "Validation-Performance". Beide behoben (Kurz-Erklärungen ergänzt), was auf beiden Folien zu Overlap mit der Quellenzeile führte (von der scrollHeight-Metrik nicht erfasst, nur visuell sichtbar) — in einer weiteren Runde beide Texte gekürzt, final verifiziert: kein Overlap mehr.
 
 ---
 
 ### Next Steps
 
-1. ~~visual-reviewer & student-reviewer: Review 6.0/6.1 slides~~ — ✅ erledigt, approved (2026-09-01)
-2. **Nächster Schritt:** Cluster 6.2 (Batch & Epoch) — Planning → Research Brief → Authoring → QA, nach demselben Loop wie 6.1
+1. ✅ visual-reviewer & student-reviewer: Review 6.0/6.1 slides — approved (2026-09-01)
+2. ✅ Cluster 6.2 (Batch & Epoch) — approved (2026-09-02), Folien 3726–3802 in slides.md
+3. **Aktuell:** Cluster 6.3 (Aktivierungsfunktionen) — Planning als Nächstes
+4. **Darauf folgend:** Cluster 6.3 Planning (Aktivierungsfunktionen — Softmax neu)
 
 ---

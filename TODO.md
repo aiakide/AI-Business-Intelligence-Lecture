@@ -97,7 +97,7 @@ Case: Kunden-/Versichertensegmentierung.
 ## 4. Kapitel 6 — Deep Learning
 - [x] Kapitel-Opener + Lernziele (6.0) — authored, approved (2026-09-01), 3 Folien
 - [x] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand) (6.1) — authored, approved (2026-09-01), 5 Folien, siehe narrative-thread.md §24
-- [ ] Batch / Epoch (6.2) — next
+- [x] Batch / Epoch (6.2) — authored, approved (2026-09-02), 4 Folien
 - [ ] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3)
 - [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.4)
 - [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it) (6.5)
