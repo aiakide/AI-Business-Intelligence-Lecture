@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 270" width="100%" height="auto" role="img"
+     aria-label="Zwei nebeneinanderliegende Panels mit derselben Szene: links eine Gruppe von drei runden Punkten (Cluster P), rechts eine Gruppe von drei quadratischen Punkten (Cluster Q). Im ersten Panel sind alle neun Verbindungen zwischen den Gruppen gleich duenn gezeichnet, keine ist hervorgehoben: der Durchschnitt aller Abstaende entscheidet (Average Linkage). Im zweiten Panel sind statt Verbindungen die beiden Cluster-Zentren als Rauten dargestellt, jeweils umgeben von einem gestrichelten Kreis fuer die Streuung innerhalb der Gruppe, sowie eine grosse gestrichelte Ellipse fuer die gemeinsame Streuung nach einer Verschmelzung (Ward Linkage).">
+  <title>Average Linkage und Ward Linkage im direkten Vergleich</title>
+
+  <!-- ===================================================================
+       Basis-Szene identisch zu linkage-single-complete-diagramm.svg
+       Cluster P (#00c6b2, Kreise):   (78,60) (115,112) (170,96)   [+540 in Panel 2]
+       Cluster Q (#e8734a, Quadrate): (320,92) (378,62) (418,134)
+       =================================================================== -->
+
+  <!-- ============ PANEL 1 - Average Linkage ============ -->
+  <g>
+    <rect x="20" y="22" width="500" height="180" rx="4" fill="#fbfbfb" stroke="#e8e8e8" stroke-width="1.5" />
+
+    <ellipse cx="124" cy="86" rx="60" ry="36" fill="#00c6b2" opacity="0.07" />
+    <ellipse cx="369" cy="98" rx="63" ry="46" fill="#e8734a" opacity="0.07" />
+
+    <!-- alle neun Verbindungen: gleich duenn, gleich wichtig -->
+    <g stroke="#6f6f6f" stroke-width="1.4" opacity="0.5">
+      <line x1="78" y1="60" x2="320" y2="92" />
+      <line x1="78" y1="60" x2="378" y2="62" />
+      <line x1="78" y1="60" x2="418" y2="134" />
+      <line x1="115" y1="112" x2="320" y2="92" />
+      <line x1="115" y1="112" x2="378" y2="62" />
+      <line x1="115" y1="112" x2="418" y2="134" />
+      <line x1="170" y1="96" x2="320" y2="92" />
+      <line x1="170" y1="96" x2="378" y2="62" />
+      <line x1="170" y1="96" x2="418" y2="134" />
+    </g>
+
+    <g fill="#00c6b2" stroke="#ffffff" stroke-width="1.6">
+      <circle cx="78" cy="60" r="5.4" />
+      <circle cx="115" cy="112" r="5.4" />
+      <circle cx="170" cy="96" r="5.4" />
+    </g>
+    <g fill="#e8734a" stroke="#ffffff" stroke-width="1.6">
+      <rect x="314.8" y="86.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="372.8" y="56.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="412.8" y="128.8" width="10.4" height="10.4" rx="1.4" />
+    </g>
+
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700">
+      <text x="66" y="40" fill="#00a294">P</text>
+      <text x="440" y="152" fill="#c9552c">Q</text>
+    </g>
+
+    <text x="245" y="170" font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="700"
+          fill="#1e1e1e" text-anchor="middle" stroke="#fbfbfb" stroke-width="3.5" paint-order="stroke">Ø aller 9 Abstände</text>
+
+    <text x="40" y="190" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="500"
+          fill="#9a9a9a">jede Verbindung zählt gleich viel</text>
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" text-anchor="middle">
+    <text x="270" y="228" font-weight="700" fill="#1e1e1e">Average Linkage</text>
+    <text x="270" y="246" font-weight="500" fill="#4a4a4a">der Durchschnitt aller Verbindungen zählt</text>
+  </g>
+
+  <!-- ============ PANEL 2 - Ward Linkage (identische Szene) ============ -->
+  <g>
+    <rect x="560" y="22" width="500" height="180" rx="4" fill="#fbfbfb" stroke="#e8e8e8" stroke-width="1.5" />
+
+    <!-- gemeinsame Streuung nach einer Verschmelzung: deutlich groesser als die Einzelstreuungen -->
+    <rect x="596" y="30" width="388" height="132" rx="66" fill="#f0f0f0" fill-opacity="0.5"
+          stroke="#bdbdbd" stroke-width="1.5" stroke-dasharray="6 4" />
+
+    <!-- Streuung innerhalb der Cluster: kleiner Radius = geringe Streuung -->
+    <circle cx="661" cy="89" r="55" fill="#00c6b2" fill-opacity="0.08" stroke="#00c6b2" stroke-width="1.5"
+            stroke-dasharray="5 4" opacity="0.85" />
+    <circle cx="912" cy="96" r="62" fill="#e8734a" fill-opacity="0.08" stroke="#e8734a" stroke-width="1.5"
+            stroke-dasharray="5 4" opacity="0.85" />
+
+    <g fill="#00c6b2" stroke="#ffffff" stroke-width="1.6">
+      <circle cx="618" cy="60" r="5.4" />
+      <circle cx="655" cy="112" r="5.4" />
+      <circle cx="710" cy="96" r="5.4" />
+    </g>
+    <g fill="#e8734a" stroke="#ffffff" stroke-width="1.6">
+      <rect x="854.8" y="86.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="912.8" y="56.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="952.8" y="128.8" width="10.4" height="10.4" rx="1.4" />
+    </g>
+
+    <!-- Cluster-Zentren als Rauten (Symbolik wie im K-Means-Diagramm) -->
+    <polygon points="661,78 672,89 661,100 650,89" fill="#00c6b2" stroke="#ffffff" stroke-width="2" />
+    <circle cx="661" cy="89" r="2.2" fill="#ffffff" />
+    <polygon points="912,85 923,96 912,107 901,96" fill="#e8734a" stroke="#ffffff" stroke-width="2" />
+    <circle cx="912" cy="96" r="2.2" fill="#ffffff" />
+
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700">
+      <text x="606" y="40" fill="#00a294">P</text>
+      <text x="980" y="152" fill="#c9552c">Q</text>
+    </g>
+
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="700" fill="#1e1e1e"
+       text-anchor="middle" stroke="#f4f4f4" stroke-width="3.5" paint-order="stroke">
+      <text x="784" y="92">gemeinsame</text>
+      <text x="784" y="107">Streuung</text>
+    </g>
+
+    <text x="580" y="190" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="500"
+          fill="#9a9a9a">Raute: Cluster-Zentrum · gestrichelt: Streuung</text>
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" text-anchor="middle">
+    <text x="810" y="228" font-weight="700" fill="#1e1e1e">Ward Linkage</text>
+    <text x="810" y="246" font-weight="500" fill="#4a4a4a">Verschmelzung nur, wenn die Streuung kaum wächst</text>
+  </g>
+</svg>

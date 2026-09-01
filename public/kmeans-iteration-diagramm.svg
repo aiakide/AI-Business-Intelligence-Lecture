@@ -1,0 +1,368 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 312" width="100%" height="auto" role="img"
+     aria-label="Vierteilige Darstellung des K-Means-Algorithmus: Initialisierung mit zufaelligen Zentroiden, Zuordnung der Kunden zum naechsten Zentroid, Verschieben der Zentroide auf den Mittelwert ihrer Punkte und Konvergenz, wenn sich die Zentroide nicht mehr bewegen. Merkmalsraum aus Fahreralter und Jahreskilometern.">
+  <title>K-Means: von der zufaelligen Initialisierung zur Konvergenz</title>
+
+  <defs>
+    <marker id="axis-arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#1e1e1e" />
+    </marker>
+    <marker id="move-arrow-0" markerWidth="7" markerHeight="7" refX="5.6" refY="2.6" orient="auto">
+      <polygon points="0 0, 6.5 2.6, 0 5.2" fill="#00c6b2" />
+    </marker>
+    <marker id="move-arrow-1" markerWidth="7" markerHeight="7" refX="5.6" refY="2.6" orient="auto">
+      <polygon points="0 0, 6.5 2.6, 0 5.2" fill="#e8734a" />
+    </marker>
+    <marker id="move-arrow-2" markerWidth="7" markerHeight="7" refX="5.6" refY="2.6" orient="auto">
+      <polygon points="0 0, 6.5 2.6, 0 5.2" fill="#5a7d9a" />
+    </marker>
+  </defs>
+
+  <!-- ===================== Panel-Trenner ===================== -->
+  <g stroke="#e8e8e8" stroke-width="1">
+    <line x1="270" y1="8" x2="270" y2="300" />
+    <line x1="540" y1="8" x2="540" y2="300" />
+    <line x1="810" y1="8" x2="810" y2="300" />
+  </g>
+
+  <!-- ==================================================================
+       PANEL 1 - Initialisierung: zufaellige Startpunkte
+       ================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="20.0" y="6" width="24" height="22" rx="4" fill="#00c6b2" />
+    <text x="32.0" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="52.0" y="22.0" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#1e1e1e">Initialisierung</text>
+    <!-- Gridlines -->
+    <g stroke="#e8e8e8" stroke-width="1">
+      <line x1="42.0" y1="141.0" x2="240.0" y2="141.0" />
+      <line x1="42.0" y1="60.0" x2="240.0" y2="60.0" />
+      <line x1="108.0" y1="60.0" x2="108.0" y2="222.0" />
+      <line x1="174.0" y1="60.0" x2="174.0" y2="222.0" />
+      <line x1="240.0" y1="60.0" x2="240.0" y2="222.0" />
+    </g>
+    <!-- Achsen -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="42.0" y1="222.0" x2="42.0" y2="50.0" marker-end="url(#axis-arrow)" />
+      <line x1="42.0" y1="222.0" x2="252.0" y2="222.0" marker-end="url(#axis-arrow)" />
+    </g>
+    <!-- Ticks und Skala -->
+    <g stroke="#1e1e1e" stroke-width="1.5">
+      <line x1="38.0" y1="222.0" x2="42.0" y2="222.0" />
+      <line x1="38.0" y1="141.0" x2="42.0" y2="141.0" />
+      <line x1="38.0" y1="60.0" x2="42.0" y2="60.0" />
+      <line x1="42.0" y1="222.0" x2="42.0" y2="226.0" />
+      <line x1="108.0" y1="222.0" x2="108.0" y2="226.0" />
+      <line x1="174.0" y1="222.0" x2="174.0" y2="226.0" />
+      <line x1="240.0" y1="222.0" x2="240.0" y2="226.0" />
+    </g>
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a">
+      <text x="35.0" y="225.0" text-anchor="end">5</text>
+      <text x="35.0" y="144.0" text-anchor="end">15</text>
+      <text x="35.0" y="63.0" text-anchor="end">25</text>
+      <text x="42.0" y="237.0" text-anchor="middle">20</text>
+      <text x="108.0" y="237.0" text-anchor="middle">35</text>
+      <text x="174.0" y="237.0" text-anchor="middle">50</text>
+      <text x="240.0" y="237.0" text-anchor="middle">65</text>
+    </g>
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600" fill="#1e1e1e">
+      <text x="141.0" y="252.0" text-anchor="middle">Fahreralter (Jahre)</text>
+      <text x="12.0" y="141.0" text-anchor="middle" transform="rotate(-90 12.0 141.0)">Jahreskilometer (Tsd.)</text>
+    </g>
+    <!-- Kunden ohne Zuordnung (neutral) -->
+    <g>
+      <circle cx="57.8" cy="79.4" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="69.7" cy="100.5" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="81.6" cy="73.0" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="53.9" cy="108.6" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="129.1" cy="137.8" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="145.0" cy="124.8" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="117.2" cy="150.7" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="152.9" cy="147.5" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="204.4" cy="192.8" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="220.2" cy="176.6" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="192.5" cy="205.8" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+      <circle cx="224.2" cy="202.6" r="5.2" fill="#ffffff" stroke="#9e9e9e" stroke-width="2" />
+    </g>
+    <!-- Zufaellig gesetzte Startzentroide -->
+    <g>
+      <polygon points="81.6,146.7 92.1,157.2 81.6,167.7 71.1,157.2" fill="#00c6b2" stroke="#ffffff" stroke-width="2" /><circle cx="81.6" cy="157.2" r="2.1" fill="#ffffff" />
+      <polygon points="184.6,195.3 195.1,205.8 184.6,216.3 174.1,205.8" fill="#e8734a" stroke="#ffffff" stroke-width="2" /><circle cx="184.6" cy="205.8" r="2.1" fill="#ffffff" />
+      <polygon points="164.8,122.4 175.3,132.9 164.8,143.4 154.3,132.9" fill="#5a7d9a" stroke="#ffffff" stroke-width="2" /><circle cx="164.8" cy="132.9" r="2.1" fill="#ffffff" />
+      <text x="56.6" y="161.2" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00c6b2" text-anchor="middle">&#956;<tspan font-size="8" dy="2">1</tspan></text>
+      <text x="159.6" y="209.8" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#e8734a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">2</tspan></text>
+      <text x="189.8" y="136.9" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#5a7d9a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">3</tspan></text>
+    </g>
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="20.0" y="268" font-weight="600" fill="#1e1e1e">Zuf&#228;llige Startpunkte.</text>
+      <text x="20.0" y="282" fill="#4a4a4a">k = 3 Zentroide werden willk&#252;rlich gesetzt &#8211;</text>
+      <text x="20.0" y="296" fill="#4a4a4a">die Kunden sind noch keiner Gruppe zugeordnet.</text>
+    </g>
+  </g>
+
+  <!-- ==================================================================
+       PANEL 2 - Zuordnung: jeder Punkt zum naechsten Zentroid
+       ================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="290.0" y="6" width="24" height="22" rx="4" fill="#00c6b2" />
+    <text x="302.0" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="322.0" y="22.0" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#1e1e1e">Zuordnung</text>
+    <!-- Gridlines -->
+    <g stroke="#e8e8e8" stroke-width="1">
+      <line x1="312.0" y1="141.0" x2="510.0" y2="141.0" />
+      <line x1="312.0" y1="60.0" x2="510.0" y2="60.0" />
+      <line x1="378.0" y1="60.0" x2="378.0" y2="222.0" />
+      <line x1="444.0" y1="60.0" x2="444.0" y2="222.0" />
+      <line x1="510.0" y1="60.0" x2="510.0" y2="222.0" />
+    </g>
+    <!-- Achsen -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="312.0" y1="222.0" x2="312.0" y2="50.0" marker-end="url(#axis-arrow)" />
+      <line x1="312.0" y1="222.0" x2="522.0" y2="222.0" marker-end="url(#axis-arrow)" />
+    </g>
+    <!-- Ticks und Skala -->
+    <g stroke="#1e1e1e" stroke-width="1.5">
+      <line x1="308.0" y1="222.0" x2="312.0" y2="222.0" />
+      <line x1="308.0" y1="141.0" x2="312.0" y2="141.0" />
+      <line x1="308.0" y1="60.0" x2="312.0" y2="60.0" />
+      <line x1="312.0" y1="222.0" x2="312.0" y2="226.0" />
+      <line x1="378.0" y1="222.0" x2="378.0" y2="226.0" />
+      <line x1="444.0" y1="222.0" x2="444.0" y2="226.0" />
+      <line x1="510.0" y1="222.0" x2="510.0" y2="226.0" />
+    </g>
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a">
+      <text x="305.0" y="225.0" text-anchor="end">5</text>
+      <text x="305.0" y="144.0" text-anchor="end">15</text>
+      <text x="305.0" y="63.0" text-anchor="end">25</text>
+      <text x="312.0" y="237.0" text-anchor="middle">20</text>
+      <text x="378.0" y="237.0" text-anchor="middle">35</text>
+      <text x="444.0" y="237.0" text-anchor="middle">50</text>
+      <text x="510.0" y="237.0" text-anchor="middle">65</text>
+    </g>
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600" fill="#1e1e1e">
+      <text x="411.0" y="252.0" text-anchor="middle">Fahreralter (Jahre)</text>
+      <text x="282.0" y="141.0" text-anchor="middle" transform="rotate(-90 282.0 141.0)">Jahreskilometer (Tsd.)</text>
+    </g>
+    <!-- Zuordnungslinien (euklidische Distanz) -->
+    <g stroke-width="1" stroke-dasharray="3 3" opacity="0.5">
+      <line x1="327.8" y1="79.4" x2="351.6" y2="157.2" stroke="#00c6b2" />
+      <line x1="339.7" y1="100.5" x2="351.6" y2="157.2" stroke="#00c6b2" />
+      <line x1="351.6" y1="73.0" x2="351.6" y2="157.2" stroke="#00c6b2" />
+      <line x1="323.9" y1="108.6" x2="351.6" y2="157.2" stroke="#00c6b2" />
+      <line x1="399.1" y1="137.8" x2="434.8" y2="132.9" stroke="#5a7d9a" />
+      <line x1="415.0" y1="124.8" x2="434.8" y2="132.9" stroke="#5a7d9a" />
+      <line x1="387.2" y1="150.7" x2="351.6" y2="157.2" stroke="#00c6b2" />
+      <line x1="422.9" y1="147.5" x2="434.8" y2="132.9" stroke="#5a7d9a" />
+      <line x1="474.4" y1="192.8" x2="454.6" y2="205.8" stroke="#e8734a" />
+      <line x1="490.2" y1="176.6" x2="454.6" y2="205.8" stroke="#e8734a" />
+      <line x1="462.5" y1="205.8" x2="454.6" y2="205.8" stroke="#e8734a" />
+      <line x1="494.2" y1="202.6" x2="454.6" y2="205.8" stroke="#e8734a" />
+    </g>
+    <!-- Kunden, eingefaerbt nach naechstem Zentroid -->
+    <g>
+      <circle cx="327.8" cy="79.4" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="339.7" cy="100.5" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="351.6" cy="73.0" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="323.9" cy="108.6" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="399.1,131.3 405.9,143.0 392.3,143.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="415.0,118.3 421.8,130.0 408.1,130.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="387.2" cy="150.7" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="422.9,141.0 429.7,152.7 416.1,152.7" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="469.7" y="188.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="485.6" y="172.0" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="457.9" y="201.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="489.5" y="197.9" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+    </g>
+    <!-- Zentroide (unveraendert) -->
+    <g>
+      <polygon points="351.6,146.7 362.1,157.2 351.6,167.7 341.1,157.2" fill="#00c6b2" stroke="#ffffff" stroke-width="2" /><circle cx="351.6" cy="157.2" r="2.1" fill="#ffffff" />
+      <polygon points="454.6,195.3 465.1,205.8 454.6,216.3 444.1,205.8" fill="#e8734a" stroke="#ffffff" stroke-width="2" /><circle cx="454.6" cy="205.8" r="2.1" fill="#ffffff" />
+      <polygon points="434.8,122.4 445.3,132.9 434.8,143.4 424.3,132.9" fill="#5a7d9a" stroke="#ffffff" stroke-width="2" /><circle cx="434.8" cy="132.9" r="2.1" fill="#ffffff" />
+      <text x="326.6" y="161.2" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00c6b2" text-anchor="middle">&#956;<tspan font-size="8" dy="2">1</tspan></text>
+      <text x="429.6" y="209.8" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#e8734a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">2</tspan></text>
+      <text x="459.8" y="136.9" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#5a7d9a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">3</tspan></text>
+    </g>
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="290.0" y="268" font-weight="600" fill="#1e1e1e">Jeder Punkt zum n&#228;chsten Zentroid.</text>
+      <text x="290.0" y="282" fill="#4a4a4a">Zugeordnet wird &#252;ber die euklidische Distanz.</text>
+      <text x="290.0" y="296" fill="#4a4a4a">Farbe und Form zeigen die Gruppenzugeh&#246;rigkeit.</text>
+    </g>
+  </g>
+
+  <!-- ==================================================================
+       PANEL 3 - Update: Zentroide wandern auf den Gruppenmittelwert
+       ================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="560.0" y="6" width="24" height="22" rx="4" fill="#00c6b2" />
+    <text x="572.0" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+    <text x="592.0" y="22.0" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#1e1e1e">Update</text>
+    <!-- Gridlines -->
+    <g stroke="#e8e8e8" stroke-width="1">
+      <line x1="582.0" y1="141.0" x2="780.0" y2="141.0" />
+      <line x1="582.0" y1="60.0" x2="780.0" y2="60.0" />
+      <line x1="648.0" y1="60.0" x2="648.0" y2="222.0" />
+      <line x1="714.0" y1="60.0" x2="714.0" y2="222.0" />
+      <line x1="780.0" y1="60.0" x2="780.0" y2="222.0" />
+    </g>
+    <!-- Achsen -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="582.0" y1="222.0" x2="582.0" y2="50.0" marker-end="url(#axis-arrow)" />
+      <line x1="582.0" y1="222.0" x2="792.0" y2="222.0" marker-end="url(#axis-arrow)" />
+    </g>
+    <!-- Ticks und Skala -->
+    <g stroke="#1e1e1e" stroke-width="1.5">
+      <line x1="578.0" y1="222.0" x2="582.0" y2="222.0" />
+      <line x1="578.0" y1="141.0" x2="582.0" y2="141.0" />
+      <line x1="578.0" y1="60.0" x2="582.0" y2="60.0" />
+      <line x1="582.0" y1="222.0" x2="582.0" y2="226.0" />
+      <line x1="648.0" y1="222.0" x2="648.0" y2="226.0" />
+      <line x1="714.0" y1="222.0" x2="714.0" y2="226.0" />
+      <line x1="780.0" y1="222.0" x2="780.0" y2="226.0" />
+    </g>
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a">
+      <text x="575.0" y="225.0" text-anchor="end">5</text>
+      <text x="575.0" y="144.0" text-anchor="end">15</text>
+      <text x="575.0" y="63.0" text-anchor="end">25</text>
+      <text x="582.0" y="237.0" text-anchor="middle">20</text>
+      <text x="648.0" y="237.0" text-anchor="middle">35</text>
+      <text x="714.0" y="237.0" text-anchor="middle">50</text>
+      <text x="780.0" y="237.0" text-anchor="middle">65</text>
+    </g>
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600" fill="#1e1e1e">
+      <text x="681.0" y="252.0" text-anchor="middle">Fahreralter (Jahre)</text>
+      <text x="552.0" y="141.0" text-anchor="middle" transform="rotate(-90 552.0 141.0)">Jahreskilometer (Tsd.)</text>
+    </g>
+    <!-- Kunden behalten die Faerbung aus Schritt 2 -->
+    <g>
+      <circle cx="597.8" cy="79.4" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="609.7" cy="100.5" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="621.6" cy="73.0" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="593.9" cy="108.6" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="669.1,131.3 675.9,143.0 662.3,143.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="685.0,118.3 691.8,130.0 678.1,130.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="657.2" cy="150.7" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="692.9,141.0 699.7,152.7 686.1,152.7" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="739.7" y="188.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="755.6" y="172.0" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="727.9" y="201.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="759.5" y="197.9" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+    </g>
+    <!-- Alte Positionen (Geister) + Bewegungspfeile -->
+    <g>
+      <polygon points="621.6,146.7 632.1,157.2 621.6,167.7 611.1,157.2" fill="#ffffff" fill-opacity="0.9" stroke="#00c6b2" stroke-width="1.6" stroke-dasharray="3 2.5" opacity="0.75" />
+      <polygon points="724.6,195.3 735.1,205.8 724.6,216.3 714.1,205.8" fill="#ffffff" fill-opacity="0.9" stroke="#e8734a" stroke-width="1.6" stroke-dasharray="3 2.5" opacity="0.75" />
+      <polygon points="704.8,122.4 715.3,132.9 704.8,143.4 694.3,132.9" fill="#ffffff" fill-opacity="0.9" stroke="#5a7d9a" stroke-width="1.6" stroke-dasharray="3 2.5" opacity="0.75" />
+      <line x1="620.3" y1="144.3" x2="617.6" y2="117.4" stroke="#00c6b2" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#move-arrow-0)" />
+      <line x1="736.5" y1="200.6" x2="736.6" y2="200.5" stroke="#e8734a" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#move-arrow-1)" />
+      <line x1="691.9" y1="135.1" x2="697.1" y2="134.2" stroke="#5a7d9a" stroke-width="1.8" stroke-dasharray="5 3" marker-end="url(#move-arrow-2)" />
+    </g>
+    <!-- Neue Zentroide = Mittelwert der zugeordneten Punkte -->
+    <g>
+      <polygon points="616.1,91.9 626.6,102.4 616.1,112.9 605.6,102.4" fill="#00c6b2" stroke="#ffffff" stroke-width="2" /><circle cx="616.1" cy="102.4" r="2.1" fill="#ffffff" />
+      <polygon points="750.3,184.0 760.8,194.5 750.3,205.0 739.8,194.5" fill="#e8734a" stroke="#ffffff" stroke-width="2" /><circle cx="750.3" cy="194.5" r="2.1" fill="#ffffff" />
+      <polygon points="682.3,126.2 692.8,136.7 682.3,147.2 671.8,136.7" fill="#5a7d9a" stroke="#ffffff" stroke-width="2" /><circle cx="682.3" cy="136.7" r="2.1" fill="#ffffff" />
+      <text x="641.1" y="106.4" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00c6b2" text-anchor="middle">&#956;<tspan font-size="8" dy="2">1</tspan></text>
+      <text x="750.3" y="219.5" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#e8734a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">2</tspan></text>
+      <text x="682.3" y="161.7" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#5a7d9a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">3</tspan></text>
+    </g>
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="560.0" y="268" font-weight="600" fill="#1e1e1e">Zentroide = Mittelwert ihrer Punkte.</text>
+      <text x="560.0" y="282" fill="#4a4a4a">Jedes Zentroid springt in die Mitte seiner Gruppe</text>
+      <text x="560.0" y="296" fill="#4a4a4a">(gestrichelt: alte Position). Dann wird neu zugeordnet.</text>
+    </g>
+  </g>
+
+  <!-- ==================================================================
+       PANEL 4 - Konvergenz: Zentroide bewegen sich nicht mehr
+       ================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="830.0" y="6" width="24" height="22" rx="4" fill="#00c6b2" />
+    <text x="842.0" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+    <text x="862.0" y="22.0" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#1e1e1e">Konvergenz</text>
+    <!-- Gridlines -->
+    <g stroke="#e8e8e8" stroke-width="1">
+      <line x1="852.0" y1="141.0" x2="1050.0" y2="141.0" />
+      <line x1="852.0" y1="60.0" x2="1050.0" y2="60.0" />
+      <line x1="918.0" y1="60.0" x2="918.0" y2="222.0" />
+      <line x1="984.0" y1="60.0" x2="984.0" y2="222.0" />
+      <line x1="1050.0" y1="60.0" x2="1050.0" y2="222.0" />
+    </g>
+    <!-- Achsen -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="852.0" y1="222.0" x2="852.0" y2="50.0" marker-end="url(#axis-arrow)" />
+      <line x1="852.0" y1="222.0" x2="1062.0" y2="222.0" marker-end="url(#axis-arrow)" />
+    </g>
+    <!-- Ticks und Skala -->
+    <g stroke="#1e1e1e" stroke-width="1.5">
+      <line x1="848.0" y1="222.0" x2="852.0" y2="222.0" />
+      <line x1="848.0" y1="141.0" x2="852.0" y2="141.0" />
+      <line x1="848.0" y1="60.0" x2="852.0" y2="60.0" />
+      <line x1="852.0" y1="222.0" x2="852.0" y2="226.0" />
+      <line x1="918.0" y1="222.0" x2="918.0" y2="226.0" />
+      <line x1="984.0" y1="222.0" x2="984.0" y2="226.0" />
+      <line x1="1050.0" y1="222.0" x2="1050.0" y2="226.0" />
+    </g>
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a">
+      <text x="845.0" y="225.0" text-anchor="end">5</text>
+      <text x="845.0" y="144.0" text-anchor="end">15</text>
+      <text x="845.0" y="63.0" text-anchor="end">25</text>
+      <text x="852.0" y="237.0" text-anchor="middle">20</text>
+      <text x="918.0" y="237.0" text-anchor="middle">35</text>
+      <text x="984.0" y="237.0" text-anchor="middle">50</text>
+      <text x="1050.0" y="237.0" text-anchor="middle">65</text>
+    </g>
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600" fill="#1e1e1e">
+      <text x="951.0" y="252.0" text-anchor="middle">Fahreralter (Jahre)</text>
+      <text x="822.0" y="141.0" text-anchor="middle" transform="rotate(-90 822.0 141.0)">Jahreskilometer (Tsd.)</text>
+    </g>
+    <!-- Cluster-Huellen (nur zur Lesbarkeit der drei Gruppen) -->
+    <g fill-opacity="0.08" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="4 3">
+      <ellipse cx="875.8" cy="90.4" rx="30.8" ry="33.2" fill="#00c6b2" stroke="#00c6b2" />
+      <ellipse cx="1020.3" cy="194.5" rx="32.8" ry="32.8" fill="#e8734a" stroke="#e8734a" />
+      <ellipse cx="946.0" cy="140.2" rx="33.8" ry="30.4" fill="#5a7d9a" stroke="#5a7d9a" />
+    </g>
+    <!-- Endgueltige Zuordnung -->
+    <g>
+      <circle cx="867.8" cy="79.4" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="879.7" cy="100.5" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="891.6" cy="73.0" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <circle cx="863.9" cy="108.6" r="5.2" fill="#00c6b2" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="939.1,131.3 945.9,143.0 932.3,143.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="955.0,118.3 961.8,130.0 948.1,130.0" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="927.2,144.2 934.1,155.9 920.4,155.9" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <polygon points="962.9,141.0 969.7,152.7 956.1,152.7" fill="#5a7d9a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="1009.7" y="188.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="1025.6" y="172.0" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="997.9" y="201.2" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+      <rect x="1029.5" y="197.9" width="9.3" height="9.3" rx="1.2" fill="#e8734a" stroke="#ffffff" stroke-width="1.4" />
+    </g>
+    <!-- Stabile Zentroide -->
+    <g>
+      <polygon points="875.8,79.9 886.3,90.4 875.8,100.9 865.3,90.4" fill="#00c6b2" stroke="#ffffff" stroke-width="2" /><circle cx="875.8" cy="90.4" r="2.1" fill="#ffffff" />
+      <polygon points="1020.3,184.0 1030.8,194.5 1020.3,205.0 1009.8,194.5" fill="#e8734a" stroke="#ffffff" stroke-width="2" /><circle cx="1020.3" cy="194.5" r="2.1" fill="#ffffff" />
+      <polygon points="946.0,129.7 956.5,140.2 946.0,150.7 935.5,140.2" fill="#5a7d9a" stroke="#ffffff" stroke-width="2" /><circle cx="946.0" cy="140.2" r="2.1" fill="#ffffff" />
+      <text x="900.8" y="94.4" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00c6b2" text-anchor="middle">&#956;<tspan font-size="8" dy="2">1</tspan></text>
+      <text x="1020.3" y="219.5" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#e8734a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">2</tspan></text>
+      <text x="946.0" y="165.2" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#5a7d9a" text-anchor="middle">&#956;<tspan font-size="8" dy="2">3</tspan></text>
+    </g>
+    <!-- Konvergenz-Hinweis -->
+    <rect x="938.0" y="71.3" width="106" height="24" rx="4" fill="#ffffff" stroke="#00c6b2" stroke-width="1.8" />
+    <path d="M 949.0 83.8 l 4.5 5 l 8.5 -10.5" fill="none" stroke="#00c6b2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="969.0" y="87.3" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#00c6b2">stabil</text>
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="830.0" y="268" font-weight="600" fill="#1e1e1e">Zentroide bewegen sich nicht mehr.</text>
+      <text x="830.0" y="282" fill="#4a4a4a">Zuordnen und Verschieben wiederholen sich, bis sich</text>
+      <text x="830.0" y="296" fill="#4a4a4a">nichts mehr &#228;ndert &#8211; der Algorithmus stoppt.</text>
+    </g>
+  </g>
+</svg>

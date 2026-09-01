@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 300" width="100%" height="auto" role="img"
+     aria-label="Schematische Grundidee des hierarchischen Clusterings: Unten liegen sechs gleich aussehende, neutrale Punkte nebeneinander. Nach oben hin verbinden sich jeweils zwei benachbarte Punkte zu einem gemeinsamen Knoten, diese Knoten verschmelzen erneut, bis oben alle in einem einzigen Wurzelknoten zusammenlaufen. Aus vielen einzelnen Punkten waechst so ein gemeinsamer Baum.">
+  <title>Der Stammbaum als Metapher: aus vielen einzelnen Punkten wächst ein gemeinsamer Baum</title>
+
+  <defs>
+    <!-- dezenter Richtungspfeil: der Baum waechst nach oben -->
+    <marker id="grow-arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#c9c9c9" />
+    </marker>
+  </defs>
+
+  <!-- ===================== Richtungshinweis (sehr zurueckhaltend) ===================== -->
+  <g>
+    <line x1="92" y1="246" x2="92" y2="74" stroke="#dcdcdc" stroke-width="2" stroke-linecap="round"
+          marker-end="url(#grow-arrow)" />
+    <text x="80" y="160" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600"
+          fill="#b0b0b0" text-anchor="middle" transform="rotate(-90 80 160)">Schritt f&#252;r Schritt</text>
+  </g>
+
+  <!-- ===================== Ebene 1 &#8211; je zwei Nachbarn verschmelzen ===================== -->
+  <!-- Teilbaum links: Blatt 1 + Blatt 2, Knoten bei x = 284 -->
+  <g stroke="#8fded6" stroke-width="2.2" stroke-linecap="round">
+    <line x1="220" y1="229" x2="220" y2="196" />
+    <line x1="348" y1="229" x2="348" y2="196" />
+    <line x1="220" y1="196" x2="348" y2="196" />
+  </g>
+  <!-- Teilbaum Mitte: Blatt 3 + Blatt 4, Knoten bei x = 540 -->
+  <g stroke="#8fded6" stroke-width="2.2" stroke-linecap="round">
+    <line x1="476" y1="229" x2="476" y2="206" />
+    <line x1="604" y1="229" x2="604" y2="206" />
+    <line x1="476" y1="206" x2="604" y2="206" />
+  </g>
+  <!-- Teilbaum rechts: Blatt 5 + Blatt 6, Knoten bei x = 796 -->
+  <g stroke="#8fded6" stroke-width="2.2" stroke-linecap="round">
+    <line x1="732" y1="229" x2="732" y2="186" />
+    <line x1="860" y1="229" x2="860" y2="186" />
+    <line x1="732" y1="186" x2="860" y2="186" />
+  </g>
+
+  <!-- ===================== Ebene 2 &#8211; zwei Teilb&#228;ume verschmelzen ===================== -->
+  <g stroke="#3ad3c4" stroke-width="2.6" stroke-linecap="round">
+    <line x1="540" y1="206" x2="540" y2="140" />
+    <line x1="796" y1="186" x2="796" y2="140" />
+    <line x1="540" y1="140" x2="796" y2="140" />
+  </g>
+
+  <!-- ===================== Ebene 3 &#8211; die Wurzel: alles h&#228;ngt zusammen ===================== -->
+  <g stroke="#00c6b2" stroke-width="3" stroke-linecap="round">
+    <line x1="284" y1="196" x2="284" y2="92" />
+    <line x1="668" y1="140" x2="668" y2="92" />
+    <line x1="284" y1="92" x2="668" y2="92" />
+    <line x1="476" y1="92" x2="476" y2="76" />
+  </g>
+
+  <!-- ===================== Verschmelzungsknoten ===================== -->
+  <g stroke="#ffffff" stroke-width="1.6">
+    <!-- Ebene 1 -->
+    <circle cx="284" cy="196" r="4.4" fill="#8fded6" />
+    <circle cx="540" cy="206" r="4.4" fill="#8fded6" />
+    <circle cx="796" cy="186" r="4.4" fill="#8fded6" />
+    <!-- Ebene 2 -->
+    <circle cx="668" cy="140" r="5" fill="#3ad3c4" />
+    <!-- Wurzel -->
+    <circle cx="476" cy="92" r="6.5" fill="#00c6b2" />
+  </g>
+
+  <!-- ===================== Bl&#228;tter: sechs gleich aussehende, neutrale Punkte ===================== -->
+  <g fill="#ffffff" stroke="#9e9e9e" stroke-width="2.2">
+    <circle cx="220" cy="236" r="7" />
+    <circle cx="348" cy="236" r="7" />
+    <circle cx="476" cy="236" r="7" />
+    <circle cx="604" cy="236" r="7" />
+    <circle cx="732" cy="236" r="7" />
+    <circle cx="860" cy="236" r="7" />
+  </g>
+
+  <!-- ===================== Zwei kurze Beschriftungen &#8211; mehr nicht ===================== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle">
+    <!-- oben: das Ergebnis -->
+    <text x="476" y="62" font-size="14" font-weight="700" fill="#00a294">ein gemeinsamer Baum</text>
+    <!-- unten: der Ausgangspunkt -->
+    <text x="540" y="282" font-size="14" font-weight="600" fill="#4a4a4a">viele einzelne Punkte</text>
+  </g>
+</svg>
