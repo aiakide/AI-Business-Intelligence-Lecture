@@ -95,13 +95,16 @@ Case: Kunden-/Versichertensegmentierung.
 **Source assessment (2026-08-23, final 2026-08-29):** `ml.md` deckte ursprünglich nur K-Means und DBSCAN gut ab; BIRCH, Agglomerativ, WCSS/Elbow wurden komplett neu recherchiert. Spectral Clustering und Mean Shift/GMM wurden ebenfalls recherchiert bzw. eingeplant, dann aber aus dem finalen Kapitel-5-Umfang gestrichen (siehe oben) — kein offener Research-Bedarf mehr.
 
 ## 4. Kapitel 6 — Deep Learning
-- [ ] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand)
-- [ ] Batch / Epoch
-- [ ] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax)
-- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user)
-- [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it)
+- [x] Kapitel-Opener + Lernziele (6.0) — authored, approved (2026-09-01), 3 Folien
+- [x] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand) (6.1) — authored, approved (2026-09-01), 5 Folien, siehe narrative-thread.md §24
+- [ ] Batch / Epoch (6.2) — next
+- [ ] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3)
+- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.4)
+- [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it) (6.5)
 
 Case: Kfz-Schadensfotos (primary) + MNIST (secondary/classic-example).
+
+**Status (2026-09-01):** Cluster 6.0/6.1 fertig und approved (~8 Slides). Quellen verifiziert: LeCun/Bengio/Hinton (2015, Nature), Halevy/Norvig/Pereira (2009), Shi et al. (2016), Lipton (2016), Pérez-Zarate et al. (2024, echter Versicherer-CV-Case). Details, QA-Historie und Cluster-6.2–6.5-Skizzen in narrative-thread.md §24.
 
 **Source assessment (2026-08-23):** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` covers "ML vs. DL" and "Batch/Epoch" well and reusably. Gaps: **Softmax is entirely missing** (needs fresh research), and all code is **PyTorch**, not Keras — user decided (2026-08-23) to keep PyTorch rather than force Keras, so `dl.md`'s code style is directly usable as a base after case-rewrite. Sigmoid stays in scope despite being supplanted by ReLU in hidden layers — it's the deliberate callback to Kapitel 1's logistic-regression sigmoid formula. `dl.md` also covers far more than this chapter's budget allows (full optimizer zoo, full CNN theory, Transfer Learning) — treat the overflow as a candidate for Kapitel 8–10, not for Kapitel 6 itself. `dl.md`'s MNIST CNN code (PyTorch) is a usable base for the new Handschrifterkennung example. See narrative-thread.md for full agent report.
 
