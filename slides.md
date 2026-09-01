@@ -3723,6 +3723,89 @@ Die Antwort: Man füttert das Netz nicht mit allen Daten gleichzeitig, sondern i
 layout: default
 ---
 
+## Ein Batch: Die kleine Portion
+
+Statt alle 100.000 Fotos auf einmal zu laden, teilst Du sie in kleine Gruppen auf — typischerweise 32, 64 oder 128 Bilder pro Gruppe. So eine Gruppe heißt ein **Batch**.
+
+**Warum Batches?**
+- Dein GPU-Speicher ist begrenzt — vielleicht 8–16 GB. Ein Batch à 64 Bildern passt problemlos rein.
+- Nach jedem Batch werden die Netzgewichte angepasst (mit den Gradienten aus diesem Batch berechnet).
+- Die Gradienten mehrerer Bilder werden gemittelt, bevor sie die Gewichte ändern — das führt zu stabileren Lernschritten.
+
+**Beispiel:** Du hast 100.000 Trainingsfotos. Mit Batch-Größe 64 brauchst du $\frac{100.000}{64} \approx 1.563$ Batches, um alle Daten einmal durchzulaufen.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Eine Epoch: Ein vollständiger Durchlauf
+
+Wenn Du alle Daten einmal durchprozessiert hast — alle 1.563 Batches — dann hast Du eine **Epoch** abgeschlossen.
+
+**Was passiert in einer Epoch?**
+- Jeder Batch bringt neue Fehler (Loss) und neue Gradienten.
+- Nach jedem Batch: Gewichte werden ein kleines Stück in die richtige Richtung verschoben.
+- Nach 1.563 Batches (eine komplette Epoch): Das Netz hat alle Daten einmal "gesehen" und ist etwas besser geworden.
+
+**Mehrere Epochs:** Nach der ersten Epoch sind die Gewichte schon anders — die zweite Epoch trainiert auf höherem Niveau, nicht von vorn. Aber **Vorsicht:** Zu viele Epochs führen zum Overfitting (Kapitel 4 — das Modell lernt Trainingsfotos auswendig statt echte Muster). Du erkennst das an der **Validation-Performance**: der Genauigkeit auf neuen, nie trainierten Fotos. Stagniert sie, während die Trainings-Genauigkeit weiter steigt, ist das dein Stopp-Signal.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Training in Code: Das Muster
+
+In PyTorch sieht die Training-Schleife so aus. Vier neue Begriffe kurz vorab:
+
+- **DataLoader:** liefert automatisch einen Batch nach dem anderen
+- **Forward Pass:** Netz macht eine Vorhersage für den Batch
+- **Backward Pass:** Netz berechnet die nötige Korrekturrichtung
+- **optimizer.step():** Gewichte werden um ein Stück verschoben
+
+```python
+for epoch in range(num_epochs):              # Äußere Schleife: Epochs
+    for batch_images, batch_labels in DataLoader:  # Innere Schleife: Batches
+        output = model(batch_images)         # Forward Pass
+        loss = criterion(output, batch_labels)     # Loss berechnen
+        optimizer.zero_grad()                # Gradienten zurücksetzen
+        loss.backward()                      # Backward Pass (Gradienten berechnen)
+        optimizer.step()                     # Gewichte anpassen
+```
+
+<LiteraturSource :sources="[
+  { title: 'PyTorch Official Documentation: torch.utils.data.DataLoader', url: 'https://pytorch.org/docs/stable/data.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Zusammenfassung: Batch & Epoch
+
+| Konzept | Bedeutung | Beispiel |
+|---|---|---|
+| **Batch** | Eine kleine Teilmenge von Trainingsfotos (z.B. 64 Bilder) | Fotos 0–63, dann 64–127, dann 128–191, ... |
+| **Epoch** | Ein kompletter Durchlauf durch alle Batches (alle 100.000 Fotos) | Alle 1.563 Batches hintereinander |
+| **Steps pro Epoch** | Anzahl der Batch-Updates pro Epoch | 100.000 ÷ 64 ≈ 1.563 Steps |
+
+**Das Wichtigste:** Batches lösen das Speicherproblem, aber sie erklären nicht, *wie* ein einzelnes Neuron überhaupt sinnvoll rechnet. Ein Netz mit nur linearen Funktionen hintereinander ist nutzlos — man braucht Nichtlinearität. Das ist der Job der **Aktivierungsfunktionen** (ReLU, Sigmoid, Tanh, Softmax), die im nächsten Cluster erklären, warum das Netz überhaupt lernen kann.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
 # Literaturverzeichnis (1/3)
 
 <Literaturverzeichnis :part="1" :parts="3" />
