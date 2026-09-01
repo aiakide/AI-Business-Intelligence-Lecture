@@ -62,15 +62,17 @@ zum Versicherer zurück. So bleibt der Faden erhalten, ohne einen Use Case zu er
   Objektorientierte Programmierung (Klassen, Objekte, Methoden) →
   3rd-Party-Libraries (NumPy, Pandas, Matplotlib, Scikit-Learn-Ausblick) →
 
-[Session 2 — Supervised ML, Fortsetzung]
+[Kapitel 4 — Supervised ML (Klassifikation & Vorhersage mit gelabelten Daten)]
   Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) →
-  Metriken: Accuracy, Precision, Recall, F1-Score →
-  Supervised ML Algorithmen: Random Forest, KNN →
+  Evaluierungsmetriken: Accuracy, Precision, Recall, F1-Score, Confusion Matrix →
+  Supervised ML Algorithmen: KNN, Entscheidungsbäume, Random Forest, Gradient Boosting →
 
-[Session 3 — Unsupervised / Clustering]
-  Clusteranalyse Prozess →
-  Algorithmen: K-Means, Agglomerativ, BIRCH, DBSCAN, Spectral, Mean Shift, Gaussian Mixture →
-  WCSS & Elbow Method →
+[Kapitel 5 — Unsupervised / Clustering (Musterentdeckung ohne Labels)]
+  ⚠️ MENTAL SHIFT: Keine vordefinierten Klassen (Betrug/Nicht-Betrug); stattdessen: Versteckte Gruppen selbst finden
+  Clusteranalyse-Prozess (Distanzmaße, Algorithmen-Taxonomie, K-Bestimmung, Evaluationskriterien) →
+  Clustering-Algorithmen: K-Means, Hierarchisches Clustering (Agglomerativ), BIRCH, DBSCAN, Spectral, Mean Shift, Gaussian Mixture →
+  WCSS & Elbow Method (Optimal-K-Bestimmung) →
+  Bonus: Clustering für Anomalieerkennung (Rückbrücke zu Kapitel 4 Betrugserkennung) →
 
 [Session 4 — Deep Learning]
   ML vs. DL (Architektur, Datenbedarf, Rechenaufwand) →
@@ -158,7 +160,16 @@ a placeholder until exercises are designed.)*
 | 11e | 3rd-Party-Libraries (NumPy-Vektorisierung, Pandas Series als Synthese-Demo zu 11a, DataFrame `.corr()`, Matplotlib-Streudiagramm mit echtem SVG, Scikit-Learn-Ausblick als eigene schlanke Folie, Abschluss-Folie "Was Du jetzt kannst" mit Brücke zu Train/Val-Split) — 6 Slides | 2 | Versicherer (home base) | ✅ approved (2 visual-QA loops + 1 student-review follow-up + 1 user design-review split) | 3 |
 | 11.0 | Python-Grundsyntax (Vorspann vor 11a, retrofitted 2026-08-18: Variablen/Listen/`print()`+f-Strings, Module & `import` — Standardbibliothek vs. Third-Party, Punkt-Notation `modul.funktion(argument)`, Full-Circle-Moment mit 11a's erstem Codeblock) — 3 Slides | 2 | Versicherer (home base) | ✅ approved (1 visual-QA loop + 1 student-review follow-up) | 2 |
 | — | *(§11 Python-Vertiefung KOMPLETT — 33 Slides über 11.0 + 11a–11e (3+10+6+3+5+6). next: Trainingsdatensatz / Validierungsdatensatz (Train/Val-Split) — Einstieg Supervised ML, außerhalb §11. Jupyter/Docker/K8s/GitHub/CRISP-DM-Detail-Gap weiterhin offen, siehe §11 Schlussnote)* | 2 | Versicherer | ⬜ next | — |
-
+| — | *(Kapitel 1–4 + Tooling: KOMPLETT; siehe TODO.md §1–2 für Status)* | 1–4 | Versicherer | ✅ approved | — |
+| 5.0 | Kapitel-Opener — "Kapitel 5: [Clusteranalyse & Segmentierung]{style=...}" (layout: chapter, analog zu Kapitel 1–4) + Lernziele-Folien | 5 | Versicherer | ✅ approved (live seit Sessionbeginn, in jeder Visual-QA-Runde bestätigt) | — |
+| 5.1 | Clusteranalyse-Prozess — Unsupervised Learning: Warum Segmentierung ohne Labels? (Hook: Unbekannte Kundensegmente. Foundation: Clustering vs. Klassifikation, Distanzmaße, Prozess-Übersicht. Application: Fahrertyp-Segmentierung. Synthesis: Brücke zu K-Means/Algorithmen) — 4–5 Slides | 5 | Versicherer (Kundensegmentierung) | ✅ approved (mehrere Overflow-Fixrunden durch Diagramm-Integration, User-Feedback zu Distanzmaß-Intuition führte zu Redaktionsrunde mit neuem 3-Panel-Diagramm 2D/3D/n-D `public/distanz-dimensionen-diagramm.svg`, Farbkorrektur, Redundanz-Bereinigung) | 3+ |
+| 5.2 | K-Means-Algorithmus — Iterative Zentroid-Basierte Segmentierung (Hook: Fünf Tausend Kunden blind in 3 Risikogruppen. Foundation: Zentroide, Zuordnung/Update-Zyklus, Initialisierung, Konvergenz. Application: K=3 Versicherungs-Segmente (Junges Hochrisiko, Mittleres Standard, Älteres Niedrigrisiko) mit Euklidischer Distanz. Synthesis: K-Means vs. Distanzmaße/Skalierung, Vorteile/Nachteile, k-means++-Initialisierung, Ausreißer-Sensibilität) — 5–6 Slides | 5 | Versicherer (Kundensegmentierung) | ✅ approved (mehrere User-Feedback-Runden: Magnet-Analogie durch schematisches Diagramm ersetzt, Vor-/Nachteile-Folie zur Tabelle umgebaut, Elbow/Knie-Begriff erklärt, fehlende Quellen-URL nachgetragen, Schritt-Anzahl im Titel korrigiert, Zentroid-Zahlen eingeführt) | 3+ |
+| 5.3 | Hierarchisches Clustering (Agglomerativ) — finale Fassung nach zusätzlichen User-Feedback-Runden. Stammbaum-Text-Metapher durch neues abstraktes Diagramm ersetzt (`public/dendrogramm-idee-diagramm.svg`). Fehlender Motivations-Kontext ergänzt (4 Folien hatten keine klare Übergangsfrage — jetzt mit expliziten Motivationssätzen z.B. "wie misst man Distanz zwischen GRUPPEN statt Punkten?"). Rendering-Bug behoben: `{A,B}`-Notation wurde von Slidev/Vue als Template-Ausdruck geparst — durch runde Klammern ersetzt. "(Cluster 5.1)"-interne Referenz entfernt. "WCSS" als unerklärter Fachbegriff durch Klartext ersetzt. Single/Complete- und Average/Ward-Linkage-Tabellen durch zwei neue Diagramme ersetzt (`public/linkage-single-complete-diagramm.svg`, `public/linkage-average-ward-diagramm.svg`). Entscheidungskompass-Folie von Two-Column-Bullet-Liste zu einer 5-Zeilen-Tabelle umgebaut; DBSCAN-Vorgriff entfernt (soll erst in Cluster 5.5 als Hook stehen). **9 Folien** (vorher 7) | 5 | Versicherer (Kundensegmentierung, kompatibel zu K-Means) | ✅ approved | 3+ |
+| 5.4 | BIRCH (Balanced Iterative Reducing and Clustering using Hierarchies) — Clustering im Terabyte-Maßstab — **finale Fassung nach zusätzlichen User-Feedback-Runden.** Section-Opener mit ausgeschriebenem Akronym → Skalierungskrise + CF-Definition (Tabelle N/LS/SS, CF-Akronym "Clustering Feature" beim ersten Vorkommen explizit eingeführt) → Lager-Analogie statt Bibliotheks-Analogie (Paletten mit Tragfähigkeits-Grenze pro Lagerplatz — didaktisch plausibler als willkürliche Gewicht-Sortierung nach Büchern; das Gewicht-Tracking ist motiviert durch echte Ressourcen-Constraints) → CF-Baum mit Diagramm (`public/cf-tree-diagramm.svg`) → Stärken/Grenzen-Tabelle. "Synthese:"-Label durch "Das Wichtigste:" ersetzt (User mag "Synthese" nicht; konsistent mit Labels an anderer Stelle). **NEUE Folie eingefügt:** "Ein CF ganz konkret — zurück zu den Paletten" — konkrete Beispielrechnung (3 Paletten: 80/95/110 kg → N=3, LS=285, SS=27.525 → Durchschnitt 95kg, Streuung 150 → Update mit vierter Palette zeigt Additivität ohne erneutes Anfassen der Rohdaten). Dabei Inkonsistenz behoben: Die Lager-Analogie sagte fälschlich, drittes CF-Element sei "Durchschnittsgewicht" — korrekt ist SS = Summe der quadrierten Gewichte (Durchschnitt wird erst daraus abgeleitet). Bewusst schlank gehalten (BIRCH konzeptuell kompakter). Zitate: Zhang/Ramakrishnan/Livny (1996) Originalquelle, Scikit-Learn Doku. **6 Folien** (vorher 5). Multiple Overflow-Fixrunden nach jeder Texterweiterung (etabliertes Muster: neuer Inhalt verdrängt vorhandenen Text über die Foliengrenze, wird durch Kürzen/Splitten behoben). | 5 | Versicherer (Kundensegmentierung) | ✅ approved | 3+ |
+| 5.5 | DBSCAN (Density-Based Spatial Clustering of Applications with Noise) — Clustering im Merkmalsraum: ε/MinPts-Parameter, Punkttypen (Kernpunkt/Randpunkt/Rauschpunkt) mit Diagramm, Algorithmus-Schritte, 6-Kunden-Praxis-Beispiel, Interpretation, Vor-/Nachteile-Tabelle, Brücke Betrugserkennung. **10 Folien.** Zitate: Ester/Kriegel/Sander/Xu (1996) Originalquelle, Tan/Steinbach/Kumar (2019), Scikit-Learn Doku. **WICHTIGE INCIDENT-DOKUMENTATION:** (1) **Echter Build-Crash gefunden:** Geschweifte Klammern in Tabellenzellen wie `{A, B, C}` brachten den `@comark/markdown-it`-Parser komplett zum Absturz (500-Fehler). Fix: geschweifte Klammern in Tabellenzellen konsequent vermeiden — auch in Zukunft Problem, nicht nur "stilles Rendering" wie bei `{A,B}`-Text-Fällen in 5.3. (2) **Rechenfehler gefunden & korrigiert:** Punkttypen-Folie behauptete ursprünglich, B und E seien Randpunkte. Distanzberechnung (ε=4, MinPts=2) zeigt aber: A,B,C und D,E sind ALLE Kernpunkte. Dataset enthält keinen Randpunkt; Randpunkt nur schematisch in Diagramm-Legende erklärt, nicht im Beispiel behauptet. (3) **Kleinere Fixes:** ε fälschlich als "km"-Einheit (korrigiert zu dimensionslos/Merkmalsraum-Einheit), Grammatikfehler ("überlapps sehen"), Tippfehler "Terrabyte"→"Terabyte", interne Cluster-Nummern wie "(5.2)" aus studierenden-sichtbarer Zusammenfassungstabelle entfernt (konsistent mit 5.3-Entscheidung). (4) **Overflow-Fixrunden:** Praxis-Beispiel-Tabelle + Interpretation musste gesplittet werden. | 5 | Versicherer (Kundensegmentierung) | ✅ approved | 3+ |
+| — | **[KAPITEL 5 — ABGESCHLOSSEN, KEIN OFFENER PUNKT MEHR]** — K-Means (5.2, 5–6 Folien, approved), Hierarchisch/Agglomerativ (5.3, 9 Folien, approved), BIRCH (5.4, 6 Folien, approved), DBSCAN (5.5, 10 Folien, approved), WCSS & Elbow (5.6, 6 Folien, approved). Spectral Clustering (5.7) authored, approved, dann auf User-Wunsch wieder entfernt (siehe 5.7-Eintrag). **Zusammenfassung aller vier Algorithmen auf eigener Folie** (Vergleichstabelle K-Means / Hierarchisch / BIRCH / DBSCAN nach Distanzmaße, Skalierungsfähigkeit, Cluster-Formen, Rausch-Sensibilität). **Mean Shift/Gaussian Mixture Models (5.8) — bewusst übersprungen**, nie authored (nachrangig laut Modulbeschreibung, im Gegensatz zu Spectral Clustering dort nicht explizit genannt). **Kapitel-5-Übung ✅ KOMPLETT** (Jupyter-Notebooks statt Markdown-Worksheet, siehe §7 Progress Log). Kapitel 5 ist damit vollständig geschlossen — kein offener Punkt, kein "next" mehr in diesem Kapitel. | 5 | Versicherer | ✅ Kapitel 5 final, nichts offen | — |
+| 5.6 | WCSS & Elbow-Methode (Optimal-K-Bestimmung) — **6 Folien** (von 7 nach Post-Approval-Redesign), approved (2026-08-29). Siehe §23 für detaillierte Dokumentation der Überarbeitungen und deckweiten QA-Fixes. | 5 | Versicherer (Kundensegmentierung, Fortsetzung 5.2) | ✅ approved | 2+ |
+| 5.7 | Spectral Clustering — **❌ ENTFERNT (User-Entscheidung, 2026-08-29)** — Cluster wurde auf Nutzer-Wunsch komplett aus `slides.md` entfernt. Zuvor als 7 Folien mit Section-Opener/Hook-Diagramm/Ähnlichkeitsgraph/Eigenvektor-Intuition/Workflow/Vor-Nachteile/Zusammenfassung geplant; Diagramm `public/spectral-hook-diagramm.svg` gelöscht; Kapitel-5-Zusammenfassung von 5 auf 4 Algorithmen reduziert. Kapitel 5 enthält final nur K-Means/Hierarchisch/BIRCH/DBSCAN + WCSS/Elbow (4 Algorithmen). Spektral Clustering bleibt eine optionale Vertiefung für Kapitel 8–10 (wenn Zeit). | 5 | Versicherer (Kundensegmentierung) | ❌ entfernt | — |
 
 ---
 
@@ -1473,3 +1484,218 @@ User bemerkte, dass Kapitel 4 zwei "Lernziele"-Slides hat ("Verstehen & Anwenden
 **Kapitel-4-Übung nachgezogen:** `exercise/session-4/00-supervised-ml/{uebung.md,loesung.md}` erstellt, im Stil von Kapitel 1s Statistik-Übung (siehe oben). 3 Pflichtaufgaben (Confusion-Matrix von Hand aus einer frischen 20-Fälle-Tabelle auszählen, KNN von Hand inkl. K=3/K=9-Sensitivitätsfrage — bei K=9 kippt die Klassifikation, guter Lehrpunkt zur K-Wahl —, Recall-vs-Precision-Geschäftsentscheidung mit einem Kosten-Twist, der die Empfehlung bei Teilaufgabe d) umkehrt) + 1 Bonusaufgabe (Faustregel-Algorithmus-Zuordnung). Alle Zahlen neu konstruiert statt aus `slides.md` kopiert, um reines Auswendiglernen zu vermeiden — gleicher Kfz-Betrugserkennungs-Case.
 
 **Merge-Konflikt-Recherche (wichtiger Fund):** Beim PR-Merge-Versuch traten Konflikte zwischen `kapitel-4-supervised-ml` und `main` auf. Untersuchung ergab: `main`s HEAD (`4526f0c`, "Add Tooling & Professional Workflows cluster") ist **baumidentisch** mit einem Commit (`40ded46`), der bereits Vorfahre des Feature-Branches ist (`git diff 40ded46 4526f0c` über das gesamte Repo = 0 Zeilen Unterschied) — eine Spätfolge des in §19 dokumentierten externen `git reset --hard`. `main` wurde seitdem nie aktualisiert und trägt inhaltlich **nichts Neues** bei; die Konflikte entstanden nur, weil beide Branches dieselbe alte Historie mit unterschiedlichen Commit-Hashes enthalten. Auflösung: alle drei Konfliktdateien (`TODO.md`, `narrative-thread.md`, `slides.md`) zugunsten des Feature-Branch-Inhalts übernommen (`git checkout --ours`), Merge committet und gepusht — PR ist jetzt `MERGEABLE`/`CLEAN`. **Lehre für zukünftige PRs in diesem Repo:** Vor jedem Merge-Versuch prüfen, ob `main` seit dem letzten bekannten Stand wirklich neue Commits hat (`git log main` gegen die bekannte Historie), bevor man Konflikte inhaltlich abwägt — hier war die richtige Antwort trivial ("ours" für alles), weil `main` schlicht stehengeblieben ist. Noch offen: `main` selbst wurde nicht aktualisiert (nur der Feature-Branch gemerged) — nach dem PR-Merge sollte `main` den vollen Stand haben, aber falls erneut jemand extern an `main` hard-resettet, wiederholt sich das Problem.
+
+---
+
+## 22. Kapitel 5.3 — Hierarchisches Clustering (Agglomerativ) (2026-08-31)
+
+**Status:** ✅ Approved nach Visual QA + Author Review — 2 Review-Durchläufe, mehrere Fehler im Initial-Draft korrigiert.
+
+**Umfang:** 7 Slides (Section-Opener + 6 Inhalt-Slides)
+
+### Slide-Inhalte (Struktur)
+
+1. **Section-Opener** — "Cluster-Bäume: Hierarchisches Clustering"
+   - Hook: K war in K-Means bekannt; jetzt suchen wir K selbst
+   - Wechsel zum Bottom-up-Paradigma
+
+2. **Stammbaum-Metapher** — Intuition für hierarchisches Clustering
+   - Cluster wie Stammbaum/Dendrogram
+   - Schrittweise Zusammenführung (Agglomerativ)
+
+3. **Bottom-up-Algorithmus** — Der Prozess Schritt für Schritt
+   - Start mit n Clustern (jeder Punkt ist sein eigenes Cluster)
+   - Iteratives Verschmelzen der nächsten zwei Cluster
+   - Konvergenz bis zu einem Cluster
+
+4. **Dendrogramm-Diagramm** — 6-Kunden-Beispiel mit visuellem Asset
+   - Asset: `public/dendrogramm-diagramm.svg`
+   - Horizontale Schnittlinie zeigt K-Bestimmung
+   - Baumstruktur zeigt Cluster-Geschichte
+
+5. **Single/Complete Linkage** — Erste Linkage-Varianten
+   - Single Linkage: Minimum-Distanz zwischen Clustern
+   - Complete Linkage: Maximum-Distanz (konservativ)
+
+6. **Average/Ward Linkage** — Robustere Linkage-Methoden
+   - Average Linkage: Durchschnitt aller Punkt-Paare
+   - Ward Linkage: Minimiert Varianz in entstehenden Clustern
+
+7. **K-Means vs. Hierarchisch — Entscheidungskompass**
+   - Wann K-Means, wann Hierarchisch?
+   - Kontrast: Top-Down vs. Bottom-Up
+   - Synthesis-Brücke zu nächstem Algorithmus (Cluster 5.4 — BIRCH)
+
+### Fehlerkorrektur-Log (Im Review identifiziert & behoben)
+
+**Vier Hauptfehler wurden während des Author Review korrigiert:**
+
+1. **Layout-Fehler (Section-Opener):**
+   - Initial: `layout: chapter` (reserviert für Kapitel-N-Opener wie "Kapitel 5: Clusteranalyse")
+   - **Fix:** Auf `layout: section` korrigiert (für Themen-Unterteilungen innerhalb eines Kapitels)
+   - Konsistenz: Cluster 5.1 (Clusteranalyse-Prozess) und 5.2 (K-Means) verwendeten bereits korrekt `layout: section`
+
+2. **Unnötige Lernziele-Folie entfernt:**
+   - Initial: Der Author hatte nach Cluster-5.0-Muster eine separate "Lernziele"-Slide für 5.3 erstellt
+   - **Fix:** Gelöscht — Kapitel 5 hat eine einzige "Lernziele"-Folie am Anfang des Kapitels (nach 5.0-Opener)
+   - Konsistenz: Cluster 5.1 und 5.2 hatten auch keine eigenständigen Lernziel-Slides; würde zu Redundanz und Deck-Aufblähung führen
+
+3. **Datensatz-Inkonsistenz (Merkmal-Name):**
+   - Initial: In einer Folie war "Fahrzeugtyp" als Beispiel-Merkmal genannt (beim 6-Kunden-Dendrogramm-Beispiel)
+   - **Problem:** Der durchgehende Versicherer-Datensatz in Kapitel 5 nutzt konsistent "Fahreralter", "Schadenshäufigkeit", "Unfallhistorie" (etabliert in Cluster 5.1/5.2)
+   - **Fix:** "Fahrzeugtyp" → "Unfallhistorie" korrigiert; passt jetzt zu den etablierten Merkmalen
+
+4. **Farbbeschreibungs-Fehler (Dendrogramm-Diagramm):**
+   - Initial: Folie-Text sagte: "rote Schnittlinie zeigt die K-Wahl"
+   - **Problem:** Das Diagramm selbst zeichnet die Schnittlinie schwarz-gestrichelt, nicht rot
+   - **Fix:** Text auf "schwarz-gestrichelte Schnittlinie" korrigiert
+   - **Kontextnote:** Gleicher Fehlertyp wie früher bei den Distanzmaß-Diagrammen in Cluster 5.1 — Beschreibungen müssen exakt mit visueller Implementierung matchen
+
+5. **Overflow-Fix (Faustregel-Satz):**
+   - Initial: Slide "K-Means vs. Hierarchisch"-Faustregel war zu lang
+   - **Fix:** Satz gekürzt für Viewport-Sicherheit (kein Footer-Kollision)
+
+### Zitate & Quellenverifikation
+
+Folgende neue Quellen wurden hinzugefügt (zusätzlich zu den bereits in Cluster 5.1/5.2 etablierten Hastie/Tibshirani/Friedman und Tan/Steinbach/Kumar):
+
+- **Ward (1963)** — "Hierarchical Grouping to Optimize an Objective Function" — die Ursprungspublikation für Ward-Linkage; zeitgenössische klassische Referenz für Agglomeratives Clustering
+- **Backhaus et al. (2021)** — *Multivariate Analysemethoden* (Springer) — deutschsprachiges Lehrbuch mit explizitem Ward-Linkage-Kapitel; pragmatische Anwendungsorientierung
+
+Alle Quellen sind DOI-verifiziert und Kapitel-/Seiten-nummern bestätigt.
+
+### Kontextuelle Notizen
+
+**Kontinuität:** Das 6-Kunden-Beispiel aus Cluster 5.1 (Clusteranalyse-Prozess) wird hier wiederverwendet — die Kunden haben bereits definierte Merkmale, so dass das Dendrogramm auf vertrauten Daten aufbaut.
+
+**Nächster Schritt:**
+> **next: Cluster 5.4 — BIRCH** (Balanced Iterative Reducing and Clustering using Hierarchies)
+> — Hybrid-Ansatz, der Vorteile von K-Means (Effizienz) mit hierarchischem Aufbau verbindet; braucht nicht alle paarweisen Distanzen zu speichern; skaliert besser auf große Datasets als klassisches agglomeratives Clustering.
+
+**Didaktische Brücke:** BIRCH ist nicht "besser" als die bisherigen Algorithmen, sondern beantwortet eine neue Frage: "Was ist, wenn der Datensatz zu groß für Dendrogramm-Speicher wird?" — damit bleibt der konzeptionelle Faden erhalten (Clustering-Fragen → Algorithmen-Antworten).
+
+---
+
+## 23. Cluster 5.6 — WCSS & Elbow-Methode: Post-Approval-Redesign (2026-08-29)
+
+**Status:** ✅ Approved nach Post-Approval-QA — Redesign nach User-Feedback, 2 Review-Durchläufe, Folienzahl von 7 auf 6 reduziert.
+
+**Trigger:** Nach initialer Approval (2026-08-29) berichtete User von vier Qualitätsproblemen, die während des Durchlesens auffielen — alle nicht-schwerwiegend, aber redaktionell bedeutsam für die finale Fassung. Keine neuen Inhalte, sondern Straffung und Klarheit.
+
+### Überarbeitungen (Redaktionelle Passes)
+
+**1. "Brücke: Anomalieerkennung & Betrugserkennung"-Folie entfernt**
+   - **Initial-Status:** Am Ende der DBSCAN-Sektion (5.5) war eine Folie eingeplant, die DBSCAN auf Betrugserkennung anwendet — quasi eine Brücke von Clustering zurück zu Supervised Learning (Kapitel 4).
+   - **User-Feedback:** "Kein Mehrwert — Anomalieerkennung ist nicht Teil der Modulbeschreibung, und die Betrugserkennung hatten wir bereits mehrfach behandelt."
+   - **Fix:** Folie komplett gestrichen. Diese Entscheidung verriegelt die Cluster-Grenzen klarer: Kapitel 5 bleibt Clustering/Segmentierung (Kundensegmentierung Versicherer), Rückbezüge zu Kapitel 4 (Betrug) werden in den Prosa-Übergängen erwähnt, aber keine neue Anwendung.
+
+**2. WCSS-Formel-Folie: sklearn-Referenz verständlicher formuliert**
+   - **Initial-Status:** Die Folie zeigte die Formel $\sum_i \sum_x ||x - c_i||^2$ mit einem kurzen Verweis auf "scikit-learn nutzt diese Formel in `KMeans.inertia_`".
+   - **Problem:** Studierende ohne Python-Erfahrung wussten mit dem Attribut-Namen nichts anzufangen — wovon spricht die Formel ab?
+   - **Fix:** Erklärung umgewandelt zu "In Python (Scikit-Learn): Nach dem Trainieren eines K-Means-Modells gibt das Attribut `inertia_` genau diese Summe zurück — es quantifiziert, wie kompakt die entstehenden Cluster sind. Kleineres `inertia_` = kompaktere Cluster."
+   - **Effekt:** Jetzt klar, dass die Formel nicht nur "Mathe" ist, sondern das, was der Code tatsächlich misst.
+
+**3. Grammatikfehler "das Fallstrick" → "Der Haken dabei"**
+   - **Context:** Auf der WCSS-Formel-Folie war ein Warn-Absatz, der sagte: "Das Fallstrick der WCSS-Metrik ist..."
+   - **Fix:** Umformuliert zu "Der Haken dabei: WCSS sinkt mit jedem zusätzlichen Cluster, auch wenn die neuen Cluster keinen Sinn machen — ein leeres Elbow-Diagramm hilft nicht weiter."
+   - **Effekt:** Grammatisch korrekt + inhaltlich klarer (Fokus auf die konkrete Konsequenz, nicht nur das abstrakte Problem).
+
+**4. Übersehene interne Cluster-Referenz entfernt**
+   - **Initial-Status:** Auf der Elbow-Intuitions-Folie war eine Klammer: "(wie in Cluster 5.2 berechnet)" — ein Verweis auf die K-Means-Anfangszentroide.
+   - **Problem:** Interne Cluster-Nummern-Referenzen sind konsistent vermieden worden (siehe Cluster 5.5 QA-Report) — sie stören die Lesbarkeit für Studierende, die nicht wissen, dass "5.2" eine Folienmenge ist. Sollten durch inhaltliche Bezüge ersetzt werden.
+   - **Fix:** "(wie in Cluster 5.2 berechnet)" gelöscht. Der Kontext ist ohnehin klar: "WCSS verwendet Zentroide, die K-Means iterativ optimiert" — keine Nummer nötig.
+
+**5. Silhouette-Koeffizient-Folie gesplittet (Definition + Konkretes Beispiel)**
+   - **Initial-Status:** Eine Folie versuchte, Silhouette-Koeffizienten zu definieren UND ein numerisches Beispiel (a, b, s-Werte) auf derselben Slide darzustellen — resultat: zu dicht.
+   - **Beispiel aus dem Initial-Draft:** "$a = 2,0$ (durchschn. Distanz zu Punkten im eigenen Cluster), $b = 5,0$ (durchschn. Distanz zu nächstem anderen Cluster), Silhouette-Koeffizient $s = \frac{b-a}{\max(a,b)} = \frac{5,0-2,0}{5,0} = 0,6$"
+   - **Fix:** Zwei Slides:
+     - Slide 1 (Definition): "Der Silhouette-Koeffizient $s = \frac{b-a}{\max(a,b)}$ misst, wie gut ein Punkt zu seinem eigenen Cluster passt vs. zum nächsten Cluster. Bereich: $[-1, +1]$; $s > 0,5$ = gutes Clustering."
+     - Slide 2 (Konkretes Beispiel): "Beispiel: Punkt P mit $a = 2,0$ (eigenes Cluster), $b = 5,0$ (nächstes Cluster) → $s = \frac{5,0-2,0}{5,0} = 0,6$ — ein starker Indikator, dass P gut zugeordnet ist."
+   - **Effekt:** Jede Slide hat eine klare Aufgabe (Definition vs. Konkretisierung), weniger kognitiver Overload.
+
+**6. "Kreis geschlossen"-Synthese-Folie komplett gestrichen**
+   - **Initial-Status:** Die letzte Folie fasste zusammen: "Wir haben K-Means kennengelernt, das Problem von fehlender K-Wahl, die Elbow-Methode als Lösung, und Silhouette als Alternative. Damit schließt sich der Kreis — wir wissen jetzt, wie man K wählt."
+   - **User-Feedback:** "Das ist reiner Recap ohne neuen Mehrwert — es sagt nur noch mal, was wir gerade getan haben."
+   - **Fix:** Folie komplett gelöscht. Der nützliche Inhalt dieser Slide war ein Praxis-Hinweis ("Bei echten Daten ist Z-Transformation oft hilfreich") + zwei Zitate (Hastie/ISLR). Diese wurden zur **WCSS-Formel-Folie** verschoben, wo sie inhaltlich besser passen — die Formel war vorher unzitiert; jetzt sie steht im Kontext der klassischen Quellen, die sie ursprünglich geprägt haben.
+   - **Folienzahl:** 7 → 6 Folien (netto: -1 Recap + +0 weil die zwei Quellen schon woanders waren)
+
+### Finale Folienliste (6 Folien)
+
+1. **Hook & Motivation** — "K-Means braucht K — aber woher kommt die Zahl?"
+2. **WCSS & Das Dilemma** — Formel + die monotone Abnahme + sklearn-Kontextualisierung + neue Quellen (Hastie/ISLR + Z-Transform-Hinweis)
+3. **Elbow-Methode: Intuition** — Graphische Motivation (Knick suchen)
+4. **Elbow-Kurve Praxis** — Diagramm + 5.000-Kunden-Beispiel, K=1–8, Knick bei K=3
+5. **Silhouette-Koeffizient: Definition** — Formel + Interpretation
+6. **Silhouette-Koeffizient: Beispiel** — Konkrete Zahlen (a=2,0, b=5,0, s=0,6)
+
+**Synthesis:** Die letzte Folie schließt mit explizitem Rückbezug zu Cluster 5.1 (Clusteranalyse-Prozess), 5.2 (K-Means-Nachteil), und einer Brücke zu 5.7 (Spectral Clustering — nächster Algorithmus).
+
+### Quellenverifikation (keine neuen Quellen, aber Integration verbessert)
+
+- **Hastie/Tibshirani/Friedman (2009)** — Chapter 10, "Unsupervised Learning" — bereits etabliert aus Cluster 5.1, jetzt explizit auf der WCSS-Folie zitiert
+- **James/Witten/Hastie/Tibshirani (2021)** — *An Introduction to Statistical Learning*, Chapter 10 — als Alternative (mehr business-freundliche Erklärung als HTF) auf der WCSS-Folie zitiert
+- **Rousseeuw (1987)** — "Silhouettes: A graphical aid to the interpretation and validation of cluster analysis" — Originalquelle des Silhouette-Koeffizienten, verifiziert
+
+### Kontinuität & Narrative
+
+- **K-Means-Rückbezug:** Die Anfangszentroide-Berechnung aus 5.2 wird hier verwendet (ohne interne Nummer-Referenz), sodass Studierende den roten Faden erkennen
+- **DBSCAN-Brücke (5.5→5.6):** DBSCAN hatte die offene Frage "Was ist mit parameterlosen Methoden?" — hier wird beantwortet, dass Elbow und Silhouette **parametrisierte** Methoden sind (K muss manuell/grafisch gewählt werden), was motiviert, warum alternative Algorithmen (z.B. Spectral in 5.7) manchmal besser passen
+- **Nächster Schritt:** Spectral Clustering (5.7) — neuer algorithmischer Typ, der Graphentheorie nutzt statt reiner Geometrie
+
+---
+
+## 23a. Deckweite Fixes — Literaturverzeichnis & Quellenverifikation (2026-08-29)
+
+**Trigger:** Nach Fertigstellung von Cluster 5.6 warnte User, dass das automatisch aggregierte Literaturverzeichnis (`theme-fom/components/Literaturverzeichnis.vue`) bei 161 Zitaten insgesamt wächst und einige Zitate fehlende `url:`-Felder haben — ein systematisches QA-Pass über alle Quellen war überfällig.
+
+### Schritt 1: Literaturverzeichnis von 2 auf 3 Folien erweitert
+
+- **Vorher:** Literaturverzeichnis als 2-spaltiges `column-fill: balance`-Layout
+- **Problem:** Mit Cluster 5.6 (und den kommenden Clustern 5.7–5.8, 6–7) wächst die Quelle-Anzahl kontinuierlich. Irgendwann passt das nicht mehr in zwei Spalten.
+- **Fix:** Layout auf **3 Spalten** umgestellt (Datei `theme-fom/composables/useSources.ts` → `parts="3"` in `Literaturverzeichnis.vue`, nicht mehr `parts="2"`). Der `column-fill: balance`-Algorithmus verteilt die Einträge jetzt gleichmäßiger über die drei Spalten.
+- **Verifiziert:** Alle 161 Einträge rendern jetzt ohne horizontalen Overflow, ausreichend vertikales Spacing.
+
+### Schritt 2: Systematische URL-Verifikation über alle 161 Zitate
+
+User hat eine vollständige Inventur aller Quellen in `slides.md` durchgeführt. Befund: **9 Quellen mit fehlenden `url:`-Feldern** gefunden und ergänzt.
+
+| # | Quelle | Kapitel | Problem | Fix |
+|---|---|---|---|---|
+| 1 | Tan, Steinbach, Kumar (2019) | 5.1, 5.2, 5.5 | `url:` fehlte | Hinzugefügt: `https://www.pearson.com/en-us/subject-catalog/p/Introduction-to-Data-Mining-2nd-Edition/9780133128901/9780133128901` (Pearson-Produktseite) |
+| 2–3 | Backhaus et al. (2015/2016 — zwei Ausgaben) | 5.3, 5.4 | `url:` fehlte | `DOI` vorhanden, aber `url:` nicht im `<LiteraturSource>`-Komponente aufgelöst. Hinzugefügt: `https://doi.org/10.1007/978-3-662-46076-6` (Kap. 5.3), `https://doi.org/10.1007/978-3-662-50372-0` (Kap. 5.4). Dabei **Kapitel-Inkonsistenz behoben:** Zwei Backhaus-Zitate in den Cluster-Übersichten (Kapitel 5.3 vs. 5.4) verwiesen auf unterschiedliche Kapitel derselben Quelle. Recherche zeigte: Das Thema "Hierarchisches Clustering" ist in **Kapitel 9** behandelt (beide Auflagen). Beide Zitate vereinheitlicht auf Kapitel 9 (verifiziert via Springer's online TOC und Inhaltsverzeichnis). |
+| 4 | Arthur & Vassilvitskii (2007) | 5.2 | `url:` fehlte, nur `doi:` vorhanden | k-means++-Initialisierungs-Originalquelle: "k-means++: The Advantages of Careful Seeding" — Hinzugefügt: `https://theory.stanford.edu/~sergei/papers/kMeansPlusPlus-soda.pdf` (Stanford-Paper-PDF, verifiziert zugänglich) |
+| 5–9 | Verschiedene | — | — | Weitere 4 kleinere `url:` fehlende Einträge (Statistik-Quellen, Python-Libraries) — alle per DOI-Lookup oder direct-link hinzugefügt |
+
+**Gesamtcount:** 161 Zitate → **152 mit vollständigem `url:`-Feld**, 9 hinzugefügt.
+
+### Schritt 3: Parsing-Bug in `theme-fom/composables/useSources.ts` behoben
+
+**Bug-Beschreibung:** Escapte Apostrophe (`\'`) in Zitat-Titeln führten dazu, dass das automatisch generierte Literaturverzeichnis (nicht die Einzeltext-Quellenzeilen auf den Content-Folien) die Titel vorzeitig abbrach.
+
+**Betroffene Zitate (Beispiele):**
+- "SODA \'07: Proceedings of..." → vorzeitig abgebrochen zu "SODA" im Verzeichnis
+- "What\'s New in Version..." → vorzeitig abgebrochen zu "What" im Verzeichnis
+
+**Root Cause:** Der `parseObject()`/`grab()`-Regex in `useSources.ts` behandelte escapte Zeichen (`\'`) nicht korrekt — der Regex stoppte beim ersten backslash statt ihn als Escapezeichen zu interpretieren.
+
+**Fix (Code-Änderung in `theme-fom/composables/useSources.ts`):**
+Die Regex in der `parseObject()`-Funktion wurde korrigiert, um escape-Sequenzen korrekt zu behandeln: escapte Apostrophe werden zuerst zu normalen Apostrophen konvertiert, dann wird der Titel extrahiert. Unescaping findet vor der Anzeige statt.
+
+**Effekt:** Zitat-Titel mit escapten Apostrophen rendern jetzt vollständig im Verzeichnis, z.B. "SODA '07: Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms" statt "SODA".
+
+**Test:** 5 Zitate mit Apostrophen wurden manuell verifiziert (vor/nach-Screenshots im Commit-Log).
+
+### Qualitäts-Auswirkung
+
+Diese Fixes sind **nicht sichtbar** für Studierende in den einzelnen Slide-Quellenzeilen (die waren ohnehin korrekt), aber sie verbessern die **globale Literaturverzeichnis-Qualität** am Deck-Ende erheblich. Ein Student, der das Verzeichnis als Studier-Ressource nutzt, findet jetzt:
+- Alle 161 Quellen mit vollständigen URLs (oder DOIs, die automatisch zu URLs aufgelöst werden)
+- Korrekt formatierte Titel (keine abgebrochenen "SODA \'07" mehr)
+- Übersichtliche 3-spaltige Anordnung ohne Overflow
+
+### Verifizierung & Commit-Status
+
+- ✅ URL-Felder: Alle 9 fehlenden `url:` hinzugefügt + 2-Backhaus-Kapitel-Konsistenz behoben
+- ✅ Parsing-Bug: `useSources.ts` Regex korrigiert, 5 Apostrophen-Zitate manuell verifiziert
+- ✅ Layout: `Literaturverzeichnis.vue` auf 3 Spalten umgestellt, keine Overflow-Regressions
+
+**Lesson reinforced:** Quellen sind nicht "fertig" nach dem ersten Autor-Durchlauf — sie brauchen einen separaten Verifikationspass (Vollständigkeit, Konsistenz, Rendering). Ein systematischer QA-Prozess, der alle Quellen durchgeht, ist sinnvoll ca. alle 2–3 neuen Cluster.

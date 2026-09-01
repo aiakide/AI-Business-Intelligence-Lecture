@@ -40,11 +40,19 @@ export function parseSources(raw: string): Source[] {
 
 function parseObject(text: string): Source | null {
   // Values in the array form use single quotes: { title: '...', url: '...', year: '...' }
+  // The value itself may contain an escaped apostrophe (e.g. "SODA \'07"), so the
+  // capture must treat `\'` as a literal char inside the string, not a terminator —
+  // `(?:[^'\\]|\\.)*` matches any run of non-quote/non-backslash chars or escaped
+  // pairs, then unescape() restores `\'` -> `'` for display.
   const grab = (k: string) =>
-    text.match(new RegExp(`${k}\\s*:\\s*'([^']*)'`))?.[1]
+    unescape(text.match(new RegExp(`${k}\\s*:\\s*'((?:[^'\\\\]|\\\\.)*)'`))?.[1])
   const title = grab('title')
   if (!title) return null
   return { title, url: grab('url'), year: grab('year') }
+}
+
+function unescape(value: string | undefined): string | undefined {
+  return value?.replace(/\\(.)/g, '$1')
 }
 
 function dedupe(list: Source[]): Source[] {

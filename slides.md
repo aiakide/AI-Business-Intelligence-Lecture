@@ -2575,7 +2575,7 @@ layout: header-cols
 <img :src="'/knn-nachbarn-diagramm.svg'" alt="KNN-Beispiel: Neuer Fall von 5 Nachbarn umgeben, 3 sind Betrug, 2 legitim. Majority Voting: Betrug." style="max-height: 280px; margin: 0 auto; display: block;" />
 
 <LiteraturSource :sources="[
-  { title: 'Cover, T., Hart, P.: Nearest neighbor pattern classification. IEEE Transactions on Information Theory, 13(1)', url: 'https://doi.org/10.1109/TIT.1967.1053964', year: '1967' },
+  { title: 'Cover, T., Hart, P.: Nearest neighbor pattern classification. IEEE Trans. Inf. Theory 13(1)', url: 'https://doi.org/10.1109/TIT.1967.1053964', year: '1967' },
 ]" />
 
 ---
@@ -2760,14 +2760,818 @@ layout: statement
 
 Deine Kapitel-4-Challenges: Train/Validation-Split, Confusion Matrix berechnen, KNN, Random Forest und Gradient Boosting verstehen — und wissen, wann welcher Algorithmus passt.
 
+---
+layout: chapter
+---
+
+::left::
+
+# Kapitel 5: [Clusteranalyse & Segmentierung]{style="color:var(--slidev-theme-primary)"}
+
+::right::
+
+<Illustration src="/illustrations/data-analysis-bro.svg" alt="Clusteranalyse & Segmentierung" width="90%" />
 
 ---
 layout: default
 ---
 
-# Literaturverzeichnis
+## Lernziele — Verstehen & Erklären
 
-<Literaturverzeichnis />
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Unsupervised Learning als fundamentale Umkehrung von Supervised Learning (Kapitel 4)
+- Distanzmaße (Euklidisch, Manhattan, Cosinus) und ihre Anwendungskontexte
+- Den Clusteranalyse-Prozess von Normalisierung über Algorithmus-Wahl bis zur Validierung
+- K-Means, Hierarchisches Clustering und DBSCAN als unterschiedliche algorithmische Ansätze
+
+📊 **Anwenden & Bewerten:**
+- Distanzen von Hand berechnen und Skalierungsprobleme erkennen
+- Den optimalen Wert K mit Elbow-Methode und Silhouette-Koeffizient bestimmen
+- Cluster qualitativ bewerten (WCSS, Davies-Bouldin-Index, Domain-Validierung)
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+⚖️ **Kritisch Reflektieren:**
+- Clustering ist explorativ, nicht kausal — Interpretierbarkeit erfordert Domain-Wissen
+- Distanzmaße favorisieren bestimmte Cluster-Formen (sphärisch vs. beliebig geformt)
+- Unterschied: Clustering für Segmentierung (Kapitel 5) vs. Clustering für Anomalieerkennung (zurück zu Kapitel 4)
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Tan, Steinbach, Karpatne, Kumar: Introduction to Data Mining, 2nd ed., Kap. 8 – Cluster Analysis: Basic Concepts and Algorithms', url: 'https://www.pearson.com/en-us/subject-catalog/p/Tan-Introduction-to-Data-Mining-2nd-Edition/P200000003204', isbn: '9780137506286', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## Supervised vs. Unsupervised — Der fundamentale Shift
+
+Jetzt der Fundamental-Wechsel: In **Kapitel 4** hatten wir Labels (Betrug: 0/1); **Kapitel 5** hat keine. Stattdessen: **Welche versteckten Gruppen stecken in unseren Daten?**
+
+| Eigenschaft | Supervised (Kapitel 4) | Unsupervised (Kapitel 5) |
+|---|---|---|
+| **Labels** | Vorhand, z. B. Betrug: 0/1 | Unbekannt — werden erst gesucht |
+| **Ziel** | Vorhersage einer bekannten Zielgröße | Musterentdeckung, Segmentierung |
+| **Ausgabe** | Klassenlabel oder Zahlenwert | Cluster-Zugehörigkeit |
+
+**Intuition:** Supervised = Vorhersage aus Labels; Unsupervised = Gruppenerkennung ohne Labels.
+
+<LiteraturSource :sources="[
+  { title: 'Tan, Steinbach, Karpatne, Kumar: Introduction to Data Mining, 2nd ed., Kap. 8 – Cluster Analysis: Basic Concepts and Algorithms', url: 'https://www.pearson.com/en-us/subject-catalog/p/Tan-Introduction-to-Data-Mining-2nd-Edition/P200000003204', isbn: '9780137506286', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## Distanzmaße — Die Motivation: Ähnlichkeit im Merkmalsraum
+
+**Zentrale Frage:** Wie misst man, ob zwei Kunden „ähnlich" sind?
+
+<img :src="'/distanz-dimensionen-diagramm.svg'" class="w-full" alt="Distanz im Merkmalsraum: von 2 über 3 zu n Dimensionen" />
+
+**Die Antwort:** Mit einer Zahl — der **Distanz**. Je kleiner die Distanz, desto ähnlicher zwei Kunden. Das erste Panel zeigt das im 2D-Fall: die gestrichelte Linie ist die direkte Luftlinie zwischen zwei Kundenpunkten.
+
+---
+layout: default
+---
+
+## Distanzmaße — Die Euklidische Distanz: Pythagoras formalisiert
+
+**Zentrale Erkenntnis:** Diese Idee der geometrischen Entfernung ist die Basis für ALLES, was in Kapitel 5 folgt — **Jeder Clustering-Algorithmus braucht ein Distanzmaß.**
+
+Die direkte Luftlinie folgt dem **Satz des Pythagoras**. Betrachten wir zwei konkrete Kunden:
+
+- **Kunde A:** 27 Jahre, 8.500 € Fahrzeugwert
+- **Kunde B:** 45 Jahre, 12.000 € Fahrzeugwert
+
+$$d_E = \sqrt{(27-45)^2 + (8.500-12.000)^2} = \sqrt{324 + 12.250.000} \approx 3.501$$
+
+<LiteraturSource :sources="[
+  { title: 'Backhaus, Erichson, Plinke, Weiber: Multivariate Analysemethoden, 16. Aufl., Kap. 9 – Clusteranalyse', url: 'https://doi.org/10.1007/978-3-662-56655-8', doi: '10.1007/978-3-662-56655-8', year: '2021' },
+]" />
+
+---
+layout: default
+---
+
+## Distanzmaße — Euklidische Distanz in 3D und n-D
+
+**Die allgemeine Formel:** Die Euklidische Distanz in beliebig vielen Dimensionen lautet:
+
+$$d_E(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{p} (x_i - y_i)^2}$$
+
+**Das zweite Panel (3D):** Kommt ein drittes Merkmal hinzu — z. B. Schadenshäufigkeit — wächst die Formel nur um einen Term. Geometrisch denken wir jetzt im Raum statt der Ebene; rechnerisch bleibt die Logik identisch.
+
+**Das dritte Panel (n-D):** Ab vier Merkmalen ist Zeichnen unmöglich. Aber mathematisch bleibt der Gedanke gleich — die obige Formel funktioniert für alle *p*, egal wie groß.
+
+**Distanz ist jetzt eine reine Rechenvorschrift** — aber die zugrunde liegende Intuition (Luftlinie im Raum) bleibt erhalten, egal wie viele Dimensionen hinzukommen.
+
+---
+layout: default
+---
+
+## Distanzmaße — Ein Stolperstein bei allen Distanzmaßen
+
+⚠️ **Kritisches Problem:** Merkmale mit unterschiedlichen Skalen dominieren die Distanzberechnung. Ein EUR-Betrag mit Werten im Tausenderbereich überschattet ein Alter in Jahrzehnten. **Lösung: Z-Transformation vor der Clusteranalyse** — alle Merkmale auf Mittelwert 0 und Standardabweichung 1 normalisieren. Dann fließen alle Merkmale gleichgewichtig in die Distanz ein.
+
+<LiteraturSource :sources="[
+  { title: 'Backhaus, Erichson, Plinke, Weiber: Multivariate Analysemethoden, 16. Aufl., Kap. 9 – Clusteranalyse', url: 'https://doi.org/10.1007/978-3-662-56655-8', doi: '10.1007/978-3-662-56655-8', year: '2021' },
+]" />
+
+---
+layout: default
+---
+
+## Distanzmaße — Manhattan-Distanz: Ein Schritt nach dem anderen
+
+Nicht jedes Distanzmaß passt zu jedem Datensatz.
+
+### Manhattan-Distanz (L1-Norm)
+
+$$d_M(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{n} |x_i - y_i|$$
+
+**Intuition:** Statt diagonal abzukürzen gehst du nur nach rechts/oben/unten — wie Straßenblöcke in Manhattan. Die Distanz ist die Summe der Differenzen in jeder Dimension.
+
+**Anwendungsfall:** Robuster gegen Ausreißer; beliebter, wenn Merkmale nominal kodiert oder gemischt typisiert sind (z. B. Kundeneigenschaften mit diskreten und kontinuierlichen Werten).
+
+---
+layout: default
+---
+
+## Distanzmaße — Cosinus-Distanz: Winkel statt Magnitude
+
+### Cosinus-Distanz
+
+$$\cos(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{|\mathbf{x}| |\mathbf{y}|}$$
+
+**Intuition:** Zwei Personen können unterschiedlich viel reden, aber über dieselben Themen im gleichen Verhältnis sprechen — Cosinus misst den **Winkel** zwischen den Vektoren, nicht die absolute Magnitude. Wenn beide Vektoren in die gleiche Richtung zeigen, ist der Winkel klein (Cosinus ≈ 1 = ähnlich); wenn sie senkrecht stehen, ist Cosinus ≈ 0 (unähnlich).
+
+**Anwendungsfall:** Standard für Text-Ähnlichkeit und hochdimensionale sparse Daten (z. B. Wort-Häufigkeiten oder Dokument-Vektoren). Brillant, wenn absolute Größen nicht zählen, sondern nur Richtung/Proportion.
+
+---
+layout: default
+---
+
+## Distanzmaße — Faustregel für die richtige Wahl
+
+- **Euklidisch:** Numerische, kontinuierliche Daten (Standard für Kundenmerkmale wie Alter, Gehalt, Fahrzeugwert)
+- **Manhattan:** Gemischte oder diskrete kodierte Daten; robuster gegen Ausreißer
+- **Cosinus:** Text, Häufigkeitsvektoren, hochdimensionale sparse Daten
+
+Diese Wahl beeinflusst die Cluster-Ergebnisse erheblich — richtige Distanzmaß ist kein Detail, sondern Design-Entscheidung.
+
+<LiteraturSource :sources="[
+  { title: 'Scikit-Learn Clustering User Guide', url: 'https://scikit-learn.org/stable/modules/clustering.html', year: '2025' },
+]" />
+
+---
+layout: default
+---
+
+## Der Clusteranalyse-Prozess — Vorbereitung & Algo-Wahl
+
+Clustering ist nicht nur „Algorithmus anwenden und fertig". Jetzt wenden wir unsere Distanzmaße-Kenntnisse in einer strukturierten 5-Schritt-Abfolge an:
+
+**Schritt 1: Normalisierung**  
+Z-Transformation: (x − Mittelwert) / Standardabweichung. Alle Merkmale auf gleiche Skala bringen, damit EUR-Beträge nicht dominieren.
+
+**Schritt 2: Distanzmatrix berechnen**  
+Paarweise Distanzen zwischen allen Datenpunkten mit dem gewählten Maß (Euklidisch/Manhattan/Cosinus).
+
+**Schritt 3: Algorithmus wählen**  
+- **K-Means (≠ KNN, Kapitel 4):** Schnell, sphärische Cluster, K vorgeben
+- **Hierarchisches Clustering:** Dendrogramm-Struktur, bottom-up oder top-down
+- **DBSCAN:** Beliebige Cluster-Formen, erkennt Rauschen
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Der Clusteranalyse-Prozess — Bewertung & Interpretation
+
+Nach der Algorithmus-Anwendung folgt kritische Validierung:
+
+**Schritt 4: Optimale K / Cluster-Anzahl bestimmen**  
+- **Elbow-Methode:** Plot WCSS vs. K — gesucht wird der deutliche Knick in der Kurve, an dem sich die Kurve wie ein angewinkelter Arm abflacht (daher engl. „Elbow" = Ellenbogen, im Deutschen oft „Knie der Kurve" genannt)
+- **Silhouette-Koeffizient:** Misst, wie gut ein Punkt zu seinem Cluster passt (−1 bis +1)
+- **Domain-Wissen:** „Wie viele Kundengruppen ergeben geschäftlich Sinn?"
+
+**Schritt 5: Cluster-Qualität bewerten & interpretieren**  
+- WCSS (Within-Cluster Sum of Squares) — niedrig = gute Kohäsion
+- Davies-Bouldin-Index — niedrig = gute Trennung zwischen Clustern
+- **Domänen-Validierung:** Sind die gefundenen Gruppen geschäftlich sinnvoll?
+
+---
+
+🎯 **Das Wichtigste:** Cluster sind nie 100 % „echt" — Domänenwissen muss bestätigen, dass die Gruppen tatsächlich unterschiedliche Geschäftssegmente darstellen. Jetzt kennen wir den Prozess. Die konkrete Umsetzung startet mit dem einfachsten Algorithmus: **K-Means**.
+
+<LiteraturSource :sources="[
+  { title: 'Scikit-Learn Clustering User Guide', url: 'https://scikit-learn.org/stable/modules/clustering.html', year: '2025' },
+]" />
+
+---
+layout: default
+---
+
+## [K-Means]{style="color:var(--slidev-theme-primary)"} — Wenn feste Regeln nicht mehr reichen
+
+**Problem:** Dein Versicherer nutzt starre Segmente: „Anfänger unter 25", „Standard 25–50", „Senior über 50" — ein 26-Jähriger mit 25.000 km/Jahr und 3 Unfällen landet in derselben Schublade wie einer mit 5.000 km/Jahr und 0 Unfällen.
+
+> **Frage:** Wie findest du automatisch die Risikogruppen, die in den Daten wirklich stecken — statt die Grenzen von Hand festzulegen?
+
+<img :src="'/kmeans-idee-diagramm.svg'" alt="K-Means-Grundidee in drei Schritten: drei zufällige Startpunkte, Zuordnung jedes Punkts zum nächsten Startpunkt, Nachrücken der Startpunkte in die Gruppenmitte" style="max-height: 195px; margin: 0 auto; display: block;" />
+
+Wiederholen, bis sich nichts mehr bewegt — **Konvergenz**. So entstehen natürliche Gruppen.
+
+---
+layout: default
+---
+
+## K-Means Iteration — Die vier Phasen visuell
+
+<img :src="'/kmeans-iteration-diagramm.svg'" alt="K-Means in vier Schritten: zufällige Initialisierung der Zentroide, Zuordnung der Kunden zum nächsten Zentroid, Verschieben der Zentroide auf den Gruppenmittelwert und Konvergenz" style="max-height: 310px; margin: 0 auto; display: block;" />
+
+Das Diagramm zeigt genau das, was die Magnet-Analogie beschreibt:
+
+1. **Initialisierung:** 3 zufällige Start-Zentroide (rote, blaue, gelbe Sterne)
+2. **Zuordnung:** Jeder Kunde bekommt Farbe des nächsten Zentoids
+3. **Update:** Zentroide springen zu den Mittelpunkten ihrer Gruppen
+4. **Konvergenz:** Zentroide haben sich stabilisiert (✓-Badge)
+
+---
+layout: default
+---
+
+## K-Means Algorithmus — Die vier Schritte
+
+**Schritt 1: Initialisierung**  
+Wähle $K$ zufällige Punkte als Start-Zentroide $\mathbf{c}_1, \ldots, \mathbf{c}_K$ (oder besser: **k-means++**, Arthur & Vassilvitskii 2007, wählt erste Zentroide klüger und vermeidet schlechte lokale Minima).
+
+**Schritt 2: Zuordnung**  
+Für jeden Punkt $\mathbf{x}_i$: ordne ihn dem nächsten Zentroid nach Euklidischer Distanz zu (Rückbezug Cluster 5.1).
+
+**Schritt 3: Update**  
+Für jeden Cluster: berechne den neuen Zentroid $\mathbf{c}_k^{\text{neu}} = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i$ (Mittelwert aller zugeordneten Punkte — daher der Name "K-Means").
+
+**Schritt 4: Konvergenztest**  
+Wenn die Zentroide sich nicht mehr bewegt haben: Stop. Sonst: zurück zu Schritt 2.
+
+**Das war's — einfach und elegant.** Das Ergebnis: $K$ Cluster mit minimaler Within-Cluster-Varianz (WCSS).
+
+<LiteraturSource :sources="[
+  { title: 'MacQueen, J.: Some Methods for Classification and Analysis of Multivariate Observations, Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability', url: 'https://projecteuclid.org/ebooks/berkeley-symposium-on-mathematical-statistics-and-probability/Proceedings-of-the-Fifth-Berkeley-Symposium-on-Mathematical-Statistics-and/chapter/Some-methods-for-classification-and-analysis-of-multivariate-observations/bsmsp/1200512992', year: '1967' },
+  { title: 'Arthur, D. & Vassilvitskii, S.: k-means++: The Advantages of Careful Seeding, SODA \'07 – Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms', url: 'https://theory.stanford.edu/~sergei/papers/kMeansPP-soda.pdf', year: '2007' },
+]" />
+
+---
+layout: default
+---
+
+## K-Means in der Praxis — Versicherer-Segmentierung (1/2)
+
+Nach K-Means (mit $K=3$) entstehen drei interpretierbare Kundengruppen:
+
+**Cluster 1 — Hochrisiko:** Jung (24–32 Jahre), hohe Jahreskilometer (18.000+), Unfallhistorie → Prämie +35%
+
+**Cluster 2 — Standard:** Mittleres Alter (35–48 Jahre), normale km (8.000–12.000), wenige Schäden → Baseline-Prämie
+
+**Cluster 3 — Niedrigrisiko:** Älter (50+), niedrige km (<5.000), saubere Geschichte → Prämie −15%
+
+Diese Segmente sind unmittelbar aktiv einsetzbar: Jeder neue Kunde wird zum nächsten Zentroid zugeordnet und erhält damit sofort die passende Prämienklasse.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## K-Means in der Praxis — Versicherer-Segmentierung (2/2)
+
+**Konkrete Zuordnung:** Nehmen wir an, die zufällige Initialisierung (Schritt 1) hat diese 3 Start-Zentroide ergeben — jeweils als (Alter, km/Jahr, Unfälle):
+
+$$\mathbf{c}_1 = (30,\ 15.000,\ 1) \qquad \mathbf{c}_2 = (42,\ 9.000,\ 0) \qquad \mathbf{c}_3 = (55,\ 4.000,\ 0)$$
+
+Ein neuer Kunde mit Merkmalen $(27 \text{ Jahre}, 22.000 \text{ km}, 2 \text{ Unfälle})$ wird per Euklidischer Distanz zugeordnet:
+
+$$d_1 = \sqrt{(27-30)^2 + (22.000-15.000)^2 + (2-1)^2} \approx 7.001$$
+$$d_2 = \sqrt{(27-42)^2 + (22.000-9.000)^2 + (2-0)^2} \approx 13.229$$
+$$d_3 = \sqrt{(27-55)^2 + (22.000-4.000)^2 + (2-0)^2} \approx 18.034$$
+
+→ **Kunde gehört zu Cluster 1** (Zentroid 1 am nächsten) — **Hochrisiko-Segment** mit +35%-Prämie.
+
+<LiteraturSource :sources="[
+  { title: 'Tan, Steinbach, Kumar: Introduction to Data Mining, 2nd ed., Kap. 8.1 – Basic Concepts', url: 'https://www.pearson.com/en-us/subject-catalog/p/Tan-Introduction-to-Data-Mining-2nd-Edition/P200000003204', isbn: '9780137506286', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## K-Means Vor- & Nachteile — und wann er passt
+
+| **Vorteile** | **Nachteile** |
+|---|---|
+| Sehr schnell: O(*n* · *K* · *i*) | *K* muss vorab bekannt sein |
+| Interpretierbar: Zentroide sind reale Punkte im Merkmalsraum | Ausreißerempfindlich (Kapitel 1: Mittelwert vs. Median) |
+| Einfach zu verstehen und umzusetzen | Skalierungsempfindlich → Z-Transformation Pflicht |
+| Funktioniert gut bei sphärischen, ähnlich großen Clustern | Nimmt genau das an — bei anderen Formen ungeeignet (DBSCAN später flexibler) |
+| — | Lokale Minima möglich (k-means++ hilft) |
+
+K-Means braucht $K$ vorher — welches richtig ist, zeigt die **Elbow-Methode**.
+
+<LiteraturSource :sources="[
+  { title: 'Tan, Steinbach, Kumar: Introduction to Data Mining, 2nd ed., Kap. 8.1 – Basic Concepts', url: 'https://www.pearson.com/en-us/subject-catalog/p/Tan-Introduction-to-Data-Mining-2nd-Edition/P200000003204', isbn: '9780137506286', year: '2019' },
+]" />
+
+---
+layout: section
+---
+
+# Hierarchisches Clustering — [wenn K unbekannt ist]{style="color:var(--slidev-theme-primary)"}
+
+Der Gegenentwurf zu K-Means: kein K vorab, sondern Exploration per Dendrogramm
+
+---
+layout: default
+---
+
+## Der Stammbaum als [Metapher]{style="color:var(--slidev-theme-primary)"}
+
+Stelle Dir vor: Du hast sechs Versicherungskunden — jeder ein unabhängiger Punkt im Kundenmerkmals-Raum (Fahreralter, Jahreskilometer, Unfallhistorie).
+
+**Hierarchisches Clustering baut von unten nach oben:** Die sich ähnlichsten Punkte verschmelzen zuerst, dann die sich ähnlichsten *Gruppen* — Schritt für Schritt, bis am Ende alles in einem gemeinsamen Baum steckt.
+
+<img :src="'/dendrogramm-idee-diagramm.svg'" alt="Grundidee des hierarchischen Clusterings: Aus sechs einzelnen, neutralen Punkten wächst durch schrittweises Verschmelzen benachbarter Punkte nach oben hin ein einziger gemeinsamer Baum" style="max-height: 200px; margin: 0 auto; display: block;" />
+
+Dieser Baum heißt **Dendrogramm** (griech. „dendro" = Baum). Ein horizontaler Schnitt teilt ihn in $K$ Teilbäume — die Höhe des Schnitts bestimmst Du nachträglich, nicht vorab.
+
+---
+layout: default
+---
+
+## Das Bottom-up-Prinzip — Der [Algorithmus]{style="color:var(--slidev-theme-primary)"}
+
+**Agglomeratives Clustering — vier einfache Schritte:**
+
+1. **Start:** Jeder der $n$ Datenpunkte ist sein eigener Cluster
+2. **Wiederhole:** Finde die zwei ähnlichsten Cluster (Distanz minimal) und verschmelze sie
+3. **Update:** Du hast jetzt $n - 1$ Cluster; berechne Distanzen neu
+4. **Stopp:** Wenn nur noch ein Cluster übrig ist — der globale Wurzelcluster
+
+**Ergebnis:** Ein Dendrogramm mit $n - 1$ Verschmelzungs-Schritten, jeder mit seiner eigenen Verschmelzungs-Distanz dokumentiert.
+
+Anders als K-Means, das Zentroide iterativ bewegt, baut Hierarchisches Clustering eine starre Hierarchie auf. Einmal verschmolzen, können Cluster nicht mehr getrennt werden — deshalb „hierarchisch".
+
+---
+layout: default
+---
+
+## Das Dendrogramm — Das [6-Kunden-Beispiel]{style="color:var(--slidev-theme-primary)"}
+
+<img :src="'/dendrogramm-diagramm.svg'" alt="Dendrogramm des agglomerativen Clusterings von sechs Versicherungskunden: E und F verschmelzen bei 500, A und B bei 1.000, C und D bei 1.500, danach {C,D} mit {E,F} bei 4.000 und zuletzt alles bei 9.500. Ein Schnitt bei Höhe 2.500 ergibt die drei Cluster {A,B}, {C,D} und {E,F}" style="max-height: 250px; margin: 0 auto; display: block;" />
+
+Dieses Dendrogramm nutzt eine bestimmte Regel, um „ähnlichste Cluster" zu definieren (hier: die jeweils nächstgelegenen Punkte zweier Gruppen) — dazu gleich mehr. **Die gestrichelte Schnittlinie** bei Höhe ≈ 2.500 teilt den Baum in drei Gruppen: **(A,B) · (C,D) · (E,F)** — also $K = 3$.
+
+Das Diagramm zeigt alle Verschmelzungs-Höhen. Eine **höher gezogene Schnittlinie** (z. B. bei 4.000) ergibt weniger Cluster; eine **tiefer gezogene** ergibt mehr. Du wählst $K$ *nachdem* der Baum gebaut ist — nicht davor wie K-Means.
+
+---
+layout: default
+---
+
+## Single & Complete Linkage — [Erste Kriterien]{style="color:var(--slidev-theme-primary)"}
+
+**Die offene Frage aus dem letzten Dendrogramm:** Sobald der erste Merge passiert ist, hast Du zwei *Gruppen* von Punkten — welche Distanz zwischen ihnen zählt dann? Diese Regel heißt **Linkage**. Zwei Extreme:
+
+<img :src="'/linkage-single-complete-diagramm.svg'" alt="Single Linkage nutzt den kürzesten Abstand zwischen zwei Punkten der Cluster, Complete Linkage den größten Abstand" style="max-height: 200px; margin: 0 auto; display: block;" />
+
+**Single** bevorzugt kettenförmige Cluster (⚠️ Chaining-Problem), **Complete** kompakte, kugelige — Faustregel: beide Extreme meiden, die Mitte liefert oft bessere Cluster.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'Tan, Steinbach, Kumar: Introduction to Data Mining, 2nd ed., Kap. 8.2', url: 'https://www.pearson.com/en-us/subject-catalog/p/Tan-Introduction-to-Data-Mining-2nd-Edition/P200000003204', isbn: '9780137506286', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## Average & Ward Linkage — [Die praktischen Standards]{style="color:var(--slidev-theme-primary)"}
+
+Single/Complete Linkage sind Extreme mit je einer Schwäche. Zwei Alternativen dazwischen sind in der Praxis am häufigsten:
+
+<img :src="'/linkage-average-ward-diagramm.svg'" alt="Average Linkage mittelt alle neun Verbindungen zwischen den Clustern, Ward Linkage vergleicht die Streuung innerhalb der Cluster mit der gemeinsamen Streuung nach der Verschmelzung" style="max-height: 200px; margin: 0 auto; display: block;" />
+
+**Average** ist ein stabiler Kompromiss. **Ward** minimiert dieselbe Idee wie K-Means — die Streuung innerhalb der Cluster —, nur hierarchisch statt iterativ, und liefert oft die besten praktischen Ergebnisse.
+
+<LiteraturSource :sources="[
+  { title: 'Ward, J.H.: Hierarchical Grouping to Optimize an Objective Function. Journal of the American Statistical Association', url: 'https://doi.org/10.1080/01621459.1963.10500845', year: '1963' },
+  { title: 'Backhaus, Erichson, Plinke, Weiber: Multivariate Analysemethoden, 16. Aufl., Kap. 9 – Clusteranalyse', url: 'https://doi.org/10.1007/978-3-662-56655-8', doi: '10.1007/978-3-662-56655-8', year: '2021' },
+]" />
+
+---
+layout: default
+---
+
+## Hierarchisch oder K-Means? Ein [Entscheidungs-Kompass]{style="color:var(--slidev-theme-primary)"}
+
+Beide lösen dieselbe Frage — Kundensegmentierung — mit unterschiedlichen Annahmen. Welches Werkzeug für welche Situation?
+
+| **Aspekt** | **Hierarchisches Clustering** | **K-Means** |
+|---|---|---|
+| $K$ vorab nötig? | Nein — erst beim Schnitt | Ja |
+| Interpretierbarkeit | Hoch — Dendrogramm zeigt die Struktur | Geringer — nur Endergebnis |
+| Datensatzgröße | Klein bis mittel (n < 10.000) | Auch sehr große Datensätze |
+| Rechenaufwand | O(n²) bis O(n³) | O(n·K·i) — deutlich schneller |
+| Rückgängig machbar? | Nein — einmal verschmolzen, bleibt verschmolzen | Ja — jede Iteration neu zuordenbar |
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: section
+---
+
+# BIRCH — Clustering im [Terabyte-Maßstab]{style="color:var(--slidev-theme-primary)"}
+
+**B**alanced **I**terative **R**educing and **C**lustering using **H**ierarchies — wenn hierarchisches Clustering an seine Grenzen stößt
+
+---
+layout: default
+---
+
+## Die Skalierungskrise — [Speichern durch Kompression]{style="color:var(--slidev-theme-primary)"}
+
+Hierarchisches Clustering braucht O(n²)–O(n³) Rechenzeit — bei 400.000 Versicherungsdatensätzen unpraktikabel. Der Grund: Jeder Schritt vergleicht alle Cluster miteinander.
+
+**BIRCHs Lösung:** Nur einmal durch die Daten gehen (Single-Pass) und dabei nicht die Rohdaten, sondern pro Cluster nur eine kompakte Zusammenfassung speichern — das **Clustering Feature (CF)**, ein Tripel aus drei Zahlen:
+
+| **Symbol** | **Bedeutung** |
+|---|---|
+| N | Anzahl der Punkte |
+| LS | Summe der Merkmalsvektoren |
+| SS | Summe der quadrierten Werte |
+
+<LiteraturSource :sources="[
+  { title: 'Zhang, Ramakrishnan, Livny: BIRCH: An Efficient Data Clustering Method for Very Large Databases. ACM SIGMOD Record', url: 'https://dl.acm.org/doi/10.1145/235968.233324', year: '1996' },
+]" />
+
+---
+layout: default
+---
+
+## Die Lager-Analogie
+
+Ein Versandlager hat Tausende Paletten, verteilt auf Hunderte Lagerplätze — jeder mit einer Tragfähigkeits-Grenze. Statt jede Palette einzeln zu wiegen, notiert das System pro Lagerplatz nur drei Zahlen: Anzahl Paletten, Gesamtgewicht, Summe der quadrierten Gewichte. Kommt eine neue Palette dazu, wird sie einsortiert und nur diese drei Zahlen werden aktualisiert — nicht jede Palette erneut gewogen.
+
+Genau das macht ein **Clustering Feature (CF)**: eine kompakte Zusammenfassung statt der Rohdaten. Die Frage ist nur — wie organisiert man tausende solcher CFs?
+
+---
+layout: default
+---
+
+## Ein CF ganz konkret — [zurück zu den Paletten]{style="color:var(--slidev-theme-primary)"}
+
+Ein Lagerplatz mit drei Paletten: 80 kg, 95 kg, 110 kg. Daraus ergibt sich sein CF:
+
+$$N = 3 \qquad LS = 80+95+110 = 285 \qquad SS = 80^2+95^2+110^2 = 27.525$$
+
+Daraus — ohne die Paletten nochmal einzeln zu wiegen:
+
+$$\text{Ø-Gewicht} = \frac{LS}{N} = 95\text{ kg} \qquad\qquad \text{Streuung} = \frac{SS}{N} - \left(\frac{LS}{N}\right)^2 = 150$$
+
+**Kommt eine vierte Palette (120 kg) dazu:** Das CF wird einfach fortgeschrieben — $N=4$, $LS=405$, $SS=41.925$ — ohne die ersten drei Paletten erneut anzufassen. Genau diese Additivität macht BIRCH so schnell.
+
+<LiteraturSource :sources="[
+  { title: 'Zhang, Ramakrishnan, Livny: BIRCH: An Efficient Data Clustering Method for Very Large Databases. ACM SIGMOD Record', url: 'https://dl.acm.org/doi/10.1145/235968.233324', year: '1996' },
+]" />
+
+---
+layout: default
+---
+
+## Der CF-Baum — [Single-Pass, dann Clustern]{style="color:var(--slidev-theme-primary)"}
+
+Die CFs werden in einem balancierten Baum organisiert: Ein neuer Punkt wandert von der Wurzel zum ähnlichsten Blatt, wird dort eingefügt, und alle CFs auf dem Pfad werden aktualisiert. **Additivität:** CF₁ + CF₂ = CF(beide gemeinsam) — ohne Rohdaten.
+
+<img :src="'/cf-tree-diagramm.svg'" alt="Schematischer CF-Tree: Wurzel → 2 interne Knoten mit CF → 4 Blattknoten mit CF; ein neuer Datenpunkt wird in einem Durchlauf eingefügt und sein Blatt-CF aktualisiert" style="max-height: 190px; margin: 0 auto; display: block;" />
+
+**Zwei Phasen:** (1) CF-Tree in einem Durchgang aufbauen — O(n). (2) K-Means oder Agglomerativ auf die wenigen Blatt-CFs anwenden, statt auf n Datensätzen.
+
+<LiteraturSource :sources="[
+  { title: 'Zhang, Ramakrishnan, Livny: BIRCH: An Efficient Data Clustering Method for Very Large Databases. ACM SIGMOD Record', url: 'https://dl.acm.org/doi/10.1145/235968.233324', year: '1996' },
+]" />
+
+---
+layout: default
+---
+
+## BIRCH — [Stärken und Grenzen]{style="color:var(--slidev-theme-primary)"}
+
+| **Vorteile** | **Nachteile** |
+|---|---|
+| Single-Pass: O(n) Rechenzeit | Nur für sphärische Cluster optimal (CF nutzt Radius) |
+| Konstanter Speicher unabhängig von n | Einfügungsreihenfolge beeinflusst Ergebnis |
+| Findet Ausreißer automatisch | Threshold-Wahl (max. CF-Radius) nicht trivial |
+| Online/Streaming-fähig | — |
+
+**Das Wichtigste:** BIRCH beantwortet eine zentrale Frage der Praxis: „Was tun, wenn der Datensatz zu groß für klassisches Clustering wird?" Die Strategie — erst komprimieren, dann clustern — ist ein Muster, das dir in modernen Machine-Learning-Systemen immer wieder begegnet.
+
+<LiteraturSource :sources="[
+  { title: 'Zhang, Ramakrishnan, Livny: BIRCH: An Efficient Data Clustering Method for Very Large Databases. ACM SIGMOD Record', url: 'https://dl.acm.org/doi/10.1145/235968.233324', year: '1996' },
+  { title: 'Scikit-Learn BIRCH documentation', url: 'https://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html', year: '2024' },
+]" />
+
+---
+layout: section
+---
+
+# DBSCAN — [Dichtebasiertes Clustering]{style="color:var(--slidev-theme-primary)"}
+
+Findet auch nicht-sphärische Cluster — und behandelt Rauschen explizit als eigenständige Kategorie.
+
+---
+layout: default
+---
+
+## Die Grenzen von K-Means & Hierarchischem Clustering
+
+**Das Problem:** K-Means und Hierarchisches Clustering gehen beide von kompakten, kugelförmigen Clustern aus. Sie funktionieren, solange Deine Kundengruppen ungefähr rund verteilt sind.
+
+> **Aber was, wenn die realen Gruppen halbmondförmig sind?** Oder sehr unterschiedliche Dichten haben? Oder wenn einzelne Ausreißer nicht zwanghaft einem Cluster zugeordnet werden sollen, sondern als **Anomalien** erkannt werden müssen?
+
+**Die Antwort heißt DBSCAN:** **D**ensity-**B**ased **S**patial **C**lustering of **A**pplications with **N**oise. Ein Algorithmus, der Cluster **dichtebasiert** findet — statt geometrisch — und Rauschpunkte explizit als eigenständige Kategorie behandelt, nicht als erzwungene Cluster-Mitglieder.
+
+<LiteraturSource :sources="[
+  { title: 'Ester, M., Kriegel, H.-P., Sander, J., Xu, X.: A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. KDD-96 Proceedings', url: 'http://cdn.aaai.org/KDD/1996/KDD96-037.pdf', year: '1996' },
+]" />
+
+---
+layout: default
+---
+
+## Die zwei Parameter — ε und MinPts
+
+DBSCAN braucht nur zwei Hyperparameter — und beide lassen sich intuitiv verstehen:
+
+**ε (Epsilon) — Die Nachbarschafts-Sphäre**  
+Wie weit ist „nah genug"? ε definiert den Radius um jeden Punkt. Alle Punkte innerhalb dieses Radius sind die **ε-Nachbarschaft** eines Punkts (nutzt Euklidische Distanz, wie in Cluster 5.1 besprochen).
+
+**MinPts — Die Dichte-Schwelle**  
+Wie viele Nachbarn braucht ein „dichter" Bereich? Wenn ein Punkt mindestens MinPts Nachbarn (inkl. sich selbst) in seinem ε-Radius hat, gilt er als **dichter Punkt**. Diese Schwelle bestimmt, was „Rauschen" von „Cluster" trennt.
+
+**Beispiel:** Mit ε = 4 und MinPts = 2 bedeutet: Zwei Kunden gelten als "nah", wenn ihr Abstand im Merkmalsraum kleiner als 4 ist — und bilden gemeinsam einen dichten Bereich, falls sich noch ein weiterer Kunde in Reichweite befindet.
+
+---
+layout: default
+---
+
+## DBSCAN-Punkttypen — Das Dreierduo
+
+**Kernpunkt** (≥MinPts Nachbarn im ε-Radius) · **Randpunkt** (im Radius eines Kernpunkts, aber selbst nicht dicht genug) · **Rauschpunkt** (keins von beidem — Anomalie)
+
+<img :src="'/dbscan-punkttypen-diagramm.svg'" alt="DBSCAN-Punkttypen und Versicherer-Beispiel: Kernpunkt, Randpunkt, Rauschpunkt" class="w-full" style="max-height: 340px; margin: 0 auto; display: block;" />
+
+**A, B, C** sind gegenseitig Kernpunkte und bilden Cluster 1, **D, E** ebenso Cluster 2, **F** ist Rauschpunkt — zu isoliert. Einen Randpunkt zeigt dieses Beispiel nicht, die Legende erklärt ihn schematisch.
+
+---
+layout: default
+---
+
+## Der DBSCAN-Algorithmus — Die Grundidee
+
+DBSCAN läuft in drei konzeptuellen Schritten:
+
+**Schritt 1: Kernpunkte finden**  
+Gehe durch alle Datenpunkte. Markiere jeden als Kernpunkt, wenn er ≥ MinPts Nachbarn in seinem ε-Radius hat.
+
+**Schritt 2: Kernpunkte verbinden**  
+Zwei Kernpunkte, deren ε-Radien sich überlappen, gehören zum selben Cluster. Starte von jedem unbesuchten Kernpunkt einen Cluster und ziehe alle erreichbaren Kernpunkte (Tiefensuche) hinein — sie ziehen wiederum *ihre* Kernpunkt-Nachbarn nach. So entstehen zusammenhängende dichtebasierte Gruppen.
+
+**Schritt 3: Randpunkte & Rauschen klassifizieren**  
+Randpunkte (nicht dicht genug selbst, aber im ε-Radius eines Kernpunkts) werden ihrem nächsten Kernpunkt-Cluster zugeordnet. Der Rest bleibt Rauschen.
+
+**Das Ergebnis:** Cluster beliebiger Form, Rauschpunkte als explizite Kategorie — keine erzwungene Zuordnung.
+
+<LiteraturSource :sources="[
+  { title: 'Ester, M., Kriegel, H.-P., Sander, J., Xu, X.: A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. KDD-96 Proceedings', url: 'http://cdn.aaai.org/KDD/1996/KDD96-037.pdf', year: '1996' },
+]" />
+
+---
+layout: default
+---
+
+## DBSCAN in der Praxis — Das 6-Kunden-Versicherer-Beispiel
+
+**Datensatz:** 6 Kunden (Fahreralter / Jahreskilometer):
+- A (25/15.000), B (26/16.000), C (27/14.500) — junge Vielfahrer
+- D (55/8.000), E (56/7.500) — mittelalte Normalfahrer
+- F (82/0,1) — Rentner, fast keine Kilometer
+
+**Parameter:** ε = 4, MinPts = 2 — **Ergebnis:**
+
+| **Bezeichnung** | **Punkte** | **Typ** |
+|---|---|---|
+| Cluster 1 | A, B, C | Kernpunkte (alle Nachbarn) |
+| Cluster 2 | D, E | Kernpunkte (beide Nachbarn) |
+| Rauschen | F | Zu isoliert — keine Cluster-Zuordnung |
+
+---
+layout: default
+---
+
+## DBSCAN — Vorteile & Grenzen
+
+| **Vorteil** | **Grenze** |
+|---|---|
+| Findet beliebige Cluster-Formen (nicht nur Kugeln) | ε und MinPts zu wählen ist nicht trivial — keine Elbow-Methode wie K-Means |
+| Rauschen wird explizit erkannt (nicht erzwungen) | Sehr empfindlich gegenüber Skalierung — z-Transformation (Cluster 5.1) ist fast zwingend notwendig |
+| Kein K vorab nötig | Bei unterschiedlichen Cluster-Dichten kann ein ε beide nicht optimal erfassen (dichte Cluster zu klein, dünne zu groß) |
+| Wenig Hyperparameter | — |
+
+**Merksatz:** DBSCAN lohnt sich, wenn Du nicht-sphärische Cluster erwartest *oder* wenn Anomalien (Rauschpunkte) genauso wichtig sind wie die Cluster selbst. Für runde Cluster mit homogener Dichte ist K-Means oft schneller und einfacher.
+
+<LiteraturSource :sources="[
+  { title: 'Scikit-Learn DBSCAN documentation', url: 'https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## K-Means braucht K — aber woher kommt diese Zahl?
+
+Erinnerung: K-Means verlangt, dass Du *K* (die Cluster-Anzahl) **vorab** festlegst. Aber welches K ist richtig? Zwei Gruppen für unsere 5.000 Versicherten-Kunden oder fünf? Das ist kein akademisches Problem — es bestimmt direkt die Geschäftsentscheidung.
+
+> **Frage:** Gibt es ein Kriterium, das Dir hilft, *K* zu wählen — ohne zu raten?
+
+Die Antwort liegt in einem Kennwert, den K-Means ohnehin berechnet: **WCSS** (Within-Cluster Sum of Squares).
+
+---
+layout: default
+---
+
+## WCSS — Within-Cluster Sum of Squares
+
+K-Means minimiert während des Laufs ein Ziel-Kriterium: die **WCSS** — die Summe der quadrierten Abstände aller Punkte zu ihrem zugeordneten Zentroid:
+
+$$\text{WCSS} = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2$$
+
+**Intuition:** Je kompakter die Cluster liegen um ihre Zentroide, desto **kleiner** WCSS. WCSS ist ein Maß für die innere Kohäsion — wie gut Punkte zu ihrer Gruppe passen.
+
+*Praktisch: Du musst WCSS nicht selbst berechnen — Scikit-Learn liefert den Wert nach jedem K-Means-Lauf automatisch mit (`kmeans.inertia_`).*
+
+**Praxis-Hinweis:** WCSS basiert auf Distanzen — deshalb ist die **z-Transformation** Pflicht, sonst dominieren Variablen mit großem Wertebereich die Berechnung.
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+  { title: 'James, Witten, Hastie, Tibshirani: An Introduction to Statistical Learning (2nd ed.), Kap. 12 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-1-0716-1418-1', year: '2021' },
+]" />
+
+---
+layout: default
+---
+
+## Das Dilemma: WCSS sinkt *immer*
+
+Der Haken dabei: **WCSS sinkt monoton mit wachsendem K** — bei K=n (jeder Punkt sein eigener Cluster) wäre WCSS=0, aber völlig nutzlos.
+
+| K | WCSS |
+|:---:|---:|
+| 1 | 520.000 |
+| 2 | 310.000 |
+| 3 | 210.000 |
+| … | *(fällt weiter — siehe Kurve)* |
+
+**Knackpunkt:** "Minimiere WCSS" allein reicht nicht — wir brauchen den Punkt, wo der Grenznutzen eines weiteren Clusters stark abnimmt.
+
+---
+layout: default
+---
+
+## Elbow-Methode — Die Intuition
+
+Die **Elbow-Methode** löst dieses Dilemma durch eine einfache visuelle Heuristik:
+
+1. **Berechne WCSS für K = 1, 2, 3, ..., n**
+2. **Plotte WCSS gegen K** — eine Kurve entsteht
+3. **Suche den "Knick"** — den Punkt, wo die Kurve von steil zu flach übergeht
+
+Dieser Knick (engl. *Elbow*, im Deutschen oft *Knie der Kurve* genannt) markiert das optimale K: **Mehr Cluster bringen danach nur noch marginale Verbesserung.**
+
+Das ist kein mathematisches Beweis — sondern eine praktische Faustregel, gestützt auf Domänenwissen.
+
+---
+layout: default
+---
+
+## Die Elbow-Kurve — Praktisches Beispiel (5.000 Kunden)
+
+<img :src="'/wcss-elbow-diagramm.svg'" alt="Elbow-Kurve: WCSS für K = 1 bis 8 fällt von 520.000 steil auf 210.000 bei K = 3 und danach nur noch flach auf 112.000 bei K = 8 — der Knick markiert K = 3 als beste Wahl" style="max-height: 320px; margin: 0 auto; display: block;" />
+
+**Beobachtung:** WCSS fällt steil bis K=3 (210.000), dann deutlich flacher bis K=8 (112.000). Der Knick bei K=3 ist deutlich — ein klares Signal.
+
+**Entscheidung:** K=3 trennt die Hochrisiko-, Standard- und Niedrigrisiko-Segmente — und mehr Cluster bringen keine sinnvolle zusätzliche Trennung.
+
+---
+layout: default
+---
+
+## Silhouette-Koeffizient — Eine mathematischere Alternative
+
+Neben der Elbow-Methode gibt es den **Silhouette-Koeffizient** (Rousseeuw, 1987):
+
+$$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
+
+- $a(i)$ = mittlere Distanz von Punkt $i$ zu seinen Cluster-Nachbarn (je kleiner, desto besser passt $i$ rein)
+- $b(i)$ = mittlere Distanz zu Punkten des nächstgelegenen anderen Clusters
+- $s(i)$ liegt im Bereich $[-1, +1]$ — nahe +1 = gut passend, nahe 0 = Grenzfall, negativ = falsch zugeordnet
+
+---
+layout: default
+---
+
+## Silhouette-Koeffizient — Ein Beispiel
+
+Ein Kunde im **Standard-Cluster**: mittlere Distanz zu seinen eigenen Cluster-Nachbarn $a(i) = 2{,}0$, mittlere Distanz zum nächstgelegenen anderen Cluster (Hochrisiko) $b(i) = 5{,}0$.
+
+$$s(i) = \frac{5{,}0 - 2{,}0}{\max(2{,}0,\ 5{,}0)} = \frac{3{,}0}{5{,}0} = 0{,}6$$
+
+**Interpretation:** 0,6 liegt deutlich näher an +1 als an 0 — der Kunde ist seinem eigenen Cluster viel näher als dem nächstgelegenen fremden. Gut passend.
+
+Im Gegensatz zur visuellen Elbow-Methode liefert Silhouette eine **mathematische** Rangfolge aller K-Werte — präziser, aber weniger intuitiv. Beide Methoden können voneinander abweichen; Domänenwissen entscheidet dann.
+
+<LiteraturSource :sources="[
+  { title: 'Rousseeuw, P.J.: Silhouettes: A Graphical Aid to the Interpretation and Validation of Cluster Analysis', journal: 'Journal of Computational and Applied Mathematics', volume: '20', pages: '53-65', url: 'https://doi.org/10.1016/0377-0427(87)90125-7', year: '1987' },
+]" />
+
+---
+layout: default
+---
+
+## Zusammenfassung — Vier Algorithmen, vier Perspektiven
+
+Du kennst jetzt vier Clustering-Algorithmen, die jeweils unterschiedliche Fragen beantworten:
+
+| **Algorithmus** | **Frage** | **Stärke** |
+|---|---|---|
+| **K-Means** | K runde Gruppen? | Schnell, stabil |
+| **Hierarchisch** | Verschmelzung per Dendrogramm? | Interpretierbar |
+| **BIRCH** | Terabyte-Datenmengen? | Speichereffizient |
+| **DBSCAN** | Beliebige Formen + Anomalien? | Flexibel, robust |
+
+<LiteraturSource :sources="[
+  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+# Literaturverzeichnis (1/3)
+
+<Literaturverzeichnis :part="1" :parts="3" />
+
+<!--
+Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch),
+auf 3 Folien aufgeteilt (Komponente unterstützt :part/:parts) — erhöht bei Bedarf einfach `parts`,
+wenn weitere Kapitel weitere Quellen hinzufügen und 3 Folien nicht mehr reichen.
+-->
+
+---
+layout: default
+---
+
+# Literaturverzeichnis (2/3)
+
+<Literaturverzeichnis :part="2" :parts="3" />
+
+<!--
+Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch),
+auf 3 Folien aufgeteilt (Komponente unterstützt :part/:parts).
+-->
+
+---
+layout: default
+---
+
+# Literaturverzeichnis (3/3)
+
+<Literaturverzeichnis :part="3" :parts="3" />
 
 <!--
 Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch).

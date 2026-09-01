@@ -77,14 +77,22 @@ deferred from §11 (Python-Vertiefung is code-literacy only, not tooling/process
 
 **Done (2026-08-29):** Kapitel-4 exercise worksheet+solution now authored — see §7.
 
-## 3. Kapitel 5 — Unsupervised / Clustering
-- [ ] Clusteranalyse-Prozess
-- [ ] Algorithmen: K-Means, Agglomerativ, BIRCH, DBSCAN, Spectral, Mean Shift, Gaussian Mixture
-- [ ] WCSS & Elbow Method
+## 3. Kapitel 5 — Unsupervised / Clustering — complete (2026-08-29)
+- [x] Clusteranalyse-Prozess (5.1) — authored, approved, 4–5 Folien
+- [x] K-Means (5.2) — authored, approved, 5–6 Folien
+- [x] Hierarchisches Clustering / Agglomerativ (5.3) — authored, approved, 9 Folien
+- [x] BIRCH (5.4) — authored, approved, 6 Folien
+- [x] DBSCAN (5.5) — authored, approved, 10 Folien (incl. Vergleichstabelle aller vier Algorithmen)
+- [x] WCSS & Elbow Method (5.6) — 7 Folien, approved (2026-08-29). QA-Bericht: 2 Fehler behoben (4x interne Cluster-Nummern entfernt, durch inhaltliche Bezüge ersetzt; Tabelle-Sprung-Kennzeichnung zugefügt, auf 3 Datenzeilen+Auslassungspunkt gekürzt). 1 Overflow-Fix (Tabelle+Schlussabsatz gekürzt).
+- [x] ~~Spectral Clustering (5.7)~~ — **übersprungen** (User-Entscheidung, 2026-08-29): war bereits vollständig authored (7 Folien, Hook-Diagramm `public/spectral-hook-diagramm.svg`) und approved, dann auf Wunsch komplett wieder aus dem Deck entfernt. Diagramm gelöscht, Vergleichstabelle zurück auf 4 Algorithmen (K-Means, Hierarchisch, BIRCH, DBSCAN). Kein offener Punkt mehr — falls später gewünscht, wäre es ein Neuaufbau, kein Wiederaufgreifen.
+- [x] ~~Mean Shift / Gaussian Mixture Models (5.8)~~ — **übersprungen**: nie authored, nachrangig laut Modulbeschreibung (im Gegensatz zu Spectral Clustering dort nicht explizit genannt). Kein offener Punkt mehr für den aktuellen Kapitel-5-Umfang.
+- [x] Exercise — Kapitel 5 (Unsupervised / Clustering) — siehe §7 für Details (Jupyter-Notebooks statt Markdown-Worksheet)
 
 Case: Kunden-/Versichertensegmentierung.
 
-**Source assessment (2026-08-23):** `ml.md` only partially covers this — K-Means and DBSCAN are solid and reusable, but BIRCH (named explicitly in the Modulbeschreibung!), Agglomerativ, Spectral, Gaussian Mixture, and WCSS/Elbow are entirely missing and need fresh research (`edu-research`).
+**Status: Kapitel 5 final abgeschlossen (2026-08-29).** ~35 Slides (Kapitel-Opener 5.0 + Cluster 5.1–5.6) authored und QA'd. Vier Kern-Algorithmen (K-Means, Hierarchisch/Agglomerativ, BIRCH, DBSCAN) mit Custom-Diagrammen (`public/distanz-dimensionen-diagramm.svg`, `public/dendrogramm-idee-diagramm.svg`, `public/linkage-single-complete-diagramm.svg`, `public/linkage-average-ward-diagramm.svg`, `public/cf-tree-diagramm.svg`), plus WCSS & Elbow-Methode zur Optimal-K-Bestimmung, DBSCAN-Praxis-Beispiel, Vergleichstabelle (K-Means/Hierarchisch/BIRCH/DBSCAN nach Distanzmaße/Skalierbarkeit/Cluster-Formen/Rausch-Sensibilität), und Jupyter-Notebook-Übung. Spectral Clustering und Mean Shift/GMM bewusst übersprungen (siehe Checkbox-Notizen oben) — kein offener Punkt mehr für dieses Kapitel.
+
+**Source assessment (2026-08-23, final 2026-08-29):** `ml.md` deckte ursprünglich nur K-Means und DBSCAN gut ab; BIRCH, Agglomerativ, WCSS/Elbow wurden komplett neu recherchiert. Spectral Clustering und Mean Shift/GMM wurden ebenfalls recherchiert bzw. eingeplant, dann aber aus dem finalen Kapitel-5-Umfang gestrichen (siehe oben) — kein offener Research-Bedarf mehr.
 
 ## 4. Kapitel 6 — Deep Learning
 - [ ] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand)
@@ -117,7 +125,7 @@ in-deck.
 - [x] Exercise — Kapitel 1 (Statistik & Regression) — pen-and-paper worksheet (not a notebook: Kapitel 1 is explicitly hand-calculation, code comes in Kapitel 2), lives in the sibling `exercise` repo at `exercise/session-1/00-statistik/uebung.md` + `loesung.md` (not in this repo — kept alongside the Kapitel-1 Python-Vertiefung notebooks in `01-python-vertiefung/`; note the sibling repo's own folder naming still says "session-1", untouched by this rename — see the terminology note at the top of this file), wired into slides.md as a `header-cols` exercise slide before the Kapitel-2 chapter divider
 - [x] Exercise — Kapitel 3 (Tools & Workflows) — decided against (2026-08-23, from user): not in the original budget, no dedicated exercise needed
 - [x] Exercise — Kapitel 4 (Supervised ML) — worksheet + solution authored at `exercise/session-4/00-supervised-ml/{uebung.md,loesung.md}` (2026-08-29, from user request), mirroring Kapitel 1's structure. 3 required tasks (Confusion-Matrix/Metriken von Hand on a fresh 20-case table, KNN von Hand incl. a K=3/K=9 sensitivity sub-question, Recall-vs-Precision business decision with a cost-sensitivity twist) + 1 bonus (Faustregel-style algorithm-choice scenarios). All example data is new (not copied from slides.md) to avoid trivial memorization, same Kfz-Betrugserkennung case.
-- [ ] Exercise — Kapitel 5 (Unsupervised / Clustering)
+- [x] Exercise — Kapitel 5 (Unsupervised / Clustering) — Jupyter-Notebooks (uebung.ipynb + loesung.ipynb) in `/Users/nils/projects/fom/repos/ai-business-intelligence/exercise/session-5/00-clustering/`. **Abweichung vom Markdown-Muster:** Notebooks statt Worksheets, User-Entscheidung (Kapitel 5 ist code-lastig: K-Means/DBSCAN mit Scikit-Learn). **Inhalt:** Synthetischer Kfz-Versicherer-Datensatz (228 Kunden, 3 überlappende Gruppen + 8 bewusste Ausreißer, `numpy.random.default_rng(42)`); Rohdaten-Exploration → Z-Transformation → K-Means (K=3 fest + Interpretation) → WCSS/Elbow-Methode (YOU-DO: K=1..10 loopen, inertia plotten) → DBSCAN (ungünstig ε, dann Parameter-Tuning) → Hierarchisches Clustering (Dendrogramm, Vergleich mit K-Means) → Mini-Exercise (K-Means vs. DBSCAN für verschiedene Fragen). BIRCH konzeptuell in Vorlesung, nicht praktisch in Übung. 52 Zellen, I-DO/WE-DO/YOU-DO-Struktur, konsistent mit session-1/01-python-vertiefung/; vollständig ausgeführt und validiert (nbformat.validate() + nbconvert/nbclient).
 - [ ] Exercise — Kapitel 6 (Deep Learning)
 - [ ] Exercise — Kapitel 7 (NLP)
 - [ ] Exercise — Kapitel 8–10 (Vertiefungen)

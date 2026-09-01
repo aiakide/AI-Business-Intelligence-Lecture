@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 270" width="100%" height="auto" role="img"
+     aria-label="Zwei nebeneinanderliegende Panels mit derselben Szene: links eine Gruppe von drei runden Punkten (Cluster P), rechts eine Gruppe von drei quadratischen Punkten (Cluster Q). Im ersten Panel sind alle moeglichen Verbindungen zwischen den Gruppen blass angedeutet, hervorgehoben ist die eine kuerzeste Verbindung zwischen den beiden naechstgelegenen Punkten (Single Linkage). Im zweiten Panel zeigt dieselbe Szene stattdessen die laengste Verbindung zwischen den beiden am weitesten entfernten Punkten (Complete Linkage).">
+  <title>Single Linkage und Complete Linkage im direkten Vergleich</title>
+
+  <!-- ===================================================================
+       Basis-Szene (in beiden Panels identisch, Panel 2 ist um +540 in x versetzt)
+       Cluster P (#00c6b2, Kreise):   (78,60) (115,112) (170,96)
+       Cluster Q (#e8734a, Quadrate): (320,92) (378,62) (418,134)
+       =================================================================== -->
+
+  <!-- ============ PANEL 1 - Single Linkage ============ -->
+  <g>
+    <rect x="20" y="22" width="500" height="180" rx="4" fill="#fbfbfb" stroke="#e8e8e8" stroke-width="1.5" />
+
+    <!-- weiche Gruppenandeutung -->
+    <ellipse cx="124" cy="86" rx="60" ry="36" fill="#00c6b2" opacity="0.07" />
+    <ellipse cx="369" cy="98" rx="63" ry="46" fill="#e8734a" opacity="0.07" />
+
+    <!-- alle uebrigen Abstaende: nur blass angedeutet -->
+    <g stroke="#b4b4b4" stroke-width="1" opacity="0.55">
+      <line x1="78" y1="60" x2="320" y2="92" />
+      <line x1="78" y1="60" x2="378" y2="62" />
+      <line x1="78" y1="60" x2="418" y2="134" />
+      <line x1="115" y1="112" x2="320" y2="92" />
+      <line x1="115" y1="112" x2="378" y2="62" />
+      <line x1="115" y1="112" x2="418" y2="134" />
+      <line x1="170" y1="96" x2="378" y2="62" />
+      <line x1="170" y1="96" x2="418" y2="134" />
+    </g>
+
+    <!-- der entscheidende Abstand: die kuerzeste Verbindung -->
+    <line x1="170" y1="96" x2="320" y2="92" stroke="#1e1e1e" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Cluster P: Kreise -->
+    <g fill="#00c6b2" stroke="#ffffff" stroke-width="1.6">
+      <circle cx="78" cy="60" r="5.4" />
+      <circle cx="115" cy="112" r="5.4" />
+      <circle cx="170" cy="96" r="5.4" />
+    </g>
+    <!-- Cluster Q: Quadrate (Form + Farbe unterscheiden die Gruppen) -->
+    <g fill="#e8734a" stroke="#ffffff" stroke-width="1.6">
+      <rect x="314.8" y="86.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="372.8" y="56.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="412.8" y="128.8" width="10.4" height="10.4" rx="1.4" />
+    </g>
+
+    <!-- Gruppenkennzeichnung -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700">
+      <text x="66" y="40" fill="#00a294">P</text>
+      <text x="440" y="152" fill="#c9552c">Q</text>
+    </g>
+
+    <!-- Annotation am hervorgehobenen Abstand -->
+    <text x="245" y="118" font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="700"
+          fill="#1e1e1e" text-anchor="middle" stroke="#fbfbfb" stroke-width="3.5" paint-order="stroke">kürzester Abstand</text>
+
+    <!-- Lesehilfe -->
+    <text x="40" y="190" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="500"
+          fill="#9a9a9a">hellgrau: alle übrigen Abstände</text>
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" text-anchor="middle">
+    <text x="270" y="228" font-weight="700" fill="#1e1e1e">Single Linkage</text>
+    <text x="270" y="246" font-weight="500" fill="#4a4a4a">die nächsten zwei Punkte zählen</text>
+  </g>
+
+  <!-- ============ PANEL 2 - Complete Linkage (identische Szene) ============ -->
+  <g>
+    <rect x="560" y="22" width="500" height="180" rx="4" fill="#fbfbfb" stroke="#e8e8e8" stroke-width="1.5" />
+
+    <ellipse cx="664" cy="86" rx="60" ry="36" fill="#00c6b2" opacity="0.07" />
+    <ellipse cx="909" cy="98" rx="63" ry="46" fill="#e8734a" opacity="0.07" />
+
+    <g stroke="#b4b4b4" stroke-width="1" opacity="0.55">
+      <line x1="618" y1="60" x2="860" y2="92" />
+      <line x1="618" y1="60" x2="918" y2="62" />
+      <line x1="655" y1="112" x2="860" y2="92" />
+      <line x1="655" y1="112" x2="918" y2="62" />
+      <line x1="655" y1="112" x2="958" y2="134" />
+      <line x1="710" y1="96" x2="860" y2="92" />
+      <line x1="710" y1="96" x2="918" y2="62" />
+      <line x1="710" y1="96" x2="958" y2="134" />
+    </g>
+
+    <!-- der entscheidende Abstand: die laengste Verbindung -->
+    <line x1="618" y1="60" x2="958" y2="134" stroke="#1e1e1e" stroke-width="3" stroke-linecap="round" />
+
+    <g fill="#00c6b2" stroke="#ffffff" stroke-width="1.6">
+      <circle cx="618" cy="60" r="5.4" />
+      <circle cx="655" cy="112" r="5.4" />
+      <circle cx="710" cy="96" r="5.4" />
+    </g>
+    <g fill="#e8734a" stroke="#ffffff" stroke-width="1.6">
+      <rect x="854.8" y="86.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="912.8" y="56.8" width="10.4" height="10.4" rx="1.4" />
+      <rect x="952.8" y="128.8" width="10.4" height="10.4" rx="1.4" />
+    </g>
+
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700">
+      <text x="606" y="40" fill="#00a294">P</text>
+      <text x="980" y="152" fill="#c9552c">Q</text>
+    </g>
+
+    <text x="770" y="126" font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="700"
+          fill="#1e1e1e" text-anchor="middle" stroke="#fbfbfb" stroke-width="3.5" paint-order="stroke">größter Abstand</text>
+
+    <text x="580" y="190" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="500"
+          fill="#9a9a9a">hellgrau: alle übrigen Abstände</text>
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="13" text-anchor="middle">
+    <text x="810" y="228" font-weight="700" fill="#1e1e1e">Complete Linkage</text>
+    <text x="810" y="246" font-weight="500" fill="#4a4a4a">die entferntesten zwei Punkte zählen</text>
+  </g>
+</svg>

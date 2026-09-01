@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 340" width="100%" height="auto" role="img"
+     aria-label="Dreiteiliges Diagramm zur Verallgemeinerung des Distanzbegriffs: zweidimensionaler Merkmalsraum mit Pythagoras-Dreieck, dreidimensionaler Merkmalsraum und n-dimensionaler Fall mit allgemeiner Distanzformel">
+  <title>Distanz im Merkmalsraum: von 2 über 3 zu n Dimensionen</title>
+
+  <defs>
+    <!-- Pfeilspitze fuer Achsen -->
+    <marker id="axis-arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#1e1e1e" />
+    </marker>
+  </defs>
+
+  <!-- ===================== Panel-Trenner ===================== -->
+  <g stroke="#e8e8e8" stroke-width="1">
+    <line x1="357" y1="8" x2="357" y2="326" />
+    <line x1="714" y1="8" x2="714" y2="326" />
+  </g>
+
+  <!-- ===================================================================
+       PANEL 1 — Zwei Merkmale (2D)
+       =================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="20" y="6" width="44" height="22" rx="4" fill="#00c6b2" />
+    <text x="42" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700"
+          fill="#ffffff" text-anchor="middle">2D</text>
+    <text x="74" y="22" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
+          fill="#1e1e1e">Zwei Merkmale</text>
+
+    <!-- Gridlines -->
+    <g stroke="#e8e8e8" stroke-width="1">
+      <line x1="80" y1="140" x2="330" y2="140" />
+      <line x1="80" y1="55"  x2="330" y2="55" />
+      <line x1="163.3" y1="55" x2="163.3" y2="225" />
+      <line x1="246.7" y1="55" x2="246.7" y2="225" />
+      <line x1="330"   y1="55" x2="330"   y2="225" />
+    </g>
+
+    <!-- Achsen -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="80" y1="225" x2="80" y2="50" marker-end="url(#axis-arrow)" />
+      <line x1="80" y1="225" x2="336" y2="225" marker-end="url(#axis-arrow)" />
+    </g>
+
+    <!-- Achsenticks + Skalenbeschriftung -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a">
+      <g stroke="#1e1e1e" stroke-width="1.5">
+        <line x1="76" y1="225" x2="80" y2="225" />
+        <line x1="76" y1="140" x2="80" y2="140" />
+        <line x1="76" y1="55"  x2="80" y2="55" />
+        <line x1="80"    y1="225" x2="80"    y2="229" />
+        <line x1="163.3" y1="225" x2="163.3" y2="229" />
+        <line x1="246.7" y1="225" x2="246.7" y2="229" />
+        <line x1="330"   y1="225" x2="330"   y2="229" />
+      </g>
+      <text x="72" y="228" text-anchor="end">6.000</text>
+      <text x="72" y="143" text-anchor="end">10.000</text>
+      <text x="72" y="58"  text-anchor="end">14.000</text>
+      <text x="80"    y="240" text-anchor="middle">20</text>
+      <text x="163.3" y="240" text-anchor="middle">30</text>
+      <text x="246.7" y="240" text-anchor="middle">40</text>
+      <text x="330"   y="240" text-anchor="middle">50</text>
+    </g>
+
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#1e1e1e">
+      <text x="208" y="254" text-anchor="middle">Alter (Jahre)</text>
+      <text x="30" y="140" text-anchor="middle" transform="rotate(-90 30 140)">Fahrzeugwert (€)</text>
+    </g>
+
+    <!-- Steigungsdreieck: Delta-Hilfslinien (gepunktet, achsenparallel) -->
+    <g stroke="#757575" stroke-width="1.5" stroke-dasharray="2 3">
+      <line x1="138.3" y1="171.9" x2="288.3" y2="171.9" /><!-- Delta Alter -->
+      <line x1="288.3" y1="171.9" x2="288.3" y2="97.5" /><!-- Delta Fahrzeugwert -->
+    </g>
+    <!-- Rechtwinkel-Markierung am Eckpunkt -->
+    <polyline points="278.3,171.9 278.3,161.9 288.3,161.9" fill="none" stroke="#757575" stroke-width="1.5" />
+
+    <!-- Hypotenuse = euklidische Distanz -->
+    <line x1="138.3" y1="171.9" x2="288.3" y2="97.5" stroke="#00c6b2" stroke-width="2.5" stroke-dasharray="7 4" />
+    <text x="203" y="124" font-family="Montserrat, Helvetica, sans-serif" font-size="15" font-weight="700"
+          fill="#00c6b2" text-anchor="middle">d</text>
+
+    <!-- Delta-Beschriftungen -->
+    <text x="213" y="187" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" fill="#4a4a4a"
+          text-anchor="middle">Δ Alter = 18</text>
+    <text x="303" y="137" font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a"
+          text-anchor="middle" transform="rotate(-90 303 137)">Δ Wert = 3.500</text>
+
+    <!-- Punkt A -->
+    <circle cx="138.3" cy="171.9" r="9" fill="#00c6b2" stroke="#ffffff" stroke-width="2" />
+    <text x="138.3" y="175.8" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+          fill="#ffffff" text-anchor="middle">A</text>
+    <text x="138.3" y="196" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600"
+          fill="#1e1e1e" text-anchor="middle">Kunde A</text>
+    <text x="138.3" y="208" font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a"
+          text-anchor="middle">27 J | 8.500 €</text>
+
+    <!-- Punkt B -->
+    <circle cx="288.3" cy="97.5" r="9" fill="#00c6b2" stroke="#ffffff" stroke-width="2" />
+    <text x="288.3" y="101.4" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+          fill="#ffffff" text-anchor="middle">B</text>
+    <text x="288.3" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" font-weight="600"
+          fill="#1e1e1e" text-anchor="middle">Kunde B</text>
+    <text x="288.3" y="70" font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a"
+          text-anchor="middle">45 J | 12.000 €</text>
+
+    <!-- Formelzeile: d = Wurzel(Delta Alter^2 + Delta Wert^2) -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" fill="#1e1e1e">
+      <text x="118" y="273" font-weight="600">d =</text>
+      <path d="M 146 268 L 150 274 L 155 259 L 270 259" fill="none" stroke="#1e1e1e" stroke-width="1.5" />
+      <text x="159" y="273">Δ Alter<tspan font-size="8" dy="-4">2</tspan><tspan dy="4"> + Δ Wert</tspan><tspan font-size="8" dy="-4">2</tspan></text>
+    </g>
+
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="20" y="296" font-weight="600" fill="#1e1e1e">Zwei Merkmale = zwei Dimensionen.</text>
+      <text x="20" y="310" fill="#4a4a4a">Die Distanz ist die direkte Linie zwischen A</text>
+      <text x="20" y="324" fill="#4a4a4a">und B: der Satz des Pythagoras.</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================
+       PANEL 2 — Drei Merkmale (3D)
+       =================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="375" y="6" width="44" height="22" rx="4" fill="#00c6b2" />
+    <text x="397" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700"
+          fill="#ffffff" text-anchor="middle">3D</text>
+    <text x="429" y="22" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
+          fill="#1e1e1e">Drei Merkmale</text>
+
+    <!-- Bodenebene (Alter x Schadenshaeufigkeit) -->
+    <polygon points="455,195 655,195 580,243 380,243" fill="#00c6b2" fill-opacity="0.06"
+             stroke="#e8e8e8" stroke-width="1" />
+
+    <!-- Achsen: X (Alter), Y (Fahrzeugwert), Z (Schaeden) -->
+    <g stroke="#1e1e1e" stroke-width="2" stroke-linecap="square">
+      <line x1="455" y1="195" x2="659" y2="195" marker-end="url(#axis-arrow)" /><!-- X -->
+      <line x1="455" y1="195" x2="455" y2="54"  marker-end="url(#axis-arrow)" /><!-- Y -->
+      <line x1="455" y1="195" x2="377" y2="245" marker-end="url(#axis-arrow)" /><!-- Z -->
+    </g>
+
+    <!-- Achsentitel -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#1e1e1e">
+      <text x="663" y="199">Alter</text>
+      <text x="455" y="45" text-anchor="middle">Fahrzeugwert (€)</text>
+      <text x="450" y="250" text-anchor="middle">Schäden (Anzahl)</text>
+    </g>
+
+    <!-- Lotlinien auf die Bodenebene (Tiefenwirkung) -->
+    <g stroke="#bdbdbd" stroke-width="1.2" stroke-dasharray="2 3">
+      <line x1="474.3" y1="161" x2="474.3" y2="211" />
+      <line x1="550.8" y1="115" x2="550.8" y2="235" />
+    </g>
+    <g fill="#bdbdbd">
+      <circle cx="474.3" cy="211" r="2.5" />
+      <circle cx="550.8" cy="235" r="2.5" />
+    </g>
+
+    <!-- Distanz A-B im Raum -->
+    <line x1="474.3" y1="161" x2="550.8" y2="115" stroke="#00c6b2" stroke-width="2.5" stroke-dasharray="7 4" />
+    <text x="503" y="126" font-family="Montserrat, Helvetica, sans-serif" font-size="15" font-weight="700"
+          fill="#00c6b2" text-anchor="middle">d</text>
+
+    <!-- Punkt A -->
+    <circle cx="474.3" cy="161" r="9" fill="#00c6b2" stroke="#ffffff" stroke-width="2" />
+    <text x="474.3" y="164.9" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+          fill="#ffffff" text-anchor="middle">A</text>
+    <text x="474.3" y="226" font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a"
+          text-anchor="middle">27 | 8.500 | 2</text>
+
+    <!-- Punkt B -->
+    <circle cx="550.8" cy="115" r="9" fill="#00c6b2" stroke="#ffffff" stroke-width="2" />
+    <text x="550.8" y="118.9" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+          fill="#ffffff" text-anchor="middle">B</text>
+    <text x="550.8" y="99" font-family="Montserrat, Helvetica, sans-serif" font-size="10" fill="#4a4a4a"
+          text-anchor="middle">45 | 12.000 | 5</text>
+
+    <!-- Formelzeile: dritter Term kommt hinzu -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="12" fill="#1e1e1e">
+      <text x="420" y="273" font-weight="600">d =</text>
+      <path d="M 448 268 L 452 274 L 457 259 L 646 259" fill="none" stroke="#1e1e1e" stroke-width="1.5" />
+      <text x="461" y="273">Δ Alter<tspan font-size="8" dy="-4">2</tspan><tspan dy="4"> + Δ Wert</tspan><tspan font-size="8" dy="-4">2</tspan><tspan dy="4"> + </tspan><tspan fill="#00a294" font-weight="600">Δ Schäden</tspan><tspan font-size="8" dy="-4" fill="#00a294" font-weight="600">2</tspan></text>
+    </g>
+
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="375" y="296" font-weight="600" fill="#1e1e1e">Drei Merkmale = drei Dimensionen.</text>
+      <text x="375" y="310" fill="#4a4a4a">Dieselbe Idee, jetzt räumlich. Die Formel wächst</text>
+      <text x="375" y="324" fill="#4a4a4a">nur um einen weiteren Term.</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================
+       PANEL 3 — n Merkmale (nicht mehr zeichenbar)
+       =================================================================== -->
+  <g>
+    <!-- Kopfzeile -->
+    <rect x="730" y="6" width="44" height="22" rx="4" fill="#1e1e1e" />
+    <text x="752" y="21.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700"
+          fill="#ffffff" text-anchor="middle">n-D</text>
+    <text x="784" y="22" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
+          fill="#1e1e1e">n Merkmale</text>
+
+    <!-- Gruppe: darstellbar -->
+    <rect x="738" y="72" width="168" height="88" rx="4" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <text x="822" y="65" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="600"
+          fill="#00a294" text-anchor="middle">zeichenbar</text>
+
+    <!-- Gruppe: nicht mehr darstellbar -->
+    <rect x="916" y="72" width="146" height="88" rx="4" fill="#ffffff" stroke="#9e9e9e" stroke-width="1.5"
+          stroke-dasharray="5 4" />
+    <text x="989" y="65" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="600"
+          fill="#757575" text-anchor="middle">nicht mehr zeichenbar</text>
+
+    <!-- Merkmals-Icons: je eine Mini-Achse pro Dimension -->
+    <!-- x1 -->
+    <g>
+      <path d="M 761 86 L 761 108 L 783 108" fill="none" stroke="#1e1e1e" stroke-width="1.5" />
+      <circle cx="773" cy="96" r="3.5" fill="#00c6b2" />
+      <text x="770" y="128" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+            fill="#1e1e1e" text-anchor="middle">x<tspan font-size="9" dy="3">1</tspan></text>
+      <text x="770" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a"
+            text-anchor="middle">Alter</text>
+    </g>
+    <!-- x2 -->
+    <g>
+      <path d="M 813 86 L 813 108 L 835 108" fill="none" stroke="#1e1e1e" stroke-width="1.5" />
+      <circle cx="825" cy="96" r="3.5" fill="#00c6b2" />
+      <text x="822" y="128" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+            fill="#1e1e1e" text-anchor="middle">x<tspan font-size="9" dy="3">2</tspan></text>
+      <text x="822" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a"
+            text-anchor="middle">Wert</text>
+    </g>
+    <!-- x3 -->
+    <g>
+      <path d="M 865 86 L 865 108 L 887 108" fill="none" stroke="#1e1e1e" stroke-width="1.5" />
+      <circle cx="877" cy="96" r="3.5" fill="#00c6b2" />
+      <text x="874" y="128" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+            fill="#1e1e1e" text-anchor="middle">x<tspan font-size="9" dy="3">3</tspan></text>
+      <text x="874" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#4a4a4a"
+            text-anchor="middle">Schäden</text>
+    </g>
+    <!-- x4 -->
+    <g>
+      <path d="M 939 86 L 939 108 L 961 108" fill="none" stroke="#9e9e9e" stroke-width="1.5" />
+      <circle cx="951" cy="96" r="3.5" fill="#9e9e9e" />
+      <text x="948" y="128" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+            fill="#757575" text-anchor="middle">x<tspan font-size="9" dy="3">4</tspan></text>
+      <text x="948" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#757575"
+            text-anchor="middle">Prämie</text>
+    </g>
+    <!-- Auslassung -->
+    <text x="991" y="112" font-family="Montserrat, Helvetica, sans-serif" font-size="16" font-weight="700"
+          fill="#757575" text-anchor="middle">…</text>
+    <!-- xn -->
+    <g>
+      <path d="M 1021 86 L 1021 108 L 1043 108" fill="none" stroke="#9e9e9e" stroke-width="1.5" />
+      <circle cx="1033" cy="96" r="3.5" fill="#9e9e9e" />
+      <text x="1030" y="128" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+            fill="#757575" text-anchor="middle">x<tspan font-size="9" dy="3">n</tspan></text>
+      <text x="1030" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" fill="#757575"
+            text-anchor="middle">PLZ-Cluster</text>
+    </g>
+
+    <!-- Kernaussage: allgemeine Distanzformel -->
+    <rect x="738" y="178" width="324" height="60" rx="4" fill="#f5f5f5" stroke="#00c6b2" stroke-width="2" />
+    <g font-family="Montserrat, Helvetica, sans-serif" fill="#1e1e1e">
+      <text x="804" y="209" font-size="15" font-weight="600">d(A, B) =</text>
+      <path d="M 872 203 L 877 210 L 884 189 L 980 189" fill="none" stroke="#1e1e1e" stroke-width="1.8" />
+      <text x="890" y="209" font-size="15">
+        <tspan font-size="19">Σ</tspan><tspan dx="5">(a</tspan><tspan font-size="10" dy="4">i</tspan><tspan dy="-4"> − b</tspan><tspan font-size="10" dy="4">i</tspan><tspan dy="-4">)</tspan><tspan font-size="10" dy="-6">2</tspan>
+      </text>
+      <text x="900" y="230" font-size="9.5" fill="#4a4a4a" text-anchor="middle">Summe über alle n Merkmale i = 1 … n</text>
+    </g>
+
+    <!-- Bildunterschrift -->
+    <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5">
+      <text x="738" y="296" font-weight="600" fill="#1e1e1e">Ab vier Merkmalen: nicht mehr zeichenbar.</text>
+      <text x="738" y="310" fill="#4a4a4a">Die Mathematik bleibt exakt dieselbe. Distanz ist</text>
+      <text x="738" y="324" fill="#4a4a4a">kein Bild mehr, sondern eine Rechenvorschrift.</text>
+    </g>
+  </g>
+</svg>
