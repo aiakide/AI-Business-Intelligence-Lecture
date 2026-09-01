@@ -170,6 +170,8 @@ a placeholder until exercises are designed.)*
 | — | **[KAPITEL 5 — ABGESCHLOSSEN, KEIN OFFENER PUNKT MEHR]** — K-Means (5.2, 5–6 Folien, approved), Hierarchisch/Agglomerativ (5.3, 9 Folien, approved), BIRCH (5.4, 6 Folien, approved), DBSCAN (5.5, 10 Folien, approved), WCSS & Elbow (5.6, 6 Folien, approved). Spectral Clustering (5.7) authored, approved, dann auf User-Wunsch wieder entfernt (siehe 5.7-Eintrag). **Zusammenfassung aller vier Algorithmen auf eigener Folie** (Vergleichstabelle K-Means / Hierarchisch / BIRCH / DBSCAN nach Distanzmaße, Skalierungsfähigkeit, Cluster-Formen, Rausch-Sensibilität). **Mean Shift/Gaussian Mixture Models (5.8) — bewusst übersprungen**, nie authored (nachrangig laut Modulbeschreibung, im Gegensatz zu Spectral Clustering dort nicht explizit genannt). **Kapitel-5-Übung ✅ KOMPLETT** (Jupyter-Notebooks statt Markdown-Worksheet, siehe §7 Progress Log). Kapitel 5 ist damit vollständig geschlossen — kein offener Punkt, kein "next" mehr in diesem Kapitel. | 5 | Versicherer | ✅ Kapitel 5 final, nichts offen | — |
 | 5.6 | WCSS & Elbow-Methode (Optimal-K-Bestimmung) — **6 Folien** (von 7 nach Post-Approval-Redesign), approved (2026-08-29). Siehe §23 für detaillierte Dokumentation der Überarbeitungen und deckweiten QA-Fixes. | 5 | Versicherer (Kundensegmentierung, Fortsetzung 5.2) | ✅ approved | 2+ |
 | 5.7 | Spectral Clustering — **❌ ENTFERNT (User-Entscheidung, 2026-08-29)** — Cluster wurde auf Nutzer-Wunsch komplett aus `slides.md` entfernt. Zuvor als 7 Folien mit Section-Opener/Hook-Diagramm/Ähnlichkeitsgraph/Eigenvektor-Intuition/Workflow/Vor-Nachteile/Zusammenfassung geplant; Diagramm `public/spectral-hook-diagramm.svg` gelöscht; Kapitel-5-Zusammenfassung von 5 auf 4 Algorithmen reduziert. Kapitel 5 enthält final nur K-Means/Hierarchisch/BIRCH/DBSCAN + WCSS/Elbow (4 Algorithmen). Spektral Clustering bleibt eine optionale Vertiefung für Kapitel 8–10 (wenn Zeit). | 5 | Versicherer (Kundensegmentierung) | ❌ entfernt | — |
+| 6.0 | Kapitel 6 Opener + Lernziele — "Kapitel 6: [Deep Learning]..." (layout: chapter) mit Illustration + zwei Lernziele-Folien (Verstehen & Erklären / Kritisch Reflektieren) nach dem 3-Tier Bloom's-Format — 3 Folien | 6 | — (structural) | ✅ authored, awaiting visual QA | — |
+| 6.1 | ML vs. Deep Learning (Architektur, Datenbedarf, Rechenaufwand, Interpretierbarkeit) — 4-Tier Cluster (Hook: Fotos statt Tabellen; Foundation: Architekturen & Feature-Engineering; Application: Versicherer-Szenarien + Pérez-Zarate Insurance Case; Synthesis: Bridge zu 6.2) — **5 Folien** (6.1-1 Hook default, 6.1-2 Architecture header-cols, 6.1-3 Data/Compute table default, 6.1-4 Decision heuristic default, 6.1-5 Synthesis+Bridge default) | 6 | Versicherer (primary: Kfz-Schadensfotos; secondary: Betrugserkennung aus Tabelle zum Kontrast) | ✅ authored, awaiting visual QA | — |
 
 ---
 
@@ -1699,3 +1701,243 @@ Diese Fixes sind **nicht sichtbar** für Studierende in den einzelnen Slide-Quel
 - ✅ Layout: `Literaturverzeichnis.vue` auf 3 Spalten umgestellt, keine Overflow-Regressions
 
 **Lesson reinforced:** Quellen sind nicht "fertig" nach dem ersten Autor-Durchlauf — sie brauchen einen separaten Verifikationspass (Vollständigkeit, Konsistenz, Rendering). Ein systematischer QA-Prozess, der alle Quellen durchgeht, ist sinnvoll ca. alle 2–3 neuen Cluster.
+
+---
+
+## 24. Kapitel 6 — Deep Learning (Planning, 2026-09-01)
+
+**Status:** ✅ **6.0 & 6.1 APPROVED (2026-09-01)** — Visual QA + Student-Review durchlaufen, alle Fixes umgesetzt. **Cluster 6.2–6.5 planning/authoring als Nächstes.** Umfang: 3 Slides (6.0/Opener+Lernziele) + 5 Slides (6.1/ML vs. DL) = 8 Slides.
+
+**QA-Historie (2026-09-01):**
+- **Visual QA Runde 1:** 3 echte Overflow-Fehler gefunden — (a) `header-cols`-Folie "Machine Learning vs. Deep Learning" hatte keinen `::right::`-Block, Inhalt lief einspaltig über; (b) "Datenmenge & Hardware"-Tabelle kollidierte mit Footer; (c) "Wann welches Verfahren?" hatte zweizeiligen Titel + Overflow. Alle 3 direkt gefixt (::right:: ergänzt, Tabellenzeilen zusammengelegt, Titel gekürzt). Tippfehler "Tabellendata"→"Tabellendaten" korrigiert.
+- **Student-Review:** Verdict "minor fixes needed". Reale Lücken: unerklärter Jargon (CNN, GPU, SHAP, ReLU/MaxPool ohne Erstdefinition), unklare Definition "unstrukturierte Daten", zu vage Batch/Epoch-Bridge am Cluster-Ende. Alle behoben (Jargon vereinfacht/erklärt, "unstrukturierte Daten" inline definiert, Bridge mit konkretem Speicher-Beispiel unterlegt). **Nicht umgesetzt:** Reviewer-Vorschlag, in den Lernziele-Folien auf einzelne Cluster-Nummern zu verweisen ("in Cluster 6.2–6.3") — verworfen, weil es dem etablierten Deck-Muster widerspricht (jedes Kapitel zeigt die vollständigen Kapitel-Lernziele direkt nach dem Opener, nicht nur die des ersten Clusters) und weil interne Cluster-Nummern bewusst nie in studierenden-sichtbarem Text auftauchen (siehe §5.3/§5.5-Präzedenzfälle).
+- **Visual QA Runde 2 (Regression):** Die Jargon-Erklärung führte selbst zu einem neuen Overflow auf der `header-cols`-Folie (rechte Spalte zu lang). Zwei weitere Kürzungsrunden nötig, bis Overflow behoben war (finale rechte Spalte: 4 kurze Bullets, GPU-Erklärung auf "GPU (Grafikkarte)" reduziert).
+- **Finale Verifikation:** Alle 8 Slides rendern sauber, kein Clipping, kein Footer-Overlap.
+- **Weitere Nachbesserung (2026-09-02, dritte User-Feedback-Runde):** Merksatz-Absatz auf der "Wann welches Verfahren?"-Folie komplett entfernt (User-Wunsch) — die Folie besteht jetzt nur noch aus Intro-Satz, Szenarien-Tabelle und Quellenangabe.
+- **Weitere Nachbesserung (2026-09-01, zweite User-Feedback-Runde):** (a) "500 Fotos → Random Forest → OK" in der Datenmenge/Hardware-Tabelle widersprach dem Hook (Random Forest kann keine rohen Pixel verarbeiten) — Zeile durch zwei ehrliche Beispiele ersetzt (Betrugserkennung-Tabelle vs. Schadensfotos-Bilder), was die Folie überladen hat → in zwei Folien gesplittet ("Datenmenge & Hardware" allgemein + neue Folie "Zwei Beispiele aus dem Versicherer-Portfolio"). (b) `::header::`-Marker auf der "ML vs. DL"-Folie wurde vom `header-cols`-Layout-Template VOR der `##`-Überschrift gerendert (Untertitel über Titel) — kein anderer header-cols-Slide im Deck nutzt `::header::` so; entfernt, Text steht jetzt normal unter der Überschrift. (c) "Warum ist Deep Learning eigentlich 'tief'?" hatte 4 Absätze gestapelt — gesplittet in Konzept-Folie (Mythos + hierarchische Merkmals-Extraktion) und neue Bridge-Folie "Der Preis der Tiefe: Speicher" (Batch/Epoch-Übergang). Kapitel 6 hat dadurch jetzt 10 statt 8 Slides. Alle Änderungen visuell verifiziert, kein Overflow.
+- **Nachbesserung (2026-09-01, User-Feedback nach erster Freigabe):** User bemängelte den Hook als zu tief im Foundation-Stoff (CNN-Vokabular wie "Kanten"/"räumliche Struktur" gehört nicht in den Einstieg) und die Kernaussage "ML=tabellarisch, DL=unstrukturiert" als sachlich zu hart (DL wird auch auf Tabellendaten eingesetzt; der eigentliche Treiber ist, ob sich Muster von Hand benennen lassen — Datentyp ist nur ein typisches Symptom). Umgeschrieben: Hook fokussiert jetzt auf "warum lässt sich diesmal keine Merkmalsliste von Hand aufschreiben" statt auf CNN-Konzepte; Vergleichsfolie nutzt vertraute Merkmale (Fahreralter, Schadenshistorie) statt Pixel-/Kanten-Jargon; Merksatz auf der Heuristik-Folie ersetzt die pauschale Datentyp-Regel durch den eigentlichen Entscheidungstreiber. Die Kürzung dieser Umformulierungen verursachte 2 weitere kleinere Overflow-Regressionen (Hook-Slide, Merksatz-Slide) — beide behoben, final verifiziert clean.
+
+### Kapitel-6-Übersicht
+
+**Case (konsistent mit narrative-thread.md §2):** 
+- **Primary:** Kfz-Schadensfotos (Computer Vision) — schließt den Kreis zum Versicherer-Home-base
+- **Secondary:** MNIST-Ziffernerkennung (klassisches Zusatzbeispiel, nicht ersetzend)
+
+**Code-Framework:** PyTorch (User-Entscheidung 2026-08-23, nicht Keras)
+
+**Prerequisite Chain (aus §3, aktualisiert 2026-09-01):**
+```
+[Kapitel 5 — Clustering: ✅ komplett]
+  ↓
+[Kapitel 6 — Deep Learning]
+  6.0: Opener + Lernziele
+  6.1: ML vs. DL (Architektur, Datenbedarf, Rechenaufwand)
+  6.2: Batch & Epoch (Training-Mechanik mit großen Datenmengen)
+  6.3: Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax — Softmax neu)
+  6.4: Neuronales Netz spezifizieren (PyTorch nn.Module)
+  6.5: MNIST-Ziffernerkennung (Anwendungsbeispiel + PyTorch-Code)
+  ↓ (Brücke zu Kapitel 7)
+[Kapitel 7 — NLP]
+```
+
+**Gesamtbudget:** ~27–30 Slides (schlanke Fassung wie Kapitel 4, nicht wie Kapitel 5's 35 Slides)
+
+---
+
+### 6.0 — Kapitel-Opener + Lernziele
+
+**Layout:** `chapter` (analog zu Kapitel 1–5 Openern)
+
+**Slide 1: Kapitel-Titel**
+```
+# Kapitel 6: [Deep Learning]{style="color:var(--slidev-theme-primary)"}
+### Neuronale Netze für unstrukturierte Daten
+```
+Optional: Illustration/Symbol (z.B. Neuron, Netzwerk-Icon)
+
+**Slide 2–3: Lernziele** (layout: `default` oder `section`)
+
+Nach Cluster 6.5 können Studierende:
+
+1. **Unterschied zwischen ML und Deep Learning erklären:** Wann Datenbedarf/Rechenaufwand/Architektur eine andere Methode rechtfertigen
+2. **Batch und Epoch definieren:** Wie große Datenmengen in neuronale Netze fließen (speichereffizient)
+3. **Aktivierungsfunktionen klassifizieren:** Sigmoid vs. ReLU vs. Tanh vs. Softmax — und wann welche passt
+4. **Ein einfaches neuronales Netz mit PyTorch spezifizieren:** Input/Hidden/Output-Schichten, Forward-Pass, Loss + Optimizer
+5. **MNIST-Ziffernerkennung als Bildklassifikations-Beispiel durchführen:** CNN-Architektur + Training Loop + Evaluation
+
+---
+
+### 6.1 — ML vs. Deep Learning
+
+**Insertion Point in slides.md:** Nach Kapitel-5-Schluss (nach Literaturverzeichnis). Die Literaturverzeichnis-Folien (3/3) werden später an Deck-Ende verschoben (nach Kapitel 10).
+
+**Status:** 🔵 Planning — Research Brief an edu-research 2026-09-01, Authoring ausstehend
+
+#### 4-Tier Pedagogical Structure
+
+| Tier | Content |
+|---|---|
+| **Hook** | Der Versicherer hat 100.000 Schadensfotos — aber Random Forest kennt keine Pixel. Computer Vision braucht eine andere Architektur. Warum? |
+| **Foundation** | **Architektur:** ML = verschiedene Algorithmen + manuelles Feature-Engineering; DL = mehrschichtige neuronale Netze mit automatischer Feature-Extraktion. **Datenbedarf:** ML funktioniert mit 100–1.000 Instanzen; DL braucht 10.000–1.000.000. **Rechenaufwand:** ML läuft auf CPU; DL auf GPU. **Interpretation:** ML-Modelle sind oft transparenter; DL-Modelle gelten als "Black Box". |
+| **Application** | Versicherer-Szenarien: Betrugserkennung aus Tabelle (ML sinnvoll, kleine Datenmenge); Schadenhöhe aus Foto (DL sinnvoll, große Bildmenge). Hinweis: PyTorch ist unser Werkzeug — kommt später. |
+| **Synthesis** | DL erfordert Spezial-Handling: Batch/Epoch (Speichereffizienz), Aktivierungsfunktionen (Nichtlinearität), Backpropagation (Lernmechanismus). Das ist unser nächster Fokus. |
+
+#### Slide-Count & Layouts (5 Slides)
+
+| Slide | Content | Layout | Notes |
+|---|---|---|---|
+| 6.1-1 | Hook: Fotos statt Tabellen, warum Random Forest nicht passt | `default` | Prosa + Ausgangslage |
+| 6.1-2 | Architektur-Unterschied (ML: mehrere Algorithmen + Feature-Engineering; DL: tiefe Netze + automatische Merkmale) | `two-cols` oder `header-cols` | Mit Diagramm/Schematik |
+| 6.1-3 | Datenbedarf & Rechenaufwand (Vergleichstabelle: Datenmengen, Hardware, Trainingszeit) | `default` | Tabelle oder zwei Spalten |
+| 6.1-4 | Entscheidungs-Heuristik: "Wann welches Verfahren?" | `default` | ML vs. DL Einsatz-Szenarien |
+| 6.1-5 | Synthesis + Bridge zu 6.2: Deep Learning braucht spezielle Behandlung beim Training (Batch/Epoch, Aktivierungsfunktionen, Backpropagation). Das klären wir jetzt. | `default` | Abschluss + Überleitung |
+
+#### Source Assessment (Vorgänger-Material)
+
+**Quelle:** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` (Zeilen 19–68)
+
+**Bewertung:**
+- ✅ "Grundlegende Unterschiede" (Architektur, Datenbedarf, Rechenaufwand, Interpretierbarkeit) sind gut strukturiert
+- ✅ "Vergleichstabelle mit Beispielen" ist reusable (anpassen auf Versicherer-Kontext)
+- ✅ "Wann welches Verfahren?" ist wertvoll für die Entscheidungs-Heuristik
+- ⚠️ Code-Beispiele: dl.md hat Keras-Sequential; wir brauchen PyTorch oder No-Code für diesen Cluster
+- ⚠️ Scope: dl.md behandelt auch Optimizer-Zoo, CNN-Details, Transfer Learning — zu viel für Kapitel 6, später in Kapitel 8–10
+
+**Reuse Plan:** Konzeptionelle Struktur übernehmen; Versicherer-Kontext anpassen (Betrugserkennung ↔ Schadensfotos); Code-Snippets später in 6.4 mit PyTorch umbauen.
+
+#### Citation Requirements (für edu-research)
+
+Needed sources:
+1. **ML vs. DL Architektur-Unterschied** — Academic source, e.g. Goodfellow/Bengio/Courville (2016) "Deep Learning" oder LeCun/Bengio/Hinton (2015) "Deep Learning" (Nature)
+2. **Datenbedarf-Vergleich** — Empirisches/Praktisches Material, z.B. Kaggle-Meta-Analyse, Scikit-Learn vs. TensorFlow Benchmarks
+3. **Rechenaufwand (CPU vs. GPU)** — Technical source, z.B. NVIDIA Developer Blog, CUDA-Dokumentation
+4. **Interpretierbarkeit / "Black Box"** — Critical perspective, z.B. Samek et al. (2019) "Explainable AI", oder Lipton (2016) "The Mythos of Model Interpretability"
+
+---
+
+### 6.2 — Batch & Epoch (Cluster-Skizze)
+
+**Hook:** Training mit 1 Mio. Bildern — unmöglich, alle auf einmal in den GPU-Speicher zu laden. Wie macht man das?
+
+**Foundation:**
+- **Batch:** eine Teilmenge von Trainingsbeispielen (z.B. 32 oder 128 Bilder) pro Forward-Propagation + Backward-Propagation
+- **Epoch:** ein volles Durchlaufen des gesamten Trainings-Datensatzes (mehrere Batches)
+- **Steps per Epoch:** Anzahl der Batches pro Epoch = (Datensatzmenge / Batch-Größe)
+- **Gradient Accumulation:** Richtung der Gewichtsanpassung
+
+**Application:** PyTorch `DataLoader` und Training-Loop (kurz)
+
+**Synthesis:** Ermöglicht Training auf begrenztem Hardware-Memory; verbindung zu Aktivierungsfunktionen (wie Fehler durch die Schichten fließt)
+
+**Slide-Count:** 3–4 Slides
+
+---
+
+### 6.3 — Aktivierungsfunktionen (Cluster-Skizze)
+
+**Hook:** Ein Neuron mit linearer Ausgabe ist nutzlos — mehrere lineare Transformationen hintereinander ergeben nur wieder eine lineare Transformation. Nichtlinearität ist der Schlüssel.
+
+**Foundation:**
+- **Sigmoid:** $\sigma(z) = \frac{1}{1+e^{-z}}$, Ausgabe in (0, 1), historisch beliebt, aber Vanishing-Gradient-Problem in Hidden Layers
+- **ReLU:** $f(z) = \max(0, z)$, einfach, effektiv, verhindert Vanishing Gradients, Standard in Hidden Layers
+- **Tanh:** $\tanh(z)$, Ausgabe in (-1, 1), zentrierte Alternative zu Sigmoid
+- **Softmax:** $\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}$, **komplett neu**, für Multiklassen-Klassifikation, konvertiert logits zu Wahrscheinlichkeitsverteilung über K Klassen
+
+**Application:**
+- Sigmoid: Output Layer (binäre Klassifikation, historisch; durch Softmax ersetzt)
+- ReLU: Hidden Layers (Standard-Wahl)
+- Tanh: Hidden Layers (Alternative, seltener)
+- Softmax: Output Layer (Multiklassen-Klassifikation, z.B. MNIST 0-9)
+
+**Synthesis:** Aktivierungsfunktionen ermöglichen Universal Approximation; Softmax + Cross-Entropy Loss ist die Standard-Kombination für Bildklassifikation (MNIST kommt in 6.5)
+
+**Slide-Count:** 5–6 Slides (Softmax braucht eigenen Deep-Dive)
+
+**New Research Needed:** Softmax-Funktion, Gradient Flow, Vanishing Gradient Problem, Universal Approximation Theorem
+
+---
+
+### 6.4 — Neuronales Netz spezifizieren (PyTorch) (Cluster-Skizze)
+
+**Hook:** Konzepte verstehen ist eine Sache — aber wie schreibe ich das als Code?
+
+**Foundation:**
+- **PyTorch nn.Module:** Basis-Klasse für Netzwerk-Architektur
+- **nn.Linear:** Vollverbundene Schicht
+- **nn.Sequential:** Container für gestapelte Schichten
+- **Forward-Methode:** Überschreiben für Custom-Logik
+- **Loss-Funktion wählen:** nn.CrossEntropyLoss (Klassifikation), nn.MSELoss (Regression)
+- **Optimizer wählen:** torch.optim.Adam (modern, Standard)
+
+**Application:** Kleines Kfz-Schadensfotos-CNN-Toy-Example oder MNIST-Demo
+- Input Layer: 28×28 Pixel = 784 Inputs
+- Hidden Layer: 128 Neurons + ReLU
+- Output Layer: 10 Neuronen (Klassen 0-9) + Softmax (via CrossEntropyLoss)
+
+**Synthesis:** Das Netz ist spezifiziert; jetzt braucht es einen Training Loop (Learn-/Val-Datensätze, Epochen, Batch-Iterationen) — zu Kapitel 6.5
+
+**Slide-Count:** 5–6 Slides (Code-lastig, aber schlank)
+
+---
+
+### 6.5 — MNIST-Ziffernerkennung (Cluster-Skizze)
+
+**Hook:** Das klassische Beispiel — 28×28 Pixel Handschrift-Ziffern, 60.000 Training, 10.000 Test
+
+**Foundation:**
+- Datensatz-Übersicht (torchvision.datasets.MNIST)
+- Einfache CNN-Architektur (Conv2d → ReLU → MaxPool → Flatten → Linear → Softmax)
+
+**Application:**
+- Kompletter Training Loop (PyTorch)
+  - DataLoader-Batch-Iteration
+  - Forward Pass
+  - Loss-Berechnung
+  - Backward Pass (Backpropagation)
+  - Optimizer Step
+- Accuracy-Bericht (Test-Set)
+
+**Synthesis:** 
+- Rückbindung zu Kfz-Schadensfotos: Ähnliches Muster (CNN für Bilder), aber Scale unterschiedlich
+- Überleitung zu Kapitel 7 (NLP): Transformer statt CNN für Sequenzen
+
+**Slide-Count:** 4–5 Slides (Code-Snippets + Output)
+
+**Source Reuse:** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` hat eine MNIST-CNN-Implementation in PyTorch — direkt reusable nach Case-Anpassung.
+
+---
+
+### Gesamtbudget Kapitel 6
+
+| Component | Slides | Notes |
+|---|---|---|
+| 6.0 Opener + Lernziele | 2 | chapter layout + default |
+| 6.1 ML vs. DL | 5 | 4-Tier, Research an edu-research ausstehend |
+| 6.2 Batch & Epoch | 4 | Speicher-Mechanik |
+| 6.3 Aktivierungsfunktionen | 6 | Softmax neu, Deep-Dive |
+| 6.4 Neuronales Netz (PyTorch) | 6 | Code-Fokus |
+| 6.5 MNIST | 5 | Application + Training Loop |
+| **Subtotal (Content)** | **28** | — |
+| Exercise Placeholder | 1 | (TBD, nicht im aktuellen Slide-Count enthalten) |
+| **Total (mit Übung)** | **~29** | Konsistent mit "schlank wie Kapitel 4" (25 Slides → hier +4 für Softmax-Neuheit) |
+
+**Literaturverzeichnis:** Wird auf 3/3 verschoben nach Kapitel 10.
+
+---
+
+### Progress Log Entry (6.0/6.1 Status, 2026-09-01)
+
+| # | Cluster / topic | Kapitel | Case used | Status | Loops used |
+|---|---|---|---|---|---|
+| 6.0 | Kapitel 6 Opener + Lernziele (chapter layout + 2 Lernziele-Folien, 3-Tier Bloom's) — **3 Folien** | 6 | — (structural) | ✅ approved | 1 |
+| 6.1 | ML vs. Deep Learning (Architektur, Datenbedarf, Rechenaufwand, Interpretierbarkeit) — **4-Tier Cluster: Hook (Fotos statt Tabellen) / Foundation (Features manuell vs. automatisch) / Application (Versicherer-Szenarien + Pérez-Zarate 2024 Insurance Case) / Synthesis (Brücke zu Batch/Epoch)** — **5 Folien** (layouts: 1×default Hook, 1×header-cols Architecture, 3×default Data+Heuristic+Synthesis) | 6 | Versicherer (primary: Kfz-Schadensfotos; secondary: Betrugserkennung ML-Vergleich) | ✅ approved (2 visual-QA-Runden + 1 student-review) | 2 |
+| 6.2–6.5 | Batch/Epoch, Aktivierungsfunktionen (Softmax neu), Neuronales Netz (PyTorch), MNIST | 6 | Versicherer (Schadensfotos, primary) + MNIST (secondary) | ⬜ next | — |
+
+---
+
+### Next Steps
+
+1. ~~visual-reviewer & student-reviewer: Review 6.0/6.1 slides~~ — ✅ erledigt, approved (2026-09-01)
+2. **Nächster Schritt:** Cluster 6.2 (Batch & Epoch) — Planning → Research Brief → Authoring → QA, nach demselben Loop wie 6.1
+
+---

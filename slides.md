@@ -3539,6 +3539,187 @@ Du kennst jetzt vier Clustering-Algorithmen, die jeweils unterschiedliche Fragen
 ]" />
 
 ---
+layout: chapter
+---
+
+::left::
+
+# Kapitel 6: [Deep Learning]{style="color:var(--slidev-theme-primary)"}
+
+Neuronale Netze für unstrukturierte Daten
+
+::right::
+
+<Illustration src="/illustrations/artificial-intelligence-bro.svg" alt="Deep Learning mit Neuronalen Netzen" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Erklären
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Machine Learning und Deep Learning voneinander unterscheiden (Architektur, Datenbedarf, Rechenaufwand, Interpretierbarkeit)
+- Batch und Epoch definieren und im Trainingsprozess einordnen
+- Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) unterscheiden und ihre Rolle erklären
+
+📊 **Anwenden & Bewerten:**
+- Ein einfaches neuronales Netz in PyTorch spezifizieren (Input/Hidden/Output-Schichten)
+- Ein Deep-Learning-Modell auf einem Anwendungsbeispiel (MNIST-Ziffernerkennung) nachvollziehen
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep Learning. Nature, 521(7553), 436–444', url: 'https://doi.org/10.1038/nature14539', year: '2015' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Kritisch Reflektieren
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+⚖️ **Kritisch Reflektieren:**
+- Bewerten, wann ein Machine-Learning-Modell ausreicht und wann Deep Learning notwendig wird
+- Trade-offs zwischen Datenbeschaffung, Rechenaufwand und Modellgenauigkeit reflektieren
+- Grenzen der "Black Box" verstehen und Interpretierbarkeits-Strategien einordnen
+
+Wie immer: nicht jedes Problem braucht neuronale Netze. Das Richtige Werkzeug für die richtige Frage — das ist Handwerk.
+
+<LiteraturSource :sources="[
+  { title: 'Lipton, Z. C. (2016). The Mythos of Model Interpretability. Communications of the ACM, 61(10), 36–43', url: 'https://doi.org/10.1145/3233231', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Von Tabellendaten zu Bildern
+
+Bislang haben wir mit **strukturierten Daten** gearbeitet: Zeilen × Spalten, jede Spalte eine Eigenschaft. Der Versicherer schätzte Schadenshöhen aus einer Handvoll Merkmale — **Fahreralter, Fahrzeugtyp, Unfallort, Schadenshäufigkeit**.
+
+Aber jetzt kommt eine neue Aufgabe: Der Versicherer hat **100.000 Kfz-Unfallfotos** und möchte wissen:
+- *Wie hoch ist der Schaden?*
+- *Betrug oder echter Unfall?*
+- *Welche Schadensart liegt vor (Totalschaden, Teilschaden, Kratzer)?*
+
+**Das Problem:** Bei den Vertragsdaten kannten wir die relevanten Spalten. Aber welche "Spalte" beschreibt einen Blechschaden auf einem Foto? Niemand kann eine überschaubare Merkmalsliste aufschreiben, die einen Totalschaden von einem Kratzer unterscheidet — genau hier stoßen unsere bisherigen Methoden an eine Grenze.
+
+> **Frage:** Brauchen wir ein Werkzeug, das sich die relevanten Merkmale selbst beibringt?
+
+---
+layout: header-cols
+---
+
+## Machine Learning vs. Deep Learning
+
+Die vier Kernunterschiede — warum Tiefe einen Unterschied macht
+
+::left::
+
+### Machine Learning — klassisch
+
+- **Merkmale von Hand definiert:** Ein Mensch entscheidet, welche Eigenschaften wichtig sind (z.B. Fahreralter, Schadenshistorie)
+- **Flache Architektur:** 1–2 Verarbeitungsschritte (Input → Klassifikator)
+- **Interpretierbar:** Du siehst, welche Merkmale wichtig waren (Feature Importance)
+- **Genügsam:** Meist auf einer normalen CPU trainierbar
+
+::right::
+
+### Deep Learning — neuronale Netze
+
+- **Merkmale selbst gelernt:** Das Netz findet relevante Muster in den Rohdaten selbst — ohne dass jemand sie vorher benennt
+- **Tiefe Architektur:** Viele Schichten hintereinander (mehr dazu später in diesem Kapitel)
+- **"Black Box":** Du siehst die Vorhersage, aber nicht exakt *wie* das Netz dorthin kommt
+- **Rechenintensiv:** Meist GPU (Grafikkarte) statt CPU — 10–100× schneller
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Datenmenge & Hardware — ein realistischer Vergleich
+
+**Machine Learning** und **Deep Learning** fahren unterschiedliche Strategien:
+
+| **Aspekt** | **Machine Learning** | **Deep Learning** |
+|:---|:---|:---|
+| **Mindestmenge gelabelter Daten** | 100–1.000 Instanzen (praktikabel) | 10.000–1.000.000+ (bildbasiert) |
+| **Trainingszeit & Hardware** | Minuten bis Stunden, Standard-CPU reicht | Stunden bis Tage auf CPU — GPU nötig (10–100x schneller) |
+
+<LiteraturSource :sources="[
+  { title: 'Shi, S., Wang, Q., Xu, P., & Chu, X. (2016). Benchmarking State-of-the-Art Deep Learning Software Tools. arXiv preprint arXiv:1608.07249', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Zwei Beispiele aus dem Versicherer-Portfolio
+
+| **Aspekt** | **Machine Learning** | **Deep Learning** |
+|:---|:---|:---|
+| **Betrugserkennung (Tabelle)** | 500 Fälle, 20 Spalten → Random Forest → OK | Für diese Datenmenge nicht sinnvoll |
+| **Schadensfotos (Bilder)** | Nur mit aufwändigem manuellem Feature-Engineering machbar | Erst ab ~100.000 gelabelten Fotos → CNN lernt Merkmale selbst |
+
+**Die Realität:** Für Tabellendaten wie die Betrugserkennung reicht Random Forest schon bei wenigen hundert Fällen völlig aus. Bei Fotos sieht die Rechnung anders aus: Ohne Merkmale von Hand kommt ein Random Forest hier gar nicht erst zum Zug — und Deep Learning braucht selbst dann noch sehr viele Beispiele, um die Merkmale zuverlässig selbst zu lernen.
+
+<LiteraturSource :sources="[
+  { title: 'Halevy, A., Norvig, P., & Pereira, F. (2009). The Unreasonable Effectiveness of Data. IEEE Intelligent Systems, 24(2), 8–12', url: 'https://doi.org/10.1109/MIS.2009.36', year: '2009' },
+]" />
+
+---
+layout: default
+---
+
+## Wann welches Verfahren?
+
+Das Versicherer-Portfolio enthält mehrere **echte Szenarien** — jedes mit einer Antwort:
+
+| **Szenario** | **Daten** | **Methode** | **Begründung** |
+|:---|:---|:---|:---|
+| Betrugserkennung aus Kundenhistorie | Tabelle, 10.000 Fälle | ML (Random Forest) | Wenig Daten, interpretierbar |
+| Schadenshöhe aus Foto vorhersagen | Bilder, 100.000 Fotos | DL (CNN) | Viele Daten, räumliche Struktur |
+| Kundensegmentierung (Risikoprofile) | Tabelle, 50.000 Kunden | ML (K-Means) | Explorativ, keine Labels |
+
+<LiteraturSource :sources="[
+  { title: 'Pérez-Zarate, S. Á. et al. (2024). Automated Car Damage Assessment Using Computer Vision: Insurance Company Use Case. Applied Sciences, 14(20), 9560', url: 'https://doi.org/10.3390/app14209560', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Warum ist Deep Learning eigentlich "tief"?
+
+Eine häufige Fehldeutung: "Tief" = "kompliziert" oder "immer besser". **Falsch.**
+
+**"Tiefe" bedeutet: Viele gestapelte Schichten.** Das Netz lernt auf der ersten Schicht einfache Features (Kanten, Ecken), auf der zweiten Schicht kombiniert es diese zu komplexeren Mustern (Formen, Strukturen), auf der dritten Schicht erkennt es abstrakte Konzepte (Reifen, Windschutzscheibe, Verformung).
+
+Diese **hierarchische Merkmals-Extraktion** ist das Geheimnis: Jede Schicht macht die "Erkenntnisse" der vorherigen Schicht nutzbar — ohne dass Du dem Netz sagen musst, was eine "Verformung" ist. Das Netz lernt es aus Daten.
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep Learning. Nature, 521(7553), 436–444', url: 'https://doi.org/10.1038/nature14539', year: '2015' },
+]" />
+
+---
+layout: default
+---
+
+## Der Preis der Tiefe: Speicher
+
+Ein einzelnes Foto belegt schnell mehrere Megabyte im Speicher — **100.000 Fotos auf einmal passen in keine GPU.**
+
+> **Frage:** Wie trainiert man so ein Netz trotzdem, ohne den Speicher zu sprengen?
+
+Die Antwort: Man füttert das Netz nicht mit allen Daten gleichzeitig, sondern in kleinen Häppchen, mehrfach hintereinander. Genau das sind **Batch** und **Epoch** — der nächste Baustein.
+
+---
 layout: default
 ---
 
