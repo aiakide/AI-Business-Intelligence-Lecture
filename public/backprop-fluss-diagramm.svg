@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="100%" height="auto"
+     role="img" aria-labelledby="bpfTitle bpfDesc">
+  <title id="bpfTitle">Backpropagation: Forward Pass vorw&#228;rts, Gradienten r&#252;ckw&#228;rts</title>
+  <desc id="bpfDesc">Vier Bl&#246;cke stehen nebeneinander: Input, Hidden-Schicht, Output und ganz rechts der Loss.
+  In der oberen H&#228;lfte flie&#223;en t&#252;rkise Pfeile von links nach rechts durch die Bl&#246;cke, das ist der Forward Pass,
+  bei dem die Vorhersage berechnet wird. Von oben f&#252;hrt ein Pfeil mit dem echten Label in den Loss-Block: der
+  Loss entsteht aus dem Vergleich von Vorhersage und echtem Label. Vom Loss aus startet ein oranger Pfeil, der
+  nach unten und dann nach links zur&#252;ckl&#228;uft, das ist der Backward Pass. Zus&#228;tzlich zeigen orange Pfeile in
+  jeder L&#252;cke zwischen den Bl&#246;cken die R&#252;ckrichtung. Dabei wird f&#252;r jedes Gewicht der Gradient
+  Delta L nach Delta w berechnet.</desc>
+
+  <defs>
+    <marker id="bpf-fwd" markerWidth="7" markerHeight="7" refX="5.6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#00c6b2" />
+    </marker>
+    <marker id="bpf-back" markerWidth="7" markerHeight="7" refX="5.6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#e07a3f" />
+    </marker>
+    <marker id="bpf-label" markerWidth="7" markerHeight="7" refX="5.6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#757575" />
+    </marker>
+  </defs>
+
+  <!-- ===================================================================
+       ECHTES LABEL — zweiter Eingang des Loss
+       =================================================================== -->
+  <rect x="635" y="42" width="110" height="48" rx="4" fill="#f5f5f5" stroke="#9e9e9e" stroke-width="2" />
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle">
+    <text x="690" y="64" font-size="12" font-weight="700" fill="#1e1e1e">echtes Label</text>
+    <text x="690" y="80" font-size="11" fill="#4a4a4a">y = 1 (Betrug)</text>
+  </g>
+  <line x1="690" y1="94" x2="690" y2="124" stroke="#757575" stroke-width="2.5" stroke-linecap="round"
+        marker-end="url(#bpf-label)" />
+
+  <!-- ===================================================================
+       FORWARD-BAND
+       =================================================================== -->
+  <text x="330" y="94" font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700"
+        fill="#00a294" text-anchor="middle">Forward Pass: Vorhersage berechnen</text>
+  <line x1="70" y1="110" x2="600" y2="110" stroke="#00c6b2" stroke-width="3.5" stroke-linecap="round"
+        marker-end="url(#bpf-fwd)" />
+
+  <!-- ===================================================================
+       SCHICHT-BLOECKE
+       =================================================================== -->
+  <rect x="60"  y="130" width="130" height="120" rx="4" fill="#e8e8e8" stroke="#00c6b2" stroke-width="2.5" />
+  <rect x="250" y="130" width="150" height="120" rx="4" fill="#ffffff" stroke="#00c6b2" stroke-width="2.5" />
+  <rect x="460" y="130" width="130" height="120" rx="4" fill="#bff1ec" stroke="#00c6b2" stroke-width="2.5" />
+  <rect x="640" y="130" width="100" height="120" rx="4" fill="#fbe4d5" stroke="#e07a3f" stroke-width="3" />
+
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle">
+    <!-- Input -->
+    <text x="125" y="182" font-size="14" font-weight="700" fill="#1e1e1e">Input</text>
+    <text x="125" y="204" font-size="11" fill="#4a4a4a">Merkmale x</text>
+    <!-- Hidden -->
+    <text x="325" y="176" font-size="14" font-weight="700" fill="#1e1e1e">Hidden-Schicht</text>
+    <text x="325" y="197" font-size="11" fill="#4a4a4a">Gewichte W, b</text>
+    <text x="325" y="214" font-size="11" font-weight="700" fill="#00a294">a = &#963;(Wx + b)</text>
+    <!-- Output -->
+    <text x="525" y="176" font-size="14" font-weight="700" fill="#1e1e1e">Output</text>
+    <text x="525" y="197" font-size="11" fill="#4a4a4a">Vorhersage</text>
+    <text x="525" y="214" font-size="11" font-weight="700" fill="#00a294">&#375; = 0,66</text>
+    <!-- Loss -->
+    <text x="690" y="180" font-size="14" font-weight="700" fill="#1e1e1e">Loss</text>
+    <text x="690" y="202" font-size="11.5" font-weight="700" fill="#c25f28">L(&#375;, y)</text>
+  </g>
+
+  <!-- ===================================================================
+       VORWAERTS-PFEILE IN DEN LUECKEN
+       =================================================================== -->
+  <g stroke="#00c6b2" stroke-width="3" stroke-linecap="round" marker-end="url(#bpf-fwd)">
+    <line x1="196" y1="168" x2="244" y2="168" />
+    <line x1="406" y1="168" x2="454" y2="168" />
+    <line x1="596" y1="168" x2="634" y2="168" />
+  </g>
+  <text x="615" y="156" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+        fill="#00a294" text-anchor="middle">&#375;</text>
+
+  <!-- ===================================================================
+       RUECKWAERTS-PFEILE IN DEN LUECKEN
+       =================================================================== -->
+  <g stroke="#e07a3f" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5" marker-end="url(#bpf-back)">
+    <line x1="244" y1="216" x2="196" y2="216" />
+    <line x1="454" y1="216" x2="406" y2="216" />
+    <line x1="634" y1="216" x2="596" y2="216" />
+  </g>
+
+  <!-- Gradienten-Beschriftung unter den Schichten -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+     fill="#e07a3f" text-anchor="middle">
+    <text x="325" y="274">&#8706;L / &#8706;W</text>
+    <text x="525" y="274">&#8706;L / &#8706;W</text>
+  </g>
+
+  <!-- ===================================================================
+       BACKWARD-BAND — startet unter dem Loss
+       =================================================================== -->
+  <path d="M 690 254 L 690 320 L 74 320" fill="none" stroke="#e07a3f" stroke-width="3.5"
+        stroke-linecap="round" stroke-linejoin="round" marker-end="url(#bpf-back)" />
+  <text x="380" y="310" font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700"
+        fill="#e07a3f" text-anchor="middle">Backward Pass: Gradienten berechnen</text>
+  <text x="678" y="274" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700"
+        fill="#c25f28" text-anchor="end">Start des R&#252;ckwegs</text>
+
+  <!-- ===================================================================
+       BILDUNTERSCHRIFT
+       =================================================================== -->
+  <line x1="120" y1="352" x2="640" y2="352" stroke="#e8e8e8" stroke-width="1" />
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" text-anchor="middle" fill="#4a4a4a">
+    <text x="380" y="376">
+      <tspan font-weight="700" fill="#1e1e1e">Der Loss ist das Scharnier:</tspan>
+      Er entsteht aus Vorhersage &#375; und echtem Label y &#8212;
+    </text>
+    <text x="380" y="394">und von dort flie&#223;t der Fehler r&#252;ckw&#228;rts, bis jedes Gewicht seine Korrekturrichtung kennt.</text>
+  </g>
+</svg>

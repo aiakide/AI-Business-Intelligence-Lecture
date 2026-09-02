@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" width="100%" height="auto"
+     role="img" aria-labelledby="lossTitle lossDesc">
+  <title id="lossTitle">Loss-Kurve: Der Fehler sinkt im Verlauf des Trainings</title>
+  <desc id="lossDesc">Ein Diagramm mit der Anzahl der Trainingsschritte auf der waagerechten Achse und dem
+  Loss auf der senkrechten Achse. Die Kurve startet links bei einem Loss von etwa 3 &#8212; das Netz hat dort
+  zuf&#228;llige Gewichte und macht gro&#223;e Fehler. Sie f&#228;llt zun&#228;chst steil, dann immer flacher ab und n&#228;hert sich
+  rechts einem Wert nahe null an. Dort sind die Gewichte optimiert und der Fehler ist klein. Die Kurve f&#228;llt
+  nicht linear, sondern exponentiell: die gr&#246;&#223;ten Fortschritte passieren am Anfang des Trainings.</desc>
+
+  <defs>
+    <marker id="loss-ax" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#757575" />
+    </marker>
+  </defs>
+
+  <!-- ===================================================================
+       ZONE HOHER FEHLER (links) — orange als Problemzone
+       =================================================================== -->
+  <rect x="90" y="78" width="86" height="232" rx="4" fill="#fbe4d5" opacity="0.5" />
+
+  <!-- ===================================================================
+       ACHSEN
+       =================================================================== -->
+  <line x1="76"  y1="310" x2="528" y2="310" stroke="#757575" stroke-width="2" marker-end="url(#loss-ax)" />
+  <line x1="90"  y1="344" x2="90"  y2="76"  stroke="#757575" stroke-width="2" marker-end="url(#loss-ax)" />
+  <text x="90"  y="66"  font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700" fill="#1e1e1e" text-anchor="middle">Loss</text>
+  <text x="300" y="358" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1e1e1e" text-anchor="middle">Trainingsschritte (Epochs)</text>
+
+  <!-- Hilfslinien und Y-Beschriftung -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="11" fill="#4a4a4a" text-anchor="end">
+    <line x1="90" y1="241.4" x2="505" y2="241.4" stroke="#c9c9c9" stroke-width="1.5" stroke-dasharray="5 4" />
+    <text x="82" y="245.4">1</text>
+    <line x1="90" y1="172.9" x2="505" y2="172.9" stroke="#c9c9c9" stroke-width="1.5" stroke-dasharray="5 4" />
+    <text x="82" y="176.9">2</text>
+    <line x1="90" y1="104.3" x2="505" y2="104.3" stroke="#c9c9c9" stroke-width="1.5" stroke-dasharray="5 4" />
+    <text x="82" y="108.3">3</text>
+    <text x="82" y="314">0</text>
+  </g>
+
+  <!-- X-Ticks -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="11" fill="#4a4a4a" text-anchor="middle">
+    <line x1="192.5" y1="306" x2="192.5" y2="314" stroke="#9e9e9e" stroke-width="1.5" />
+    <text x="192.5" y="330">250</text>
+    <line x1="295" y1="306" x2="295" y2="314" stroke="#9e9e9e" stroke-width="1.5" />
+    <text x="295" y="330">500</text>
+    <line x1="397.5" y1="306" x2="397.5" y2="314" stroke="#9e9e9e" stroke-width="1.5" />
+    <text x="397.5" y="330">750</text>
+    <line x1="500" y1="306" x2="500" y2="314" stroke="#9e9e9e" stroke-width="1.5" />
+    <text x="500" y="330">1.000</text>
+  </g>
+
+  <!-- ===================================================================
+       LOSS-KURVE — exponentiell abfallend
+       =================================================================== -->
+  <polyline points="90.00,102.91 92.56,107.10 95.12,111.19 97.69,115.20 100.25,119.12 102.81,122.96 105.38,126.72 107.94,130.40 110.50,134.00 113.06,137.53 115.62,140.98 118.19,144.36 120.75,147.67 123.31,150.91 125.88,154.09 128.44,157.19 131.00,160.23 133.56,163.21 136.12,166.12 138.69,168.97 141.25,171.76 143.81,174.50 146.38,177.17 148.94,179.79 151.50,182.36 154.06,184.87 156.62,187.33 159.19,189.73 161.75,192.09 164.31,194.40 166.88,196.65 169.44,198.86 172.00,201.03 174.56,203.15 177.12,205.22 179.69,207.25 182.25,209.24 184.81,211.18 187.38,213.09 189.94,214.95 192.50,216.78 195.06,218.56 197.62,220.31 200.19,222.03 202.75,223.70 205.31,225.34 207.88,226.95 210.44,228.52 213.00,230.06 215.56,231.57 218.12,233.05 220.69,234.49 223.25,235.91 225.81,237.29 228.38,238.65 230.94,239.98 233.50,241.27 236.06,242.55 238.62,243.79 241.19,245.01 243.75,246.20 246.31,247.37 248.88,248.52 251.44,249.64 254.00,250.73 256.56,251.81 259.12,252.86 261.69,253.88 264.25,254.89 266.81,255.88 269.38,256.84 271.94,257.79 274.50,258.71 277.06,259.62 279.62,260.50 282.19,261.37 284.75,262.22 287.31,263.05 289.88,263.87 292.44,264.66 295.00,265.44 297.56,266.21 300.12,266.96 302.69,267.69 305.25,268.40 307.81,269.11 310.38,269.79 312.94,270.46 315.50,271.12 318.06,271.77 320.62,272.40 323.19,273.02 325.75,273.62 328.31,274.21 330.88,274.79 333.44,275.36 336.00,275.91 338.56,276.46 341.12,276.99 343.69,277.51 346.25,278.02 348.81,278.52 351.38,279.01 353.94,279.49 356.50,279.96 359.06,280.42 361.62,280.86 364.19,281.30 366.75,281.73 369.31,282.16 371.88,282.57 374.44,282.97 377.00,283.37 379.56,283.75 382.12,284.13 384.69,284.50 387.25,284.87 389.81,285.22 392.38,285.57 394.94,285.91 397.50,286.24 400.06,286.57 402.62,286.89 405.19,287.20 407.75,287.51 410.31,287.81 412.88,288.10 415.44,288.39 418.00,288.67 420.56,288.95 423.12,289.22 425.69,289.48 428.25,289.74 430.81,289.99 433.38,290.24 435.94,290.48 438.50,290.72 441.06,290.95 443.62,291.18 446.19,291.40 448.75,291.62 451.31,291.83 453.88,292.04 456.44,292.25 459.00,292.45 461.56,292.64 464.12,292.84 466.69,293.02 469.25,293.21 471.81,293.39 474.38,293.56 476.94,293.74 479.50,293.91 482.06,294.07 484.62,294.23 487.19,294.39 489.75,294.55 492.31,294.70 494.88,294.85 497.44,294.99 500.00,295.13"
+            fill="none" stroke="#00c6b2" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- ===================================================================
+       START — zufaellige Gewichte, hoher Fehler
+       =================================================================== -->
+  <circle cx="90" cy="102.9" r="6" fill="#e07a3f" />
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="start"
+     stroke="#ffffff" stroke-width="3.5" paint-order="stroke fill">
+    <text x="106" y="92"  font-size="12" font-weight="700" fill="#e07a3f">Zuf&#228;llige Gewichte</text>
+    <text x="106" y="108" font-size="11" fill="#4a4a4a">hoher Fehler</text>
+  </g>
+
+  <!-- ===================================================================
+       ENDE — optimierte Gewichte, niedriger Fehler
+       =================================================================== -->
+  <circle cx="500" cy="295.1" r="6" fill="#00a294" />
+  <line x1="452" y1="262" x2="493" y2="288" stroke="#9e9e9e" stroke-width="1.5" stroke-dasharray="4 3" />
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle">
+    <text x="418" y="234" font-size="12" font-weight="700" fill="#00a294">Optimierte Gewichte</text>
+    <text x="418" y="250" font-size="11" fill="#4a4a4a">niedriger Fehler</text>
+  </g>
+
+  <!-- ===================================================================
+       BILDUNTERSCHRIFT
+       =================================================================== -->
+  <text x="280" y="384" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600"
+        fill="#4a4a4a" text-anchor="middle">Trainingsziel: Der Loss soll &#252;ber die Zeit sinken</text>
+</svg>
