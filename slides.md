@@ -3787,7 +3787,7 @@ layout: header-cols
 - Finale Vorhersage (z.B. 1 Wert: Betrugswahr­scheinlichkeit)
 - Auch nur Neuronen mit Gewichten
 
-Jeder Pfeil zwischen Schichten ist ein **Gewicht** — ein trainierbarer Parameter. Das Diagramm rechts zeigt das komplette Netz: die Hidden→Output-Verbindungen sind hervorgehoben.
+Jeder Pfeil zwischen Schichten ist ein **Gewicht** — ein trainierbarer Parameter.
 
 ::right::
 
@@ -3840,82 +3840,94 @@ Ohne diese Nichtlinearität könnten neuronale Netze auch bei Hunderten von Schi
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Sigmoid — historischer Standard für Wahrscheinlichkeiten
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
+::left::
+
 **Eigenschaften:**
-- Quetscht alle Eingaben in den Bereich (0, 1) — direkt als Wahrscheinlichkeit lesbar
-- Ideal für **binäre Klassifikation** (z.B. Betrug: Ja/Nein)
-- Sanfte, differenzierbare "S-Kurve"
+- Bereich (0, 1) — direkt als Wahrscheinlichkeit lesbar
+- Ideal für **binäre Klassifikation** (Betrug: Ja/Nein)
 
-**Nachteil:** Bei extremen Eingabewerten ist die Ableitung quasi null. Da Backpropagation (Cluster 6.4) diese Ableitungen schichtweise multipliziert, wird der Gradient in tiefen Netzen immer kleiner — das **Vanishing Gradient Problem**: frühe Schichten lernen kaum noch.
-
-**Wo heute noch genutzt:** Selten in Hidden Layers, manchmal noch in der Output-Schicht bei binärer Klassifikation.
+**Nachteil:** Bei extremen Werten ≈ 0 — der Gradient verschwindet in tiefen Netzen (**Vanishing Gradient**).
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
 ]" />
 
+::right::
+
+<img :src="'/sigmoid-kurve-diagramm.svg'" alt="Sigmoid-Kurve mit flachen Sättigungszonen" class="w-full max-h-[300px] object-contain" />
+
 ---
-layout: default
+layout: header-cols
 ---
 
 ## ReLU — moderner Standard für Hidden Layers
 
 $$\text{ReLU}(z) = \max(0, z)$$
 
+::left::
+
 **Eigenschaften:**
 - Stupide einfach: "Ist die gewichtete Summe positiv? Gib sie durch. Sonst gib 0."
-- Verhindert das Vanishing Gradient Problem (Ableitung ist immer 1 für z > 0)
-- Super effizient zu berechnen
+- **Standard in Hidden Layers** — fast alle modernen Netze verwenden ReLU
 
-**Wo genutzt:** **Standard in Hidden Layers** — fast alle modernen Netze verwenden ReLU.
-
-**Kleine Schwäche — "Dead Neurons":** Für z < 0 ist die Ableitung 0 — so ein Neuron lernt nie wieder. Leaky ReLU lässt einen winzigen negativen Durchsatz zu, um das zu vermeiden.
+**Kleine Schwäche — "Dead Neurons":** Für z < 0 ist die Ableitung 0 — so ein Neuron lernt nie wieder. Leaky ReLU lässt einen winzigen negativen Durchsatz zu.
 
 <LiteraturSource :sources="[
   { title: 'Nair, V., & Hinton, G. E. (2010). Rectified Linear Units Improve Restricted Boltzmann Machines. In ICML', year: '2010' },
 ]" />
 
+::right::
+
+<img :src="'/relu-kurve-diagramm.svg'" alt="ReLU-Kurve mit Dead-Neuron-Zone für negative z" class="w-full max-h-[300px] object-contain" />
+
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Tanh — zentrierte Alternative zu Sigmoid
 
 $$\tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}$$
 
+::left::
+
 **Eigenschaften:**
 - Wie Sigmoid, aber Ausgaben sind in (-1, 1) zentriert statt (0, 1)
-- Kann negative Werte darstellen
-- Ebenfalls anfällig für Vanishing Gradients
+- Kann negative Werte darstellen, ebenfalls anfällig für Vanishing Gradients
 
-**Wo genutzt:** Seltener als ReLU — manchmal noch in Rekurrenten Netzen (LSTM, GRU) oder speziellen Anwendungen.
+**Wo genutzt:** Seltener als ReLU — manchmal noch in Rekurrenten Netzen (LSTM, GRU).
+
+::right::
+
+<img :src="'/tanh-kurve-diagramm.svg'" alt="Tanh-Kurve im Vergleich zur Sigmoid-Kurve" class="w-full max-h-[300px] object-contain" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Softmax — Wahrscheinlichkeitsverteilung für Multiklassen
 
-Sigmoid war für 2 Klassen. Für **Klassifikation mit mehr als 2 Klassen** nutzt man **Softmax** — es liefert eine Wahrscheinlichkeit pro Klasse statt nur eine einzelne Zahl:
+Sigmoid war für 2 Klassen. Für **Klassifikation mit mehr als 2 Klassen** nutzt man **Softmax**:
 
 $$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}$$
 
-**Was macht das?** Softmax nimmt die Raw-Ausgaben des Netzes und wandelt sie in eine **Wahrscheinlichkeitsverteilung** um — alle Werte zwischen 0 und 1, summieren sich zu 1. Genutzt in der Output-Schicht bei **Mehrklassen-Klassifikation** (z.B. MNIST: 10 Klassen für die Ziffern 0–9):
+::left::
 
-```
-Raw Output:   [2.1, 0.3, -1.5, 1.0, -0.5, 0.8, 1.2, -0.2, 0.9, -1.0]
-Softmax:      [0.35, 0.08, 0.01, 0.12, 0.02, 0.10, 0.18, 0.03, 0.11, 0.01]
-```
+Softmax nimmt die Raw-Ausgaben des Netzes und wandelt sie in eine **Wahrscheinlichkeitsverteilung** um — alle Werte zwischen 0 und 1, summieren sich zu 1. Genutzt in der Output-Schicht bei **Mehrklassen-Klassifikation** (z.B. MNIST: 10 Klassen für die Ziffern 0–9).
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
 ]" />
+
+::right::
+
+<img :src="'/softmax-balken-diagramm.svg'" alt="Raw Output vs. Softmax-Wahrscheinlichkeiten für 10 MNIST-Klassen" class="w-full max-h-[340px] object-contain" />
 
 ---
 layout: default
