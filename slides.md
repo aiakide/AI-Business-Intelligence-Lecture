@@ -3712,12 +3712,14 @@ Neuronale Netze sind kein Spezialwerkzeug nur für Bilder — dieselbe Grundlogi
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Das künstliche Neuron — Schritt 1: Gewichtete Summe
 
 Jetzt wissen wir, dass neuronale Netze auf viele Datentypen passen. Aber **wie funktionieren sie eigentlich?** Wir fangen beim Kleinsten an: einem einzelnen Neuron.
+
+::left::
 
 Ein künstliches Neuron bildet zuerst eine gewichtete Summe seiner Eingaben:
 
@@ -3725,12 +3727,16 @@ $$z = \sum_{i=1}^{m} w_i x_i + b$$
 
 Dabei sind:
 - $x_i$ die Eingaben (z.B. Fahreralter, Schadenshistorie, Fahrzeugtyp)
-- $w_i$ die **Gewichte** (trainierbare Parameter — wie wichtig ist jede Eingabe?)
-- $b$ der **Bias** (Grundverschiebung — wie "aktivierungsfreudig" ist das Neuron von Natur aus?)
+- $w_i$ die **Gewichte** (trainierbare Parameter)
+- $b$ der **Bias** (Grundverschiebung)
 
 <LiteraturSource :sources="[
   { title: 'Rosenblatt, F. (1958). The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain. Psychological Review, 65(6), 386–408', url: 'https://doi.org/10.1037/h0042519', year: '1958' },
 ]" />
+
+::right::
+
+<img :src="'/neuron-aufbau-diagramm.svg'" class="max-h-72 mx-auto" alt="Aufbau eines künstlichen Neurons: gewichtete Summe und Aktivierung" />
 
 ---
 layout: default
@@ -3738,7 +3744,7 @@ layout: default
 
 ## Das künstliche Neuron — Schritt 2: Aktivierung
 
-Die gewichtete Summe $z$ allein reicht nicht — sie wird durch eine **Aktivierungsfunktion** $\sigma$ geschickt:
+Die gewichtete Summe $z$ allein reicht nicht — sie wird durch eine **Aktivierungsfunktion** $\sigma$ geschickt (rechte Hälfte des Diagramms von eben):
 
 $$a = \sigma(z)$$
 
@@ -3767,68 +3773,53 @@ Ein einzelnes Neuron reicht nicht — neuronale Netze stapeln Neuronen in **Schi
 
 ::right::
 
-```
-Input     Hidden
-(3)  →  (8)
- │       │ │ │ │
- ├──────→│ │ │ │
- ├──────→│ │ │ │
- └──────→│ │ │ │
-         └─┴─┴─┘
-```
+<img :src="'/netzwerk-schichten-diagramm.svg'" class="max-h-72 mx-auto" alt="Neuronales Netz aus Input- und Hidden-Schicht" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Neuronen in Schichten organisieren — Output-Schicht
+
+::left::
 
 **Output-Schicht**
 - Finale Vorhersage (z.B. 1 Wert: Betrugswahr­scheinlichkeit)
 - Auch nur Neuronen mit Gewichten
 
-```
-Hidden      Output
-(8)       →  (1)
- │ │ │ │      │
- │ │ │ │  ───→●
- └─┴─┴─┘
-```
+Jeder Pfeil zwischen Schichten ist ein **Gewicht** — ein trainierbarer Parameter. Das Diagramm rechts zeigt das komplette Netz: die Hidden→Output-Verbindungen sind hervorgehoben.
 
-Jeder Pfeil zwischen Schichten ist ein **Gewicht** — ein trainierbar Parameter.
+::right::
+
+<img :src="'/netzwerk-schichten-diagramm.svg'" class="max-h-72 mx-auto" alt="Neuronales Netz mit hervorgehobener Output-Schicht" />
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Der Forward Pass — Datenfluss durch die Schichten
 
 **Forward Pass** bedeutet: Die Eingaben fließen von der Input-Schicht zur Output-Schicht durch. Bei jeder Schicht passiert das Gleiche:
 
+::left::
+
 1. Gewichtete Summe aller Eingaben berechnen: $z = Wx + b$
 2. Aktivierungsfunktion anwenden: $a = \sigma(z)$
 3. Diese Ausgabe $a$ wird zur Eingabe der nächsten Schicht
 
-**Beispiel (vereinfacht):**
-```
-Input: [25, 3, 1]  (Fahreralter, Schadenshistorie, Fahrzeugtyp-Klasse)
-  ↓
-Hidden-Neuron 1: z₁ = 0.5·25 + 0.3·3 - 0.1·1 + (-2) = 11.8 → σ(11.8) = a₁
-Hidden-Neuron 2: z₂ = -0.2·25 + 0.8·3 + 0.4·1 + 1 = 1.2 → σ(1.2) = a₂
-... (6 weitere Hidden-Neuronen ähnlich)
-  ↓
-Output-Neuron: z_out = 0.1·a₁ + 0.3·a₂ + ... = 0.68 → σ(0.68) = 0.66
-  ↓
-Vorhersage: "Betrugswahr­scheinlichkeit 66%"
-```
+**Konkret:** Input [25, 3, 1] (Fahreralter, Schadenshistorie, Fahrzeugtyp) fließt durch die Hidden-Schicht und ergibt am Output $\sigma(0.68) = 0.66$ — eine Betrugswahrscheinlichkeit von 66%.
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
 ]" />
+
+::right::
+
+<img :src="'/forward-pass-diagramm.svg'" class="max-h-80 mx-auto" alt="Forward Pass: Datenfluss vom Input zur Vorhersage" />
 
 ---
 layout: default
@@ -4049,16 +4040,18 @@ Ein Trainingsschritt läuft in drei Etappen ab:
 **Technisch** nutzt Backprop die **Kettenregel** (Chain Rule) — hier reicht die Intuition: Fehler fließt rückwärts, jedes Gewicht erfährt seine Korrekturrichtung.
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Ein vollständiger Trainingsschritt zusammengefasst
 
-**Schritt 1 — Forward Pass:** Netz macht eine Vorhersage $\hat{y} = \text{netz}(x)$
+::left::
 
-**Schritt 2 — Loss berechnen:** $L = \text{loss}(\hat{y}, y)$ (z.B. MSE oder Cross-Entropy)
+**Schritt 1 — Forward Pass:** Vorhersage $\hat{y} = \text{netz}(x)$
 
-**Schritt 3 — Backward Pass:** Berechne für jedes Gewicht $w$ den Gradienten $\frac{\partial L}{\partial w}$
+**Schritt 2 — Loss berechnen:** $L = \text{loss}(\hat{y}, y)$
+
+**Schritt 3 — Backward Pass:** Gradient $\frac{\partial L}{\partial w}$ für jedes Gewicht
 
 **Schritt 4 — Gradient Descent:** $w := w - \alpha \cdot \frac{\partial L}{\partial w}$
 
@@ -4067,6 +4060,10 @@ layout: default
 <LiteraturSource :sources="[
   { title: 'LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep Learning. Nature, 521(7553), 436–444', url: 'https://doi.org/10.1038/nature14539', year: '2015' },
 ]" />
+
+::right::
+
+<img :src="'/backprop-zyklus-diagramm.svg'" class="max-h-96 mx-auto" alt="Trainingszyklus: Forward Pass, Loss, Backward Pass, Gewichtsupdate" />
 
 ---
 layout: default
