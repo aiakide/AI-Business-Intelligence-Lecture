@@ -101,23 +101,36 @@ Case: Kunden-/Versichertensegmentierung.
 - [x] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3) — authored, approved (2026-09-02), 6 Folien
 - [x] Wie lernt das Netz? (Loss-Funktion, Gradient Descent, Backpropagation) (6.4) — authored, approved (2026-09-02), 6 Folien
 - [x] Batch & Epoch (6.5) — authored, approved (2026-09-02), 4 Folien (nach Neuplanung von Position 6.2 hierher verschoben, siehe narrative-thread.md §24-26)
-- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.6)
-- [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it) (6.7)
+- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.6) — chapter closes here, generic MLP-level
 
-Case: Kfz-Schadensfotos (primary) + MNIST (secondary/classic-example) + Case-Diversity-Folie zeigt Text/Zeitreihen als weitere DL-Anwendungsfelder.
+Case: Versicherer-Tabellendaten (Fahreralter/Schadenshistorie/Fahrzeugtyp) durchgängig für die generischen Grundlagen; Case-Diversity-Folie zeigt Bilder/Text/Zeitreihen als weitere DL-Anwendungsfelder mit Verweis auf die dedizierten Folgekapitel.
+
+**Renumbering-Entscheidung (2026-09-02, from user):** MNIST/CNN wandert NICHT als 6.7 ans Kapitel-6-Ende, sondern wird Teil eines neuen, eigenständigen **Kapitel 7 — Computer Vision** (siehe §4a) — spiegelt die Tiefe, die NLP als eigenes Kapitel bekommt (Transformer/Attention), statt CNN-Architektur nur oberflächlich am Rand von Kapitel 6 zu behandeln. Verschiebt: NLP (bisher Kapitel 7) → **Kapitel 8**, Vertiefungen (bisher Kapitel 8–10) → **Kapitel 9–11**. Grund: Modulbeschreibung nennt "Objekt-/Gesichtserkennung" explizit (§8 unten) — mit nur einem MLP-Beispiel am Kapitel-6-Ende wäre das nicht wirklich abgedeckt.
 
 **Status (2026-09-02):** Cluster 6.0–6.5 fertig und approved (~29 Folien). Nach User-Feedback komplett umstrukturiert: Reihenfolge korrigiert (Neuron-Grundlagen → Aktivierungsfunktionen → Loss/Gradient Descent/Backprop → erst dann Batch/Epoch, statt Batch/Epoch direkt nach "ML vs. DL"), Case-Diversity-Folie ergänzt (DL ≠ nur Bilder), neues Kapitel-Titelbild (`ai-brain-bro.svg` statt Dopplung mit Kapitel 4). Quellen verifiziert: LeCun/Bengio/Hinton (2015), Halevy/Norvig/Pereira (2009), Pérez-Zarate et al. (2024), McCulloch & Pitts (1943), Rosenblatt (1958), Goodfellow et al. (2016), Rumelhart et al. (1986), Krizhevsky et al. (2012), Vaswani et al. (2017), Hochreiter & Schmidhuber (1997), Cybenko (1989), Nair & Hinton (2010). Details, vollständige QA-Historie in narrative-thread.md §24-26.
 
 **Source assessment (2026-08-23):** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` covers "ML vs. DL" and "Batch/Epoch" well and reusably. Gaps: **Softmax is entirely missing** (needs fresh research), and all code is **PyTorch**, not Keras — user decided (2026-08-23) to keep PyTorch rather than force Keras, so `dl.md`'s code style is directly usable as a base after case-rewrite. Sigmoid stays in scope despite being supplanted by ReLU in hidden layers — it's the deliberate callback to Kapitel 1's logistic-regression sigmoid formula. `dl.md` also covers far more than this chapter's budget allows (full optimizer zoo, full CNN theory, Transfer Learning) — treat the overflow as a candidate for Kapitel 8–10, not for Kapitel 6 itself. `dl.md`'s MNIST CNN code (PyTorch) is a usable base for the new Handschrifterkennung example. See narrative-thread.md for full agent report.
 
-## 5. Kapitel 7 — NLP
+## 4a. Kapitel 7 — Computer Vision (NEU, 2026-09-02, from user)
+- [ ] Warum CNN statt Dense-Netz für Bilder? (Motivation: räumliche Struktur, Parameterexplosion bei pixelweisem Dense-Netz)
+- [ ] Convolution-Operation (Filter/Kernel, Feature Maps)
+- [ ] Pooling (Downsampling, z.B. Max-Pooling)
+- [ ] CNN-Architektur im Ganzen (Conv → ReLU → Pool → ... → Dense → Output)
+- [ ] MNIST-Ziffernerkennung als PyTorch-CNN-Anwendungsbeispiel (verschoben von altem 6.7 hierher)
+- [ ] Objekt-/Gesichtserkennung — literal aus Modulbeschreibung (§8), bisher ungeklärt ob eigene Folie/Beispiel nötig oder ob Kfz-Schadensfotos + MNIST als CNN-Cases reichen — jetzt mit eigenem Kapitel eher machbar, zu entscheiden bei Planung
+
+Case: Kfz-Schadensfotos (primary, schließt den Kreis zum Versicherer-Home-base) + MNIST (secondary/classic-example, CNN-Code-Basis bereits in `dl.md` Zeilen ~900-1010 vorhanden).
+
+**Status:** Noch nicht geplant — nächster Schritt nach Kapitel-6-Abschluss (6.6 PyTorch), volle Plan→Research→Author→QA-Schleife nötig.
+
+## 5. Kapitel 8 — NLP (verschoben von Kapitel 7, siehe Renumbering-Entscheidung oben)
 - [ ] Transformer (Multi-Head Attention, Sequenzverarbeitung)
 - [ ] NLP-Grundlagen (Tokenisierung, Morphologie, Syntax, Semantik, Diskurs)
 - [ ] Sentimentanalyse
 
 Case: Freitext aus Schadensmeldungen / Kundenbewertungen.
 
-## 6. Kapitel 8–10 — Vertiefungen
+## 6. Kapitel 9–11 — Vertiefungen (verschoben von Kapitel 8–10)
 - [ ] Maximum-Likelihood-Methode
 - [ ] Faktorenanalyse
 - [ ] Eigenwerte
@@ -132,8 +145,9 @@ in-deck.
 - [x] Exercise — Kapitel 4 (Supervised ML) — worksheet + solution authored at `exercise/session-4/00-supervised-ml/{uebung.md,loesung.md}` (2026-08-29, from user request), mirroring Kapitel 1's structure. 3 required tasks (Confusion-Matrix/Metriken von Hand on a fresh 20-case table, KNN von Hand incl. a K=3/K=9 sensitivity sub-question, Recall-vs-Precision business decision with a cost-sensitivity twist) + 1 bonus (Faustregel-style algorithm-choice scenarios). All example data is new (not copied from slides.md) to avoid trivial memorization, same Kfz-Betrugserkennung case.
 - [x] Exercise — Kapitel 5 (Unsupervised / Clustering) — Jupyter-Notebooks (uebung.ipynb + loesung.ipynb) in `/Users/nils/projects/fom/repos/ai-business-intelligence/exercise/session-5/00-clustering/`. **Abweichung vom Markdown-Muster:** Notebooks statt Worksheets, User-Entscheidung (Kapitel 5 ist code-lastig: K-Means/DBSCAN mit Scikit-Learn). **Inhalt:** Synthetischer Kfz-Versicherer-Datensatz (228 Kunden, 3 überlappende Gruppen + 8 bewusste Ausreißer, `numpy.random.default_rng(42)`); Rohdaten-Exploration → Z-Transformation → K-Means (K=3 fest + Interpretation) → WCSS/Elbow-Methode (YOU-DO: K=1..10 loopen, inertia plotten) → DBSCAN (ungünstig ε, dann Parameter-Tuning) → Hierarchisches Clustering (Dendrogramm, Vergleich mit K-Means) → Mini-Exercise (K-Means vs. DBSCAN für verschiedene Fragen). BIRCH konzeptuell in Vorlesung, nicht praktisch in Übung. 52 Zellen, I-DO/WE-DO/YOU-DO-Struktur, konsistent mit session-1/01-python-vertiefung/; vollständig ausgeführt und validiert (nbformat.validate() + nbconvert/nbclient).
 - [ ] Exercise — Kapitel 6 (Deep Learning)
-- [ ] Exercise — Kapitel 7 (NLP)
-- [ ] Exercise — Kapitel 8–10 (Vertiefungen)
+- [ ] Exercise — Kapitel 7 (Computer Vision, neu)
+- [ ] Exercise — Kapitel 8 (NLP)
+- [ ] Exercise — Kapitel 9–11 (Vertiefungen)
 
 ## 8. Curriculum literal-example coverage
 The Modulbeschreibung names *Handschrifterkennung* and *Objekt-/Gesichtserkennung*
@@ -141,10 +155,15 @@ under "Weitere Anwendungsbeispiele." The narrative thread deliberately substitut
 Kfz-Schadensfotos as the on-theme DL example instead.
 
 **Decided (2026-08-23, from user):** Handschrifterkennung (MNIST) added as a secondary
-example in Kapitel 6, alongside — not instead of — Kfz-Schadensfotos (see §4). Basis:
-`dl.md` already has working MNIST/CNN code to adapt. Objekt-/Gesichtserkennung remains
-undecided — no source material found for it yet; still open if it needs literal coverage
-or if Kfz-Schadensfotos (itself a form of object/damage recognition) satisfies the item.
+example alongside — not instead of — Kfz-Schadensfotos.
+
+**Updated (2026-09-02, from user):** Both examples moved to the new dedicated **Kapitel 7
+— Computer Vision** (see §4a) instead of living at the tail of Kapitel 6 — mirrors the
+depth NLP gets as its own chapter. `dl.md` already has working MNIST/CNN code to adapt.
+Objekt-/Gesichtserkennung remains undecided — no source material found for it yet, but
+with a full dedicated CV chapter now planned there is more room to fit it if needed;
+decide during Kapitel-7 planning whether Kfz-Schadensfotos + MNIST already satisfy the
+Modulbeschreibung's item or whether a third literal example is warranted.
 
 ---
 

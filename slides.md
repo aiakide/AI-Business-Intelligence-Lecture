@@ -2720,10 +2720,10 @@ layout: default
 → k-Nearest Neighbors (KNN). Schnell zu implementieren, aber speicherintensiv — nur für kleine Datenmengen.
 
 **Bilder** (Kfz-Schadensfotos, Dokumenten-Scans):
-→ Convolutional Neural Networks (CNN). Kommt in Kapitel 6.
+→ Convolutional Neural Networks (CNN). Kommt in Kapitel 7.
 
 **Text** (Betrugs-Verdachtsbeschreibungen, Chat-Protokolle):
-→ Natural Language Processing (NLP). Kommt in Kapitel 7.
+→ Natural Language Processing (NLP). Kommt in Kapitel 8.
 
 <LiteraturSource :sources="[
   { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 10 – Boosting and Additive Trees', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
@@ -3701,8 +3701,8 @@ Neuronale Netze sind kein Spezialwerkzeug nur für Bilder — dieselbe Grundlogi
 
 | **Datentyp** | **Architektur** | **Anwendungsbeispiel** |
 |:---|:---|:---|
-| **Bilder** | Convolutional Neural Networks (CNN) | Kfz-Schadensfotos (Kapitel 6 Fokus) |
-| **Text / Sequenzen** | Transformer (Multi-Head Attention) | Schadenstexte, Sentiment-Analyse (Kapitel 7) |
+| **Bilder** | Convolutional Neural Networks (CNN) | Kfz-Schadensfotos (Kapitel 7) |
+| **Text / Sequenzen** | Transformer (Multi-Head Attention) | Schadenstexte, Sentiment-Analyse (Kapitel 8) |
 | **Zeitreihen** | LSTM / Recurrent Neural Networks | Transaktionsmuster, Betrugserkennung in Echtzeit |
 
 <LiteraturSource :sources="[
