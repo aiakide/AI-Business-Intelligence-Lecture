@@ -117,14 +117,6 @@
     <circle cx="400" cy="305" r="18" />
     <circle cx="400" cy="365" r="18" />
   </g>
-  <g font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
-     fill="#1e1e1e" text-anchor="middle">
-    <text x="400" y="131">&#963;</text>
-    <text x="400" y="191">&#963;</text>
-    <text x="400" y="251">&#963;</text>
-    <text x="400" y="311">&#963;</text>
-    <text x="400" y="371">&#963;</text>
-  </g>
 
   <!-- ===================================================================
        SCHRITT 3 — OUTPUT-NEURON
