@@ -1164,6 +1164,28 @@ Zeit, selbst zu rechnen: Ein Aufgabenblatt mit zwei Kfz-Versicherer-Datensätzen
 <Illustration src="/illustrations/analytics-bro.svg" alt="Statistik-Übung" width="90%" />
 
 ---
+layout: default
+---
+
+## Key Takeaways – Statistik 🔑
+
+- **Lagemaße:** Mittelwert, Median und Modus beschreiben die "Mitte" einer Verteilung — aber der Mittelwert reagiert empfindlich auf Ausreißer, Median und Modus sind robuster
+- **Varianz & Standardabweichung:** quantifizieren, wie stark Werte um den Mittelwert streuen
+- **Kovarianz & Korrelation:** zeigen Richtung und Stärke eines linearen Zusammenhangs zwischen zwei Variablen — aber Korrelation ist keine Kausalität
+- **z-Transformation:** standardisiert Werte unterschiedlicher Skalen auf eine gemeinsame, vergleichbare Basis
+
+---
+layout: default
+---
+
+## Key Takeaways – Statistik 🔑
+
+- **Lineare Regression & R²:** die Regressionsgerade beschreibt den Zusammenhang zweier Variablen, R² sagt, wie viel Varianz dadurch erklärt wird
+- **Logistische Regression & Odds Ratio:** wandelt eine stetige Vorhersage über die Sigmoid-Funktion in eine Klassifikations-Wahrscheinlichkeit um
+- **Interaktionseffekte:** die Wirkung einer Variable kann von einer anderen Variable abhängen — das Modell muss das explizit abbilden
+- **Bootstrapping & Signifikanz ($p$-Wert):** quantifizieren die Unsicherheit einer Schätzung und helfen zu entscheiden, ob ein Effekt echt oder Zufall ist
+
+---
 layout: chapter
 ---
 
@@ -2008,6 +2030,19 @@ NumPy, Pandas und Matplotlib sind die Basis. Der nächste Schritt ist **Scikit-L
 layout: default
 ---
 
+## Key Takeaways – Python-Vertiefung 🔑
+
+- **Grundsyntax:** Variablen, Listen und `print()` sind die Bausteine, Module (`import`) erweitern den Werkzeugkasten
+- **Kontrollstrukturen:** `if`/`elif`/`else` trifft Entscheidungen, `for`- und `while`-Schleifen automatisieren Wiederholungen über ganze Datensätze
+- **Die Kopier-Falle:** Listen werden per Referenz zugewiesen, nicht kopiert — ein häufiger Fehlerquell bei veränderlichen Objekten
+- **Funktionen:** Logik einmal definieren, überall im Portfolio wiederverwenden
+- **Klassen & Objekte:** eine Klasse ist der Bauplan, ein Objekt die konkrete Instanz — Daten und Methoden gehören zusammen
+- **NumPy, Pandas & Matplotlib:** vektorisierte Berechnung, tabellarische Daten als DataFrame, Ergebnisse sichtbar machen — die Werkzeuge, mit denen echte Versicherer arbeiten
+
+---
+layout: default
+---
+
 ## [Was Du jetzt kannst]{style="color:var(--slidev-theme-primary)"}
 
 Du verstehst die Statistik dahinter (Mittelwert, Streuung, Korrelation, Regression), kannst sie in reinem Python nachbauen (mit Schleifen, Funktionen, Objekten), und kennst jetzt die Werkzeuge, mit denen echte Versicherer ihre 400.000 Verträge tatsächlich auswerten.
@@ -2291,6 +2326,18 @@ Und die letzten drei Phasen:
 | **Deployment** | Kapitel 3 + laufend | Docker-Image bauen, auf Kubernetes ausrollen, Monitoring einrichten |
 
 Mit jedem neuen Algorithmus wenden wir diese Phasen an — manchmal in wenigen Minuten (ein schnelles Experiment), manchmal in Wochen (ein echtes Produktionsmodell). Aber die Struktur bleibt immer gleich.
+
+---
+layout: default
+---
+
+## Key Takeaways – Tools & Workflows 🔑
+
+- **Jupyter Notebooks:** Code, Dokumentation und Visualisierung in einer interaktiven Umgebung — das Werkzeug echter Data-Science-Arbeit
+- **Docker:** verpackt Code und Abhängigkeiten reproduzierbar in Images und Container — läuft überall gleich
+- **Kubernetes:** orchestriert Container deklarativ im großen Maßstab, statt jeden Schritt manuell zu steuern
+- **Git & GitHub:** Versionskontrolle und Zusammenarbeit im Team über Branches und Merges
+- **CRISP-DM:** ein sechsphasiger, zyklischer Prozess von Business Understanding bis Deployment — der rote Faden hinter jedem Modell, das wir bauen
 
 ---
 layout: statement
@@ -2749,6 +2796,33 @@ Alle Details im separaten Aufgabenblatt — oder mit Python und Scikit-Learn üb
 ::right::
 
 <Illustration src="/illustrations/robotics-bro.svg" alt="Klassifikation & Vorhersage" width="90%" />
+
+---
+layout: default
+---
+
+## Key Takeaways – Supervised Learning 🔑
+
+<br>
+
+### [📊 Modellbewertung]{style="text-decoration:underline var(--slidev-theme-primary)"}
+- **Train/Validation-Split & Overfitting/Underfitting:** Modellkomplexität muss zum Bias-Variance-Tradeoff passen
+- **Confusion Matrix:** TP, TN, FP und FN bilden die Basis aller Klassifikationsmetriken
+- **Accuracy, Precision, Recall, F1-Score:** unterschiedliche Blickwinkel auf Modellgüte — welche Metrik zählt, entscheiden die Business-Kosten eines Fehlers
+
+---
+layout: default
+---
+
+## Key Takeaways – Supervised Learning 🔑
+
+<br>
+
+### [🧠 Algorithmen]{style="text-decoration:underline var(--slidev-theme-primary)"}
+- **k-Nearest Neighbors (KNN):** klassifiziert über die K nächsten Nachbarn — einfach, aber speicherintensiv bei großen Datenmengen
+- **Entscheidungsbäume:** transparente Wenn-Dann-Regeln, leicht nachvollziehbar
+- **Random Forest:** Ensemble vieler Bäume (Bagging) — schnell, stabil, eine gute Baseline
+- **Gradient Boosting:** sequenzielles Ensemble, das die Fehler seiner Vorgänger korrigiert — oft genauer, aber komplexer und overfitting-anfälliger
 
 ---
 layout: statement
@@ -3523,20 +3597,14 @@ Im Gegensatz zur visuellen Elbow-Methode liefert Silhouette eine **mathematische
 layout: default
 ---
 
-## Zusammenfassung — Vier Algorithmen, vier Perspektiven
+## Key Takeaways – Clusteranalyse & Segmentierung 🔑
 
-Du kennst jetzt vier Clustering-Algorithmen, die jeweils unterschiedliche Fragen beantworten:
-
-| **Algorithmus** | **Frage** | **Stärke** |
-|---|---|---|
-| **K-Means** | K runde Gruppen? | Schnell, stabil |
-| **Hierarchisch** | Verschmelzung per Dendrogramm? | Interpretierbar |
-| **BIRCH** | Terabyte-Datenmengen? | Speichereffizient |
-| **DBSCAN** | Beliebige Formen + Anomalien? | Flexibel, robust |
-
-<LiteraturSource :sources="[
-  { title: 'Hastie, Tibshirani, Friedman: The Elements of Statistical Learning, Kap. 14 – Unsupervised Learning', url: 'https://doi.org/10.1007/978-0-387-84858-7', year: '2009' },
-]" />
+- **Distanzmaße:** Euklidisch (Standard), Manhattan (schrittweise) und Cosinus (Winkel statt Betrag) — die richtige Wahl hängt vom Merkmalsraum ab
+- **K-Means:** schnell und stabil, teilt Kunden in K runde Cluster
+- **Hierarchisches Clustering:** das Dendrogramm macht Verschmelzungen nachvollziehbar, K muss nicht vorab feststehen
+- **BIRCH:** komprimiert Datenpunkte in CF-Bäumen — speichereffizient auch bei Terabyte-Datenmengen
+- **DBSCAN:** dichtebasiert, erkennt beliebige Cluster-Formen und markiert Ausreißer automatisch
+- **K-Wahl:** Elbow-Methode (visuell) und Silhouette-Koeffizient (mathematisch) helfen, die passende Cluster-Anzahl zu finden
 
 ---
 layout: chapter
@@ -4465,6 +4533,19 @@ Nach diesem Kapitel kannst du:
 - Die Netz-Architektur auf einen eigenen Datensatz anpassen (z.B. von Kaggle) — Anzahl der Input-Features und Loss-Funktion ändern, der Rest bleibt gleich
 
 *(Datenaufbereitung — Laden, Normalisieren, Train/Test-Split — ist ein eigenes Handwerk und nicht Teil dieses Kapitels.)*
+
+---
+layout: default
+---
+
+## Key Takeaways – Deep Learning 🔑
+
+- **Deep Learning vs. Machine Learning:** bei unstrukturierten Daten (Bilder, Text) übernehmen tiefe Netze das Feature-Engineering selbst — mit entsprechend höherem Daten- und Rechenbedarf
+- **Das Neuron & Schichten:** gewichtete Summe + Bias + Aktivierungsfunktion, organisiert in Input-, Hidden- und Output-Schichten
+- **Aktivierungsfunktionen:** ReLU, Sigmoid, Tanh und Softmax bringen die Nichtlinearität, ohne die komplexe Muster nicht lernbar wären
+- **Training — Loss & Backpropagation:** der Loss misst den Fehler, die Kettenregel propagiert ihn rückwärts zu Gradienten für jedes Gewicht
+- **Batch & Epoch:** Daten werden in Batches verarbeitet, ein vollständiger Durchlauf durch alle Batches ist eine Epoche
+- **PyTorch:** `nn.Module`, `__init__` und `forward()` übersetzen die Mathematik in trainierbaren Python-Code
 
 ---
 layout: default
