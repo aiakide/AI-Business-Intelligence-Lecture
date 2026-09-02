@@ -28,7 +28,8 @@ exactly when the method demands it — and we make that switch itself a teaching
 | Statistik & Regression | **Insurer** — Schadenshöhe vorhersagen (lineare Regression), Ausfall-/Betrugswahrscheinlichkeit (logistische Regression) | Tabellarische Vorhersage ist genau die Stärke — natürlicher Fit |
 | Supervised ML | **Insurer** — Betrugserkennung als Klassifikation (Random Forest, KNN) | Gelabelte tabellarische Klassifikation, echter Use Case |
 | Unsupervised / Clustering | **Kunden-/Versichertensegmentierung** (Verhaltensgruppen ohne Labels) | Clustering motiviert sich über *unbekannte* Segmente — Segmentierung ist das Lehrbuchbeispiel. Bonus-Brücke: Clustering-für-Anomalien führt zurück zur Betrugserkennung |
-| Deep Learning | **Kfz-Schadensfotos** — Schadenshöhe/Schadensart aus Unfallbildern (Computer Vision) | DL glänzt bei *unstrukturierten* Daten (Bildern). Versicherer nutzen CV real für Schadenfotos → schließt den Kreis zum Anker |
+| Deep Learning (Grundlagen) | **Versicherer-Tabellendaten** (Fahreralter/Schadenshistorie/Fahrzeugtyp) — generisches Netz, MLP-Niveau | Neuron/Training-Mechanik lässt sich am selben vertrauten tabellarischen Case zeigen wie Kapitel 4/5, bevor die Bild-spezifische Architektur (CNN) dazukommt |
+| Computer Vision (eigenes Kapitel, seit 2026-09-02) | **Kfz-Schadensfotos** — Schadenshöhe/Schadensart aus Unfallbildern; **MNIST** als klassisches Zweitbeispiel | DL glänzt bei *unstrukturierten* Daten (Bildern). Versicherer nutzen CV real für Schadenfotos → schließt den Kreis zum Anker. Eigenes Kapitel spiegelt die Tiefe, die NLP als eigenes Architektur-Kapitel bekommt |
 | NLP / Sentiment | **Freitext aus Schadensmeldungen / Kundenbewertungen** | Text → NLP; bleibt am Versicherer-Kontext |
 
 **Home base = der Versicherer.** Segmentierung und Bildanalyse leihen sich das
@@ -2175,8 +2176,18 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 
 **✅ Visuelle Ergänzung "Welche Gewichte" (2026-09-02, User-Wunsch):** Neues Diagramm `netzwerk-gewichte-update-diagramm.svg` — basiert 1:1 auf `netzwerk-schichten-diagramm.svg` (identisches Layout/Feature-Labels), markiert aber zusätzlich alle 20 Gewichte (Linien) und 6 Bias-Werte (+b-Badges an den Neuronen) orange als Update-Ziele, mit Bildunterschrift "26 Parameter insgesamt". Folie "Welche Gewichte werden angepasst? Wie oft?" dafür von `default` auf `header-cols` umgestellt (Text links, Diagramm rechts). Visuell verifiziert, kein Overflow.
 
+**✅ Curriculum-Entscheidung: neues Kapitel 7 — Computer Vision (2026-09-02, from user):** User fragte, ob Bilder ein eigenes Kapitel bekommen sollen, analog zu NLP (das als eigenes Architektur-Kapitel mit Transformer/Attention geplant ist), statt CNN-Details nur beiläufig am Ende von Kapitel 6 zu behandeln. Nach Abwägung dreier Optionen (eigenes Kapitel / kompakter Cluster in Kapitel 6 / Asymmetrie akzeptieren) entschied der User sich für die vollständige Symmetrie zu NLP: **eigenes Kapitel**.
+
+**Konsequenzen:**
+- Kapitel 6 (Deep Learning Grundlagen) endet jetzt bei **6.6** (PyTorch-Spezifikation, generisches MLP-Niveau) — kein MNIST/CNN mehr als 6.7 am Kapitelende.
+- **NEUES Kapitel 7 — Computer Vision:** CNN-Architektur (Convolution/Filter/Feature Maps, Pooling, Gesamtarchitektur), MNIST-Ziffernerkennung als PyTorch-CNN-Beispiel (verschoben von altem 6.7 hierher), Case: Kfz-Schadensfotos (schließt den Kreis) + MNIST. Objekt-/Gesichtserkennung (Modulbeschreibung, bisher offen) hat jetzt mehr Raum, zu entscheiden bei der Kapitel-7-Planung.
+- **Renumbering:** NLP (bisher Kapitel 7) → **Kapitel 8**. Vertiefungen (bisher Kapitel 8–10) → **Kapitel 9–11**.
+- Bestehende "Kapitel 6"/"Kapitel 7"-Verweise in slides.md korrigiert: Algorithmen-Faustregel-Folie (Kapitel 4, CNN→jetzt Kapitel 7, NLP→jetzt Kapitel 8) und die Case-Diversity-Tabelle in Kapitel 6.1 (Bilder→Kapitel 7, Text→Kapitel 8).
+- TODO.md §4/§4a/§5/§6/§7/§8 entsprechend aktualisiert (neuer §4a-Abschnitt für Kapitel 7 Computer Vision eingefügt).
+- Kapitel-7-Planung (voller Plan→Research→Author→QA-Zyklus) ist noch nicht gestartet — nächster Schritt bleibt zunächst Cluster 6.6 (PyTorch), danach Kapitel 7 komplett neu planen.
+
 **⬜ AUSSTEHEND (nächste Phase):**
-1. **Cluster 6.6 (PyTorch):** Research + Authoring
-2. **Cluster 6.7 (MNIST):** Research + Authoring nach 6.6-Bestätigung
+1. **Cluster 6.6 (PyTorch):** Research + Authoring — schließt Kapitel 6 ab
+2. **Kapitel 7 (Computer Vision, NEU):** vollständige Neuplanung nach Kapitel-6-Abschluss
 
 ---
