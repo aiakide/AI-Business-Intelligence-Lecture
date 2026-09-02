@@ -4091,9 +4091,9 @@ layout: default
 
 Die **Kettenregel** (Chain Rule) besagt: Der Gesamteffekt einer Kette von Abhängigkeiten ist das **Produkt** der Einzeleffekte jedes Schritts.
 
-<img :src="'/kettenregel-diagramm.svg'" alt="Kettenregel: der Gesamteffekt von Gewicht w auf den Loss ist das Produkt der lokalen Ableitungen entlang der Kette w → z → a → L" style="max-height: 240px; margin: 0.5rem auto 0; display: block;" />
+<img :src="'/kettenregel-diagramm.svg'" alt="Kettenregel: der Gesamteffekt von Gewicht w auf den Loss ist das Produkt der lokalen Ableitungen entlang der Kette w → z → a → L" style="max-height: 210px; margin: 0.5rem auto 0; display: block;" />
 
-**Rechenbeispiel:** Kennst Du die drei lokalen Effekte — $\frac{\partial L}{\partial a} = 0.4$, $\frac{\partial a}{\partial z} = 0.2$, $\frac{\partial z}{\partial w} = 3$ — multiplizierst Du sie einfach: $\frac{\partial L}{\partial w} = 0.4 \cdot 0.2 \cdot 3 = 0.24$. Kein Schritt der Kette muss dabei wissen, was in den anderen Schritten passiert — jeder liefert nur seinen eigenen lokalen Faktor.
+**Rechenbeispiel (angenommene Werte, nur zur Veranschaulichung der Multiplikation):** Angenommen, die drei lokalen Effekte wären $\frac{\partial L}{\partial a} = 0.4$, $\frac{\partial a}{\partial z} = 0.2$, $\frac{\partial z}{\partial w} = 3$ — dann multiplizierst Du sie einfach: $\frac{\partial L}{\partial w} = 0.4 \cdot 0.2 \cdot 3 = 0.24$. Kein Schritt der Kette muss dabei wissen, was in den anderen Schritten passiert — jeder liefert nur seinen eigenen lokalen Faktor.
 
 ---
 layout: default
