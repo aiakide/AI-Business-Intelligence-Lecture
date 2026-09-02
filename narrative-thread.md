@@ -2155,6 +2155,14 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 - User schlug vor, Epoch vor Batch zu erklären (nicht wie bisher umgekehrt) — didaktisch sinnvoller: erst das generelle Konzept (Epoch = ein voller Durchlauf), dann die praktische Notwendigkeit, ihn in kleinere Häppchen zu zerlegen (Batch). Texte umgeschrieben: Epoch-Folie endet jetzt mit einer Brücken-Frage ("Wie verarbeitest Du 100.000 Fotos praktisch..."), die die Batch-Folie direkt beantwortet. Zusammenfassungstabelle entsprechend umsortiert.
 - **QA:** Ein Overflow auf der Backpropagation-Folie (Titel zweizeilig + redundanter Text + Diagramm mit eigener Bildunterschrift) behoben durch Titel-Kürzung (einzeilig) und Streichen des redundanten "Die Idee"-Absatzes (das Diagramm hat bereits eine eigene erklärende Caption). Alle anderen Änderungen sofort clean.
 
+**✅ Gradient Descent & Backpropagation vertieft (2026-09-02, User-Feedback):**
+- User wünschte tiefere Erklärung zu Gradient Descent (Lernrate: wie ermitteln, welche Auswirkung; was zeigt die Grafik) und Backpropagation (was/wie wird berechnet, was ist die Kettenregel — vorher nur "hier reicht die Intuition").
+- NEUE Folie "Die Lernrate — Wie groß sollten die Schritte sein?" mit neuem Diagramm `lernrate-vergleich-diagramm.svg` (3-Panel-Vergleich: zu klein/passend/zu groß auf identischer Loss-Landschaft wie das Gradient-Descent-Diagramm), plus Text zur praktischen Ermittlung (Hyperparameter, typische Startwerte, Adam-Optimizer-Vorgriff auf 6.6).
+- NEUE Folie "Was wird eigentlich berechnet?" — erklärt konzeptionell, warum ein Gewicht den Loss nur indirekt über eine Kette (w→z→a→...→L) beeinflusst.
+- NEUE Folie "Die Kettenregel — Effekte multiplizieren" mit neuem Diagramm `kettenregel-diagramm.svg` (4-Stationen-Kette mit lokalen Ableitungen, mündet in Multiplikationsformel) plus konkretem Rechenbeispiel (0.4 · 0.2 · 3 = 0.24).
+- **QA-Incident:** Der "Was Du siehst"-Ergänzungssatz zur Gradient-Descent-Folie verursachte 2 Overflow-Runden — erst Overflow in der rechten Spalte, dann (nach Verschieben in die linke Spalte) erneuter Overflow dort, weil die linke Spalte bereits voll war (Intro+Metapher+Formel+2 Bullets). Lösung war NICHT Verschieben, sondern Streichen: der Diagramm-Verweis wurde als kurzer Halbsatz in die bestehende Metapher eingebaut statt als eigener Absatz. **Lektion:** bei bereits dichten header-cols-Spalten hilft Verschieben von Overflow-Text in die andere Spalte nicht, wenn beide Spalten schon voll sind — der Text muss echt reduziert werden, nicht nur umsortiert.
+- Alle Diagramme/KaTeX-Formeln verifiziert korrekt gerendert, finale Sequenz clean.
+
 **⬜ AUSSTEHEND (nächste Phase):**
 1. **Cluster 6.6 (PyTorch):** Research + Authoring
 2. **Cluster 6.7 (MNIST):** Research + Authoring nach 6.6-Bestätigung

@@ -4010,7 +4010,7 @@ layout: header-cols
 
 ::left::
 
-**Metapher:** Du bist ein Wanderer im nebligen Gebirge. Du spürst das **Gefälle** (Ableitung der Loss-Funktion) unter Deinen Füßen und machst Schritte **bergab** — nach vielen Schritten erreichst Du ein Tal (Minimum).
+**Metapher:** Du bist ein Wanderer im nebligen Gebirge. Du spürst das **Gefälle** unter Deinen Füßen und machst Schritte **bergab** (rechts im Diagramm zu sehen) — bis Du ein Tal erreichst (Minimum).
 
 **Mathematisch:** $w := w - \alpha \cdot \frac{\partial L}{\partial w}$
 
@@ -4024,6 +4024,20 @@ layout: header-cols
 ::right::
 
 <img :src="'/gradient-descent-diagramm.svg'" alt="Gradient Descent: schrittweiser Abstieg auf einer schüsselförmigen Loss-Kurve bis zum minimalen Loss, mit Tangente als Gradient" style="max-height: 300px; margin: 0 auto; display: block;" />
+
+---
+layout: default
+---
+
+## Die Lernrate — Wie groß sollten die Schritte sein?
+
+<img :src="'/lernrate-vergleich-diagramm.svg'" alt="Drei Lernraten-Szenarien: zu klein (sehr langsame Konvergenz), passend (stabile Konvergenz), zu groß (überschießt, kann divergieren)" style="max-height: 280px; margin: 0 auto; display: block;" />
+
+**Wie ermittelt man sie?** Die Lernrate ist ein **Hyperparameter** — Du legst sie vor dem Training fest und probierst typische Startwerte (z.B. 0,01 oder 0,001). In der Praxis übernehmen moderne Optimizer wie **Adam** einen Großteil dieser Arbeit: Sie passen die effektive Schrittweite während des Trainings automatisch pro Gewicht an (mehr dazu in Cluster 6.6).
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
 
 ---
 layout: default
@@ -4051,7 +4065,35 @@ Ein Trainingsschritt läuft in drei Etappen ab:
 2. **Loss & Backward Pass:** Fehler berechnen, Gradienten rückwärts propagieren
 3. **Gradient Descent:** Alle Gewichte anpassen
 
-**Technisch** nutzt Backprop die **Kettenregel** (Chain Rule) — hier reicht die Intuition: Fehler fließt rückwärts, jedes Gewicht erfährt seine Korrekturrichtung.
+**Aber wie genau** berechnet Backprop den Gradienten für ein Gewicht, das mitten im Netz liegt und den Loss nur indirekt beeinflusst? Das ist der Job der **Kettenregel**.
+
+---
+layout: default
+---
+
+## Was wird eigentlich berechnet?
+
+Für **jedes einzelne Gewicht** $w$ im Netz braucht Gradient Descent dieselbe Zahl: $\frac{\partial L}{\partial w}$ — "Wie stark ändert sich der Loss, wenn ich $w$ ein kleines bisschen ändere?"
+
+**Das Problem:** Ein Gewicht in einer frühen Schicht berührt den Loss nicht direkt. Seine Wirkung läuft über eine ganze Kette: Das Gewicht verändert die gewichtete Summe $z$, die verändert die Aktivierung $a$, die verändert (über weitere Schichten) die Vorhersage $\hat{y}$, die verändert den Loss $L$.
+
+**Die Frage dahinter:** Wie rechnet man den Gesamteffekt einer Änderung ganz am Anfang der Kette auf das Ergebnis ganz am Ende aus? Genau das leistet die Kettenregel.
+
+<LiteraturSource :sources="[
+  { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
+]" />
+
+---
+layout: default
+---
+
+## Die Kettenregel — Effekte multiplizieren
+
+Die **Kettenregel** (Chain Rule) besagt: Der Gesamteffekt einer Kette von Abhängigkeiten ist das **Produkt** der Einzeleffekte jedes Schritts.
+
+<img :src="'/kettenregel-diagramm.svg'" alt="Kettenregel: der Gesamteffekt von Gewicht w auf den Loss ist das Produkt der lokalen Ableitungen entlang der Kette w → z → a → L" style="max-height: 240px; margin: 0.5rem auto 0; display: block;" />
+
+**Rechenbeispiel:** Kennst Du die drei lokalen Effekte — $\frac{\partial L}{\partial a} = 0.4$, $\frac{\partial a}{\partial z} = 0.2$, $\frac{\partial z}{\partial w} = 3$ — multiplizierst Du sie einfach: $\frac{\partial L}{\partial w} = 0.4 \cdot 0.2 \cdot 3 = 0.24$. Kein Schritt der Kette muss dabei wissen, was in den anderen Schritten passiert — jeder liefert nur seinen eigenen lokalen Faktor.
 
 ---
 layout: header-cols

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" height="auto"
+     role="img" aria-labelledby="lrTitle lrDesc">
+  <title id="lrTitle">Wirkung der Lernrate auf den Gradient Descent</title>
+  <desc id="lrDesc">Drei nebeneinander liegende Panels zeigen dieselbe schüsselförmige Loss-Landschaft L von w. Links: eine zu kleine Lernrate erzeugt viele winzige Schritte, die das Minimum nach zehn Schritten noch nicht erreicht haben. Mitte: eine passende Lernrate führt mit vier gut bemessenen Schritten stabil in das Minimum. Rechts: eine zu große Lernrate überschießt das Minimum, springt im Zickzack auf die jeweils andere Seite der Schüssel und entfernt sich dabei immer weiter vom Tal – der Abstieg divergiert.</desc>
+
+  <defs>
+    <marker id="lr-ax" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#757575" />
+    </marker>
+    <marker id="lr-s1" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="4.5" orient="auto">
+      <polygon points="0 0, 9.5 4.5, 0 9" fill="#00776c" />
+    </marker>
+    <marker id="lr-s2" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="4.5" orient="auto">
+      <polygon points="0 0, 9.5 4.5, 0 9" fill="#00776c" />
+    </marker>
+    <marker id="lr-s3" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="4.5" orient="auto">
+      <polygon points="0 0, 9.5 4.5, 0 9" fill="#e07a3f" />
+    </marker>
+  </defs>
+
+  <!-- ===================================================================
+       PANEL: Lernrate zu klein
+       =================================================================== -->
+  <rect x="16" y="20" width="240" height="332" rx="6" fill="#ffffff" stroke="#e8e8e8" stroke-width="1.5" />
+  <text x="136" y="45" font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700" fill="#757575" text-anchor="middle">Lernrate zu klein</text>
+  <text x="136" y="62" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" fill="#4a4a4a" text-anchor="middle">sehr langsame Konvergenz</text>
+  <line x1="24" y1="305" x2="248" y2="305" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <line x1="24" y1="312" x2="24" y2="92" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <text x="24" y="84" font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" font-weight="700" fill="#1e1e1e" text-anchor="middle">L(w)</text>
+  <text x="136" y="324" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#1e1e1e" text-anchor="middle">Gewicht w</text>
+  <polyline points="31.00,111.96 33.10,118.54 35.20,124.98 37.30,131.29 39.40,137.46 41.50,143.51 43.60,149.42 45.70,155.20 47.80,160.84 49.90,166.36 52.00,171.73 54.10,176.98 56.20,182.10 58.30,187.08 60.40,191.93 62.50,196.64 64.60,201.22 66.70,205.67 68.80,209.99 70.90,214.17 73.00,218.23 75.10,222.14 77.20,225.93 79.30,229.58 81.40,233.10 83.50,236.49 85.60,239.74 87.70,242.87 89.80,245.85 91.90,248.71 94.00,251.43 96.10,254.02 98.20,256.48 100.30,258.81 102.40,261.00 104.50,263.06 106.60,264.98 108.70,266.78 110.80,268.44 112.90,269.96 115.00,271.36 117.10,272.62 119.20,273.75 121.30,274.75 123.40,275.61 125.50,276.34 127.60,276.94 129.70,277.40 131.80,277.73 133.90,277.93 136.00,278.00 138.10,277.93 140.20,277.73 142.30,277.40 144.40,276.94 146.50,276.34 148.60,275.61 150.70,274.75 152.80,273.75 154.90,272.62 157.00,271.36 159.10,269.96 161.20,268.44 163.30,266.78 165.40,264.98 167.50,263.06 169.60,261.00 171.70,258.81 173.80,256.48 175.90,254.02 178.00,251.43 180.10,248.71 182.20,245.85 184.30,242.87 186.40,239.74 188.50,236.49 190.60,233.10 192.70,229.58 194.80,225.93 196.90,222.14 199.00,218.23 201.10,214.17 203.20,209.99 205.30,205.67 207.40,201.22 209.50,196.64 211.60,191.93 213.70,187.08 215.80,182.10 217.90,176.98 220.00,171.73 222.10,166.36 224.20,160.84 226.30,155.20 228.40,149.42 230.50,143.51 232.60,137.46 234.70,131.29 236.80,124.98 238.90,118.54 241.00,111.96"
+            fill="none" stroke="#00c6b2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="136" y1="287.0" x2="136" y2="303" stroke="#9e9e9e" stroke-width="1.2" stroke-dasharray="3 3" />
+  <g stroke="#00776c" stroke-width="2.2" stroke-linecap="round" fill="none" marker-end="url(#lr-s1)">
+    <line x1="38.0" y1="133.1" x2="43.2" y2="148.0" />
+    <line x1="48.2" y1="161.6" x2="51.9" y2="171.3" />
+  </g>
+  <g fill="#00a294" stroke="#ffffff" stroke-width="1.8">
+    <circle cx="46.0" cy="156.0" r="4.0" />
+    <circle cx="55.0" cy="179.2" r="4.0" />
+    <circle cx="63.1" cy="198.0" r="4.0" />
+    <circle cx="70.4" cy="213.2" r="4.0" />
+    <circle cx="77.0" cy="225.5" r="4.0" />
+    <circle cx="82.9" cy="235.5" r="4.0" />
+    <circle cx="88.2" cy="243.5" r="4.0" />
+    <circle cx="93.0" cy="250.1" r="4.0" />
+  </g>
+  <circle cx="97.3" cy="255.4" r="6" fill="#00a294" stroke="#ffffff" stroke-width="1.8" />
+  <circle cx="136" cy="278.0" r="5" fill="none" stroke="#9e9e9e" stroke-width="2" />
+  <circle cx="36.0" cy="127.4" r="6.5" fill="#e07a3f" stroke="#ffffff" stroke-width="2" />
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle" fill="#757575" font-size="10.5" font-weight="600">
+    <text x="144" y="224">noch weit vom</text>
+    <text x="144" y="238">Ziel entfernt</text>
+  </g>
+
+  <!-- ===================================================================
+       PANEL: Lernrate passend
+       =================================================================== -->
+  <rect x="280" y="20" width="240" height="332" rx="6" fill="#ffffff" stroke="#00c6b2" stroke-width="2.2" />
+  <text x="400" y="45" font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700" fill="#00776c" text-anchor="middle">Lernrate passend</text>
+  <text x="400" y="62" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" fill="#4a4a4a" text-anchor="middle">stabile, zügige Konvergenz</text>
+  <line x1="288" y1="305" x2="512" y2="305" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <line x1="288" y1="312" x2="288" y2="92" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <text x="288" y="84" font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" font-weight="700" fill="#1e1e1e" text-anchor="middle">L(w)</text>
+  <text x="400" y="324" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#1e1e1e" text-anchor="middle">Gewicht w</text>
+  <polyline points="295.00,111.96 297.10,118.54 299.20,124.98 301.30,131.29 303.40,137.46 305.50,143.51 307.60,149.42 309.70,155.20 311.80,160.84 313.90,166.36 316.00,171.73 318.10,176.98 320.20,182.10 322.30,187.08 324.40,191.93 326.50,196.64 328.60,201.22 330.70,205.67 332.80,209.99 334.90,214.17 337.00,218.23 339.10,222.14 341.20,225.93 343.30,229.58 345.40,233.10 347.50,236.49 349.60,239.74 351.70,242.87 353.80,245.85 355.90,248.71 358.00,251.43 360.10,254.02 362.20,256.48 364.30,258.81 366.40,261.00 368.50,263.06 370.60,264.98 372.70,266.78 374.80,268.44 376.90,269.96 379.00,271.36 381.10,272.62 383.20,273.75 385.30,274.75 387.40,275.61 389.50,276.34 391.60,276.94 393.70,277.40 395.80,277.73 397.90,277.93 400.00,278.00 402.10,277.93 404.20,277.73 406.30,277.40 408.40,276.94 410.50,276.34 412.60,275.61 414.70,274.75 416.80,273.75 418.90,272.62 421.00,271.36 423.10,269.96 425.20,268.44 427.30,266.78 429.40,264.98 431.50,263.06 433.60,261.00 435.70,258.81 437.80,256.48 439.90,254.02 442.00,251.43 444.10,248.71 446.20,245.85 448.30,242.87 450.40,239.74 452.50,236.49 454.60,233.10 456.70,229.58 458.80,225.93 460.90,222.14 463.00,218.23 465.10,214.17 467.20,209.99 469.30,205.67 471.40,201.22 473.50,196.64 475.60,191.93 477.70,187.08 479.80,182.10 481.90,176.98 484.00,171.73 486.10,166.36 488.20,160.84 490.30,155.20 492.40,149.42 494.50,143.51 496.60,137.46 498.70,131.29 500.80,124.98 502.90,118.54 505.00,111.96"
+            fill="none" stroke="#00c6b2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="400" y1="287.0" x2="400" y2="303" stroke="#9e9e9e" stroke-width="1.2" stroke-dasharray="3 3" />
+  <g stroke="#00776c" stroke-width="2.2" stroke-linecap="round" fill="none" marker-end="url(#lr-s2)">
+    <line x1="303.0" y1="133.7" x2="354.0" y2="242.8" />
+    <line x1="363.2" y1="256.1" x2="375.3" y2="267.0" />
+  </g>
+  <g fill="#00a294" stroke="#ffffff" stroke-width="1.8">
+    <circle cx="358.0" cy="251.4" r="5.0" />
+    <circle cx="382.4" cy="273.3" r="5.0" />
+    <circle cx="392.6" cy="277.2" r="5.0" />
+  </g>
+  <circle cx="396.9" cy="277.9" r="7.5" fill="#00c6b2" stroke="#1e1e1e" stroke-width="2" />
+  <circle cx="300.0" cy="127.4" r="6.5" fill="#e07a3f" stroke="#ffffff" stroke-width="2" />
+
+  <!-- ===================================================================
+       PANEL: Lernrate zu groß
+       =================================================================== -->
+  <rect x="544" y="20" width="240" height="332" rx="6" fill="#ffffff" stroke="#e8e8e8" stroke-width="1.5" />
+  <text x="664" y="45" font-family="Montserrat, Helvetica, sans-serif" font-size="13.5" font-weight="700" fill="#e07a3f" text-anchor="middle">Lernrate zu groß</text>
+  <text x="664" y="62" font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" fill="#4a4a4a" text-anchor="middle">überschießt, kann divergieren</text>
+  <line x1="552" y1="305" x2="776" y2="305" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <line x1="552" y1="312" x2="552" y2="92" stroke="#757575" stroke-width="1.6" marker-end="url(#lr-ax)" />
+  <text x="552" y="84" font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" font-weight="700" fill="#1e1e1e" text-anchor="middle">L(w)</text>
+  <text x="664" y="324" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#1e1e1e" text-anchor="middle">Gewicht w</text>
+  <polyline points="559.00,111.96 561.10,118.54 563.20,124.98 565.30,131.29 567.40,137.46 569.50,143.51 571.60,149.42 573.70,155.20 575.80,160.84 577.90,166.36 580.00,171.73 582.10,176.98 584.20,182.10 586.30,187.08 588.40,191.93 590.50,196.64 592.60,201.22 594.70,205.67 596.80,209.99 598.90,214.17 601.00,218.23 603.10,222.14 605.20,225.93 607.30,229.58 609.40,233.10 611.50,236.49 613.60,239.74 615.70,242.87 617.80,245.85 619.90,248.71 622.00,251.43 624.10,254.02 626.20,256.48 628.30,258.81 630.40,261.00 632.50,263.06 634.60,264.98 636.70,266.78 638.80,268.44 640.90,269.96 643.00,271.36 645.10,272.62 647.20,273.75 649.30,274.75 651.40,275.61 653.50,276.34 655.60,276.94 657.70,277.40 659.80,277.73 661.90,277.93 664.00,278.00 666.10,277.93 668.20,277.73 670.30,277.40 672.40,276.94 674.50,276.34 676.60,275.61 678.70,274.75 680.80,273.75 682.90,272.62 685.00,271.36 687.10,269.96 689.20,268.44 691.30,266.78 693.40,264.98 695.50,263.06 697.60,261.00 699.70,258.81 701.80,256.48 703.90,254.02 706.00,251.43 708.10,248.71 710.20,245.85 712.30,242.87 714.40,239.74 716.50,236.49 718.60,233.10 720.70,229.58 722.80,225.93 724.90,222.14 727.00,218.23 729.10,214.17 731.20,209.99 733.30,205.67 735.40,201.22 737.50,196.64 739.60,191.93 741.70,187.08 743.80,182.10 745.90,176.98 748.00,171.73 750.10,166.36 752.20,160.84 754.30,155.20 756.40,149.42 758.50,143.51 760.60,137.46 762.70,131.29 764.80,124.98 766.90,118.54 769.00,111.96"
+            fill="none" stroke="#00c6b2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="664" y1="287.0" x2="664" y2="303" stroke="#9e9e9e" stroke-width="1.2" stroke-dasharray="3 3" />
+  <g stroke="#e07a3f" stroke-width="2.2" stroke-linecap="round" fill="none" marker-end="url(#lr-s3)">
+    <path d="M 607.9 213.1 Q 668.4 249.2 728.9 195.3" />
+    <path d="M 729.9 192.4 Q 658.9 225.4 587.9 168.4" />
+    <path d="M 586.9 165.0 Q 670.0 193.9 753.0 132.7" />
+  </g>
+  <g fill="#00a294" stroke="#ffffff" stroke-width="1.8">
+    <circle cx="738.8" cy="193.8" r="5.0" />
+    <circle cx="578.0" cy="166.7" r="5.0" />
+  </g>
+  <circle cx="762.9" cy="130.8" r="6" fill="#00a294" stroke="#ffffff" stroke-width="1.8" />
+  <circle cx="664" cy="278.0" r="5" fill="none" stroke="#9e9e9e" stroke-width="2" />
+  <circle cx="599.0" cy="214.4" r="6.5" fill="#e07a3f" stroke="#ffffff" stroke-width="2" />
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle" fill="#e07a3f" font-size="10.5" font-weight="600">
+    <text x="664" y="104">Sprünge werden</text>
+    <text x="664" y="118">immer größer</text>
+  </g>
+
+  <!-- ===================================================================
+       LEGENDE & BILDUNTERSCHRIFT
+       =================================================================== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="10.5" fill="#4a4a4a">
+    <circle cx="222" cy="371" r="5.5" fill="#e07a3f" stroke="#ffffff" stroke-width="1.6" />
+    <text x="234" y="375">Startpunkt</text>
+    <circle cx="316" cy="371" r="5" fill="#00a294" stroke="#ffffff" stroke-width="1.6" />
+    <text x="328" y="375">Zwischenschritt</text>
+    <circle cx="440" cy="371" r="6" fill="#00c6b2" stroke="#1e1e1e" stroke-width="1.8" />
+    <text x="452" y="375">Minimum erreicht</text>
+    <circle cx="574" cy="371" r="5" fill="none" stroke="#9e9e9e" stroke-width="2" />
+    <text x="586" y="375">Minimum verfehlt</text>
+  </g>
+  <text x="400" y="394" font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" font-weight="600" fill="#4a4a4a" text-anchor="middle">w := w − α · ∂L/∂w — die Lernrate α bestimmt, wie groß jeder Schritt ausfällt</text>
+</svg>
