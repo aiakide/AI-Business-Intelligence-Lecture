@@ -87,14 +87,6 @@
     <circle cx="400" cy="290" r="18" />
     <circle cx="400" cy="350" r="18" />
   </g>
-  <g font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
-     fill="#1e1e1e" text-anchor="middle">
-    <text x="400" y="116">&#963;</text>
-    <text x="400" y="176">&#963;</text>
-    <text x="400" y="236">&#963;</text>
-    <text x="400" y="296">&#963;</text>
-    <text x="400" y="356">&#963;</text>
-  </g>
 
   <!-- ===================================================================
        OUTPUT-NEURON
