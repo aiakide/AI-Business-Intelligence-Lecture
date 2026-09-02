@@ -2173,6 +2173,8 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 
 **✅ Umfang der Gewichtsanpassung ergänzt (2026-09-02, User-Feedback):** Bisher war in allen Backprop/Kettenregel-Folien immer nur von *einem* Gewicht $w$ die Rede — nie geklärt, dass dieselbe Rechnung für JEDES Gewicht im Netz läuft, was am Ende dabei herauskommt (eine Liste von Einzel-Gradienten, kein einzelner Wert), und wie oft das passiert. NEUE Folie "Welche Gewichte werden angepasst? Wie oft?" zwischen "Woher kommt das erste Glied der Kette?" und "Ein vollständiger Trainingsschritt zusammengefasst": alle 26 Parameter (20 Gewichte + 6 Bias, konsistent mit der bereits im Netzwerk-Diagramm genannten Zahl) bekommen ihren eigenen Gradienten, berechnet in einem einzigen Rückwärtsdurchlauf pro Trainingsschritt (Effizienz-Punkt von Backprop), und bei jedem folgenden Trainingsschritt neu. Visuell verifiziert, kein Overflow, gute Puffer (90-295px) auf allen betroffenen Folien.
 
+**✅ Visuelle Ergänzung "Welche Gewichte" (2026-09-02, User-Wunsch):** Neues Diagramm `netzwerk-gewichte-update-diagramm.svg` — basiert 1:1 auf `netzwerk-schichten-diagramm.svg` (identisches Layout/Feature-Labels), markiert aber zusätzlich alle 20 Gewichte (Linien) und 6 Bias-Werte (+b-Badges an den Neuronen) orange als Update-Ziele, mit Bildunterschrift "26 Parameter insgesamt". Folie "Welche Gewichte werden angepasst? Wie oft?" dafür von `default` auf `header-cols` umgestellt (Text links, Diagramm rechts). Visuell verifiziert, kein Overflow.
+
 **⬜ AUSSTEHEND (nächste Phase):**
 1. **Cluster 6.6 (PyTorch):** Research + Authoring
 2. **Cluster 6.7 (MNIST):** Research + Authoring nach 6.6-Bestätigung
