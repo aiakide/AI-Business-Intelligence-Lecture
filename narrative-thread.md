@@ -2169,6 +2169,8 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 - User wünschte einen expliziten Rückbezug zwischen der Kettenregel und der "differenzierbar"-Anforderung der Loss-Funktion (Cluster 6.4, ohne die Nummer zu nennen) — ergänzt, verursachte einen Overflow (27px, Footer-Kollision), der durch Auslagern in eine neue eigene Folie "Woher kommt das erste Glied der Kette?" behoben wurde.
 - Alle Änderungen visuell verifiziert (explizite Bounding-Box-Prüfung), kein Overflow mehr.
 
+**✅ Transparenz-Fix (2026-09-02, User-Feedback):** User fragte, woher die konkreten Zahlen im Kettenregel-Rechenbeispiel (0.4, 0.2, 3) kommen — sie waren frei erfundene Platzhalter zur Illustration der Multiplikationslogik, nicht aus dem Versicherer-Netzwerk berechnet, aber das stand nirgends da. Klargestellt: "**Rechenbeispiel (angenommene Werte, nur zur Veranschaulichung der Multiplikation):** Angenommen, die drei lokalen Effekte wären..." Die Ergänzung ließ den Sicherheitsabstand zur Fußzeile auf 18px schrumpfen (fragilste Folie im Kapitel) — durch Verkleinern des Diagramms (240px→210px `max-height`) auf 40px Puffer zurückgeholt, Lesbarkeit unverändert gut.
+
 **⬜ AUSSTEHEND (nächste Phase):**
 1. **Cluster 6.6 (PyTorch):** Research + Authoring
 2. **Cluster 6.7 (MNIST):** Research + Authoring nach 6.6-Bestätigung
