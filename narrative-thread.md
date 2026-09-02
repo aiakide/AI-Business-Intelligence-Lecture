@@ -2552,3 +2552,21 @@ Nach der Authoring-Runde von Cluster 6.6 (10 Folien) wurden bei der finalen Visu
 **Kapitel-6-Gesamtumfang:** 6.0 (3) + 6.1 (6) + 6.2 (5) + 6.3 (6) + 6.4 (5) + 6.5 (4) + 6.6 (11) = **40 Folien**, plus 14 custom SVG-Diagramme.
 
 **Nächster Schritt:** Kapitel 7 (Computer Vision, NEU) — vollständige Neuplanung (Plan → Research → Author → QA), siehe Renumbering-Entscheidung in §24.
+
+## 28. Kapitel-6-Feinschliff nach finaler Freigabe (2026-09-02/03)
+
+**Faktenkorrektur (User-Frage):** User fragte, ob PyTorch wirklich (noch) Meta gehört. Recherche (Wikipedia + pytorch.org/foundation) bestätigte: PyTorch wurde 2016 bei Meta (Facebook AI Research) entwickelt, aber seit **September 2022** liegt die Governance bei der unabhängigen **PyTorch Foundation** (Linux-Foundation-Tochter) — nicht mehr bei Meta allein. Die PyTorch-Intro-Folie wurde entsprechend korrigiert ("von Meta AI" entfernt, stattdessen eine ℹ️-Infobox mit der korrekten Historie).
+
+**Neue Info-Box-Konvention:** `> ℹ️ **Label:** Text` als Callout-Pattern übernommen, analog zur bereits etablierten `> ⚠️ **Label:**`-Warnbox-Konvention im Deck.
+
+**`nn`-Erklärung ergänzt:** User bat um eine Erklärung, wofür `nn` in `torch.nn` steht (neural network) — direkt bei der ersten Erwähnung von `nn.Module` ergänzt.
+
+**QA-Incident (2 Runden):** Beide Textergänzungen verursachten Overflow auf den ohnehin schon knappen header-cols-Folien dieses Clusters:
+- Die ℹ️-Infobox auf der PyTorch-Intro-Folie verursachte einen echten 54px-Overflow (Inhalt lief tatsächlich vom Canvas) — behoben durch Verschieben in die geräumigere rechte Spalte + leichte Kürzung.
+- Die `nn`-Erklärung ließ den Header-Satz auf der `nn.Module`-Folie von 2 auf 3 Zeilen wachsen und fraß den zuvor hart erkämpften Footer-Puffer fast komplett auf — behoben durch Kürzung von "(`nn` steht für **n**eural **n**etwork, PyTorchs Modul für alles rund um neuronale Netze)" auf "(`nn` = **n**eural **n**etwork)".
+- **Lektion:** Bei `header-cols`-Layouts mit `align-items: stretch` können naive Bounding-Box-Messungen der Spalten-Container irreführend sein (die kürzere Spalte wird künstlich auf die Höhe der längeren gestreckt) — für belastbare Puffer-Messungen müssen die tatsächlichen innersten Content-Elemente (letztes `<li>`/`<p>`/`<pre>`) gemessen werden, nicht die Spalten-Wrapper.
+- Beide Folien final verifiziert: ~38-40px Puffer.
+
+**Struktur-Vereinfachung (User-Wunsch):** Die letzten beiden Folien von Kapitel 6 — "Kapitel 6 im Rückblick — Die 6 Bausteine" und "Ausblick: Computer Vision" — wurden auf Wunsch gestrichen. Kapitel 6 endet jetzt direkt mit "Was du jetzt kannst", gefolgt vom Literaturverzeichnis. Cluster 6.6 hat dadurch **9 statt 11 Folien**. Kapitel-6-Gesamtumfang: **38 Folien** (vorher 40).
+
+**Hinweis:** Die gestrichene "Ausblick: Computer Vision"-Folie enthielt die einzige explizite inhaltliche Brücke zu Kapitel 7 (CNN-Motivation, Kaggle-Bezug). Bei der Kapitel-7-Planung muss die Eröffnungsfolie von Kapitel 7 diese Brücke selbst herstellen (z.B. im Kapitel-7-Opener oder im ersten Cluster), da sie jetzt nirgends mehr im Deck steht.

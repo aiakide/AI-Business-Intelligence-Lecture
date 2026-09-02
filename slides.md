@@ -4242,7 +4242,7 @@ layout: header-cols
 
 **Was ist PyTorch?**
 
-PyTorch ist eine Open-Source-Bibliothek von Meta AI für Machine Learning und Deep Learning — sie ermöglicht, neuronale Netze als Python-Code zu definieren und zu trainieren.
+PyTorch ist eine Open-Source-Bibliothek für Machine Learning und Deep Learning — sie ermöglicht, neuronale Netze als Python-Code zu definieren und zu trainieren.
 
 **Warum PyTorch?**
 
@@ -4251,6 +4251,8 @@ PyTorch ist eine Open-Source-Bibliothek von Meta AI für Machine Learning und De
 3. **Standard:** Meistgenutzte Bibliothek in der Deep-Learning-Forschung
 
 ::right::
+
+> ℹ️ **Herkunft:** 2016 von Meta (Facebook AI Research) entwickelt. Seit 2022 liegt die Weiterentwicklung bei der unabhängigen **PyTorch Foundation** (Linux Foundation) — nicht mehr bei Meta allein.
 
 **Was kommt jetzt?**
 
@@ -4282,7 +4284,7 @@ layout: header-cols
 
 ## nn.Module — Die Klasse für neuronale Netze
 
-Ein neuronales Netz ist in PyTorch eine **Klasse** — sie erbt von `nn.Module` und definiert zwei Dinge: welche Layer es hat (`__init__`) und wie die Daten durchfließen (`forward`).
+Ein neuronales Netz ist in PyTorch eine **Klasse** — sie erbt von `nn.Module` (`nn` = **n**eural **n**etwork) und definiert zwei Dinge: welche Layer es hat (`__init__`) und wie die Daten durchfließen (`forward`).
 
 ::left::
 
@@ -4463,33 +4465,6 @@ Nach diesem Kapitel kannst du:
 - Die Netz-Architektur auf einen eigenen Datensatz anpassen (z.B. von Kaggle) — Anzahl der Input-Features und Loss-Funktion ändern, der Rest bleibt gleich
 
 *(Datenaufbereitung — Laden, Normalisieren, Train/Test-Split — ist ein eigenes Handwerk und nicht Teil dieses Kapitels.)*
-
----
-layout: default
----
-
-## Kapitel 6 im Rückblick — Die 6 Bausteine
-
-1. **Deep Learning vs. Machine Learning** — Wann brauchst du welches?
-2. **Das Neuron & Schichten** — Input, Hidden, Output mit Gewichten
-3. **Aktivierungsfunktionen** — ReLU, Sigmoid, Tanh, Softmax
-4. **Training: Loss & Backpropagation** — Fehler messen, Gradienten berechnen
-5. **Batch & Epoch** — Speicher sparen, Millionen Beispiele verarbeiten
-6. **PyTorch** — Die Mathematik wird zu Python-Code
-
----
-layout: default
----
-
-## Ausblick: Computer Vision
-
-Das nächste Kapitel: **Bilder statt Tabellen.**
-
-Bislang: MLPs für Tabellendaten (3 Features → 1 Output). Aber **Bilder sind anders** — Pixel haben räumliche Struktur. 
-
-**CNNs (Convolutional Neural Networks)** nutzen diese Struktur: Sie erkennen Kanten, dann Muster, dann Objekte. Die gleiche PyTorch-Struktur (nn.Module, forward, Trainingsloop), nur mit anderen Layer-Typen — convolutional statt linear.
-
-Mit den Fähigkeiten aus diesem Kapitel kannst du bereits Kaggle-Wettbewerbe für Tabellendaten gewinnen (Titanic, House Prices, ...). Das MLP-Rezept von hier ist dein Werkzeug — die nächsten Kapitel zeigen nur andere Layer.
 
 ---
 layout: default
