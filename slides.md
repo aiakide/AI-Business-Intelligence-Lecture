@@ -3949,12 +3949,14 @@ layout: default
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Wie lernt das Netz? — Die Trainingsmechanik
 
 Wir wissen jetzt, **wie** ein Netz rechnet (Forward Pass durch Schichten, Aktivierungsfunktionen für Nichtlinearität). Aber **wie passt sich das Netz während des Trainings an?**
+
+::left::
 
 Das Netz macht Vorhersagen, vergleicht sie mit der Realität, und justiert dann seine Gewichte nach. Dieser Prozess braucht:
 1. Ein **Fehlermaß** (Loss-Funktion)
@@ -3963,6 +3965,10 @@ Das Netz macht Vorhersagen, vergleicht sie mit der Realität, und justiert dann 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
 ]" />
+
+::right::
+
+<img :src="'/loss-kurve-diagramm.svg'" alt="Loss-Kurve: Der Fehler startet hoch bei zufälligen Gewichten und sinkt im Training exponentiell gegen null" style="max-height: 300px; margin: 0 auto; display: block;" />
 
 ---
 layout: default
@@ -3995,43 +4001,39 @@ Beispiel: Das Netz sagt "70% Betrug", ist aber wirklich "Betrug" (y=1). Loss = $
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Gradient Descent — Der Wanderer im Nebel
 
 **Gradient Descent** ist ein iterativer Optimierungsalgorithmus, der die Gewichte Schritt für Schritt in Richtung des **minimalen Loss** justiert.
 
+::left::
+
 **Metapher:** Du bist ein Wanderer im nebligen Gebirge. Du spürst das **Gefälle** (Ableitung der Loss-Funktion) unter Deinen Füßen und machst Schritte **bergab** — nach vielen Schritten erreichst Du ein Tal (Minimum).
 
-**Mathematisch:**
-$$w := w - \alpha \cdot \frac{\partial L}{\partial w}$$
+**Mathematisch:** $w := w - \alpha \cdot \frac{\partial L}{\partial w}$
 
-Dabei:
 - $\frac{\partial L}{\partial w}$ ist der Gradient (wie steil geht's bergab?)
-- $\alpha$ ist die **Lernrate** (wie große Schritte machst Du? Zu groß → überschießen; zu klein → sehr langsam)
+- $\alpha$ ist die **Lernrate** (zu groß → überschießen; zu klein → sehr langsam)
 
 <LiteraturSource :sources="[
   { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
 ]" />
 
+::right::
+
+<img :src="'/gradient-descent-diagramm.svg'" alt="Gradient Descent: schrittweiser Abstieg auf einer schüsselförmigen Loss-Kurve bis zum minimalen Loss, mit Tangente als Gradient" style="max-height: 300px; margin: 0 auto; display: block;" />
+
 ---
 layout: default
 ---
 
-## Backpropagation — Fehler rückwärts durch die Schichten
+## Backpropagation — Fehler rückwärts
 
-**Backpropagation** ist die effiziente Methode, die Gradienten für **alle** Gewichte im Netz zu berechnen.
+**Backpropagation** ist die effiziente Methode, die Gradienten für **alle** Gewichte im Netz zu berechnen — "Wie viel trägt jedes Gewicht zum Loss bei?"
 
-**Die Idee:** Der Loss kommt aus der Output-Schicht. Backprop sagt: "Wie viel trägt jedes Gewicht zum Loss bei?" Die Antwort wandert rückwärts durch die Schichten (daher "Back").
-
-**Vereinfachtes Bild:**
-```
-Input → Layer 1 → Layer 2 → Output
-(Forward Pass: Vorhersage berechnen)
-  ↑      ←  ←  ←   ←  ←   ← Loss
-(Backward Pass: Gradienten berechnen)
-```
+<img :src="'/backprop-fluss-diagramm.svg'" alt="Backpropagation: Forward Pass von Input über Hidden-Schicht zum Output und Loss, Backward Pass mit Gradienten zurück durch die Schichten" style="max-height: 280px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
@@ -4081,16 +4083,15 @@ layout: header-cols
 layout: default
 ---
 
-## Ein Batch: Die kleine Portion
+## Eine Epoch: Ein vollständiger Durchlauf
 
-Statt alle 100.000 Fotos auf einmal zu laden, teilst Du sie in kleine Gruppen auf — typischerweise 32, 64 oder 128 Bilder pro Gruppe. So eine Gruppe heißt ein **Batch**.
+Du kennst jetzt den kompletten Lernschritt (Forward Pass → Loss → Backward Pass → Gewichtsupdate) aus Cluster 6.4. Aber ein einzelner Schritt bringt wenig — das Netz muss die Trainingsdaten oft sehen.
 
-**Warum Batches?**
-- Dein GPU-Speicher ist begrenzt — vielleicht 8–16 GB. Ein Batch à 64 Bildern passt problemlos rein.
-- Nach jedem Batch werden die Netzgewichte angepasst (mit den Gradienten aus diesem Batch berechnet).
-- Die Gradienten mehrerer Bilder werden gemittelt, bevor sie die Gewichte ändern — das führt zu stabileren Lernschritten.
+**Definition:** Eine **Epoch** ist ein vollständiger Durchlauf durch den GESAMTEN Trainingsdatensatz — alle 100.000 Fotos werden einmal durchprozessiert, mit vielen Lernschritten dazwischen.
 
-**Beispiel:** Du hast 100.000 Trainingsfotos. Mit Batch-Größe 64 brauchst du $\frac{100.000}{64} \approx 1.563$ Batches, um alle Daten einmal durchzulaufen.
+**Mehrere Epochs:** Nach der ersten Epoch sind die Gewichte schon anders — die zweite Epoch trainiert auf höherem Niveau, nicht von vorn. Aber **Vorsicht:** Zu viele Epochs führen zum Overfitting (Kapitel 4). Du erkennst das an der **Validation-Performance**: der Genauigkeit auf neuen, nie trainierten Fotos. Stagniert sie, während die Trainings-Genauigkeit weiter steigt, ist das dein Stopp-Signal.
+
+**Nächste Frage:** Wie verarbeitest Du 100.000 Fotos praktisch in einer Epoch, wenn Dein GPU-Speicher das nicht auf einmal zulässt?
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
@@ -4100,16 +4101,16 @@ Statt alle 100.000 Fotos auf einmal zu laden, teilst Du sie in kleine Gruppen au
 layout: default
 ---
 
-## Eine Epoch: Ein vollständiger Durchlauf
+## Ein Batch: Die kleine Portion
 
-Wenn Du alle Daten einmal durchprozessiert hast — alle 1.563 Batches — dann hast Du eine **Epoch** abgeschlossen.
+Statt alle 100.000 Fotos einer Epoch auf einmal zu laden, teilst Du sie in kleine Gruppen auf — typischerweise 32, 64 oder 128 Bilder pro Gruppe. So eine Gruppe heißt ein **Batch**.
 
-**Was passiert in einer Epoch?**
-- Jeder Batch bringt neue Fehler (Loss) und neue Gradienten.
-- Nach jedem Batch: Gewichte werden ein kleines Stück in die richtige Richtung verschoben.
-- Nach 1.563 Batches (eine komplette Epoch): Das Netz hat alle Daten einmal "gesehen" und ist etwas besser geworden.
+**Warum Batches?**
+- Dein GPU-Speicher ist begrenzt — vielleicht 8–16 GB. Ein Batch à 64 Bildern passt problemlos rein.
+- Nach jedem Batch werden die Netzgewichte angepasst (mit den Gradienten aus diesem Batch berechnet).
+- Die Gradienten mehrerer Bilder werden gemittelt, bevor sie die Gewichte ändern — das führt zu stabileren Lernschritten.
 
-**Mehrere Epochs:** Nach der ersten Epoch sind die Gewichte schon anders — die zweite Epoch trainiert auf höherem Niveau, nicht von vorn. Aber **Vorsicht:** Zu viele Epochs führen zum Overfitting (Kapitel 4 — das Modell lernt Trainingsfotos auswendig statt echte Muster). Du erkennst das an der **Validation-Performance**: der Genauigkeit auf neuen, nie trainierten Fotos. Stagniert sie, während die Trainings-Genauigkeit weiter steigt, ist das dein Stopp-Signal.
+**Beispiel:** Bei 100.000 Trainingsfotos und Batch-Größe 64 braucht eine Epoch $\frac{100.000}{64} \approx 1.563$ Batches, um einmal komplett durchzulaufen.
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
@@ -4151,8 +4152,8 @@ layout: default
 
 | Konzept | Bedeutung | Beispiel |
 |---|---|---|
-| **Batch** | Eine kleine Teilmenge von Trainingsfotos (z.B. 64 Bilder) | Fotos 0–63, dann 64–127, dann 128–191, ... |
 | **Epoch** | Ein kompletter Durchlauf durch alle Batches (alle 100.000 Fotos) | Alle 1.563 Batches hintereinander |
+| **Batch** | Eine kleine Teilmenge von Trainingsfotos (z.B. 64 Bilder) | Fotos 0–63, dann 64–127, dann 128–191, ... |
 | **Steps pro Epoch** | Anzahl der Batch-Updates pro Epoch | 100.000 ÷ 64 ≈ 1.563 Steps |
 
 **Das Wichtigste:** Batches sind die praktische Lösung für Speicherbeschränkungen. Sie ermöglichen es uns, Gradient Descent (aus Cluster 6.4) auf Millionen von Fotos anzuwenden. Der Trainingsloop schleift dabei: Batch laden → Forward Pass → Loss berechnen → Backward Pass (Gradienten) → Gewichte anpassen → nächster Batch. Nach genug Epochs sollte das Netz bessere Vorhersagen treffen.
