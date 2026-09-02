@@ -167,6 +167,24 @@ with a full dedicated CV chapter now planned there is more room to fit it if nee
 decide during Kapitel-7 planning whether Kfz-Schadensfotos + MNIST already satisfy the
 Modulbeschreibung's item or whether a third literal example is warranted.
 
+## 9. "Key Takeaways 🔑" closing slides — complete (2026-09-03)
+- [x] Kapitel 1 (Statistik) — 2 new slides
+- [x] Kapitel 2 (Python-Vertiefung) — 1 new slide (before existing "Was Du jetzt kannst" bridge, which stays)
+- [x] Kapitel 3 (Tools & Workflows) — 1 new slide
+- [x] Kapitel 4 (Supervised ML) — 2 new slides (📊 Modellbewertung / 🧠 Algorithmen)
+- [x] Kapitel 5 (Clustering) — replaces the old "Zusammenfassung — Vier Algorithmen..." table slide
+- [x] Kapitel 6 (Deep Learning) — 1 new slide (re-establishes content similar to the "Kapitel 6 im Rückblick" slide removed in `d831eb0`, rewritten to the new style)
+
+Mirrors the "Key Takeaways 🔑" convention used at the end of every major block in the
+prior course run's `ml.md`/`dl.md`. Chapter-level only (not per sub-cluster, per user
+decision). Visually QA'd — all 8 slides clean, no overflow/clipping. See
+narrative-thread.md §29 for full detail. Branch `feat/key-takeaways-slides`, PR #5.
+
+**Flagged, not fixed (out of scope for this item):** Kapitel 5 still has no bridge
+sentence into Kapitel 6; Kapitel 6 still lacks the Computer-Vision bridge lost when
+"Ausblick: Computer Vision" was removed (see §4 above). Both are candidates for the
+Kapitel-7 planning pass.
+
 ---
 
 *Update this file as items are completed or as `narrative-thread.md`'s plan changes.

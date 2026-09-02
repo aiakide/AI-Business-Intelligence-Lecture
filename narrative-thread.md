@@ -2570,3 +2570,29 @@ Nach der Authoring-Runde von Cluster 6.6 (10 Folien) wurden bei der finalen Visu
 **Struktur-Vereinfachung (User-Wunsch):** Die letzten beiden Folien von Kapitel 6 — "Kapitel 6 im Rückblick — Die 6 Bausteine" und "Ausblick: Computer Vision" — wurden auf Wunsch gestrichen. Kapitel 6 endet jetzt direkt mit "Was du jetzt kannst", gefolgt vom Literaturverzeichnis. Cluster 6.6 hat dadurch **9 statt 11 Folien**. Kapitel-6-Gesamtumfang: **38 Folien** (vorher 40).
 
 **Hinweis:** Die gestrichene "Ausblick: Computer Vision"-Folie enthielt die einzige explizite inhaltliche Brücke zu Kapitel 7 (CNN-Motivation, Kaggle-Bezug). Bei der Kapitel-7-Planung muss die Eröffnungsfolie von Kapitel 7 diese Brücke selbst herstellen (z.B. im Kapitel-7-Opener oder im ersten Cluster), da sie jetzt nirgends mehr im Deck steht.
+
+## 29. "Key Takeaways 🔑"-Folien für alle Kapitel eingeführt (2026-09-03)
+
+**User-Wunsch:** Die Referenz-Decks der vorherigen Kursdurchführung (`ml.md`, `dl.md` im Repo `ai-bi/ai-usiness-intelligence`) schließen jeden größeren Themenblock mit einer `## Key Takeaways 🔑`-Folie ab (flache Bullet-Liste, fett eingeleitete Kernbegriffe). Dieses Muster fehlte im aktuellen Deck bisher komplett oder war uneinheitlich (Kapitel 2: Prosa-Slide "Was Du jetzt kannst", Kapitel 5: Vergleichstabelle ohne "Key Takeaways"-Titel, Kapitel 6: Bullet-Liste ohne diesen Titel, Kapitel 1/3/4: gar keine Zusammenfassungsfolie).
+
+**Entscheidung (User, per Rückfrage):** Nur auf Kapitelebene (nicht pro Sub-Cluster, das hätte deutlich mehr neue Folien bedeutet), Kapitel 6 bekommt trotz der gerade in §28 dokumentierten Streichung ebenfalls wieder eine solche Folie, und der Stil folgt 1:1 der Referenz (`Key Takeaways – <Kapitel> 🔑`, nicht die deutsche Variante "Zusammenfassung").
+
+**Umsetzung:**
+- **Kapitel 1 (Statistik):** 2 neue Folien (additiv), nach der Übungs-Folie, vor dem Kapitel-2-Divider.
+- **Kapitel 2 (Python-Vertiefung):** 1 neue Folie (additiv), direkt vor der bestehenden "Was Du jetzt kannst"-Folie — die bleibt unverändert als Brücke stehen, wird nicht ersetzt.
+- **Kapitel 3 (Tools & Workflows):** 1 neue Folie (additiv), vor "Von der Infrastruktur zum Modell" (Brücke bleibt unverändert).
+- **Kapitel 4 (Supervised Learning):** 2 neue Folien (additiv, mit Sub-Headern "📊 Modellbewertung" / "🧠 Algorithmen"), vor "Danke & Diskussion" (bleibt unverändert).
+- **Kapitel 5 (Clustering):** **ersetzt** die alte "Zusammenfassung — Vier Algorithmen, vier Perspektiven"-Tabellenfolie am selben Platz durch Bullets, zusätzlich erweitert um Distanzmaße und K-Wahl (Elbow/Silhouette), die die Tabelle nicht abdeckte.
+- **Kapitel 6 (Deep Learning):** 1 neue Folie (additiv), nach "Was du jetzt kannst", vor dem Literaturverzeichnis — inhaltlich ähnlich der in §28 entfernten "Kapitel 6 im Rückblick"-Folie, aber neu formuliert im "Key Takeaways 🔑"-Stil statt 1:1 wiederhergestellt.
+
+Bestehende Übergangs-Sätze/-Folien zum jeweils nächsten Kapitel wurden bewusst nicht angetastet — die neuen Folien sind reine Bullet-Recaps, keine Übergangs-Elemente (vgl. die in §12 dokumentierte, vom User explizit abgelehnte Status-Bar-Regel: der Übergang muss aus Prosa entstehen, kein separates UI-Widget).
+
+**Bewusst offen gelassen (nicht Teil dieser Änderung):**
+- Kapitel 5 hat weiterhin **keinen** Brücken-Satz zu Kapitel 6 (springt direkt in den Chapter-Divider).
+- Kapitel 6 hat weiterhin **keine** Brücke zu Kapitel 7 (siehe §28 — die "Ausblick"-Folie wurde nicht wiederhergestellt).
+
+Beide Punkte bleiben für die künftige Kapitel-7-Planung offen.
+
+**QA:** `slide-visual-reviewer` über alle 8 neuen/ersetzten Folien laufen lassen (volle 234-Folien-Deck-Messung) — alle 8 messen exakt 552px Canvas-Höhe, 0 clipped Elemente, 0 Overflow, auch die als Risiko geflaggten dichteren Folien (Python-Vertiefung 6 Bullets, Clusteranalyse 6 Bullets, Deep Learning 6 Bullets mit Inline-Code) hatten 90–150px Puffer zur Fußzeile. Keine Nacharbeit nötig. (Der Report zeigt zusätzlich ~166 pre-existing `minFontPx`-Warnungen deckweit, die vermutlich ein Credit-Line-Filterartefakt des QA-Scripts sind und mit dieser Änderung nichts zu tun haben — nicht weiter verfolgt, da außerhalb des Scopes.)
+
+Branch `feat/key-takeaways-slides`, PR #5.
