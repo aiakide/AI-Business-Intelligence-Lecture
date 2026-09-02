@@ -101,9 +101,11 @@ Case: Kunden-/Versichertensegmentierung.
 - [x] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3) — authored, approved (2026-09-02), 6 Folien
 - [x] Wie lernt das Netz? (Loss-Funktion, Gradient Descent, Backpropagation) (6.4) — authored, approved (2026-09-02), 6 Folien
 - [x] Batch & Epoch (6.5) — authored, approved (2026-09-02), 4 Folien (nach Neuplanung von Position 6.2 hierher verschoben, siehe narrative-thread.md §24-26)
-- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.6) — chapter closes here, generic MLP-level
+- [x] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.6) — authored, approved (2026-09-02), 11 Folien. Chapter closes here, generic MLP-level. Inkl. PyTorch-Logo (`public/logos/pytorch.svg`, offizielle Farbe #EE4C2C), nn.Module-Grundgerüst, Loss/Optimizer-Wahl, End-to-End-Beispiel, Kapitel-Abschluss mit explizitem Kaggle-Transfer-Versprechen ("ändere Input-Features + Loss-Funktion, Rest bleibt gleich").
 
 Case: Versicherer-Tabellendaten (Fahreralter/Schadenshistorie/Fahrzeugtyp) durchgängig für die generischen Grundlagen; Case-Diversity-Folie zeigt Bilder/Text/Zeitreihen als weitere DL-Anwendungsfelder mit Verweis auf die dedizierten Folgekapitel.
+
+**KAPITEL 6 KOMPLETT (2026-09-02):** Alle Cluster 6.0–6.6 authored, approved, visuell + pädagogisch QA'd. 40 Folien gesamt + 14 custom SVG-Diagramme. Details siehe narrative-thread.md §27.
 
 **Renumbering-Entscheidung (2026-09-02, from user):** MNIST/CNN wandert NICHT als 6.7 ans Kapitel-6-Ende, sondern wird Teil eines neuen, eigenständigen **Kapitel 7 — Computer Vision** (siehe §4a) — spiegelt die Tiefe, die NLP als eigenes Kapitel bekommt (Transformer/Attention), statt CNN-Architektur nur oberflächlich am Rand von Kapitel 6 zu behandeln. Verschiebt: NLP (bisher Kapitel 7) → **Kapitel 8**, Vertiefungen (bisher Kapitel 8–10) → **Kapitel 9–11**. Grund: Modulbeschreibung nennt "Objekt-/Gesichtserkennung" explizit (§8 unten) — mit nur einem MLP-Beispiel am Kapitel-6-Ende wäre das nicht wirklich abgedeckt.
 
