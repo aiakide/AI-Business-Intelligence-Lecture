@@ -3550,7 +3550,7 @@ Neuronale Netze für unstrukturierte Daten
 
 ::right::
 
-<Illustration src="/illustrations/artificial-intelligence-bro.svg" alt="Deep Learning mit Neuronalen Netzen" width="90%" />
+<Illustration src="/illustrations/ai-brain-bro.svg" alt="Deep Learning mit Neuronalen Netzen" width="90%" />
 
 ---
 layout: default
@@ -3695,29 +3695,378 @@ Das Versicherer-Portfolio enthält mehrere **echte Szenarien** — jedes mit ein
 layout: default
 ---
 
-## Warum ist Deep Learning eigentlich "tief"?
+## Deep Learning auf verschiedenen Datentypen
 
-Eine häufige Fehldeutung: "Tief" = "kompliziert" oder "immer besser". **Falsch.**
+Neuronale Netze sind kein Spezialwerkzeug nur für Bilder — dieselbe Grundlogik funktioniert auf jedem Datentyp:
 
-**"Tiefe" bedeutet: Viele gestapelte Schichten.** Das Netz lernt auf der ersten Schicht einfache Features (Kanten, Ecken), auf der zweiten Schicht kombiniert es diese zu komplexeren Mustern (Formen, Strukturen), auf der dritten Schicht erkennt es abstrakte Konzepte (Reifen, Windschutzscheibe, Verformung).
-
-Diese **hierarchische Merkmals-Extraktion** ist das Geheimnis: Jede Schicht macht die "Erkenntnisse" der vorherigen Schicht nutzbar — ohne dass Du dem Netz sagen musst, was eine "Verformung" ist. Das Netz lernt es aus Daten.
+| **Datentyp** | **Architektur** | **Anwendungsbeispiel** |
+|:---|:---|:---|
+| **Bilder** | Convolutional Neural Networks (CNN) | Kfz-Schadensfotos (Kapitel 6 Fokus) |
+| **Text / Sequenzen** | Transformer (Multi-Head Attention) | Schadenstexte, Sentiment-Analyse (Kapitel 7) |
+| **Zeitreihen** | LSTM / Recurrent Neural Networks | Transaktionsmuster, Betrugserkennung in Echtzeit |
 
 <LiteraturSource :sources="[
-  { title: 'LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep Learning. Nature, 521(7553), 436–444', url: 'https://doi.org/10.1038/nature14539', year: '2015' },
+  { title: 'Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. Advances in Neural Information Processing Systems (NIPS)', url: 'https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks', year: '2012' },
+  { title: 'Vaswani, A., Shazeer, N., Parmar, N., et al. (2017). Attention Is All You Need. Advances in Neural Information Processing Systems (NeurIPS)', url: 'https://arxiv.org/abs/1706.03762', year: '2017' },
+  { title: 'Hochreiter, S., & Schmidhuber, J. (1997). Long Short-Term Memory. Neural Computation, 9(8), 1735–1780', url: 'https://doi.org/10.1162/neco.1997.9.8.1735', year: '1997' },
 ]" />
 
 ---
 layout: default
 ---
 
-## Der Preis der Tiefe: Speicher
+## Das künstliche Neuron — Schritt 1: Gewichtete Summe
 
-Ein einzelnes Foto belegt schnell mehrere Megabyte im Speicher — **100.000 Fotos auf einmal passen in keine GPU.**
+Jetzt wissen wir, dass neuronale Netze auf viele Datentypen passen. Aber **wie funktionieren sie eigentlich?** Wir fangen beim Kleinsten an: einem einzelnen Neuron.
 
-> **Frage:** Wie trainiert man so ein Netz trotzdem, ohne den Speicher zu sprengen?
+Ein künstliches Neuron bildet zuerst eine gewichtete Summe seiner Eingaben:
 
-Die Antwort: Man füttert das Netz nicht mit allen Daten gleichzeitig, sondern in kleinen Häppchen, mehrfach hintereinander. Genau das sind **Batch** und **Epoch** — der nächste Baustein.
+$$z = \sum_{i=1}^{m} w_i x_i + b$$
+
+Dabei sind:
+- $x_i$ die Eingaben (z.B. Fahreralter, Schadenshistorie, Fahrzeugtyp)
+- $w_i$ die **Gewichte** (trainierbare Parameter — wie wichtig ist jede Eingabe?)
+- $b$ der **Bias** (Grundverschiebung — wie "aktivierungsfreudig" ist das Neuron von Natur aus?)
+
+<LiteraturSource :sources="[
+  { title: 'Rosenblatt, F. (1958). The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain. Psychological Review, 65(6), 386–408', url: 'https://doi.org/10.1037/h0042519', year: '1958' },
+]" />
+
+---
+layout: default
+---
+
+## Das künstliche Neuron — Schritt 2: Aktivierung
+
+Die gewichtete Summe $z$ allein reicht nicht — sie wird durch eine **Aktivierungsfunktion** $\sigma$ geschickt:
+
+$$a = \sigma(z)$$
+
+Diese bringt **Nichtlinearität** rein — ohne sie wäre jedes Netz, egal wie viele Schichten es hat, am Ende nur eine große lineare Gleichung.
+
+Was genau diese Aktivierungsfunktion $\sigma$ macht, schauen wir uns als Nächstes an.
+
+---
+layout: header-cols
+---
+
+## Neuronen in Schichten organisieren — Input & Hidden
+
+Ein einzelnes Neuron reicht nicht — neuronale Netze stapeln Neuronen in **Schichten**:
+
+::left::
+
+**Input-Schicht**
+- Nimmt Rohdaten auf (z.B. 3 Features: Alter, Schadenshistorie, Fahrzeugtyp)
+- Keine Berechnung, nur "Eingang"
+
+**Hidden-Schicht(en)**
+- Mehrere Neuronen kombinieren Input-Werte
+- Jedes Neuron hat eigene Gewichte und Bias
+- Gibt Zwischenrepräsentationen aus
+
+::right::
+
+```
+Input     Hidden
+(3)  →  (8)
+ │       │ │ │ │
+ ├──────→│ │ │ │
+ ├──────→│ │ │ │
+ └──────→│ │ │ │
+         └─┴─┴─┘
+```
+
+---
+layout: default
+---
+
+## Neuronen in Schichten organisieren — Output-Schicht
+
+**Output-Schicht**
+- Finale Vorhersage (z.B. 1 Wert: Betrugswahr­scheinlichkeit)
+- Auch nur Neuronen mit Gewichten
+
+```
+Hidden      Output
+(8)       →  (1)
+ │ │ │ │      │
+ │ │ │ │  ───→●
+ └─┴─┴─┘
+```
+
+Jeder Pfeil zwischen Schichten ist ein **Gewicht** — ein trainierbar Parameter.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Der Forward Pass — Datenfluss durch die Schichten
+
+**Forward Pass** bedeutet: Die Eingaben fließen von der Input-Schicht zur Output-Schicht durch. Bei jeder Schicht passiert das Gleiche:
+
+1. Gewichtete Summe aller Eingaben berechnen: $z = Wx + b$
+2. Aktivierungsfunktion anwenden: $a = \sigma(z)$
+3. Diese Ausgabe $a$ wird zur Eingabe der nächsten Schicht
+
+**Beispiel (vereinfacht):**
+```
+Input: [25, 3, 1]  (Fahreralter, Schadenshistorie, Fahrzeugtyp-Klasse)
+  ↓
+Hidden-Neuron 1: z₁ = 0.5·25 + 0.3·3 - 0.1·1 + (-2) = 11.8 → σ(11.8) = a₁
+Hidden-Neuron 2: z₂ = -0.2·25 + 0.8·3 + 0.4·1 + 1 = 1.2 → σ(1.2) = a₂
+... (6 weitere Hidden-Neuronen ähnlich)
+  ↓
+Output-Neuron: z_out = 0.1·a₁ + 0.3·a₂ + ... = 0.68 → σ(0.68) = 0.66
+  ↓
+Vorhersage: "Betrugswahr­scheinlichkeit 66%"
+```
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Aktivierungsfunktionen — Nichtlinearität für komplexe Muster
+
+**Das zentrale Problem:** Wenn jedes Neuron nur $z = Wx + b$ rechnet und diese Ergebnisse direkt weitergibt, dann ist jede Folge von Schichten mathematisch wieder nur **eine einzige große lineare Funktion**. Das ist viel zu schwach für reale Daten.
+
+**Die Lösung:** **Aktivierungsfunktionen** bringen Nichtlinearität rein — sie "knicken" oder "quetschen" die gewichtete Summe, damit das Netz komplexe Muster lernen kann.
+
+**Analog zu einem Lichtschalter:** Die gewichtete Summe $z$ kommt rein, die Aktivierungsfunktion ist der "Schalter", der entscheidet wie stark das Neuron "feuert". Je größer $z$, desto stärker die Aktivierung $\sigma(z)$.
+
+Ohne diese Nichtlinearität könnten neuronale Netze auch bei Hunderten von Schichten keine besseren Vorhersagen treffen als ein einziger linearer Klassifikator.
+
+<LiteraturSource :sources="[
+  { title: 'Cybenko, G. (1989). Approximation by Superpositions of a Sigmoidal Function. Mathematics of Control, Signals, and Systems, 2(4), 303–314', url: 'https://doi.org/10.1007/BF02551274', year: '1989' },
+]" />
+
+---
+layout: default
+---
+
+## Sigmoid — historischer Standard für Wahrscheinlichkeiten
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
+
+**Eigenschaften:**
+- Quetscht alle Eingaben in den Bereich (0, 1) — direkt als Wahrscheinlichkeit lesbar
+- Ideal für **binäre Klassifikation** (z.B. Betrug: Ja/Nein)
+- Sanfte, differenzierbare "S-Kurve"
+
+**Nachteil:** Bei extremen Eingabewerten ist die Ableitung quasi null. Da Backpropagation (Cluster 6.4) diese Ableitungen schichtweise multipliziert, wird der Gradient in tiefen Netzen immer kleiner — das **Vanishing Gradient Problem**: frühe Schichten lernen kaum noch.
+
+**Wo heute noch genutzt:** Selten in Hidden Layers, manchmal noch in der Output-Schicht bei binärer Klassifikation.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## ReLU — moderner Standard für Hidden Layers
+
+$$\text{ReLU}(z) = \max(0, z)$$
+
+**Eigenschaften:**
+- Stupide einfach: "Ist die gewichtete Summe positiv? Gib sie durch. Sonst gib 0."
+- Verhindert das Vanishing Gradient Problem (Ableitung ist immer 1 für z > 0)
+- Super effizient zu berechnen
+
+**Wo genutzt:** **Standard in Hidden Layers** — fast alle modernen Netze verwenden ReLU.
+
+**Kleine Schwäche — "Dead Neurons":** Für z < 0 ist die Ableitung 0 — so ein Neuron lernt nie wieder. Leaky ReLU lässt einen winzigen negativen Durchsatz zu, um das zu vermeiden.
+
+<LiteraturSource :sources="[
+  { title: 'Nair, V., & Hinton, G. E. (2010). Rectified Linear Units Improve Restricted Boltzmann Machines. In ICML', year: '2010' },
+]" />
+
+---
+layout: default
+---
+
+## Tanh — zentrierte Alternative zu Sigmoid
+
+$$\tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}$$
+
+**Eigenschaften:**
+- Wie Sigmoid, aber Ausgaben sind in (-1, 1) zentriert statt (0, 1)
+- Kann negative Werte darstellen
+- Ebenfalls anfällig für Vanishing Gradients
+
+**Wo genutzt:** Seltener als ReLU — manchmal noch in Rekurrenten Netzen (LSTM, GRU) oder speziellen Anwendungen.
+
+---
+layout: default
+---
+
+## Softmax — Wahrscheinlichkeitsverteilung für Multiklassen
+
+Sigmoid war für 2 Klassen. Für **Klassifikation mit mehr als 2 Klassen** nutzt man **Softmax** — es liefert eine Wahrscheinlichkeit pro Klasse statt nur eine einzelne Zahl:
+
+$$\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}$$
+
+**Was macht das?** Softmax nimmt die Raw-Ausgaben des Netzes und wandelt sie in eine **Wahrscheinlichkeitsverteilung** um — alle Werte zwischen 0 und 1, summieren sich zu 1. Genutzt in der Output-Schicht bei **Mehrklassen-Klassifikation** (z.B. MNIST: 10 Klassen für die Ziffern 0–9):
+
+```
+Raw Output:   [2.1, 0.3, -1.5, 1.0, -0.5, 0.8, 1.2, -0.2, 0.9, -1.0]
+Softmax:      [0.35, 0.08, 0.01, 0.12, 0.02, 0.10, 0.18, 0.03, 0.11, 0.01]
+```
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6: Deep Feedforward Networks', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Zusammenfassung: Aktivierungsfunktionen
+
+| Funktion | Typischer Einsatz | Vorteil | Nachteil |
+|:---|:---|:---|:---|
+| **Sigmoid** | Output (binär) | Wahrscheinlichkeitsinterpretation | Vanishing Gradients |
+| **ReLU** | Hidden Layers (STANDARD) | Effizient, löst Vanishing Gradients | Dead Neurons möglich |
+| **Tanh** | Spezielle Netze (RNN) | Zentriert um 0 | Vanishing Gradients |
+| **Softmax** | Output (Multiklassen) | Echte Wahrscheinlichkeitsverteilung | Nur für Output |
+
+**Das Wichtigste:** Nichtlinearität + viele Schichten = **Universal Approximation** — das Netz *kann* beliebig komplexe Muster darstellen (nicht: lernt automatisch die richtigen). Aber wie trainiert es die Gewichte dorthin?
+
+<LiteraturSource :sources="[
+  { title: 'Cybenko, G. (1989). Approximation by Superpositions of a Sigmoidal Function. Mathematics of Control, Signals, and Systems, 2(4), 303–314', url: 'https://doi.org/10.1007/BF02551274', year: '1989' },
+]" />
+
+---
+layout: default
+---
+
+## Wie lernt das Netz? — Die Trainingsmechanik
+
+Wir wissen jetzt, **wie** ein Netz rechnet (Forward Pass durch Schichten, Aktivierungsfunktionen für Nichtlinearität). Aber **wie passt sich das Netz während des Trainings an?**
+
+Das Netz macht Vorhersagen, vergleicht sie mit der Realität, und justiert dann seine Gewichte nach. Dieser Prozess braucht:
+1. Ein **Fehlermaß** (Loss-Funktion)
+2. Eine **Anleitung zur Gewichtsanpassung** (Gradient Descent + Backpropagation)
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Loss-Funktion — Mean Squared Error (MSE)
+
+Eine **Loss-Funktion** $L(y, \hat{y})$ misst, wie falsch die Vorhersage $\hat{y}$ des Netzes ist. Je kleiner der Loss, desto besser.
+
+**Mean Squared Error (MSE) — für Regression:**
+$$L_{\text{MSE}} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+
+Beispiel: Das Netz sagt "Schaden 50.000 €", Realität ist "45.000 €" → $(45.000 - 50.000)^2 = 25.000.000$ (große Fehler werden bestraft).
+
+---
+layout: default
+---
+
+## Loss-Funktion — Cross-Entropy für Klassifikation
+
+**Cross-Entropy — für Klassifikation:**
+$$L_{\text{CE}} = -\sum_{i=1}^{K} y_i \log(\hat{y}_i)$$
+
+Beispiel: Das Netz sagt "70% Betrug", ist aber wirklich "Betrug" (y=1). Loss = $-1 \cdot \log(0.7) \approx 0.36$ (niedrig). Sagt es aber "5% Betrug", Loss = $-1 \cdot \log(0.05) \approx 3.0$ (sehr hoch).
+
+**Das Wichtigste:** Loss-Funktionen müssen **differenzierbar** sein — dann können wir ihre Ableitung für Gradient Descent nutzen.
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Gradient Descent — Der Wanderer im Nebel
+
+**Gradient Descent** ist ein iterativer Optimierungsalgorithmus, der die Gewichte Schritt für Schritt in Richtung des **minimalen Loss** justiert.
+
+**Metapher:** Du bist ein Wanderer im nebligen Gebirge. Du spürst das **Gefälle** (Ableitung der Loss-Funktion) unter Deinen Füßen und machst Schritte **bergab** — nach vielen Schritten erreichst Du ein Tal (Minimum).
+
+**Mathematisch:**
+$$w := w - \alpha \cdot \frac{\partial L}{\partial w}$$
+
+Dabei:
+- $\frac{\partial L}{\partial w}$ ist der Gradient (wie steil geht's bergab?)
+- $\alpha$ ist die **Lernrate** (wie große Schritte machst Du? Zu groß → überschießen; zu klein → sehr langsam)
+
+<LiteraturSource :sources="[
+  { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
+]" />
+
+---
+layout: default
+---
+
+## Backpropagation — Fehler rückwärts durch die Schichten
+
+**Backpropagation** ist die effiziente Methode, die Gradienten für **alle** Gewichte im Netz zu berechnen.
+
+**Die Idee:** Der Loss kommt aus der Output-Schicht. Backprop sagt: "Wie viel trägt jedes Gewicht zum Loss bei?" Die Antwort wandert rückwärts durch die Schichten (daher "Back").
+
+**Vereinfachtes Bild:**
+```
+Input → Layer 1 → Layer 2 → Output
+(Forward Pass: Vorhersage berechnen)
+  ↑      ←  ←  ←   ←  ←   ← Loss
+(Backward Pass: Gradienten berechnen)
+```
+
+<LiteraturSource :sources="[
+  { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
+]" />
+
+---
+layout: default
+---
+
+## Backpropagation — Der Ablauf
+
+Ein Trainingsschritt läuft in drei Etappen ab:
+
+1. **Forward Pass:** Vorhersage berechnen
+2. **Loss & Backward Pass:** Fehler berechnen, Gradienten rückwärts propagieren
+3. **Gradient Descent:** Alle Gewichte anpassen
+
+**Technisch** nutzt Backprop die **Kettenregel** (Chain Rule) — hier reicht die Intuition: Fehler fließt rückwärts, jedes Gewicht erfährt seine Korrekturrichtung.
+
+---
+layout: default
+---
+
+## Ein vollständiger Trainingsschritt zusammengefasst
+
+**Schritt 1 — Forward Pass:** Netz macht eine Vorhersage $\hat{y} = \text{netz}(x)$
+
+**Schritt 2 — Loss berechnen:** $L = \text{loss}(\hat{y}, y)$ (z.B. MSE oder Cross-Entropy)
+
+**Schritt 3 — Backward Pass:** Berechne für jedes Gewicht $w$ den Gradienten $\frac{\partial L}{\partial w}$
+
+**Schritt 4 — Gradient Descent:** $w := w - \alpha \cdot \frac{\partial L}{\partial w}$
+
+**Schritt 5 — Wiederhole:** Zurück zu Schritt 1 mit den neuen Gewichten. Nach vielen Iterationen sinkt der Loss.
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep Learning. Nature, 521(7553), 436–444', url: 'https://doi.org/10.1038/nature14539', year: '2015' },
+]" />
 
 ---
 layout: default
@@ -3763,12 +4112,13 @@ layout: default
 
 ## Training in Code: Das Muster
 
-In PyTorch sieht die Training-Schleife so aus. Vier neue Begriffe kurz vorab:
+In PyTorch sieht die Training-Schleife so aus. Du erkennst vielleicht einige Konzepte aus Cluster 6.4 wieder:
 
 - **DataLoader:** liefert automatisch einen Batch nach dem anderen
-- **Forward Pass:** Netz macht eine Vorhersage für den Batch
-- **Backward Pass:** Netz berechnet die nötige Korrekturrichtung
-- **optimizer.step():** Gewichte werden um ein Stück verschoben
+- **Forward Pass** (Cluster 6.4): Netz macht eine Vorhersage für den Batch
+- **Loss berechnen** (Cluster 6.4): Fehler zwischen Vorhersage und echtem Label
+- **Backward Pass** (Cluster 6.4): Backpropagation berechnet Gradienten für alle Gewichte
+- **optimizer.step():** Gradient Descent passt die Gewichte an
 
 ```python
 for epoch in range(num_epochs):              # Äußere Schleife: Epochs
@@ -3796,7 +4146,7 @@ layout: default
 | **Epoch** | Ein kompletter Durchlauf durch alle Batches (alle 100.000 Fotos) | Alle 1.563 Batches hintereinander |
 | **Steps pro Epoch** | Anzahl der Batch-Updates pro Epoch | 100.000 ÷ 64 ≈ 1.563 Steps |
 
-**Das Wichtigste:** Batches lösen das Speicherproblem, aber sie erklären nicht, *wie* ein einzelnes Neuron überhaupt sinnvoll rechnet. Ein Netz mit nur linearen Funktionen hintereinander ist nutzlos — man braucht Nichtlinearität. Das ist der Job der **Aktivierungsfunktionen** (ReLU, Sigmoid, Tanh, Softmax), die im nächsten Cluster erklären, warum das Netz überhaupt lernen kann.
+**Das Wichtigste:** Batches sind die praktische Lösung für Speicherbeschränkungen. Sie ermöglichen es uns, Gradient Descent (aus Cluster 6.4) auf Millionen von Fotos anzuwenden. Der Trainingsloop schleift dabei: Batch laden → Forward Pass → Loss berechnen → Backward Pass (Gradienten) → Gewichte anpassen → nächster Batch. Nach genug Epochs sollte das Netz bessere Vorhersagen treffen.
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },

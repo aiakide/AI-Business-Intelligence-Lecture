@@ -96,15 +96,17 @@ Case: Kunden-/Versichertensegmentierung.
 
 ## 4. Kapitel 6 — Deep Learning
 - [x] Kapitel-Opener + Lernziele (6.0) — authored, approved (2026-09-01), 3 Folien
-- [x] ML vs. DL (Architektur, Datenbedarf, Rechenaufwand) (6.1) — authored, approved (2026-09-01), 5 Folien, siehe narrative-thread.md §24
-- [x] Batch / Epoch (6.2) — authored, approved (2026-09-02), 4 Folien
-- [ ] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3)
-- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.4)
-- [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it) (6.5)
+- [x] ML vs. DL + Case-Diversity (Architektur, Datenbedarf, Rechenaufwand, DL auf Bildern/Text/Zeitreihen) (6.1) — authored, approved (2026-09-02), 6 Folien
+- [x] Was ist ein neuronales Netz? (Perzeptron, Gewichte/Bias, Schichten, Forward Pass) (6.2) — authored, approved (2026-09-02), 6 Folien
+- [x] Aktivierungsfunktionen (Sigmoid, ReLU, Tanh, Softmax) (6.3) — authored, approved (2026-09-02), 6 Folien
+- [x] Wie lernt das Netz? (Loss-Funktion, Gradient Descent, Backpropagation) (6.4) — authored, approved (2026-09-02), 6 Folien
+- [x] Batch & Epoch (6.5) — authored, approved (2026-09-02), 4 Folien (nach Neuplanung von Position 6.2 hierher verschoben, siehe narrative-thread.md §24-26)
+- [ ] Neuronales Netz spezifizieren (**PyTorch**, not Keras/Sequential — corrected 2026-08-23, from user) (6.6)
+- [ ] MNIST-Ziffernerkennung als Zusatzbeispiel (2026-08-23, from user: covers the Handschrifterkennung item from §8 alongside the Kfz-Schadensfotos case, not instead of it) (6.7)
 
-Case: Kfz-Schadensfotos (primary) + MNIST (secondary/classic-example).
+Case: Kfz-Schadensfotos (primary) + MNIST (secondary/classic-example) + Case-Diversity-Folie zeigt Text/Zeitreihen als weitere DL-Anwendungsfelder.
 
-**Status (2026-09-01):** Cluster 6.0/6.1 fertig und approved (~8 Slides). Quellen verifiziert: LeCun/Bengio/Hinton (2015, Nature), Halevy/Norvig/Pereira (2009), Shi et al. (2016), Lipton (2016), Pérez-Zarate et al. (2024, echter Versicherer-CV-Case). Details, QA-Historie und Cluster-6.2–6.5-Skizzen in narrative-thread.md §24.
+**Status (2026-09-02):** Cluster 6.0–6.5 fertig und approved (~29 Folien). Nach User-Feedback komplett umstrukturiert: Reihenfolge korrigiert (Neuron-Grundlagen → Aktivierungsfunktionen → Loss/Gradient Descent/Backprop → erst dann Batch/Epoch, statt Batch/Epoch direkt nach "ML vs. DL"), Case-Diversity-Folie ergänzt (DL ≠ nur Bilder), neues Kapitel-Titelbild (`ai-brain-bro.svg` statt Dopplung mit Kapitel 4). Quellen verifiziert: LeCun/Bengio/Hinton (2015), Halevy/Norvig/Pereira (2009), Pérez-Zarate et al. (2024), McCulloch & Pitts (1943), Rosenblatt (1958), Goodfellow et al. (2016), Rumelhart et al. (1986), Krizhevsky et al. (2012), Vaswani et al. (2017), Hochreiter & Schmidhuber (1997), Cybenko (1989), Nair & Hinton (2010). Details, vollständige QA-Historie in narrative-thread.md §24-26.
 
 **Source assessment (2026-08-23):** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` covers "ML vs. DL" and "Batch/Epoch" well and reusably. Gaps: **Softmax is entirely missing** (needs fresh research), and all code is **PyTorch**, not Keras — user decided (2026-08-23) to keep PyTorch rather than force Keras, so `dl.md`'s code style is directly usable as a base after case-rewrite. Sigmoid stays in scope despite being supplanted by ReLU in hidden layers — it's the deliberate callback to Kapitel 1's logistic-regression sigmoid formula. `dl.md` also covers far more than this chapter's budget allows (full optimizer zoo, full CNN theory, Transfer Learning) — treat the overflow as a candidate for Kapitel 8–10, not for Kapitel 6 itself. `dl.md`'s MNIST CNN code (PyTorch) is a usable base for the new Handschrifterkennung example. See narrative-thread.md for full agent report.
 
