@@ -4233,6 +4233,265 @@ layout: default
 ]" />
 
 ---
+layout: header-cols
+---
+
+## <img :src="'/logos/pytorch.svg'" class="inline-block h-9 align-middle mr-2" /> PyTorch — Das Werkzeug für neuronale Netze
+
+::left::
+
+**Was ist PyTorch?**
+
+PyTorch ist eine Open-Source-Bibliothek von Meta AI für Machine Learning und Deep Learning — sie ermöglicht, neuronale Netze als Python-Code zu definieren und zu trainieren.
+
+**Warum PyTorch?**
+
+1. **Imperativ & intuitiv:** Code sieht aus wie normales Python
+2. **GPU-ready:** Automatische Nutzung von Grafikkarten für schnelleres Training
+3. **Standard:** Meistgenutzte Bibliothek in der Deep-Learning-Forschung
+
+::right::
+
+**Was kommt jetzt?**
+
+1. **Heute:** MLP für Versicherer-Tabellendaten (3 Features → Schadenshöhe/Betrug)
+2. **Nächstes Kapitel:** CNN für Kfz-Schadensfotos (Bilderkennung)
+3. **Später:** Transformer für Schadenstexte (Textverarbeitung)
+
+<LiteraturSource :sources="[
+  { title: 'Paszke, A., et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. NeurIPS 2019', url: 'https://arxiv.org/abs/1912.01703', year: '2019' },
+]" />
+
+---
+layout: default
+---
+
+## Das Rezept: 3 Bausteine für ein neuronales Netz
+
+Um ein neuronales Netz in PyTorch zu trainieren, brauchst du genau drei Komponenten — hier die Übersicht, die wir gleich im Detail durchgehen:
+
+1. **Modell definieren:** Eine Klasse mit Layern in `__init__` und den Verbindungen in `forward()`
+2. **Loss + Optimizer:** Eine Fehlermetrik (MSE oder CrossEntropyLoss) und eine Update-Strategie (Adam oder SGD)
+3. **Trainieren:** Der Loop aus den Batches — Forward Pass → Loss → Backward Pass → Gewichte anpassen
+
+Der Rest ist die gleiche Struktur, die du schon kennst. Schauen wir, wie das konkret aussieht.
+
+---
+layout: header-cols
+---
+
+## nn.Module — Die Klasse für neuronale Netze
+
+Ein neuronales Netz ist in PyTorch eine **Klasse** — sie erbt von `nn.Module` und definiert zwei Dinge: welche Layer es hat (`__init__`) und wie die Daten durchfließen (`forward`).
+
+::left::
+
+```python
+import torch.nn as nn
+
+class MLP(nn.Module):
+    def __init__(self, n_in, n_hidden, n_out):
+        super(MLP, self).__init__()
+        self.fc1 = nn.Linear(n_in, n_hidden)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(n_hidden, n_out)
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
+```
+
+<LiteraturSource :sources="[
+  { title: 'PyTorch Documentation: torch.nn.Module', url: 'https://pytorch.org/docs/stable/generated/torch.nn.Module.html', year: '2024' },
+  { title: 'PyTorch Documentation: torch.nn.Linear', url: 'https://pytorch.org/docs/stable/generated/torch.nn.Linear.html', year: '2024' },
+]" />
+
+::right::
+
+**Kurz zu Python:**
+- `class MLP(nn.Module):` — erbt von `nn.Module`
+- `super().__init__()` — PyTorchs eigene Initialisierung zuerst
+- `self.fc1 = ...` — `self` ist dieses eine Netz-Objekt
+
+**Wichtig:** `__init__` = Architektur, `forward()` = Berechnung.
+
+---
+layout: header-cols
+---
+
+## Konkret: Unser Versicherer-MLP
+
+::left::
+
+```python
+class VersichererMLP(nn.Module):
+    def __init__(self):
+        super(VersichererMLP, self).__init__()
+        self.fc1 = nn.Linear(3, 5)   # 3→5
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(5, 1)   # 5→1
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
+
+model = VersichererMLP()
+```
+
+::right::
+
+**Die drei Layer:**
+
+1. **Input → Hidden:** 3 Merkmale → 5 Neuronen
+2. **Aktivierung:** ReLU zwischen den Schichten
+3. **Hidden → Output:** 5 Neuronen → 1 Vorhersage
+
+`nn.Linear` speichert intern genau die Gewichte $w$ und den Bias $b$ aus der Neuron-Formel von eben — PyTorch initialisiert sie automatisch.
+
+---
+layout: default
+---
+
+## Loss-Funktion wählen
+
+Um ein Netz zu trainieren, brauchst du eine **Loss-Funktion** — sie misst, wie weit die Vorhersage vom echten Wert entfernt ist.
+
+```python
+# Regression (Schadenshöhe vorhersagen):
+criterion = nn.MSELoss()
+
+# Klassifikation (Betrug: Ja/Nein):
+criterion = nn.CrossEntropyLoss()
+```
+
+**MSE (Mean Squared Error):** Für kontinuierliche Ziele (z.B. Schadenshöhe in EUR). Vergleicht Differenzen zwischen Vorhersage und echtem Wert.
+
+**CrossEntropyLoss:** Für Klassifikation (Ja/Nein, Ziffern 0–9). Vergleicht zwei Wahrscheinlichkeitsverteilungen.
+
+<LiteraturSource :sources="[
+  { title: 'PyTorch Documentation: torch.nn.MSELoss', url: 'https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html', year: '2024' },
+  { title: 'PyTorch Documentation: torch.nn.CrossEntropyLoss', url: 'https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## Optimizer wählen
+
+Der **Optimizer** passt die Gewichte an, basierend auf den Gradienten aus der Backpropagation. `model.parameters()` sind dabei genau die Gewichte und Bias-Werte des Netzes — dieselben, für die `optimizer.step()` das Update $w := w - \alpha \cdot \partial L/\partial w$ von eben ausführt. Zwei Optionen:
+
+```python
+# Adam: moderne Wahl (adaptive Lernrate)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# SGD: klassischer Gradient Descent
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+```
+
+**Praktische Regel:** Adam ist oft die sicherere Wahl — du musst die Lernrate weniger genau tunen. Für unser Versicherer-Beispiel: **Adam mit lr=0.001**.
+
+<LiteraturSource :sources="[
+  { title: 'PyTorch Documentation: torch.optim.Adam', url: 'https://pytorch.org/docs/stable/generated/torch.optim.Adam.html', year: '2024' },
+]" />
+
+---
+layout: default
+---
+
+## End-to-End (1/2): Modell & Setup
+
+Hier siehst Du Modell-Definition, Instanziierung, Loss und Optimizer an einem Stück — alle Bausteine von eben zusammengesetzt:
+
+```python
+import torch.nn as nn
+import torch.optim as optim
+
+class VersichererMLP(nn.Module):
+    def __init__(self):
+        super(VersichererMLP, self).__init__()
+        self.fc1 = nn.Linear(3, 5)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(5, 1)
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        return self.fc2(x)
+
+model = VersichererMLP()
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+```
+
+---
+layout: default
+---
+
+## End-to-End (2/2): Der Trainingsloop
+
+Jetzt fehlt nur noch der Trainingsloop — genau das Muster, das Du von eben schon kennst:
+
+```python
+for epoch in range(num_epochs):
+    for batch_x, batch_y in DataLoader:
+        output = model(batch_x)
+        loss = criterion(output, batch_y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+```
+
+**Mehr gibt es nicht.** Netz definieren, instanziieren, Loss/Optimizer wählen, trainieren. Das ist das ganze Rezept — und Du kennst jeden Baustein schon.
+
+---
+layout: default
+---
+
+## Was du jetzt kannst
+
+Nach diesem Kapitel kannst du:
+
+**Verstehen & Erklären:**
+- Wie neuronale Netze funktionieren (Neuronen, Gewichte, Forward Pass, Aktivierungsfunktionen)
+- Wie sie trainiert werden (Loss, Gradient Descent, Backpropagation)
+
+**Praktisch Umsetzen:**
+- Ein neuronales Netz in PyTorch spezifizieren (nn.Module, `__init__`, `forward`)
+- Loss-Funktion und Optimizer wählen (MSELoss, CrossEntropyLoss, Adam)
+- Die Netz-Architektur auf einen eigenen Datensatz anpassen (z.B. von Kaggle) — Anzahl der Input-Features und Loss-Funktion ändern, der Rest bleibt gleich
+
+*(Datenaufbereitung — Laden, Normalisieren, Train/Test-Split — ist ein eigenes Handwerk und nicht Teil dieses Kapitels.)*
+
+---
+layout: default
+---
+
+## Kapitel 6 im Rückblick — Die 6 Bausteine
+
+1. **Deep Learning vs. Machine Learning** — Wann brauchst du welches?
+2. **Das Neuron & Schichten** — Input, Hidden, Output mit Gewichten
+3. **Aktivierungsfunktionen** — ReLU, Sigmoid, Tanh, Softmax
+4. **Training: Loss & Backpropagation** — Fehler messen, Gradienten berechnen
+5. **Batch & Epoch** — Speicher sparen, Millionen Beispiele verarbeiten
+6. **PyTorch** — Die Mathematik wird zu Python-Code
+
+---
+layout: default
+---
+
+## Ausblick: Computer Vision
+
+Das nächste Kapitel: **Bilder statt Tabellen.**
+
+Bislang: MLPs für Tabellendaten (3 Features → 1 Output). Aber **Bilder sind anders** — Pixel haben räumliche Struktur. 
+
+**CNNs (Convolutional Neural Networks)** nutzen diese Struktur: Sie erkennen Kanten, dann Muster, dann Objekte. Die gleiche PyTorch-Struktur (nn.Module, forward, Trainingsloop), nur mit anderen Layer-Typen — convolutional statt linear.
+
+Mit den Fähigkeiten aus diesem Kapitel kannst du bereits Kaggle-Wettbewerbe für Tabellendaten gewinnen (Titanic, House Prices, ...). Das MLP-Rezept von hier ist dein Werkzeug — die nächsten Kapitel zeigen nur andere Layer.
+
+---
 layout: default
 ---
 

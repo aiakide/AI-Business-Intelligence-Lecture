@@ -1707,7 +1707,7 @@ Diese Fixes sind **nicht sichtbar** für Studierende in den einzelnen Slide-Quel
 
 ## 24. Kapitel 6 — Deep Learning (Authored, 2026-09-02, UMSTRUKTURIERUNG ABGESCHLOSSEN)
 
-**Status:** ✅ **6.0 & 6.1 + Case-Diversity APPROVED (2026-09-01/02)** — ✅ **6.2, 6.3, 6.4 AUTHORED & 6.5 ADJUSTED (2026-09-02, slidev-content-transformer)** — Umstrukturierung komplett: Reihenfolge von 6.2–6.7 korrigiert, weil Batch/Epoch VOR neuronalen Netz-Grundlagen unmöglich ist. Case-Diversität (Text, Audio, Zeitreihen) integriert. Finale Struktur: 6.0/6.1 ✅ (6 Folien gesamt), 6.2 ✅ (4 Folien Neuron-Grundlagen, schlank), 6.3 ✅ (6 Folien Aktivierungsfunktionen), 6.4 ✅ (5 Folien Loss/Gradient/Backprop), 6.5 ✅ (4 Folien Batch/Epoch, verschoben+motiviert), 6.6/6.7 ⬜ (noch zu authored). Umfang: 3 + 6 + 4 + 6 + 5 + 4 = **28 Folien Cluster 6.0–6.5**, + ~10 Folien für 6.6/6.7 = insgesamt **~38–40 Slides Kapitel 6 gesamt**.
+**Status:** ✅ **6.0 & 6.1 + Case-Diversity APPROVED (2026-09-01/02)** — ✅ **6.2, 6.3, 6.4 AUTHORED & 6.5 ADJUSTED (2026-09-02, slidev-content-transformer)** — ✅ **6.6 AUTHORED (2026-09-02, slidev-content-transformer)** — Umstrukturierung komplett: Reihenfolge von 6.2–6.5 korrigiert, weil Batch/Epoch VOR neuronalen Netz-Grundlagen unmöglich ist. Case-Diversität (Text, Audio, Zeitreihen) integriert. **KAPITEL 6 KOMPLETT (6.0–6.6).** Finale Struktur: 6.0/6.1 ✅ (6 Folien Opener+ML-vs-DL), 6.2 ✅ (4 Folien Neuron-Grundlagen), 6.3 ✅ (6 Folien Aktivierungsfunktionen), 6.4 ✅ (5 Folien Loss/Gradient/Backprop), 6.5 ✅ (4 Folien Batch/Epoch), 6.6 ✅ (7 Folien PyTorch-Spezifikation + Kapitel-Abschluss). Umfang: 3 + 6 + 4 + 6 + 5 + 4 + 7 = **35 Folien Kapitel 6 GESAMT**. MNIST/CNN wandern ins neue Kapitel 7 (Computer Vision).
 
 **QA-Historie (2026-09-01):**
 - **Visual QA Runde 1:** 3 echte Overflow-Fehler gefunden — (a) `header-cols`-Folie "Machine Learning vs. Deep Learning" hatte keinen `::right::`-Block, Inhalt lief einspaltig über; (b) "Datenmenge & Hardware"-Tabelle kollidierte mit Footer; (c) "Wann welches Verfahren?" hatte zweizeiligen Titel + Overflow. Alle 3 direkt gefixt (::right:: ergänzt, Tabellenzeilen zusammengelegt, Titel gekürzt). Tippfehler "Tabellendata"→"Tabellendaten" korrigiert.
@@ -2052,8 +2052,7 @@ Needed sources:
 | 6.3 | **Aktivierungsfunktionen** (Sigmoid, ReLU, Tanh, Softmax) — **6 Folien** (layouts: 1×default Hook-Lichtschalter + 4×default Sigmoid/ReLU/Tanh/Softmax mit Formeln + 1×default Zusammenfassung-Tabelle) — 4-Tier: Hook (Nichtlinearität-Problem) / Foundation (Sigmoid/ReLU/Tanh/Softmax mit Formeln+Eigenschaften) / Application (wo welche passt) / Synthesis (Universal Approximation) | 6 | MNIST-Vorbereitung (Softmax für 10 Klassen) + Versicherer-Regressions-Beispiel | ✅ authored (2026-09-02, slidev-content-transformer) | — |
 | 6.4 | **Wie lernt das Netz?** (NEW — Loss, Gradient Descent, Backpropagation-Konzept) — **5 Folien** (layouts: 5×default) — 4-Tier: Hook (Fehler-Feedback) / Foundation (Loss-Funktion MSE/Cross-Entropy, Gradient Descent Wanderer-Metapher, Backprop Konzept) / Application (MNIST-Beispiel) / Synthesis (braucht Batches für große Datenmengen → Cluster 6.5) | 6 | MNIST-Klassifikation + Versicherer-Regression | ✅ authored (2026-09-02, slidev-content-transformer) | — |
 | 6.5 | **Batch & Epoch** (MOVED + adjusted: war früher nach 6.1, jetzt nach 6.4 mit neuer Motivation) — **4 Folien** (layouts: 4×default) — Praktische Lösung für Speicherbeschränkungen beim Training | 6 | Versicherer (100.000 Fotos ÷ 64 ≈ 1.563 Steps/Epoch) | ✅ authored + adjusted (2026-09-02, slidev-content-transformer; Forward/Backward-Pass verweisen jetzt auf 6.4 statt neu zu erklären) | 3+ |
-| 6.6 | **Neuronales Netz spezifizieren** (PyTorch nn.Module) — **4-Tier Cluster** — 5–6 Folien | 6 | MNIST oder Versicherer-Toy-Beispiel | ⬜ next: Authoring nach 6.5 | — |
-| 6.7 | **MNIST-Ziffernerkennung** (klassisches Anwendungsbeispiel) — **4-Tier Cluster** — 4–5 Folien | 6 | MNIST + Versicherer-Brücke (CNN für Bilder ↔ Transformer für Text Kapitel 7) | ⬜ next: Authoring nach 6.6 | — |
+| 6.6 | **Neuronales Netz spezifizieren: PyTorch — ABSCHLIESSENDER Cluster von Kapitel 6** — Hook (PyTorch Intro + Logo + 3-Bausteine-Überblick), Foundation (nn.Module-Grundgerüst: `__init__` + Layer-Definitionen + `forward()` + konkrete Versicherer-MLP), Application (Modell-Instanziierung + Loss + Optimizer + End-to-End Code), Synthesis (Kapitel-Abschluss + Ausblick auf Computer Vision). **7 Folien** (layouts: 2×header-cols PyTorch-Intro/Versicherer-MLP, 5×default Code+Erklärung/Synthesis) — KEINE Trainingsloop-Wiederholung (6.5 liefert sie schon; 6.6 zeigt nur die Netz-Definition). Nach diesem Cluster: **Kapitel 6 KOMPLETT (6.0–6.6)**. MNIST/CNN NICHT mehr als 6.7 hier — siehe Renumbering-Entscheidung unten: MNIST wandert ins neue Kapitel 7 (Computer Vision). | 6 | Versicherer-MLP (3 Input → 5 Hidden → 1 Output) + Kaggle-Ausblick | ✅ authored, awaiting visual QA (2026-09-02, slidev-content-transformer, Zeilen 4235–4460 in slides.md) | — |
 
 ---
 
@@ -2191,3 +2190,365 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 2. **Kapitel 7 (Computer Vision, NEU):** vollständige Neuplanung nach Kapitel-6-Abschluss
 
 ---
+
+## 26. Cluster 6.6 Planung — Neuronales Netz spezifizieren: PyTorch (2026-09-02)
+
+**Status:** 🔵 **PLANNING** — Diese Planung dokumentiert den **abschliessenden Cluster von Kapitel 6**, nach dem Kapitel 6 vollständig ist.
+
+**User-Anforderungen (wörtlich):**
+- "Gebe eine kurze Einführung in PyTorch, was es ist und wofür wir es verwenden (inklusive Logo)."
+- "Am Ende des Kapitels wollen wir in der Lage sein, ein MLP für unser Beispiel zu erstellen bzw. für einen Datensatz von Kaggle."
+
+**Kritische Lektionen aus Kapitel-6-QA (nicht wiederholen in 6.6):**
+1. **Redundanzvermeidung:** Cluster 6.5 zeigt bereits einen kompletten PyTorch-Trainingsloop mit DataLoader/Forward/Loss/Backward/optimizer.step (Zeilen 4203–4211 in slides.md). Cluster 6.6 soll **NICHT** diesen Trainingsloop wiederholen, sondern den **fehlenden Baustein** liefern: **Wie spezifiziert man das Netz selbst als Code** (nn.Module, `__init__`, `forward`, `nn.Linear`). Der Trainingsloop bleibt Verweis-Material aus 6.5.
+2. **Hook-Qualität:** Nicht zu abstrakt/technisch starten — Motivation muss geschäftlich verankert sein (warum PyTorch statt TensorFlow, warum nicht nur NumPy/Pandas). Kurze, prägnante Einführung, kein tiefes History-Vortrag.
+3. **Footer-Kollisionen:** Alle Kapitel-6-Folien zeigen, dass `<LiteraturSource>`-Fußzeilen mit Content kollidieren, wenn der Text die scrollHeight-Metrik NICHT erfasst (nur bei expliziter Bounding-Box sichtbar). Diesen Abstand proaktiv bei der Authoring planen, nicht erst bei Visual QA fixieren.
+4. **Layout-Transitions:** Bei Umstieg von `layout: default` auf `layout: header-cols` den **alten Block komplett ersetzen**, nicht einfach `layout:` hinzufügen (erzeugt Phantom-Folien). Alle `header-cols`-Folien nutzen **nur `::left::`/`::right::`**, niemals `::header::`.
+
+### 4-Tier Pedagogical Architecture für Cluster 6.6
+
+#### **TIER 1: HOOK** (1–2 Folien)
+
+**Folie 6.6-1: PyTorch Einführung — Was ist PyTorch? Wofür nutzen wir es?**
+
+**Layout:** `header-cols` (Logo links, Definition/Use Cases rechts)
+
+**Inhalt:**
+- **Überschrift mit Logo:** `## <img :src="'/logos/pytorch.svg'" class="inline-block h-9 align-middle mr-2" /> PyTorch — Das Werkzeug für neuronale Netze`
+- **Links (::left:):**
+  - PyTorch-Logo + kurze Definition: "PyTorch ist eine Open-Source-Bibliothek von Meta AI für Machine Learning und Deep Learning. Sie ermöglicht es, neuronale Netze einfach als Python-Code zu definieren und zu trainieren."
+  - Warum PyTorch (3 Punkte):
+    1. **Imperativ & intuitiv:** Code sieht aus wie normales Python (nicht wie ein mathematisches Diagramm-Builder)
+    2. **GPU-ready:** Automatische Nutzung von Grafikkarten — Training wird **Millionen mal schneller**
+    3. **Forschung & Industrie Standard:** 80%+ der neuen DL-Paper nutzen PyTorch (vs. TensorFlow 10%)
+- **Rechts (::right:):**
+  - Use Cases für unsere Lernreise:
+    1. MLP für Versicherer-Tabellendaten (3 Features → Schadenshöhe/Betrugswahrscheinlichkeit) — Heute
+    2. CNN für Kfz-Schadensfotos (Kapitel 7)
+    3. Transformer für Schadenstexte (Kapitel 8)
+    4. Eigene Projekte auf Kaggle oder im Unternehmen
+
+**Density:** 5–6 bullets total (kurz halten, Logo ist visuelle Gewichtung).
+
+**Source:** PyTorch Official Website + Logo.
+
+---
+
+**Folie 6.6-2 (optional, kann zusammengefasst mit 6.6-1 sein): 3 Bausteine für ein neuronales Netz in PyTorch**
+
+**Layout:** `default`
+
+**Inhalt:** Überblick über die nächsten Folien — das Rezept in 3 Schritten:
+1. **Modell definieren:** `class MLP(nn.Module)` mit Layern in `__init__` und Verbindungen in `forward()`
+2. **Loss + Optimizer:** MSE oder CrossEntropyLoss, dann Adam oder SGD
+3. **Trainieren:** Die Schleife aus Kapitel 6.5 nutzen (kurzer Verweis, **nicht nochmal erklären**)
+
+→ Diese Folie kann mit 6.6-1 zusammengelegt werden, wenn 6.6-1 noch Platz hat; sonst eigenständig.
+
+---
+
+#### **TIER 2: FOUNDATION** (2–3 Folien)
+
+**Folie 6.6-3: nn.Module — Die Klasse für neuronale Netze**
+
+**Layout:** `default`
+
+**Inhalt:**
+- Kurze Intro: "Ein neuronales Netz ist in PyTorch eine **Klasse** — sie erbt von `nn.Module` und definiert zwei Dinge: welche Layer es hat (`__init__`) und wie sie verbunden sind (`forward()`)."
+- KaTeX/Code-Pattern (keine vollständige Ausführung, sondern Struktur-Template):
+  ```python
+  import torch.nn as nn
+  
+  class MLP(nn.Module):
+      def __init__(self, input_size, hidden_size, output_size):
+          super(MLP, self).__init__()  # Immer nötig — bindet Parent-Klasse
+          # Layer definieren:
+          self.fc1 = nn.Linear(input_size, hidden_size)
+          self.relu = nn.ReLU()
+          self.fc2 = nn.Linear(hidden_size, output_size)
+      
+      def forward(self, x):
+          # Schichten hintereinander verbinden:
+          x = self.fc1(x)      # Input-Schicht → Hidden
+          x = self.relu(x)     # Aktivierung
+          x = self.fc2(x)      # Hidden → Output
+          return x
+  ```
+- **Erklärung der Komponenten:**
+  - `super(MLP, self).__init__()`: Initialisiert die Parent-Klasse (PyTorch-spezifischer Overhead, aber notwendig)
+  - `nn.Linear(input_size, hidden_size)`: Vollständig verbundene Schicht (entspricht Gewichte + Bias)
+  - `forward(x)`: Definiert, wie Daten durch das Netz fließen — schicht für Schicht
+- **Wichtig:** `__init__` definiert die **Architektur** (welche Layer), `forward()` definiert die **Berechnung** (wie sie verbunden sind)
+
+**Density:** 1 Codeblock + 3–4 Erklär-Bullets. Code MUSS 100% korrekt sein (keine Typos!).
+
+**Source:** PyTorch nn.Module Official Documentation.
+
+---
+
+**Folie 6.6-4: Konkrete Implementierung — Unser Versicherer-MLP**
+
+**Layout:** `header-cols` (Code links, Erklärung rechts)
+
+**Inhalt:**
+- **Links (::left:):**
+  ```python
+  # Konkretes Beispiel: 3 Features → 5 Hidden → 1 Output
+  class VersichererMLP(nn.Module):
+      def __init__(self):
+          super(VersichererMLP, self).__init__()
+          self.fc1 = nn.Linear(3, 5)      # 3 Inputs → 5 Neurons
+          self.relu = nn.ReLU()
+          self.fc2 = nn.Linear(5, 1)      # 5 Hidden → 1 Output
+      
+      def forward(self, x):
+          x = self.fc1(x)
+          x = self.relu(x)
+          x = self.fc2(x)
+          return x
+  
+  # Instanziieren:
+  model = VersichererMLP()
+  ```
+- **Rechts (::right:):**
+  - "Das ist unser Versicherer-Beispiel: 3 Merkmale (Alter, Schadenshistorie, Fahrzeugtyp) → Vorhersage der Schadenshöhe."
+  - "Die 3 Layer sind dieselben, die wir in Kapitel 6.2 auf der Tafel gemalt haben — jetzt als Code."
+  - "Alle Gewichte und Bias-Werte werden von PyTorch **automatisch initialisiert** (zunächst zufällig, dann im Training optimiert)."
+  - Hinweis: Das vollständige Training kommt später; hier zeigen wir nur, wie man das Netz **spezifiziert**.
+
+**Density:** 1 Codeblock (12 Zeilen, gut lesbar) + 3 Erklär-Bullets.
+
+**Source:** Reuse from dl.md Zeilen 630–641 (angepasst auf Versicherer-Case).
+
+---
+
+#### **TIER 3: APPLICATION** (1–2 Folien)
+
+**Folie 6.6-5: Loss-Funktion und Optimizer wählen**
+
+**Layout:** `default`
+
+**Inhalt:**
+- "Jetzt haben wir ein Netz. Um es zu trainieren, brauchen wir zwei weitere Komponenten: eine **Loss-Funktion** (wie messen wir Fehler) und einen **Optimizer** (wie passen wir die Gewichte an)."
+- **Loss-Funktion — zwei Hauptfälle:**
+  ```python
+  # Für Regression (Schadenshöhe vorhersagen):
+  criterion = nn.MSELoss()  # Mean Squared Error
+  
+  # Für Klassifikation (Betrug: Ja/Nein, oder 10 MNIST-Klassen):
+  criterion = nn.CrossEntropyLoss()  # Automatisch softmax + log-loss kombiniert
+  ```
+  - **MSE:** Vergleicht die Differenz zwischen Vorhersage und Wahrheit. Genutzt bei **kontinuierlichen Zielen** (z.B. Schadenshöhe in EUR).
+  - **CrossEntropyLoss:** Vergleicht zwei Wahrscheinlichkeitsverteilungen. Genutzt bei **Klassifikation** (die richtige Klasse hat Wahrscheinlichkeit 1, alle anderen 0).
+- **Optimizer — Gradienten-Update automatisieren:**
+  ```python
+  # Adam: moderne Wahl, kombiniert Momentum + Adaptive Learning Rate
+  optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+  
+  # SGD (Stochastic Gradient Descent): klassischer Optimizer
+  optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+  ```
+  - **Adam:** Meist besser (muss Lernrate weniger genau tunen). Start: `lr=0.001`.
+  - **SGD:** Klassisch, manchmal findet es bessere Minima (aber Lernrate-Tuning nötig). Start: `lr=0.01`.
+- **Praktische Wahl für unser Versicherer-Beispiel:** MSELoss (Schadenshöhe ist kontinuierlich) + Adam (einfacher zu tunen).
+
+**Density:** 2 Codeblöcke (je 1–2 Zeilen, knapp) + 4 Erklär-Bullets. Kurz halten.
+
+**Source:** PyTorch Official Documentation (nn.MSELoss, nn.CrossEntropyLoss, torch.optim.Adam).
+
+---
+
+**Folie 6.6-6: End-to-End minimales Codebeispiel**
+
+**Layout:** `default` (wegen Code-Länge)
+
+**Inhalt:** Vollständiges Zusammenspiel aller Bausteine (ABER: Trainingsloop selbst kurz, mit Verweis auf 6.5):
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# 1. Modell definieren
+class VersichererMLP(nn.Module):
+    def __init__(self):
+        super(VersichererMLP, self).__init__()
+        self.fc1 = nn.Linear(3, 5)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(5, 1)
+    
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
+
+# 2. Instanziieren + Loss + Optimizer
+model = VersichererMLP()
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# 3. Training (vereinfacht — den vollständigen Loop aus Kapitel 6.5 nutzen)
+for epoch in range(num_epochs):
+    for batch_x, batch_y in DataLoader:  # Batches aus 6.5
+        output = model(batch_x)           # Forward Pass
+        loss = criterion(output, batch_y) # Loss berechnen
+        optimizer.zero_grad()             # Gradienten zurücksetzen
+        loss.backward()                   # Backward Pass (Gradienten)
+        optimizer.step()                  # Gewichte anpassen
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+```
+
+**Erklärung:**
+- Alle 3 Komponenten zusammen: Modell (6.6-3/4) + Loss + Optimizer (6.6-5) + Trainingsloop (aus 6.5).
+- **Wichtig:** Der Loop selbst ist identisch mit der "Training in Code: Das Muster"-Folie aus 6.5. Hier zeigen wir nur nochmal, dass alle Bausteine zusammenpassen.
+- **Keine neue Erklärung des Loops selbst** — Verweis auf 6.5: "Du erkennst die Struktur aus Kapitel 6.5: DataLoader → Forward Pass → Loss → Backward → optimizer.step()."
+
+**Density:** 1 großer Codeblock (vollständig, aber ohne extra Erklär-Text daneben, um Platz zu sparen).
+
+**Source:** Combining PyTorch Official + dl.md Zeilen 630–641 + dl.md Zeilen 667–692.
+
+---
+
+#### **TIER 4: SYNTHESIS** (1 Folie)
+
+**Folie 6.6-7: Kapitel-6-Abschluss — Was Du jetzt kannst**
+
+**Layout:** `default`
+
+**Inhalt:**
+- **Titel:** "Was Du jetzt kannst — Kapitel 6 abgeschlossen"
+- **Fachlich:** Nach diesem Kapitel kannst Du:
+  1. Erklären, wie neuronale Netze funktionieren (Neuronen, Gewichte, Forward Pass, Aktivierungen)
+  2. Verstehen, wie sie trainiert werden (Loss, Gradient Descent, Backpropagation, Batches)
+  3. **Ein neuronales Netz in PyTorch von Grund auf spezifizieren und trainieren** — sei es für Versicherer-Tabellendaten oder eigene Kaggle-Projekte
+
+- **Kapitel-6-Zusammenfassung (kurz):** 6 Bausteine, die zusammenpassen:
+  1. Was ist DL? (6.1)
+  2. Neuron & Schichten (6.2)
+  3. Aktivierungsfunktionen (6.3)
+  4. Training: Loss, Gradient, Backprop (6.4)
+  5. Batch & Epoch (6.5)
+  6. PyTorch: von der Idee zum Code (6.6 — hier)
+
+- **Ausblick:**
+  - **Kapitel 7 (nächstes Kapitel): Computer Vision — Bilder trainieren**
+    - Bisher: allgemeines MLP für beliebige Eingaben
+    - Jetzt: CNN (Convolutional Neural Network) — spezialisiert auf Bilder
+    - Case: Kfz-Schadensfotos + MNIST-Ziffernerkennung
+    - Gleiche PyTorch-Struktur (nn.Module, forward, Training-Loop), andere Layer-Typen
+  - **Kapitel 8 (später): NLP & Transformer — Text verstehen**
+  - Alle drei Kapitel folgen demselben Muster: Architektur-Spezialisierung + PyTorch-Realisierung
+
+- **Motivation Kaggle/eigene Projekte:**
+  - Mit den Fähigkeiten aus Kapitel 6 kannst Du schon auf Kaggle-Wettbewerbe für Tabellendata antreten
+  - Beispiel-Datensätze: Titanic-Klassifikation, House-Price-Regression
+  - Der Code-Muster ist immer derselbe (Modell → Loss → Optimizer → Loop), nur die Layer-Typen unterscheiden sich
+
+**Density:** 3–4 Absätze + 1 Aufzählung (Kapitel 6 Übersicht) + 1 Aufzählung (Ausblick). Kurz halten.
+
+**Source:** Meta-Zusammenfassung (keine Zitate nötig, nur Brücke).
+
+---
+
+### Redundanzvermeidung explizit bestätigt
+
+**Trainingsloop-Vermeidung:** Folie 6.6-6 zeigt den Loop nur als **Kontext für die Netz-Definition** — die drei Codezeilen `optimizer.zero_grad()`, `loss.backward()`, `optimizer.step()` sind dort, aber die Erklärung verweist vollständig auf 6.5. Es gibt **keine neue Folie, die den Loop noch einmal erklärt**. Der Fokus von 6.6 bleibt **Netz-Definition** (nn.Module, forward, Layer-Instanziierung).
+
+**DataLoader-Vermeidung:** Folie 6.6-6 erwähnt `DataLoader` im Code, erklärt es aber nicht nochmal — die Erklärung war in 6.5, Zeile 4197: "liefert automatisch einen Batch nach dem anderen". Verweis reicht.
+
+---
+
+### Layout-Assignments bestätigt
+
+| Folie | Titel | Layout | Density | Diagram? |
+|---|---|---|---|---|
+| 6.6-1 | PyTorch Einführung (Logo + Definition) | `header-cols` | 5–6 bullets | PyTorch-Logo inkl. |
+| 6.6-2 (optional) | 3 Bausteine Überblick | `default` | 3 Bullets | nein |
+| 6.6-3 | nn.Module Grundgerüst | `default` | 1 Code + 4 Bullets | nein (Code ist Struktur) |
+| 6.6-4 | Konkrete Versicherer-MLP | `header-cols` | 1 Code (L) + 3 Bullets (R) | nein |
+| 6.6-5 | Loss + Optimizer | `default` | 2 Code-Blöcke + 4 Bullets | nein |
+| 6.6-6 | End-to-End Beispiel | `default` | 1 großer Code-Block (rest minimal) | nein |
+| 6.6-7 | Kapitel-Abschluss & Ausblick | `default` | 3–4 Absätze + 2 Listen | nein |
+
+**Total:** 6–7 Folien (wenn 6.6-2 optional/integriert, dann 6 Folien).
+
+---
+
+### Research Requisition Brief für edu-research
+
+Siehe **unten nach Cluster-Plan-Zusammenfassung**. Der Brief wird als separates Dokument übergeben.
+
+---
+
+### Outcome — Cluster 6.6 (2026-09-02) — ✅ AUTHORED, VISUAL-QA-FIXRUNDE KOMPLETT
+
+**Status:** ✅ **10 Folien nach Visual-QA-Nachbesserungsrunde** (2026-09-02, slidev-content-transformer) — Cluster 6.6 ursprünglich 7 Folien, nach Visual-QA Overflow-Fixes gesplittet auf 10 Folien (Zeilen 4235–4476 in slides.md).
+
+**Overflow-Fixes (6 Korrektionen durchgeführt):**
+
+| Fix # | Folie | Ursprung | Behebung | Resultat |
+|---|---|---|---|---|
+| 1 | "PyTorch — Das Werkzeug" (header-cols) | 580px vs. 552px Footer-Kollision | Rechte Spalte ("Was kommt jetzt"): 4 Punkte → 3 Punkte (4. entfernt) | ✅ Puffer >40px |
+| 2 | "nn.Module" (default) | Codekommentare + Text verschachtelt, Footer-Kollision | Alle Kommentare gelöscht (z.B. `# Input-Schicht → Hidden`) — Code spricht für sich | ✅ visueller Abstand zu Footer |
+| 3 | "Konkret: Versicherer-MLP" (header-cols) | Codekommentare überlang (abgeschnitten), rechter Text zu lang | (a) Kommentare gekürzt: `# 3 Inputs → 5 Neurons` → `# 3→5`. (b) Rechter Absatz "Die 3 Layer..." gekürzt von 3 Sätzen auf 1 | ✅ kein Abschnitt-Overflow |
+| 4 | "Loss-Funktion & Optimizer" (default) — **SPLIT** | 23 clipped Elemente: 2 Codeblöcke + 4 Absätze + 3 Quellen | Gesplittet in **zwei Folien:** (A) "Loss-Funktion wählen" (Codeblock MSELoss/CrossEntropyLoss + Erklärungen + 2 Quellen). (B) "Optimizer wählen" (Codeblock Adam/SGD + kurze Erklärung + Quelle + praktische Regel). | ✅ 1 Folie → 2 schlanke Folien |
+| 5 | "End-to-End: Alles zusammen" (default) | 68 clipped Elemente, scrollHeight 824 vs. 552, 50% Overflow | Alle Kommentar-Zeilen gelöscht (z.B. `# 1. Modell definieren`, `# 2. Instanziieren...`) — Code spricht für sich. Erklärtext gekürzt zu einem Satz. | ✅ Codeblock kompakt, kein Split nötig |
+| 6 | "Was du jetzt kannst — Kapitel 6 komplett" (default) — **SPLIT** | 1017px vs. 552px, 12 Bullets + 3 Listen auf einer Folie | Gesplittet in **drei Folien:** (A) "Was du jetzt kannst" (Verstehen & Erklären + Praktisch Umsetzen, je max 2–3 Bullets gekürzt). (B) "Kapitel 6 im Rückblick — Die 6 Bausteine" (kompakte Liste mit 6 Items). (C) "Ausblick: Computer Vision" (Motivation + Brücke zu nächstem Kapitel). | ✅ 1 Folie → 3 fokussierte Folien |
+
+**Neue Folienstruktur nach Fixes (10 Folien statt 7):**
+
+| Folie | Titel | Layout | Inhalt |
+|---|---|---|---|
+| 6.6-1 | PyTorch — Das Werkzeug | header-cols | PyTorch-Logo + Definition + 2 Warum-Punkte + 3 Was-kommt-nächstes-Punkte |
+| 6.6-2 | Das Rezept: 3 Bausteine | default | Modell + Loss/Optimizer + Training — kurze Übersicht |
+| 6.6-3 | nn.Module — Die Klasse | default | Code ohne Kommentare + Erklärung von `__init__` & `forward()` |
+| 6.6-4 | Konkret: Versicherer-MLP | header-cols | Code mit Kurzkommentaren (3→5, 5→1) + rechts: 3-Punkte-Erklärung |
+| **6.6-5** | **Loss-Funktion wählen** | default | MSELoss vs. CrossEntropyLoss, Code + Erklärung + 2 Quellen |
+| **6.6-6** | **Optimizer wählen** | default | Adam vs. SGD, Code + Erklärung + praktische Regel + 1 Quelle |
+| 6.6-7 | End-to-End: Alles zusammen | default | Kompletter Code (Modell + Loss + Optimizer + Trainingsloop ohne Kommentare) + Kurzsynthese |
+| **6.6-8** | **Was du jetzt kannst** | default | Verstehen & Erklären (2 Bullets) + Praktisch Umsetzen (3 Bullets) |
+| **6.6-9** | **Kapitel 6 im Rückblick** | default | 6 Bausteine in kompakter Listenform |
+| **6.6-10** | **Ausblick: Computer Vision** | default | CNN-Motivation + Brücke zu Kapitel 7 |
+
+**Quellen verteilt auf 5 `<LiteraturSource>`-Blöcke (statt 4):**
+1. Folie 6.6-1: Paszke et al. (2019) PyTorch NeurIPS Paper
+2. Folie 6.6-3: torch.nn.Module + torch.nn.Linear Official Docs
+3. Folie 6.6-5 (neu): torch.nn.MSELoss + torch.nn.CrossEntropyLoss Official Docs
+4. Folie 6.6-6 (neu): torch.optim.Adam Official Docs
+5. (Implizit referenziert: 6.5 bereits Loss/Optimizer-Quellen, 6.6-5/6 erweitern nur die Auswahl)
+
+**Kritische Lektionen eingehalten:**
+1. ✅ Keine Hooks zu abstrakt — PyTorch-Intro orientiert sich an Praxisbeispielen (Versicherer, Kaggle)
+2. ✅ Layout korrekt — `header-cols` nutzt nur `::left::`/`::right::`, keine geschweiften Klammern in Code/KaTeX
+3. ✅ Folien-Dichte okay — max 5–6 Bullets pro Folie nach Splitten
+4. ✅ Codeblöcke schlank — Kommentare gelöscht, Code spricht für sich selbst (Strukturen bereits auf vorherigen Folien erklärt)
+5. ✅ Keine Cluster-Nummern im Student-Text — Formulierungen wie "die du kennst", "von eben", "aus den Kapiteln"
+6. ✅ KaTeX-Sicherheit — keine problematischen Sonderzeichen in Codeblöcken/Tabellen
+
+**Nächste Schritte:** ✅ Visual-QA-Nachbesserungen komplett → Student QA (student-reviewer) → User-Gating
+
+---
+
+## 27. Kapitel 6 — FINAL ABGESCHLOSSEN (2026-09-02)
+
+**Status:** ✅ **KAPITEL 6 KOMPLETT (6.0–6.6), alle Cluster approved.**
+
+Nach der Authoring-Runde von Cluster 6.6 (10 Folien) wurden bei der finalen Visual-QA weitere Probleme gefunden und behoben:
+
+1. **"End-to-End: Alles zusammen"** — der ursprüngliche Fix (Kommentare entfernt) reichte NICHT aus: scrollHeight 746 vs. 552 (194px Overflow), 52 clipped Elemente — der komplette Trainingsloop war unsichtbar. Endgültig behoben durch Split in **"End-to-End (1/2): Modell & Setup"** und **"End-to-End (2/2): Der Trainingsloop"** → Cluster 6.6 hat dadurch **11 statt 10 Folien**.
+
+2. **Student-Review** (Verdict: minor fixes needed) fand echte Lücken: Python-Grundbegriffe (`super()`, `self`, Vererbung) nie erklärt; keine Brücke zwischen Mathematik (Neuron-Formel, Gradient Descent) und PyTorch-Code (`nn.Linear`, `model.parameters()`); "Was du jetzt kannst" versprach Kaggle-Fähigkeit ohne Datenaufbereitung zu erwähnen. Alle behoben:
+   - "nn.Module"-Folie auf `header-cols` umgestellt (Code links, neue "Kurz zu Python"-Erklärung rechts)
+   - "Konkret: Versicherer-MLP": Satz ergänzt, dass `nn.Linear` intern die Gewichte $w$/Bias $b$ aus der Neuron-Formel speichert
+   - "Optimizer wählen": Satz ergänzt, dass `model.parameters()` genau die Werte sind, die `optimizer.step()` per Gradient-Descent-Formel aktualisiert
+   - "Was du jetzt kannst": Datenaufbereitung explizit als eigenes, hier nicht behandeltes Thema benannt
+   - **Nicht umgesetzt:** Reviewer-Vorschlag, die beiden "End-to-End"-Folien wegen wahrgenommener Redundanz zum Trainingsloop-Muster aus 6.5 wieder zusammenzulegen — das würde exakt den gerade behobenen 194px-Overflow reaktivieren. Der pädagogische Wert des vollständigen End-to-End-Beispiels wiegt schwerer als die leichte Wiedererkennung des Loop-Musters.
+
+3. **Regression durch den Python-Fix:** Die `header-cols`-Umstellung der "nn.Module"-Folie verursachte selbst 2 neue Probleme (Code-Zeile mit langen Parameternamen `input_size/hidden_size/output_size` wurde in der schmaleren Spalte horizontal abgeschnitten; "Wichtig:"-Absatz lag 106px unterhalb des Canvas). Behoben: Parameter zu `n_in/n_hidden/n_out` gekürzt (Code passt jetzt exakt in die Spaltenbreite), rechte Spalte über 2 weitere Kürzungsrunden gestrafft, bis 34px sauberer Abstand zur Fußzeile erreicht war.
+
+**Finale Struktur Cluster 6.6 (11 Folien):** PyTorch-Intro (Logo) → Rezept (3 Bausteine) → nn.Module (Python-Grundlagen) → Konkret: Versicherer-MLP (Mathe-Brücke) → Loss-Funktion wählen → Optimizer wählen (Gradient-Descent-Brücke) → End-to-End (1/2 Setup) → End-to-End (2/2 Trainingsloop) → Was du jetzt kannst (ehrlicher Scope) → Kapitel-6-Rückblick → Ausblick: Computer Vision.
+
+**Kapitel-6-Gesamtumfang:** 6.0 (3) + 6.1 (6) + 6.2 (5) + 6.3 (6) + 6.4 (5) + 6.5 (4) + 6.6 (11) = **40 Folien**, plus 14 custom SVG-Diagramme.
+
+**Nächster Schritt:** Kapitel 7 (Computer Vision, NEU) — vollständige Neuplanung (Plan → Research → Author → QA), siehe Renumbering-Entscheidung in §24.
