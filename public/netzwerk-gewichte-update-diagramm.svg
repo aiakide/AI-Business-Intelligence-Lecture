@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="100%" height="auto"
+     role="img" aria-labelledby="netzUpdateTitle netzUpdateDesc">
+  <title id="netzUpdateTitle">Neuronales Netz: trainierbare Parameter (Gewichte und Bias) beim Update</title>
+  <desc id="netzUpdateDesc">Dasselbe drei-schichtige Netz wie zuvor: Input-Schicht mit drei Neuronen f&#252;r
+  Fahreralter, Schadenshistorie und Fahrzeugtyp, eine Hidden-Schicht mit f&#252;nf Neuronen und eine Output-Schicht
+  mit einem Neuron f&#252;r die Betrugswahrscheinlichkeit. Alle 20 Verbindungslinien sind orange hervorgehoben, da
+  sie die trainierbaren Gewichte darstellen, die bei jedem Trainingsschritt angepasst werden. Zus&#228;tzlich tr&#228;gt
+  jedes Hidden- und Output-Neuron ein kleines orangefarbenes "+b"-Symbol, das seinen ebenfalls trainierbaren
+  Bias-Wert markiert. Insgesamt werden so 20 Gewichte und 6 Bias-Werte, also 26 Parameter, angepasst.</desc>
+
+  <!-- ===================================================================
+       SCHICHT-BESCHRIFTUNGEN
+       =================================================================== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" text-anchor="middle">
+    <text x="170" y="36" font-size="15" font-weight="700" fill="#1e1e1e">Input-Schicht</text>
+    <text x="400" y="36" font-size="15" font-weight="700" fill="#1e1e1e">Hidden-Schicht</text>
+    <text x="630" y="36" font-size="15" font-weight="700" fill="#1e1e1e">Output-Schicht</text>
+
+    <text x="170" y="55" font-size="11.5" fill="#4a4a4a">3 Neuronen &#8212; nur Eingang</text>
+    <text x="400" y="55" font-size="11.5" fill="#4a4a4a">hier 5 Neuronen (vereinfacht dargestellt)</text>
+    <text x="630" y="55" font-size="11.5" fill="#4a4a4a">1 Neuron &#8212; finale Vorhersage</text>
+  </g>
+
+  <!-- ===================================================================
+       SCHICHT-BAENDER (dezente Hinterlegung, ordnet die Spalten)
+       =================================================================== -->
+  <g fill="#f5f5f5">
+    <rect x="140" y="120" width="60" height="220" rx="30" />
+    <rect x="370" y="80"  width="60" height="300" rx="30" />
+    <rect x="600" y="200" width="60" height="60"  rx="30" />
+  </g>
+
+  <!-- ===================================================================
+       VERBINDUNGEN (= Gewichte) &#8212; ALLE hervorgehoben: werden beim Update
+       angepasst. Zuerst gezeichnet, Neuronen liegen darueber.
+       =================================================================== -->
+  <g stroke="#e07a3f" stroke-width="2" opacity="0.85">
+    <line x1="170" y1="150" x2="400" y2="110" />
+    <line x1="170" y1="150" x2="400" y2="170" />
+    <line x1="170" y1="150" x2="400" y2="230" />
+    <line x1="170" y1="150" x2="400" y2="290" />
+    <line x1="170" y1="150" x2="400" y2="350" />
+    <line x1="170" y1="230" x2="400" y2="110" />
+    <line x1="170" y1="230" x2="400" y2="170" />
+    <line x1="170" y1="230" x2="400" y2="230" />
+    <line x1="170" y1="230" x2="400" y2="290" />
+    <line x1="170" y1="230" x2="400" y2="350" />
+    <line x1="170" y1="310" x2="400" y2="110" />
+    <line x1="170" y1="310" x2="400" y2="170" />
+    <line x1="170" y1="310" x2="400" y2="230" />
+    <line x1="170" y1="310" x2="400" y2="290" />
+    <line x1="170" y1="310" x2="400" y2="350" />
+  </g>
+  <g stroke="#e07a3f" stroke-width="2.2" opacity="0.9">
+    <line x1="400" y1="110" x2="630" y2="230" />
+    <line x1="400" y1="170" x2="630" y2="230" />
+    <line x1="400" y1="230" x2="630" y2="230" />
+    <line x1="400" y1="290" x2="630" y2="230" />
+    <line x1="400" y1="350" x2="630" y2="230" />
+  </g>
+
+  <!-- ===================================================================
+       INPUT-NEURONEN + Feature-Beschriftungen (Versicherer-Case)
+       Keine Bias-Markierung: Input-Neuronen besitzen keinen eigenen Bias.
+       =================================================================== -->
+  <g>
+    <circle cx="170" cy="150" r="18" fill="#e8e8e8" stroke="#00c6b2" stroke-width="2.5" />
+    <circle cx="170" cy="230" r="18" fill="#e8e8e8" stroke="#00c6b2" stroke-width="2.5" />
+    <circle cx="170" cy="310" r="18" fill="#e8e8e8" stroke="#00c6b2" stroke-width="2.5" />
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" fill="#1e1e1e" text-anchor="middle">
+    <text x="170" y="155" font-weight="700" fill="#00a294">x&#8321;</text>
+    <text x="170" y="235" font-weight="700" fill="#00a294">x&#8322;</text>
+    <text x="170" y="315" font-weight="700" fill="#00a294">x&#8323;</text>
+  </g>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="600"
+     fill="#1e1e1e" text-anchor="end">
+    <text x="132" y="154">Fahreralter</text>
+    <text x="132" y="234">Schadenshistorie</text>
+    <text x="132" y="314">Fahrzeugtyp</text>
+  </g>
+
+  <!-- ===================================================================
+       HIDDEN-NEURONEN (je mit Bias-Markierung "+b")
+       =================================================================== -->
+  <g fill="#ffffff" stroke="#00c6b2" stroke-width="2.5">
+    <circle cx="400" cy="110" r="18" />
+    <circle cx="400" cy="170" r="18" />
+    <circle cx="400" cy="230" r="18" />
+    <circle cx="400" cy="290" r="18" />
+    <circle cx="400" cy="350" r="18" />
+  </g>
+
+  <!-- ===================================================================
+       OUTPUT-NEURON (mit Bias-Markierung "+b")
+       =================================================================== -->
+  <circle cx="630" cy="230" r="20" fill="#00c6b2" stroke="#00c6b2" stroke-width="2.5" />
+  <text x="630" y="236" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700"
+        fill="#ffffff" text-anchor="middle">&#963;</text>
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" font-weight="600"
+     fill="#1e1e1e" text-anchor="start">
+    <text x="660" y="226">Betrugs-</text>
+    <text x="660" y="243">wahrscheinlichkeit</text>
+  </g>
+
+  <!-- ===================================================================
+       BIAS-MARKIERUNGEN ("+b"): 5 Hidden + 1 Output = 6 trainierbare
+       Bias-Werte, jeweils oben rechts am Neuron platziert.
+       =================================================================== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <circle cx="413" cy="97"  r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="413" y="100.5">+b</text>
+    <circle cx="413" cy="157" r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="413" y="160.5">+b</text>
+    <circle cx="413" cy="217" r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="413" y="220.5">+b</text>
+    <circle cx="413" cy="277" r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="413" y="280.5">+b</text>
+    <circle cx="413" cy="337" r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="413" y="340.5">+b</text>
+    <circle cx="645" cy="215" r="10" fill="#e07a3f" stroke="#ffffff" stroke-width="1.5" />
+    <text x="645" y="218.5">+b</text>
+  </g>
+
+  <!-- ===================================================================
+       MINI-LEGENDE (Farbschluessel)
+       =================================================================== -->
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="11.5" fill="#1e1e1e">
+    <line x1="60" y1="392" x2="88" y2="392" stroke="#e07a3f" stroke-width="2.5" />
+    <text x="94" y="396">Gewicht (Linie) &#8212; wird angepasst</text>
+    <circle cx="300" cy="392" r="8" fill="#e07a3f" stroke="#ffffff" stroke-width="1.2" />
+    <text x="313" y="396" text-anchor="start">Bias (+b) &#8212; wird angepasst</text>
+  </g>
+
+  <!-- ===================================================================
+       LEGENDE / KERNAUSSAGE
+       =================================================================== -->
+  <line x1="60" y1="410" x2="740" y2="410" stroke="#e8e8e8" stroke-width="1" />
+  <g font-family="Montserrat, Helvetica, sans-serif" font-size="12.5" text-anchor="middle">
+    <text x="400" y="432" fill="#1e1e1e">
+      <tspan font-weight="700" fill="#e07a3f">Alle 20 Gewichte (Linien)</tspan> UND
+      <tspan font-weight="700" fill="#e07a3f">alle 6 Bias-Werte (an den Neuronen)</tspan>
+    </text>
+    <text x="400" y="450" fill="#1e1e1e">
+      werden bei jedem Trainingsschritt angepasst &#8212; 26 Parameter insgesamt.
+    </text>
+  </g>
+</svg>

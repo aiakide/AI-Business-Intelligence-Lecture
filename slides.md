@@ -4106,16 +4106,22 @@ Im Rechenbeispiel eben war $\frac{\partial L}{\partial a} = 0.4$ einfach gegeben
 $\frac{\partial L}{\partial a}$ ist genau die **Ableitung der Loss-Funktion** — dieselbe MSE- oder Cross-Entropy-Funktion, die schon differenzierbar sein musste, damit wir überhaupt mit ihr rechnen können. Sie ist der Startpunkt jeder Kettenregel-Rechnung: Ohne eine differenzierbare Loss-Funktion gäbe es kein erstes Glied — und die ganze Kette könnte gar nicht erst losrechnen.
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Welche Gewichte werden angepasst? Wie oft?
 
-**Welche:** Bisher war immer von *einem* Gewicht $w$ die Rede. In Wirklichkeit läuft dieselbe Kettenregel-Rechnung für **jedes einzelne Gewicht und jeden Bias im Netz** — bei unserem Versicherer-Netz also alle 20 Gewichte + 6 Bias-Werte = 26 Parameter, jeder mit seiner eigenen Zahl $\frac{\partial L}{\partial w_i}$.
+::left::
 
-**Was am Ende herauskommt:** 26 einzelne Gradienten — eine ganze Liste von "wie stark und in welche Richtung muss dieses eine Gewicht sich ändern", nicht nur ein einzelner Wert.
+**Welche:** Bisher war immer von *einem* Gewicht $w$ die Rede. In Wirklichkeit läuft dieselbe Kettenregel-Rechnung für **jedes einzelne Gewicht und jeden Bias im Netz** — alle 20 Gewichte + 6 Bias-Werte = 26 Parameter, jeder mit seiner eigenen Zahl $\frac{\partial L}{\partial w_i}$.
 
-**Wie oft:** Bei **jedem Trainingsschritt neu** — Backprop berechnet alle 26 Gradienten in **einem einzigen Rückwärtsdurchlauf** (deshalb "effizient": spätere Kettenglieder werden für mehrere Gewichte wiederverwendet, statt jedes Gewicht einzeln komplett neu durchzurechnen). Nach dem Gewichtsupdate ändern sich die Gewichte — beim nächsten Trainingsschritt sind die lokalen Ableitungen also andere Zahlen, und alles beginnt von vorn.
+**Was herauskommt:** 26 einzelne Gradienten — eine Liste von "wie stark und in welche Richtung", nicht nur ein Wert.
+
+**Wie oft:** Bei **jedem Trainingsschritt neu**, alle 26 in **einem Rückwärtsdurchlauf** (deshalb "effizient"). Nach dem Update ändern sich die Gewichte — beim nächsten Schritt beginnt alles mit neuen Zahlen von vorn.
+
+::right::
+
+<img :src="'/netzwerk-gewichte-update-diagramm.svg'" alt="Netzwerk-Diagramm mit allen 20 Gewichten (Linien) und 6 Bias-Werten (Neuronen) orange hervorgehoben als Update-Ziele" style="max-height: 320px; margin: 0 auto; display: block;" />
 
 ---
 layout: header-cols
