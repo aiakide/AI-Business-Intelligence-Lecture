@@ -4106,6 +4106,18 @@ Im Rechenbeispiel eben war $\frac{\partial L}{\partial a} = 0.4$ einfach gegeben
 $\frac{\partial L}{\partial a}$ ist genau die **Ableitung der Loss-Funktion** — dieselbe MSE- oder Cross-Entropy-Funktion, die schon differenzierbar sein musste, damit wir überhaupt mit ihr rechnen können. Sie ist der Startpunkt jeder Kettenregel-Rechnung: Ohne eine differenzierbare Loss-Funktion gäbe es kein erstes Glied — und die ganze Kette könnte gar nicht erst losrechnen.
 
 ---
+layout: default
+---
+
+## Welche Gewichte werden angepasst? Wie oft?
+
+**Welche:** Bisher war immer von *einem* Gewicht $w$ die Rede. In Wirklichkeit läuft dieselbe Kettenregel-Rechnung für **jedes einzelne Gewicht und jeden Bias im Netz** — bei unserem Versicherer-Netz also alle 20 Gewichte + 6 Bias-Werte = 26 Parameter, jeder mit seiner eigenen Zahl $\frac{\partial L}{\partial w_i}$.
+
+**Was am Ende herauskommt:** 26 einzelne Gradienten — eine ganze Liste von "wie stark und in welche Richtung muss dieses eine Gewicht sich ändern", nicht nur ein einzelner Wert.
+
+**Wie oft:** Bei **jedem Trainingsschritt neu** — Backprop berechnet alle 26 Gradienten in **einem einzigen Rückwärtsdurchlauf** (deshalb "effizient": spätere Kettenglieder werden für mehrere Gewichte wiederverwendet, statt jedes Gewicht einzeln komplett neu durchzurechnen). Nach dem Gewichtsupdate ändern sich die Gewichte — beim nächsten Trainingsschritt sind die lokalen Ableitungen also andere Zahlen, und alles beginnt von vorn.
+
+---
 layout: header-cols
 ---
 
