@@ -4033,7 +4033,7 @@ layout: default
 
 <img :src="'/lernrate-vergleich-diagramm.svg'" alt="Drei Lernraten-Szenarien: zu klein (sehr langsame Konvergenz), passend (stabile Konvergenz), zu groß (überschießt, kann divergieren)" style="max-height: 280px; margin: 0 auto; display: block;" />
 
-**Wie ermittelt man sie?** Die Lernrate ist ein **Hyperparameter** — Du legst sie vor dem Training fest und probierst typische Startwerte (z.B. 0,01 oder 0,001). In der Praxis übernehmen moderne Optimizer wie **Adam** einen Großteil dieser Arbeit: Sie passen die effektive Schrittweite während des Trainings automatisch pro Gewicht an (mehr dazu in Cluster 6.6).
+**Wie ermittelt man sie?** Die Lernrate ist ein **Hyperparameter** — Du legst sie vor dem Training fest und probierst typische Startwerte (z.B. 0,01 oder 0,001). In der Praxis übernehmen moderne Optimizer wie **Adam** einen Großteil dieser Arbeit: Sie passen die effektive Schrittweite während des Trainings automatisch pro Gewicht an.
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },
@@ -4045,9 +4045,9 @@ layout: default
 
 ## Backpropagation — Fehler rückwärts
 
-**Backpropagation** ist die effiziente Methode, die Gradienten für **alle** Gewichte im Netz zu berechnen — "Wie viel trägt jedes Gewicht zum Loss bei?"
+**Backpropagation** ist die effiziente Methode, die Gradienten für **alle** Gewichte im Netz zu berechnen — "Wie viel trägt jedes Gewicht zum Loss bei?" Der Loss ist dabei der **Wendepunkt**: Bis dahin fließt die Vorhersage vorwärts, ab dort fließt der Fehler rückwärts.
 
-<img :src="'/backprop-fluss-diagramm.svg'" alt="Backpropagation: Forward Pass von Input über Hidden-Schicht zum Output und Loss, Backward Pass mit Gradienten zurück durch die Schichten" style="max-height: 280px; margin: 0.5rem auto 0; display: block;" />
+<img :src="'/backprop-fluss-diagramm.svg'" alt="Backpropagation: Forward Pass von Input über Hidden-Schicht zum Output und Loss, Backward Pass mit Gradienten zurück durch die Schichten" style="max-height: 260px; margin: 0.5rem auto 0; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning Representations by Back-propagating Errors. Nature, 323(6088), 533–536', url: 'https://doi.org/10.1038/323533a0', year: '1986' },
@@ -4096,6 +4096,16 @@ Die **Kettenregel** (Chain Rule) besagt: Der Gesamteffekt einer Kette von Abhän
 **Rechenbeispiel:** Kennst Du die drei lokalen Effekte — $\frac{\partial L}{\partial a} = 0.4$, $\frac{\partial a}{\partial z} = 0.2$, $\frac{\partial z}{\partial w} = 3$ — multiplizierst Du sie einfach: $\frac{\partial L}{\partial w} = 0.4 \cdot 0.2 \cdot 3 = 0.24$. Kein Schritt der Kette muss dabei wissen, was in den anderen Schritten passiert — jeder liefert nur seinen eigenen lokalen Faktor.
 
 ---
+layout: default
+---
+
+## Woher kommt das erste Glied der Kette?
+
+Im Rechenbeispiel eben war $\frac{\partial L}{\partial a} = 0.4$ einfach gegeben. Aber woher kommt diese Zahl in Wirklichkeit?
+
+$\frac{\partial L}{\partial a}$ ist genau die **Ableitung der Loss-Funktion** — dieselbe MSE- oder Cross-Entropy-Funktion, die schon differenzierbar sein musste, damit wir überhaupt mit ihr rechnen können. Sie ist der Startpunkt jeder Kettenregel-Rechnung: Ohne eine differenzierbare Loss-Funktion gäbe es kein erstes Glied — und die ganze Kette könnte gar nicht erst losrechnen.
+
+---
 layout: header-cols
 ---
 
@@ -4127,7 +4137,7 @@ layout: default
 
 ## Eine Epoch: Ein vollständiger Durchlauf
 
-Du kennst jetzt den kompletten Lernschritt (Forward Pass → Loss → Backward Pass → Gewichtsupdate) aus Cluster 6.4. Aber ein einzelner Schritt bringt wenig — das Netz muss die Trainingsdaten oft sehen.
+Du kennst jetzt den kompletten Lernschritt (Forward Pass → Loss → Backward Pass → Gewichtsupdate). Aber ein einzelner Schritt bringt wenig — das Netz muss die Trainingsdaten oft sehen.
 
 **Definition:** Eine **Epoch** ist ein vollständiger Durchlauf durch den GESAMTEN Trainingsdatensatz — alle 100.000 Fotos werden einmal durchprozessiert, mit vielen Lernschritten dazwischen.
 
@@ -4164,12 +4174,12 @@ layout: default
 
 ## Training in Code: Das Muster
 
-In PyTorch sieht die Training-Schleife so aus. Du erkennst vielleicht einige Konzepte aus Cluster 6.4 wieder:
+In PyTorch sieht die Training-Schleife so aus. Du erkennst einige Konzepte von eben wieder:
 
 - **DataLoader:** liefert automatisch einen Batch nach dem anderen
-- **Forward Pass** (Cluster 6.4): Netz macht eine Vorhersage für den Batch
-- **Loss berechnen** (Cluster 6.4): Fehler zwischen Vorhersage und echtem Label
-- **Backward Pass** (Cluster 6.4): Backpropagation berechnet Gradienten für alle Gewichte
+- **Forward Pass:** Netz macht eine Vorhersage für den Batch
+- **Loss berechnen:** Fehler zwischen Vorhersage und echtem Label
+- **Backward Pass:** Backpropagation berechnet Gradienten für alle Gewichte
 - **optimizer.step():** Gradient Descent passt die Gewichte an
 
 ```python
@@ -4198,7 +4208,7 @@ layout: default
 | **Batch** | Eine kleine Teilmenge von Trainingsfotos (z.B. 64 Bilder) | Fotos 0–63, dann 64–127, dann 128–191, ... |
 | **Steps pro Epoch** | Anzahl der Batch-Updates pro Epoch | 100.000 ÷ 64 ≈ 1.563 Steps |
 
-**Das Wichtigste:** Batches sind die praktische Lösung für Speicherbeschränkungen. Sie ermöglichen es uns, Gradient Descent (aus Cluster 6.4) auf Millionen von Fotos anzuwenden. Der Trainingsloop schleift dabei: Batch laden → Forward Pass → Loss berechnen → Backward Pass (Gradienten) → Gewichte anpassen → nächster Batch. Nach genug Epochs sollte das Netz bessere Vorhersagen treffen.
+**Das Wichtigste:** Batches sind die praktische Lösung für Speicherbeschränkungen. Sie ermöglichen es uns, Gradient Descent auf Millionen von Fotos anzuwenden. Der Trainingsloop schleift dabei: Batch laden → Forward Pass → Loss berechnen → Backward Pass (Gradienten) → Gewichte anpassen → nächster Batch. Nach genug Epochs sollte das Netz bessere Vorhersagen treffen.
 
 <LiteraturSource :sources="[
   { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press, Chapter 8: Optimization for Training Deep Models', url: 'https://www.deeplearningbook.org', year: '2016' },

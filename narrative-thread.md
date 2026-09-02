@@ -2163,6 +2163,12 @@ Siehe §25 oben für Fixes 1–12. Alle Änderungen wurden in `slides.md` durchg
 - **QA-Incident:** Der "Was Du siehst"-Ergänzungssatz zur Gradient-Descent-Folie verursachte 2 Overflow-Runden — erst Overflow in der rechten Spalte, dann (nach Verschieben in die linke Spalte) erneuter Overflow dort, weil die linke Spalte bereits voll war (Intro+Metapher+Formel+2 Bullets). Lösung war NICHT Verschieben, sondern Streichen: der Diagramm-Verweis wurde als kurzer Halbsatz in die bestehende Metapher eingebaut statt als eigener Absatz. **Lektion:** bei bereits dichten header-cols-Spalten hilft Verschieben von Overflow-Text in die andere Spalte nicht, wenn beide Spalten schon voll sind — der Text muss echt reduziert werden, nicht nur umsortiert.
 - Alle Diagramme/KaTeX-Formeln verifiziert korrekt gerendert, finale Sequenz clean.
 
+**✅ Feinschliff (2026-09-02, User-Feedback):**
+- User bemängelte, dass in mehreren neuen Kapitel-6.4-Ergänzungen interne "Cluster 6.X"-Verweise im studierenden-sichtbaren Text auftauchten (Lernrate-Folie, Kettenregel-Folie, "Wie lernt das Netz?"-Bridge, "Training in Code", Batch/Epoch-Zusammenfassung) — widerspricht der etablierten Deck-Konvention (nie interne Cluster-Nummern im Studierenden-Text). Alle 6 Fundstellen bereinigt (entweder ganz entfernt oder durch "eben"/"gerade gelernt" ersetzt). Hinweis: ältere Cluster-Nummer-Referenzen in Kapitel 2/5 (z.B. "Cluster 5.1", "Cluster 11c") bestehen weiter — liegen außerhalb des aktuellen Kapitel-6-Branches, nicht angefasst.
+- User fragte, warum der Loss im Backprop-Diagramm als "Scharnier" bezeichnet wird — die Metapher steckte nur in der SVG-Bildunterschrift, wurde im Folientext nie erklärt. Ergänzt: "Der Loss ist dabei der Wendepunkt: Bis dahin fließt die Vorhersage vorwärts, ab dort fließt der Fehler rückwärts."
+- User wünschte einen expliziten Rückbezug zwischen der Kettenregel und der "differenzierbar"-Anforderung der Loss-Funktion (Cluster 6.4, ohne die Nummer zu nennen) — ergänzt, verursachte einen Overflow (27px, Footer-Kollision), der durch Auslagern in eine neue eigene Folie "Woher kommt das erste Glied der Kette?" behoben wurde.
+- Alle Änderungen visuell verifiziert (explizite Bounding-Box-Prüfung), kein Overflow mehr.
+
 **⬜ AUSSTEHEND (nächste Phase):**
 1. **Cluster 6.6 (PyTorch):** Research + Authoring
 2. **Cluster 6.7 (MNIST):** Research + Authoring nach 6.6-Bestätigung
