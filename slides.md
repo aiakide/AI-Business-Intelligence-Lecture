@@ -3721,7 +3721,7 @@ layout: default
 | **Trainingszeit & Hardware** | Minuten bis Stunden, Standard-CPU reicht | Stunden bis Tage auf CPU — GPU nötig (10–100x schneller) |
 
 <LiteraturSource :sources="[
-  { title: 'Shi, S., Wang, Q., Xu, P., & Chu, X. (2016). Benchmarking State-of-the-Art Deep Learning Software Tools. arXiv preprint arXiv:1608.07249', year: '2016' },
+  { title: 'Shi, S., Wang, Q., Xu, P., & Chu, X. (2016). Benchmarking State-of-the-Art Deep Learning Software Tools. arXiv preprint arXiv:1608.07249', url: 'https://arxiv.org/abs/1608.07249', year: '2016' },
 ]" />
 
 ---
@@ -3948,7 +3948,7 @@ $$\text{ReLU}(z) = \max(0, z)$$
 **Kleine Schwäche — "Dead Neurons":** Für z < 0 ist die Ableitung 0 — so ein Neuron lernt nie wieder. Leaky ReLU lässt einen winzigen negativen Durchsatz zu.
 
 <LiteraturSource :sources="[
-  { title: 'Nair, V., & Hinton, G. E. (2010). Rectified Linear Units Improve Restricted Boltzmann Machines. In ICML', year: '2010' },
+  { title: 'Nair, V., & Hinton, G. E. (2010). Rectified Linear Units Improve Restricted Boltzmann Machines. In ICML', url: 'https://www.cs.toronto.edu/~fritz/absps/reluICML.pdf', year: '2010' },
 ]" />
 
 ::right::
