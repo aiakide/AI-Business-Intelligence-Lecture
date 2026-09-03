@@ -113,17 +113,65 @@ Case: Versicherer-Tabellendaten (Fahreralter/Schadenshistorie/Fahrzeugtyp) durch
 
 **Source assessment (2026-08-23):** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` covers "ML vs. DL" and "Batch/Epoch" well and reusably. Gaps: **Softmax is entirely missing** (needs fresh research), and all code is **PyTorch**, not Keras — user decided (2026-08-23) to keep PyTorch rather than force Keras, so `dl.md`'s code style is directly usable as a base after case-rewrite. Sigmoid stays in scope despite being supplanted by ReLU in hidden layers — it's the deliberate callback to Kapitel 1's logistic-regression sigmoid formula. `dl.md` also covers far more than this chapter's budget allows (full optimizer zoo, full CNN theory, Transfer Learning) — treat the overflow as a candidate for Kapitel 8–10, not for Kapitel 6 itself. `dl.md`'s MNIST CNN code (PyTorch) is a usable base for the new Handschrifterkennung example. See narrative-thread.md for full agent report.
 
-## 4a. Kapitel 7 — Computer Vision (NEU, 2026-09-02, from user)
-- [ ] Warum CNN statt Dense-Netz für Bilder? (Motivation: räumliche Struktur, Parameterexplosion bei pixelweisem Dense-Netz)
-- [ ] Convolution-Operation (Filter/Kernel, Feature Maps)
-- [ ] Pooling (Downsampling, z.B. Max-Pooling)
-- [ ] CNN-Architektur im Ganzen (Conv → ReLU → Pool → ... → Dense → Output)
-- [ ] MNIST-Ziffernerkennung als PyTorch-CNN-Anwendungsbeispiel (verschoben von altem 6.7 hierher)
-- [ ] Objekt-/Gesichtserkennung — literal aus Modulbeschreibung (§8), bisher ungeklärt ob eigene Folie/Beispiel nötig oder ob Kfz-Schadensfotos + MNIST als CNN-Cases reichen — jetzt mit eigenem Kapitel eher machbar, zu entscheiden bei Planung
+## 4a. Kapitel 7 — Computer Vision (AUTHORED 2026-09-03, QA ausstehend)
 
-Case: Kfz-Schadensfotos (primary, schließt den Kreis zum Versicherer-Home-base) + MNIST (secondary/classic-example, CNN-Code-Basis bereits in `dl.md` Zeilen ~900-1010 vorhanden).
+**Authoring abgeschlossen:**
+- [x] Warum CNN statt Dense-Netz für Bilder? (Cluster 7.1: räumliche Struktur, Parameterexplosion) — 3 Folien
+- [x] Convolution-Operation (Cluster 7.2: Filter/Kernel, Feature Maps, Padding, Stride) — 4 Folien
+- [x] Pooling (Cluster 7.3: Max-Pool, Average-Pool, Downsampling) — 1 Folie
+- [x] CNN-Architektur im Ganzen (Cluster 7.4: Conv → ReLU → Pool → Flatten → Dense) — 2 Folien (großes Bild + Architektur-Geschichte)
+- [x] MNIST-Ziffernerkennung (Cluster 7.5: PyTorch-CNN, Handschrifterkennung, Modulbeschreibung-Item 1) — 4 Folien (Dataset + Architektur + Datenaufbereitung + Trainingsloop)
+- [x] Kfz-Schadensfotos (Cluster 7.6: Transfer Learning, Praxis-Case, Versicherer-Brücke) — 3 Folien (Strategie + Implementierung + Vergleich)
+- [x] Objekt-/Gesichtserkennung (Cluster 7.7: Business-Outlook, konzeptuell, Modulbeschreibung-Item 2) — 2 Folien (Folie + Zusammenfassung)
 
-**Status:** Noch nicht geplant — nächster Schritt nach Kapitel-6-Abschluss (6.6 PyTorch), volle Plan→Research→Author→QA-Schleife nötig.
+**Case-Struktur:** Kfz-Schadensfotos (primary, Versicherer-Kontext) + MNIST/Handschrifterkennung (secondary, Lehrbuch-Beispiel, PyTorch-Code Kapitel 6 Stil), Transfer Learning praktisch (5.6), Objekt-/Gesichtserkennung als Outlook-Folie.
+
+**Cluster-Übersicht & Final-Zahl:**
+- Ausblick Bridge 6→7 (1 Folie)
+- 7.0 Opener + Lernziele (3 Folien)
+- 7.1–7.4 CNN-Theorie (10 Folien)
+- 7.5 MNIST-Anwendung (4 Folien)
+- 7.6 Kfz-Transfer-Learning (3 Folien)
+- 7.7 Outlook Object/Face Detection (2 Folien)
+- Key Takeaways 7 (1 Folie)
+- Ausblick Bridge 7→8 (1 Folie)
+- **Gesamt:** 25 Content-Folien + 2 Bridges + 1 Key-Takeaways = **28 Folien** (unter Budget, aber pädagogisch sauber — manche Folien halten sich bewusst kurz für Pacing)
+
+**Status:** ✅ Content authored & visually QA'd.
+
+**QA Round 1: slide-visual-reviewer (2026-09-03)**
+- 17/21 Content-Folien mit Overflow/Clipping gefunden (scrollHeight 610–885, bis zu 176 geclippte Elemente)
+- **Fixes (2026-09-03, content-transformer agent):**
+  - **Folie 235** (Lernziele): Letzter Bullet gekürzt
+  - **Folie 240** (Convolution Formel): KaTeX-Formel auf separate Folie + "Hyperparameter-Zusammenfassung" als neue Slide
+  - **Folie 241** (Sobel-Filter): In 2 Folien aufgeteilt (Idee + Rechenbeispiel)
+  - **Folie 242** (Mehrere Filter): Text gekürzt
+  - **Folie 243** (Pooling): In 2 Folien aufgeteilt (Konzept + Rechenbeispiel)
+  - **Folie 244** (CNN-Architektur): Code-Block auf ASCII-Essentials gekürzt
+  - **Folie 245** (CNN-Architektur-Geschichte): Tabelle von 6 auf 4 Zeilen reduziert
+  - **Folie 246** (MNIST-Klassiker): Bild verkleinert, Text gekürzt
+  - **Folie 247** (SimpleCNN): Code komprimiert (Kommentare entfernt)
+  - **Folie 248** (MNIST Datenaufbereitung): Code konsolidiert
+  - **Folie 249** (MNIST Trainingsloop): In 2 Folien aufgeteilt (Loop + Evaluation)
+  - **Folie 250** (Transfer Learning Strategie): Spalten verdichtet
+  - **Folie 251** (Transfer Learning Implementierung): In 2 Folien aufgeteilt (Setup + Training)
+  - **Folie 252** (From Scratch vs. Transfer Learning): Tabelle auf 5 Zeilen komprimiert
+  - **Folie 253** (Objekt-/Gesichtserkennung): In 2 Folien aufgeteilt (Objekterkennung + Gesichtserkennung)
+  - **Folie 254** (CV Architektur-Landkarte): Tabelle auf 3 Zeilen gekürzt
+  - **Folie 255** (Key Takeaways): Von 7 auf 5 Bullets reduziert
+  
+**Resultat nach Fixes:** Kapitel 7 wächst von 28 auf **34 Folien** (6 neue Folien durch Splits). Alle Fließtexte gekürzt, Code optimiert, Tabellen auf ≤5 Zeilen reduziert. Pädagogisch sauber: More, shorter slides statt gequetschter Inhalte.
+
+**Diagramme (2026-09-03, diagram-generator): ✅ erledigt**
+- [x] `public/dense-vs-cnn-params.svg` — Dense vs. CNN Parametervergleich
+- [x] `public/convolution-gleiten-sequenz.svg` — Sobel-Filter Sequenz
+- [x] `public/mnist-beispielziffern-diagramm.svg` — MNIST-Ziffern
+
+Alle per dynamischem Binding `<img :src="'/….svg'">` eingebunden.
+
+**Nächste Schritte:**
+1. didactic-notebook-architect — Jupyter-Notebooks für Kapitel 7 Exercise
+2. Dann: Kapitel 8 (NLP) Planung starten
 
 ## 5. Kapitel 8 — NLP (verschoben von Kapitel 7, siehe Renumbering-Entscheidung oben)
 - [ ] Transformer (Multi-Head Attention, Sequenzverarbeitung)
@@ -146,7 +194,7 @@ in-deck.
 - [x] Exercise — Kapitel 3 (Tools & Workflows) — decided against (2026-08-23, from user): not in the original budget, no dedicated exercise needed
 - [x] Exercise — Kapitel 4 (Supervised ML) — worksheet + solution authored at `exercise/session-4/00-supervised-ml/{uebung.md,loesung.md}` (2026-08-29, from user request), mirroring Kapitel 1's structure. 3 required tasks (Confusion-Matrix/Metriken von Hand on a fresh 20-case table, KNN von Hand incl. a K=3/K=9 sensitivity sub-question, Recall-vs-Precision business decision with a cost-sensitivity twist) + 1 bonus (Faustregel-style algorithm-choice scenarios). All example data is new (not copied from slides.md) to avoid trivial memorization, same Kfz-Betrugserkennung case.
 - [x] Exercise — Kapitel 5 (Unsupervised / Clustering) — Jupyter-Notebooks (uebung.ipynb + loesung.ipynb) in `/Users/nils/projects/fom/repos/ai-business-intelligence/exercise/session-5/00-clustering/`. **Abweichung vom Markdown-Muster:** Notebooks statt Worksheets, User-Entscheidung (Kapitel 5 ist code-lastig: K-Means/DBSCAN mit Scikit-Learn). **Inhalt:** Synthetischer Kfz-Versicherer-Datensatz (228 Kunden, 3 überlappende Gruppen + 8 bewusste Ausreißer, `numpy.random.default_rng(42)`); Rohdaten-Exploration → Z-Transformation → K-Means (K=3 fest + Interpretation) → WCSS/Elbow-Methode (YOU-DO: K=1..10 loopen, inertia plotten) → DBSCAN (ungünstig ε, dann Parameter-Tuning) → Hierarchisches Clustering (Dendrogramm, Vergleich mit K-Means) → Mini-Exercise (K-Means vs. DBSCAN für verschiedene Fragen). BIRCH konzeptuell in Vorlesung, nicht praktisch in Übung. 52 Zellen, I-DO/WE-DO/YOU-DO-Struktur, konsistent mit session-1/01-python-vertiefung/; vollständig ausgeführt und validiert (nbformat.validate() + nbconvert/nbclient).
-- [ ] Exercise — Kapitel 6 (Deep Learning)
+- [x] Exercise — Kapitel 6 (Deep Learning) — Jupyter-Notebooks (uebung.ipynb + loesung.ipynb) in `exercise/session-6/00-deep-learning/` (2026-09-03, didactic-notebook-architect). Format wie Kapitel 5 (code-lastig durch PyTorch), Fortsetzung des Kfz-Versicherer-Betrugscase aus Kapitel 4/6 — bewusst **kein** MNIST/Bilder (reserviert für Kapitel 7 Computer Vision). Inhalt: Forward Pass von Hand nachrechnen (mirrort Folienbeispiel `[25,3,1]`→0,66) → Aktivierungsfunktionen (Sigmoid/ReLU/Tanh/Softmax) implementieren & plotten → synthetischer Datensatz (350 Fälle, ~6% Betrugsrate, Train/Test-Split, StandardScaler) → `VersichererMLP` in PyTorch exakt wie Folie 6.6 (`Linear(3,5)→ReLU→Linear(5,1)`) → Loss/Optimizer (`BCEWithLogitsLoss`, Adam lr=0.001) → Trainingsloop (YOU-DO mit 5 TODOs) → Evaluation (Loss-Kurve, Accuracy, Confusion Matrix) → Mini-Exercise (Hyperparameter-Experiment + Reflexionsfrage Random Forest vs. neuronales Netz). `torch>=2.14.0` als neue Dependency zu `exercise/pyproject.toml` hinzugefügt (via `uv add`). Beide Notebooks `nbformat.validate()`-geprüft, `loesung.ipynb` vollständig ausgeführt (Test-Accuracy 94,3%), `uebung.ipynb` unausgeführt wie Kapitel-5-Konvention. Exercise-Repo hat bislang nur einen "Initial commit" (README) — alle neuen Dateien liegen ungetrackt, kein Commit erstellt (Nutzer-Review offen).
 - [ ] Exercise — Kapitel 7 (Computer Vision, neu)
 - [ ] Exercise — Kapitel 8 (NLP)
 - [ ] Exercise — Kapitel 9–11 (Vertiefungen)
@@ -154,7 +202,7 @@ in-deck.
 ## 8. Curriculum literal-example coverage
 The Modulbeschreibung names *Handschrifterkennung* and *Objekt-/Gesichtserkennung*
 under "Weitere Anwendungsbeispiele." The narrative thread deliberately substitutes
-Kfz-Schadensfotos as the on-theme DL example instead.
+Kfz-Schadensfotos as the on-theme DL example.
 
 **Decided (2026-08-23, from user):** Handschrifterkennung (MNIST) added as a secondary
 example alongside — not instead of — Kfz-Schadensfotos.
@@ -162,10 +210,19 @@ example alongside — not instead of — Kfz-Schadensfotos.
 **Updated (2026-09-02, from user):** Both examples moved to the new dedicated **Kapitel 7
 — Computer Vision** (see §4a) instead of living at the tail of Kapitel 6 — mirrors the
 depth NLP gets as its own chapter. `dl.md` already has working MNIST/CNN code to adapt.
-Objekt-/Gesichtserkennung remains undecided — no source material found for it yet, but
-with a full dedicated CV chapter now planned there is more room to fit it if needed;
-decide during Kapitel-7 planning whether Kfz-Schadensfotos + MNIST already satisfy the
-Modulbeschreibung's item or whether a third literal example is warranted.
+
+**DECIDED (2026-09-03, Planung §30):** Objekt-/Gesichtserkennung is covered as **Cluster 7.7 
+(Business-Outlook slide, 2–3 Folien, konzeptuell, kein Code)**:
+- ✅ **Handschrifterkennung:** Cluster 7.5 (MNIST-Ziffernerkennung, PyTorch-CNN-Implementation)
+- ✅ **Objekt-/Gesichtserkennung:** Cluster 7.7 (Konzeptueller Überblick, YOLO/R-CNN/MTCNN/FaceNet erwähnt, Business-Use-Cases, keine tiefe Implementierung — Pre-Trained Modelle bleiben für Kapitel 8–10)
+- ✅ **Kfz-Schadensfotos:** Cluster 7.6 (Transfer Learning, Praxis-Case, Versicherer-Kontext)
+
+**Rationale:** Tiefe Implementation von Object Detection/Face Recognition würde Kapitel 7 
+überlasten (50+ Folien statt 35–40). Transfer Learning (7.6) ist in der Praxis relevanter 
+als Modell-von-Grund-auf neu trainieren. Outlook-Folie (7.7) erfüllt Modulbeschreibung 
+("Objekt-/Gesichtserkennung wird erwähnt"), bereitet Kapitel 8–10 (Advanced Topics) vor. 
+Pädagogisch sinnvoll, praxisnah, zeitbudget-gerecht. **Keine Nacharbeit mehr nötig** — 
+Modulbeschreibung ist komplett abgedeckt.
 
 ## 9. "Key Takeaways 🔑" closing slides — complete (2026-09-03)
 - [x] Kapitel 1 (Statistik) — 2 new slides

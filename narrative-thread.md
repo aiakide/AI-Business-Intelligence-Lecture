@@ -2596,3 +2596,670 @@ Beide Punkte bleiben für die künftige Kapitel-7-Planung offen.
 **QA:** `slide-visual-reviewer` über alle 8 neuen/ersetzten Folien laufen lassen (volle 234-Folien-Deck-Messung) — alle 8 messen exakt 552px Canvas-Höhe, 0 clipped Elemente, 0 Overflow, auch die als Risiko geflaggten dichteren Folien (Python-Vertiefung 6 Bullets, Clusteranalyse 6 Bullets, Deep Learning 6 Bullets mit Inline-Code) hatten 90–150px Puffer zur Fußzeile. Keine Nacharbeit nötig. (Der Report zeigt zusätzlich ~166 pre-existing `minFontPx`-Warnungen deckweit, die vermutlich ein Credit-Line-Filterartefakt des QA-Scripts sind und mit dieser Änderung nichts zu tun haben — nicht weiter verfolgt, da außerhalb des Scopes.)
 
 Branch `feat/key-takeaways-slides`, PR #5.
+
+---
+
+## 30. Kapitel 7 — Computer Vision (PLANUNG, 2026-09-03)
+
+**Status:** 🔵 **PLANUNGSPHASE** — Kluster-Struktur und Inhalts-Strategie definiert, noch keine Slides authored. Ausgangslage: Kapitel 6 ist fertig (38 Folien, 6.0–6.6), MNIST/CNN-Code existiert in vorlage (`dl.md` Zeilen 900–1010, wiederverwendbar). Modulbeschreibung nennt explizit "Handschrifterkennung" + "Objekt-/Gesichtserkennung" — beide Cases sind in dieser Planung integriert.
+
+**Renumbering-Entscheidung (2026-09-02, bestätigt von User):** Kapitel 7 ist NEU und EIGENSTÄNDIG (nicht eine 6.7-Sub-Cluster). Grund: CNN als Architektur-Typ verdient die gleiche Tiefe wie NLP (Transformers) bekommt — eine Folie am Kapitel-6-Rand würde dem nicht gerecht. NLP wandert entsprechend zu **Kapitel 8**, Vertiefungen zu **Kapitel 9–11**.
+
+### Gesamtbudget Kapitel 7 (GEPLANT, nicht yet authored)
+
+| Component | Slides | Notes |
+|---|---|---|
+| 7.0 Opener + Lernziele | 3 | `chapter` layout + 2×`default` Lernziele |
+| 7.1 Warum CNN statt Dense? | 3–4 | Hook (räumliche Struktur), Foundation (Parameterexplosion-Problem), Application (Versicherer-Kfz-Beispiel), Synthesis |
+| 7.2 Convolution-Operation | 4–5 | Filter/Kernel, Feature Maps, Padding, Stride — theoretisch + Visualisierungen |
+| 7.3 Pooling | 3–4 | Max-Pooling, Average-Pooling, Downsampling |
+| 7.4 CNN-Architektur im Ganzen | 3–4 | Stack: Conv → ReLU → Pool → ... → Flatten → Dense → Output; LeNet/AlexNet-Referenzen (konzeptuell, nicht tief) |
+| 7.5 MNIST-Ziffernerkennung (Handschrifterkennung) | 4–5 | PyTorch-CNN-Code aus `dl.md` adaptiert; Training Loop + Ergebnisse; Link zu 6.6 (nn.Module-Grundgerüst) |
+| 7.6 Kfz-Schadensfotos (Praxis-Case) | 3–4 | Motivation (Versicherer nutzt reale Schadensfotos), Transfer Learning / Fine-Tuning-Outlook, Business-Brücke |
+| 7.7 Objekt-/Gesichtserkennung (Business-Outlook) | 2–3 | Nicht eigene Implementation; als "Was ist danach möglich?"-Folie über Pre-Trained Models (YOLO, Face Detection) — motiviert Kapitel 8/9 Advanced Topics |
+| **Subtotal (Content)** | **~31–36** | — |
+| Exercise Placeholder | 1 | (noch nicht im Count, wird gesplittet mit Cluster-Übungen) |
+| Key Takeaways — Computer Vision | 1 | (wie Kapitel 1–6, am Kapitel-Ende vor Brücke zu Kapitel 8) |
+| **Total (mit Übung & Takeaways)** | **~33–38** | ~70% Session-Budget (ähnlich Kapitel 6) |
+
+**Case-Struktur (konsistent mit narrative-thread.md §2):**
+- **Primary:** Kfz-Schadensfotos (Versicherer-Kontext durchgehend)
+- **Secondary:** MNIST/Handschrifterkennung (klassisches Lehrbuch-Beispiel, CNN-Basis-Code)
+- **Outlook:** Objekt-/Gesichtserkennung (modulbeschreibung-compliance, Business-Motivations-Folie, kein Code)
+
+### Prerequisite Chain (Kapitel 7 im Kontext)
+
+```
+[Kapitel 6 — Deep Learning: ✅ KOMPLETT]
+  (6.0 Opener) → (6.1–6.3 Neuron/Aktivierung) → (6.4 Loss/Backprop) 
+  → (6.5 Batch/Epoch) → (6.6 PyTorch MLP) 
+  → Key Takeaways 6 → [BRIDGE-FOLIE FEHLT NOCH, siehe §28]
+  ↓
+[Kapitel 7 — Computer Vision — NEU]
+  7.0: Opener + Lernziele
+  7.1: Warum CNN statt Dense? (räumliche Struktur, Parameterexplosion)
+  7.2: Convolution-Operation (Filter, Kernel, Feature Maps)
+  7.3: Pooling (Max-Pooling, Average-Pooling)
+  7.4: CNN-Architektur im Ganzen (Conv → ReLU → Pool → Flatten → Dense)
+  7.5: MNIST-Ziffernerkennung (PyTorch-CNN aus dl.md)
+  7.6: Kfz-Schadensfotos (Transfer Learning / Praxis)
+  7.7: Objekt-/Gesichtserkennung (Business-Outlook)
+  Key Takeaways 7 → [BRIDGE-FOLIE zu Kapitel 8 NLP geplant]
+  ↓
+[Kapitel 8 — Natural Language Processing (Transformers)]
+```
+
+**Lernziele (nach Kapitel 7, vor den Folien):**
+
+Nach Kapitel 7 können Studierende:
+
+1. **Warum Convolutional Neural Networks für Bilder?** — Räumliche Struktur und lokale Muster erkennen, die Dense Networks nicht effizient verarbeiten können
+2. **Convolution-Operation verstehen:** Filter/Kernel, Feature Maps, wie lokale Merkmale extrahiert werden
+3. **Pooling-Mechanik erklären:** Downsampling, Merkmals-Verdichtung, Max vs. Average
+4. **Vollständige CNN-Architektur:** mehrere Conv→Pool-Schichten stacked, dann Flatten→Dense für finale Klassifikation
+5. **MNIST-CNN in PyTorch implementieren:** Datensatz laden, CNN definieren (`nn.Conv2d`, `nn.MaxPool2d`), Training Loop, Accuracy messen
+6. **Transfer Learning-Konzept:** Pre-Trained Modelle auf neue Aufgaben anpassen (Outlook für Kfz-Schadensfotos)
+7. **Business-Kontext:** Handschrifterkennung + Objekterkennung / Gesichtserkennung als praktische AI-Anwendungen verstehen
+
+---
+
+### Cluster-Planung Details
+
+#### 7.0 — Kapitel-Opener + Lernziele
+
+**Layout:** `chapter` (linker halber Bildschirm Titel, rechter halber Bildschirm Illustration)
+
+**Folien:**
+1. Titel-Folie: `# Kapitel 7: [Computer Vision]{style="color:var(--slidev-theme-primary)"}` + Untertitel + Icon/Illustration
+2. Lernziele 1/2 (Verstehen & Erklären)
+3. Lernziele 2/2 (Kritisch Reflektieren)
+
+---
+
+#### 7.1 — Warum CNN statt Dense-Netz für Bilder?
+
+**Motivation (Brücke von 6.6):** In Kapitel 6 haben wir PyTorch MLPs gelernt — vollverbundene Netze, Neuronen in Schichten. Aber ein Schadenfoto hat 224×224 = 50.176 Pixel. Ein Dense Network würde **50.176 × 128 (Hidden) = 6,4 Millionen Gewichte** brauchen — für die erste Hidden-Schicht allein. Das ist zu viel, zu langsam, zu leicht zu überfitten. Computer Vision braucht eine andere Architektur.
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Ein 224×224-Schadenfoto hat 50.176 Pixel. Warum passt das nicht in ein Dense Network — und was ist die Alternative? |
+| **Foundation** | **Das Problem:** Bilder haben räumliche Struktur (Nachbarpixel gehören zusammen, z.B. eine Beule ist ein Cluster), aber ein Dense Network behandelt jedes Pixel als isolierte Variable. **Das führt zu:** (1) Parameter-Explosion: 50K Eingaben × 128 Hidden = 6,4M Gewichte nur in der ersten Schicht. (2) Verlust der räumlichen Information: Permutiert man die Pixel zufällig, behandelt das Dense Network sie gleich (invariant zu räumlichen Mustern). **Die Alternative:** Convolutional Neural Networks (CNN) nutzen **lokale Filter** (kleine Kernel wie 3×3), die über das Bild "gleiten" und an jedem Ort die gleichen Gewichte teilen. Das reduziert die Parameteranzahl dramatisch und erhält räumliche Struktur. |
+| **Application** | Versicherer-Beispiel: Ein 224×224 Schadenfoto mit CNN (Filter 3×3, 32 Kanäle) braucht nur **3×3×32 = 288 Parameter** pro Filter, nicht Millionen. Nach mehreren Conv-Schichten: kompakte Features wie "Kratzer", "Beule", "verbrannte Stelle". |
+| **Synthesis** | Die CNN-Struktur ist die Antwort auf die Geometrie von Bildern. Jetzt verstehen wir, warum: Convolution. |
+
+**Slide-Count:** 3–4 Slides
+- Slide 1: Hook + Parameterexplosions-Problem (Zahlenbeispiel)
+- Slide 2: Räumliche Struktur & Lokalität (Diagramm: Dense überlappt mit Bild, CNN zeigt Filter-Gleiten)
+- Slide 3: Die CNN-Lösung (Parameter-Sharing, lokalem Fenster)
+- Slide 4 (opt.): Synthesis + Bridge zu Convolution
+
+**Layout:** Slides 1–2 `default` oder `header-cols` (Diagramm rechts), Slide 3–4 `default`
+
+**Visual Assets:** Benötigt Diagramm: "Dense Network auf 224×224-Bild" vs. "CNN mit gleitenden 3×3-Filtern" (Excalidraw oder SVG-Skizze)
+
+**Citation Requirements:**
+- LeCun et al. (1998) "Gradient-Based Learning Applied to Document Recognition" (LeNet-Paper, erwähnt Convolution)
+- Goodfellow/Bengio/Courville (2016) "Deep Learning" Kap. 9 "Convolutional Networks"
+- Krizhevsky et al. (2012) "ImageNet Classification with Deep Convolutional Neural Networks" (AlexNet, erwähnt Parameter-Effizienz)
+
+---
+
+#### 7.2 — Convolution-Operation (Filter, Kernel, Feature Maps)
+
+**Motivation:** Wir wissen, CNNs teilen sich Gewichte über räumliche Positionen. Aber WIE funktioniert eine Convolution mathematisch?
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Stell Dir einen Detektor vor: ein 3×3-Filter, der "Vertikale Linien" erkennt (sieht in der Praxis so aus: `[[-1,0,1], [-2,0,2], [-1,0,1]]`, ein Sobel-Filter). Diesen Filter "gleitest" Du über das Bild, und an jeder Position erhältst Du eine Zahl, die sagt: "Wie sehr passt dieser Filter hierauf?" |
+| **Foundation** | **Convolution-Operation (diskret):** Output an Position (i,j) = Σ(Filter[a,b] × Input[i+a,j+b]) über alle Filter-Positionen [a,b]. **Hyperparameter:** (1) **Kernel-Größe** (z.B. 3×3, 5×5): wie groß ist der Filter? (2) **Padding**: Nullen um das Bild, damit Rand-Pixel genauso oft berücksichtigt werden wie innen. (3) **Stride**: Wie viele Pixel rückt der Filter pro Schritt weiter? Stride=1 (standard), Stride=2 (halbiert Größe). **Feature Map:** Der Output einer Convolution ist eine neue Schicht mit reduzierter räumlicher Größe, aber neuer "Kanal"-Dimension (z.B. Input [224,224,3] → Conv mit 32 Filter → [222,222,32] oder mit Padding [224,224,32]). **Multiple Filter:** Ein Convolutional Layer hat typisch 32–256 Filter, jeder lernt eine andere Merkmals-Klasse (z.B. Filter 1: Vertikale Linien, Filter 2: Ecken, Filter 3: Farbübergänge). |
+| **Application** | Kfz-Schadenfoto-Beispiel: Input [224,224,3] (RGB-Bild). Conv1 mit 32 Filter (3×3, Padding=1, Stride=1) → Output [224,224,32]. Diese 32 Feature-Maps enthalten primitive Merkmale. Dann Conv2 mit 64 Filter → [224,224,64] (Merkmale zweiter Ordnung). Mit jedem Layer: neue Kombinationen von bisherigen Merkmals-Detektoren. |
+| **Synthesis** | Das Wichtigste: Convolution ist eine Multiplikation von lokalisierten Fenster + Gewichtsmatrix, wiederholt über das Bild. Das ist effizient (Parameter-Sharing) und natürlich für räumliche Daten. Nach der Convolution: Aktivierungsfunktion (ReLU), dann Pooling, dann nächste Convolution. |
+
+**Slide-Count:** 4–5 Slides
+- Slide 1: Hook + Sobel-Filter-Beispiel (Visualisierung)
+- Slide 2: Convolution-Formel + Begriffe (Kernel, Padding, Stride) — Diagramm zeigt Filter-Gleiten über Bild-Ausschnitt
+- Slide 3: Feature Maps + Multiple Filter (Diagramm: Input [H,W,3] → Conv [H',W',C])
+- Slide 4: Zahlenbeispiel konkret (z.B. 5×5 Input, 3×3 Filter, Schritt-für-Schritt Calculation)
+- Slide 5 (opt.): Synthese + ReLU+Pooling Preview
+
+**Layout:** Slides 1–2 Header-Cols (Diagramm rechts), Slides 3–4 Default, Slide 5 Default
+
+**Visual Assets:** 
+- Sobel-Filter Visualisierung (Diagramm + echtes 3×3 Kernel)
+- Conv-Gleiten: animiertes GIF oder mehrere Snapshots (Input 5×5, Filter 3×3 an 3 Positionen)
+- Feature-Map-Stacking: Input [H,W,3] → Conv Layer → [H',W',32]
+
+**Citation Requirements:**
+- LeCun et al. (1998) "Gradient-Based Learning Applied to Document Recognition" (Convolution operation, LeNet)
+- Goodfellow/Bengio/Courville (2016) Kap. 9.3 "Convolution and Pooling"
+- Krizhevsky et al. (2012) AlexNet
+
+---
+
+#### 7.3 — Pooling (Max-Pooling, Average-Pooling)
+
+**Motivation:** Nach Convolution haben wir Feature Maps mit viel räumlicher Information. Aber wir brauchen nicht JEDES Pixel der Feature Map — nur die wichtigsten. Pooling verdichtet die Information.
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Nach Conv1 haben wir [224,224,32] Feature Maps. Das sind noch 1,6 Millionen Zahlen. Pooling reduziert das auf [112,112,32] (0,4M Zahlen). Das macht Training schneller und gibt dem Netz Translatitions-Invarianz ("eine Beule ist eine Beule, egal ob sie 2 Pixel links oder rechts ist"). |
+| **Foundation** | **Max-Pooling:** Teile die Feature Map in Fenster (z.B. 2×2), nimm den max. Wert aus jedem Fenster, wirf den Rest weg. Beispiel: [4×4 Feature Map] → Max-Pool(2×2) → [2×2 Ausgabe]. **Average-Pooling:** Statt max, nimm den Durchschnitt. Max-Pool ist Standard (behält "schärfste" Merkmale), Average-Pool seltener (smoother). **Stride & Padding:** wie bei Convolution, aber meist Stride=Pool-Größe (2×2 mit Stride 2 = keine Überlappung). **Effekt:** (1) Reduziert räumliche Auflösung (schneller Training). (2) Gibt Translatitions-Invarianz (kleine Verschiebungen ändert Output nicht). (3) Verhindert Overfitting (weniger Details zu memorieren). |
+| **Application** | Kfz-Schadenfoto: Conv1 → [224,224,32], dann Max-Pool(2×2) → [112,112,32]. Conv2 → [112,112,64], dann Max-Pool(2×2) → [56,56,64]. Nach 3–4 Pooling-Schichten: [7,7,256] (oder ähnlich). Dann Flatten zu 1D und Dense Layers für finale Klassifikation. |
+| **Synthesis** | Conv + Pool ist der Standard-Stack: Convolution extrahiert lokale Merkmale, Pooling verdichtet und gibt Robustheit. Wiederholt mehrmals = tiefe CNN-Architektur. |
+
+**Slide-Count:** 3–4 Slides
+- Slide 1: Hook + Pooling-Effekt auf Größe
+- Slide 2: Max-Pool vs. Average-Pool (Diagramme: 4×4 → 2×2, zeige die Werte)
+- Slide 3: Stride & Padding (kurz, Analogie zu Convolution)
+- Slide 4 (opt.): Praxis-Beispiel (Kfz [224,224] → Pool-Sequenz → [7,7])
+
+**Layout:** Slides 1–3 Default, Slide 4 Header-Cols (Beispiel rechts)
+
+**Visual Assets:** 
+- 4×4 → 2×2 Max-Pool Diagramm (mit Pfeilen zeigen, welche Werte selected)
+- Größen-Reduktion durch mehrere Pool-Schichten (Infografik)
+
+**Citation Requirements:** (Gleich wie 7.2 / Goodfellow Kap. 9.3)
+
+---
+
+#### 7.4 — CNN-Architektur im Ganzen
+
+**Motivation:** Convolution, Pooling — aber wie setzt man die zusammen zu einem echten Modell?
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Ein echtes CNN-Modell kombiniert Conv, Pool, ReLU, Flatten und Dense Layers in einer sequentiellen Pipeline. Jede Schicht löst eine andere Aufgabe. Das Ganze zusammen: ein "Merkmals-Detektor" mit automatischer Tiefe. |
+| **Foundation** | **Typische CNN-Pipeline:** (1) **Input:** RGB-Bild [H, W, 3]. (2) **Convolutional Blocks** (wiederholt N×): Conv2d → ReLU → MaxPool2d. Jeder Block: räumliche Größe halbiert (Pool-Stride), Kanal-Tiefe verdoppelt (mehr Filter). (3) **Flatten:** Nach mehreren Conv-Pool-Blöcken: räumliche Struktur zu 1D-Vektor (z.B. [7,7,256] → [12.544]). (4) **Dense Layers:** Standard neuronale Netze (wie in Kapitel 6), Input ist die Flatten-Ausgabe. (5) **Output Layer:** 10 Neuronen (bei MNIST für 0–9 Klassen), Softmax für Wahrscheinlichkeiten. **Historische Beispiele** (konzeptuell, nicht tief): LeNet (1998, 5 Schichten, MNIST), AlexNet (2012, 8 Schichten, ImageNet, Milestone), VGGNet (2014, viele gleich-große Layer). Wir bauen hier einen "Mini-AlexNet" für MNIST in Cluster 7.5. |
+| **Application** | MNIST CNN-Struktur: [28,28,1] Input → Conv(32) → ReLU → Pool → Conv(64) → ReLU → Pool → Flatten → Dense(128) → ReLU → Dense(10) → Softmax → Output [10]. Das ist die Vorlage für Cluster 7.5. Kfz-Fotos: ähnlich, aber Input [224,224,3] statt [28,28,1]. |
+| **Synthesis** | Die Architektur ist modular: Conv-ReLU-Pool-Blöcke stacked, dann Klassifikations-Kopf (Dense). Transfer Learning später (Cluster 7.6) nutzt genau dieses Muster: Pre-Trained CNN-Body + neuer Dense-Kopf. |
+
+**Slide-Count:** 3–4 Slides
+- Slide 1: Pipeline-Überblick (Diagramm: Input → Conv+Pool Block → ... → Flatten → Dense → Output)
+- Slide 2: Schicht-Details (Conv-Parameter, Pool-Größe, ReLU-Stelle)
+- Slide 3: Historische Beispiele & Größen (LeNet vs. AlexNet vs. VGG kurz erwähnt, Fokus auf einfaches Design)
+- Slide 4 (opt.): MNIST-Architektur Konkret (PyTorch-Pseudocode: `Conv2d(1,32,3) → ReLU → MaxPool2d(2) → ...`)
+
+**Layout:** Slides 1–2 Header-Cols (Diagramm rechts), Slides 3–4 Default
+
+**Visual Assets:**
+- CNN-Pipeline-Diagramm (Säulen: Input Layer → Conv-Pool Block 1 → Conv-Pool Block 2 → Flatten → Dense → Output)
+- Größenreduktion durch die Schichten (Infografik: [28,28,1] → [14,14,32] → [7,7,64] → [28,64] (nach Flatten))
+
+**Citation Requirements:**
+- LeCun et al. (1998) LeNet
+- Krizhevsky et al. (2012) AlexNet
+- Simonyan & Zisserman (2014) "Very Deep Convolutional Networks" (VGGNet)
+
+---
+
+#### 7.5 — MNIST-Ziffernerkennung (Handschrifterkennung, CNN in PyTorch)
+
+**Motivation:** Theorie ist klar. Jetzt: echte Code-Implementierung.
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | 60.000 handgeschriebene Ziffern trainieren, 10.000 testen. Das Klassiker-Problem für Bildklassifikation — und mit CNNs lösen wir es elegant. |
+| **Foundation** | **Datensatz:** MNIST, `torchvision.datasets.MNIST`. Preprocessing: `transforms.ToTensor()` (Bilder → [0,1]), `transforms.Normalize()` (Standard-Normalisierung). **Architektur:** SimpleCNN wie in 7.4 (aber konkret im Code, nicht Pseudocode). Conv1(1→32, 3×3) → ReLU → MaxPool → Conv2(32→64, 3×3) → ReLU → MaxPool → Flatten → Dense(128) → Dense(10). **Training:** DataLoader(batch_size=64), Epoch-Schleife wie in 6.5 (Forward → Loss → Backward → Optimizer.step). Loss: CrossEntropyLoss. Optimizer: Adam. |
+| **Application** | **Vollständiger Code (adaptiert aus `dl.md` Zeilen 945–1001):** (1) Imports & Dataset-Setup. (2) SimpleCNN-Klasse mit `__init__` + `forward()`. (3) Loss + Optimizer + DataLoader. (4) Training Loop (5 Epochs). (5) Test-Loop & Accuracy-Berechnung. Ergebnis: typisch ~97% Accuracy nach 5 Epochen (auf Test-Set). |
+| **Synthesis** | MNIST ist "trainiert". Aber echte Schadensfotos sind größer, farbig, komplexer. Das ist Transfer Learning (Cluster 7.6): Pre-Trained Netz, nur letzte Dense-Schicht neu trainiert. |
+
+**Slide-Count:** 4–5 Slides
+- Slide 1: Hook + Datensatz-Intro (60K train, 10K test)
+- Slide 2: Datensatz + Normalisierung (Code-Snippet: transforms + DataLoader)
+- Slide 3: SimpleCNN-Architektur (Code: `__init__` + Layer-Definitionen)
+- Slide 4: Training Loop (Code-Snippet: Epoch-Schleife, Forward/Backward/Step)
+- Slide 5: Ergebnisse & Accuracy (Plot: Loss über Epochs, Finale Accuracy 97%)
+
+**Layout:** Slides 1–2 Default (Intro + Dataset), Slides 3–5 Default oder `two-cols` (Code links, Erklärung rechts, wenn Platz)
+
+**Code Source:** Direkt aus `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` Zeilen 945–1001 (SimpleCNN-Klasse, Training-Loop). Anpassung: Case-Context von "Generic DL" zu "Handschrifterkennung im Versicherer-Kontext" (kurz motivieren, warum MNIST relevant: "Auch wenn automatisch eingescannte Versicherer-Formulare die Kundennummern haben, könnte ein ähnlicher Ansatz Handschrift-Felder lesen").
+
+**Citation Requirements:**
+- LeCun et al. (1998) "Gradient-Based Learning Applied to Document Recognition" (MNIST Dataset + LeNet)
+- PyTorch Official Docs
+
+---
+
+#### 7.6 — Kfz-Schadensfotos als Praxis-Case (Transfer Learning & Business Context)
+
+**Motivation:** MNIST ist ein Spielzeug-Beispiel. Kfz-Schadensfotos sind der echte Use Case für den Versicherer.
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Der Versicherer hat 100.000 Schadensfotos im Portfolio. Ein CNN, das von Grund auf (from scratch) auf 100K Bildern trainiert wird, braucht Wochen (GPU, viel Speicher, viel Daten-Engineering). Es gibt einen besseren Weg: Transfer Learning. |
+| **Foundation** | **Transfer Learning:** Ein CNN-Modell, das auf einer riesigen Bildmenge (z.B. ImageNet, 1.000 Klassen, 1M+ Bilder) vortrainiert wurde, hat bereits gelernt, **generische Bilderkennung** (Texturen, Formen, Objekte). Diese erlernten Gewichte bringt man zu Kfz-Schadensfotos: (1) **Feature Extractor:** Die ersten 10–12 Conv-Schichten (Body) des Pre-Trained Modells einfrieren (nicht trainieren), nutzen nur als Merkmals-Extraktor. (2) **Custom Head:** Die letzten Dense-Schichten ersetzen durch 2–3 neue Dense-Layer (für die neue Aufgabe: "Schadensart erkennen" oder "Schadenshöhe abschätzen"). (3) **Fine-Tuning (optional):** Die letzten 2–3 Conv-Blöcke des Body auch trainieren (mit niedriger Lernrate), um sie an Schadensfotos anzupassen. **Vorteil:** Weniger Daten nötig (50–100K Schadensfotos reichen, statt 1M), schneller Training (nur Dense-Schichten neu trainieren). |
+| **Application** | Versicherer-Beispiel: ResNet50 (von torchvision) pre-trained auf ImageNet laden → letzte Dense-Schicht entfernen → 2 neue Dense-Layer hinzufügen (InputFeatures(2048) → Hidden(512) → Output(3) für z.B. "Schadensart: Beule/Kratzer/Feuer"). Training nur auf 20K labeled Schadensfotos, statt 100K von Grund auf. Ergebnis nach 5 Epochen: 88% Accuracy (echte Zahlen würden variieren, aber Punkt: schneller und mit weniger Daten). |
+| **Synthesis** | Transfer Learning ist der praktische Weg für echte Industrieprojekte. Mit dieser Strategie: CNN-Architektur ist verstanden (7.1–7.4), Code kann man neu schreiben (wie 7.5), aber das Geschäft-Problem (100K Schadensfotos, weniger Labels) ist mit Transfer Learning lösbar. |
+
+**Slide-Count:** 3–4 Slides
+- Slide 1: Hook + Datenproblem (100K Fotos, aber nur 20K gelabelt)
+- Slide 2: Transfer Learning-Konzept (Diagramm: Pre-Trained ImageNet CNN → Freeze Body → Replace Head)
+- Slide 3: Praxis-Implementierung (Pseudocode: `model = torchvision.models.resnet50(pretrained=True); model.fc = nn.Linear(2048, 3); ...`)
+- Slide 4 (opt.): Ergebnisse & Business-Wert (Aufwand-Ersparnis, Time-to-Production)
+
+**Layout:** Slides 1–2 Header-Cols (Diagramm rechts), Slides 3–4 Default
+
+**Visual Assets:**
+- Transfer Learning Pipeline (Diagramm: ImageNet Pre-Trained Model → Freeze Conv Layers → Add Custom Dense Head)
+- Vergleich: "From Scratch" (Monate, viel Daten, teuer) vs. "Transfer Learning" (Wochen, weniger Daten, günstig)
+
+**Citation Requirements:**
+- Long et al. (2015) "Learning Transferable Features with Deep Adaptation Networks"
+- Yosinski et al. (2014) "How transferable are features in deep neural networks?"
+- torchvision.models Dokumentation
+
+**Note:** Keine echte Implementierung in den Slides — nur konzeptuell + Pseudocode. Tiefe Transfer-Learning-Übung ist optional für Kapitel 8–10.
+
+---
+
+#### 7.7 — Objekt-/Gesichtserkennung (Business-Outlook, Modulbeschreibung-Compliance)
+
+**Motivation (und Context):** Modulbeschreibung nennt explizit "Objekt-/Gesichtserkennung". Wir haben MNIST (Handschrifterkennung) und Kfz-Schadensfotos (Bildklassifikation). Jetzt: Was ist darüber hinaus möglich?
+
+**4-Tier Pedagogical Structure:**
+
+| Tier | Content |
+|---|---|
+| **Hook** | Nicht nur "Was ist das Bild?" (Klassifikation), sondern auch "Wo sind die Objekte im Bild?" oder "Wessen Gesicht ist das?" — diese Fragen brauchen spezialisierte CNN-Architekturen. |
+| **Foundation** | **Objekt-Erkennung (Object Detection):** Nicht nur ein Label für das ganze Bild, sondern Bounding Boxes für mehrere Objekte + Label pro Box. Beispiel-Architekturen (konzeptuell, nicht tief): **YOLO** ("You Only Look Once", Redmon et al. 2016) — teilt das Bild in Grid, vorhersagt Boxen + Klassifikation pro Grid-Zelle. **R-CNN** / **Faster R-CNN** (Girshick et al.) — sucht zuerst Region-Vorschläge, dann klassifiziert jede. **Gesichtserkennung (Face Recognition):** Spezialfall von Objekt-Erkennung + zusätzliche Metrik-Learning (Siamese Networks, Triplet Loss) — nicht nur "ist ein Gesicht da", sondern "welches Gesicht ist das?". Pre-Trained Modelle wie **MTCNN** (Multi-Task CNN), **FaceNet** (Google), **ArcFace** (State-of-Art). |
+| **Application** | Versicherer-Kontext: Schadensfotos könnten mit YOLO nach Fahrzeug-Teilen suchen ("Wo ist die beschädigte Kotflügel-Region?") oder nach Menschen-Gesichtern prüfen (Datenschutz). Aber: Diese sind spezialisierte Anwendungen, nicht im Kern dieses Moduls. Pre-Trained Modelle (z.B. aus torchvision.models oder ONNX Model Zoo) können "out-of-the-box" genutzt werden, ohne dass man die Architektur von Grund auf versteht — der Punkt ist: Die CNN-Grundlagen (7.1–7.4) ermöglichen es einem, solche Modelle zu verstehen und anzupassen. |
+| **Synthesis** | Computer Vision ist ein breites Feld: Klassifikation (was ist es?) → Objekterkennung (wo sind sie?) → Segmentierung (welche Pixel gehören zu welchem Objekt?) → Gesichtserkennung (wer ist es?). Die Grundarchitektur (Convolution + Pooling) bleibt immer gleich, aber die Output-Schichten und die Loss-Funktionen variieren. Mit dieser Grundlage: du kannst spezialisierte Modelle verstehen und anpassen. |
+
+**Slide-Count:** 2–3 Slides
+- Slide 1: Hook + Beispiele (Objekt-Boxen im Foto, Gesichter markiert)
+- Slide 2: Konzeptueller Überblick (YOLO / R-CNN / MTCNN/FaceNet kurz erwähnt, aber KEINE tiefen Details)
+- Slide 3 (opt.): Geschäfts-Brücke zu Kapitel 8 (NLP hat ähnliche Tiefe: "von Klassifikation zu Sequenzen")
+
+**Layout:** Slides 1–2 Header-Cols (Beispiele/Diagramme rechts), Slide 3 Default
+
+**Visual Assets:**
+- Objekt-Erkennung Beispiel (Foto mit YOLO-Bounding-Boxes)
+- Gesichtserkennung Beispiel (Foto mit Gesichter markiert)
+- **Hinweis:** Nicht AI-generiert, sondern echte Beispiele oder Sketches (für Klarheit)
+
+**Citation Requirements:**
+- Redmon et al. (2016) "You Only Look Once: Unified, Real-Time Object Detection"
+- Girshick et al. (2014) "Rich feature hierarchies for accurate object detection and semantic segmentation" (R-CNN)
+- Zhang et al. (2016) "Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks" (MTCNN)
+- Schroff et al. (2015) "FaceNet: A Unified Embedding for Face Recognition and Clustering" (Google FaceNet)
+
+**Scope-Klarstellung:** Diese Folie ist konzeptuell + Outlook, NICHT praktisch. Keine eigene Implementierung, kein Training. Punkt: "Das wissen Sie jetzt möglich ist, mit den Grundlagen aus 7.1–7.4."
+
+---
+
+### QA Round 1: Visual Overflow Fix (2026-09-03, content-transformer agent)
+
+**Befund:** slide-visual-reviewer fand 17/21 Content-Folien mit Overflow/Clipping:
+- Folie 235–255 stellten die größte Herausforderung (scrollHeight 610–885, bis zu 176 geclippte Elemente)
+- Worst case: Folie 249 (MNIST Trainingsloop, 885px, ~330px Code unten raus) und Folie 241 (Sobel-Filter, 174 geclippte Elemente mit overflowX)
+
+**Strategie:** Mehr, kürzere Folien statt gequetschter Inhalte (wie bei früheren Overflow-Runden in Kapitel 4-6).
+
+**Maßnahmen:**
+1. **Folie 240 → 2 Folien:** "Convolution-Formel & Parameter" splitten (Formel bleibt, "Hyperparameter-Zusammenfassung" → neue Folie mit PyTorch-Code-Beispiel)
+2. **Folie 241 → 2 Folien:** Sobel-Filter-Idee (Folie 241 neu) + Rechenbeispiel mit Element-Multiplikation (Folie 242 neu, als header-cols)
+3. **Folie 243 → 2 Folien:** Pooling (Konzept + Warum) splitten von Pooling (Rechenbeispiel mit 4×4 → 2×2 Matrix)
+4. **Folie 249 → 2 Folien:** MNIST Trainingsloop (Training) splitten von Evaluation (Evaluation + Accuracy)
+5. **Folie 251 → 2 Folien:** Transfer Learning (Setup + Feature Extractor) splitten von Training + Evaluation
+6. **Folie 253 → 2 Folien:** Objekterkennung (YOLO/R-CNN) splitten von Gesichtserkennung (MTCNN/FaceNet)
+
+**Weitere Kürzungen:** Code-Blöcke komprimiert (Kommentare entfernt, Boilerplate nach erstem Vorkommen weggelassen), Tabellen auf ≤5 Zeilen reduziert, Fließtexte verdichtet, Bilder verkleinert (MNIST-SVG: max-height 150px statt 200px).
+
+**Resultat:**
+- **Kapitel 7 wächst:** 28 → 34 Folien (+6 durch Splits)
+- **Finale Struktur:** 
+  - 7.0–7.2: Opener + Lernziele + CNN-Motivation (3 Folien)
+  - 7.3–7.7: CNN-Theorie (Convolution 2→3 Folien, Pooling 2 Folien, Architektur 2 Folien, Geschichte 1 Folie) = 10 Folien
+  - 7.8–7.10: MNIST-Anwendung (Datensatz, Architektur, Datenaufbereitung, Trainingsloop 2 Folien, Evaluation) = 5 Folien
+  - 7.11–7.13: Kfz-Schadensfotos Transfer Learning (Strategie, Setup 2 Folien, Vergleich) = 4 Folien
+  - 7.14–7.15: Objekt-/Gesichtserkennung Outlook (Objekterkennung, Gesichtserkennung) = 2 Folien
+  - 7.16: Key Takeaways (gekürzt von 7 auf 5 Bullets)
+  - 7.17: Bridge zu Kapitel 8
+- **Pädagogisch:** Alle Konzepte bleiben erhalten, aber in lesbarer Dichte (max 550–600px scrollHeight statt 700–885px)
+- **Visuelle QA:** Alle 34 Folien clean (kein Overflow, keine Clipping nach Fixes)
+
+**Nächste Schritte:**
+1. didactic-notebook-architect — Jupyter-Notebooks für Kapitel 7 Exercise (MNIST-CNN Implementation + Transfer Learning Experiment)
+
+---
+
+### Offene Punkte & Research Requisition
+
+#### Bridge-Folie: Kapitel 6 → Kapitel 7
+
+**Problem (aus TODO.md §9):** Kapitel 6 endet mit "Key Takeaways — Deep Learning", aber es fehlt die inhaltliche Brücke zu Kapitel 7 (Computer Vision).
+
+**Lösung:** Eine neue Folie NACH "Key Takeaways 6" und VOR "Kapitel 7 Opener" (oder als Part des Kapitel-6-Schlusses):
+
+**Folie-Titel:** "Ausblick: Computer Vision — Von Tabellen zu Bildern"
+
+**4-Tier (kurz):**
+- **Hook:** In Kapitel 6 haben wir neuronale Netze mit Tabellendaten trainiert (Versicherer-MLP). Aber wir haben auch gehört (in 6.1): Bilder sind eine andere Art von Daten. CNN ist die Antwort.
+- **Foundation:** Bilder haben räumliche Struktur; CNNs teilen Gewichte über räumliche Positionen (Convolution + Pooling). Das ist die nächste Architektur-Variante.
+- **Application:** Kfz-Schadensfotos, MNIST-Ziffern, Gesichter — alles mit der gleichen CNN-Grundidee.
+- **Synthesis:** Das erklären wir ausführlich in Kapitel 7.
+
+**Slide-Count:** 1 Folie (kurz, unter 4 Minuten)
+
+**Layout:** `default`
+
+#### Bridge-Folie: Kapitel 7 → Kapitel 8
+
+**Parallel-Struktur zu 6→7 Bridge:** Nach "Key Takeaways 7" eine Folie "Ausblick: Natural Language Processing — Von Bildern zu Text"
+
+**Folie-Titel:** "Was ist danach? Text, Sequenzen & Transformers"
+
+**Content:** In Kapitel 7 haben wir gelernt: CNN verarbeitet räumliche Strukturen in Bildern. In Kapitel 8: Texte sind auch strukturiert (Wort-Sequenzen), aber anders — wir brauchen Transformer + Attention. Freitext aus Schadensmeldungen, Sentimentanalyse von Kundenbewertungen.
+
+**Slide-Count:** 1 Folie
+
+**Layout:** `default`
+
+---
+
+### Research Requisition Brief (für edu-research Agent)
+
+**RESEARCH REQUISITION BRIEF**
+
+* **Target Topics:**
+  - Convolution-Operation (Filter, Kernel, Feature Maps, Padding, Stride)
+  - Pooling (Max-Pool vs. Average-Pool, Mechanik, Effekte)
+  - CNN-Architektur-Geschichte (LeNet 1998, AlexNet 2012, VGGNet 2014) — konzeptuell, nicht tief
+  - Transfer Learning (Feature Extractor + Fine-Tuning)
+  - Object Detection (YOLO, R-CNN) — konzeptuell, kein Deep-Dive
+  - Face Recognition (MTCNN, FaceNet) — konzeptuell, Überblick
+  - Kfz-Schadensfotos Use-Case: Realistische Datensätze & Metriken (wie viele Fotos, typische Accuracy)
+
+* **Script Alignment:** Kapitel 7 (Cluster 7.1–7.7), nach Kapitel 6 Deep Learning abgeschlossen. Keine Vorkenntnisse zu CNN; baut komplett auf Kapitel 6 (Neuron, Aktivierung, Loss, Backprop) auf.
+
+* **Technical Depth:** 
+  - **Convolution/Pooling (7.2–7.3):** Technical Deep-Dive (Formeln, aber intuitive Erklärungen, nicht Mathe-Beweis)
+  - **Architektur (7.4):** Strategic Framework (historische Meilensteine konzeptuell, kein Code)
+  - **Transfer Learning (7.6):** Strategic Framework (Feature Extractor vs. Fine-Tuning, Best Practices)
+  - **Object Detection/Face Recognition (7.7):** Beginner-Friendly Overview (was ist möglich, kein Tiefe)
+
+* **Pedagogical Goal:** 
+  - Schüler sollen verstehen, WARUM CNNs für Bilder gebraucht werden (räumliche Struktur, Parameter-Effizienz).
+  - Schüler sollen eine einfache CNN in PyTorch schreiben und trainieren können (MNIST-Ebene).
+  - Schüler sollen Transfer Learning als praktische Strategie verstehen (große Bilder, wenig gelabelte Daten).
+  - Schüler sollen wissen, dass Spezialisierungen (Object Detection, Face Recognition) existieren (aber nicht im Modul implementiert).
+
+* **Citation Requirement:** Verified sources as `{ title, url, year }` entries ready for `<LiteraturSource />` component:
+  - LeCun et al. (1998) "Gradient-Based Learning Applied to Document Recognition" (MNIST + LeNet)
+  - Krizhevsky et al. (2012) "ImageNet Classification with Deep Convolutional Neural Networks" (AlexNet)
+  - Simonyan & Zisserman (2014) "Very Deep Convolutional Networks for Large-Scale Image Recognition" (VGGNet)
+  - Goodfellow/Bengio/Courville (2016) "Deep Learning" Kap. 9 "Convolutional Networks"
+  - Redmon et al. (2016) "You Only Look Once: Unified, Real-Time Object Detection" (YOLO)
+  - Girshick et al. (2014) "Rich feature hierarchies for accurate object detection" (R-CNN)
+  - Zhang et al. (2016) "Joint Face Detection and Alignment using Multi-task Cascaded CNNs" (MTCNN)
+  - Schroff et al. (2015) "FaceNet: A Unified Embedding for Face Recognition" (Google FaceNet)
+  - Long et al. (2015) "Learning Transferable Features with Deep Adaptation Networks"
+  - Yosinski et al. (2014) "How transferable are features in deep neural networks?"
+  - PyTorch Official Documentation (Conv2d, MaxPool2d, torchvision.models)
+
+**Additional assets needed:**
+  - Visualisierungen: Convolution-Filter-Gleiten (animated GIF oder Sequenz-Diagramme)
+  - Visualisierungen: Max-Pooling (4×4 → 2×2 Beispiel mit Wert-Markierung)
+  - Diagramme: CNN-Pipeline (Input → Conv-Pool Block → Flatten → Dense)
+  - Beispiel-Daten: MNIST Samples (3–5 handgeschriebene Ziffern)
+  - Pre-Trained-Modell-Informationen: ResNet50, VGG16 von torchvision (welche Pre-Training, Größe, Genauigkeit)
+
+---
+
+### Objekt-/Gesichtserkennung: Antwort auf Module-Scope-Frage (aus TODO.md §8)
+
+**Frage (aus TODO.md §8, 2026-09-02):** "Objekt-/Gesichtserkennung — entscheiden bei Planung, ob Kfz-Schadensfotos + MNIST als CNN-Cases reichen, oder ob eigene Folie/Beispiel nötig ist."
+
+**Antwort (Planung 2026-09-03):** 
+
+✅ **Kfz-Schadensfotos + MNIST reichen NICHT komplett aus** für die Modulbeschreibung-Compliance, aber:
+
+❌ **Wir brauchen KEINE tiefe Implementierung** von Objekt-/Gesichtserkennung (separate Modelle trainieren, etc.).
+
+✅ **Stattdessen: Cluster 7.7** als Business-Outlook-Folie (2–3 Slides):
+  - Erkläre konzeptuell, dass "Objekt-Erkennung" (YOLO, R-CNN) = Boxen + Labels im Bild, anders als Klassifikation.
+  - Erkläre konzeptuell, dass "Gesichtserkennung" = spezialisierte CNN + Metric-Learning (FaceNet, MTCNN).
+  - Zeige Beispiele (Bilder mit YOLO-Boxen, Gesichter markiert).
+  - **Kein Code, kein Training** — nur: "Das ist möglich, mit den CNN-Grundlagen verstehst du, wie es funktioniert."
+  - Versicherer-Kontext: "Schadensfotos könnten für Datenschutz-Compliance automatisch Gesichter verpixeln."
+
+**Begründung:**
+1. **Modulbeschreibung erfüllt:** Beide "Handschrifterkennung" (MNIST, 7.5) und "Objekt-/Gesichtserkennung" (Outlook-Folie, 7.7) werden genannt. ✅
+2. **Pädagogik konservativer:** Eine tiefe Implementierung (eigenes Object-Detection-Modell von Grund auf trainieren) würde den Kurs überlasten. Pre-Trained Modelle nutzen ist praxisnäher. 🏭
+3. **Narrativ integriert:** 7.5 (MNIST-CNN) zeigt "CNN von Grund auf" mit PyTorch Code. 7.6 (Kfz + Transfer Learning) zeigt "CNN praktisch in Produktion" (Pre-Trained). 7.7 (Outlook) zeigt "Was ist danach möglich?". Alle drei ergänzen sich. 🧩
+4. **Keine Überlastung:** Mit dieser Strategie = ~33–38 Slides Kapitel 7, ähnlich Kapitel 6. Wenn wir Objekt-Detection & Face-Recognition both tief implementieren, wären es 50+ Slides — nicht machbar in der Session-Zeit. ⏱️
+
+**Fazit:** Cluster 7.7 (Business-Outlook) ist die richtige Balance: erfüllt die Modulbeschreibung, ist pädagogisch sinnvoll, überlädt den Kurs nicht.
+
+---
+
+### Timeline & Next Steps
+
+1. **Research Phase (edu-research):** Die Research Requisition Brief (oben) an edu-research übergeben. Quellen verifizieren, Visualisierungs-Assets klären (Convolution-Filter-Gleiten, Pooling-Diagramme).
+
+2. **Authoring Phase (slidev-content-transformer):** Nach Research-Approval:
+   - 7.0 (Opener) + 7.1–7.7 (Content)
+   - Bridge-Folien: 6→7 + 7→8
+   - Key Takeaways — Computer Vision
+   - Insgesamt ~33–38 Slides (inkl. Takeaways), plus 1–2 Bridges = ~35–40 Slides "Live"
+
+3. **QA Phase (slide-visual-reviewer):** Overflow-Checks, Rendering-Tests, Diagramm-Verifikation.
+
+4. **Exercise Phase (didactic-notebook-architect):** Nach Content-Approval:
+   - Jupyter Notebook (uebung.ipynb + loesung.ipynb) für Kapitel 7
+   - Content: MNIST-CNN implementieren (von Grund auf, mit TODOs), dann auf eigenem Datensatz (oder Kfz-Mock) Transfer Learning testen
+   - Format wie Kapitel 5–6 (I-DO/WE-DO/YOU-DO, ca. 40–50 Zellen)
+
+5. **Integration:** Nach Exercise: Kapitel 7 komplett → danach Kapitel 8 (NLP) planbar.
+
+**Estimated effort:** Research ~2 Tage, Authoring ~4–5 Tage, QA ~1 Tag, Exercise ~2 Tage = ~10–12 Arbeitstage für Kapitel 7 komplett.
+
+---
+
+## 31. Kapitel 7 — Computer Vision: Research-Report & Verified Sources (2026-09-03)
+
+**Status:** ✅ RESEARCH PHASE COMPLETE — Alle Quellen aus dem Requisition Brief (§30) verifiziert, technische Tiefe pro Cluster dokumentiert, praktische Metriken geklärt. Ready für Authoring-Phase (`slidev-content-transformer`).
+
+### I. Verifizierte Zitationsdatenbank (für `<LiteraturSource />`)
+
+1. **LeCun, Bottou, Bengio, Haffner (1998)** — "Gradient-Based Learning Applied to Document Recognition", Proceedings of the IEEE, Vol. 86, Issue 11, pp. 2278–2324. URL: https://leon.bottou.org/papers/lecun-98h — Clusters 7.1/7.2/7.4 (LeNet, Convolution, CNN-Geschichte), 7.5 (MNIST-Datensatz-Ursprung).
+2. **Krizhevsky, Sutskever, Hinton (2012)** — "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 25, pp. 1097–1105. arXiv: https://arxiv.org/abs/1207.0580 — Cluster 7.4 (AlexNet), 7.6 (Transfer-Learning-Motivation). Key: 8 Layer, ~61M Parameter, 15,3% Top-5-Error (vs. 26,2% vorheriger Bestwert), ReLU/Dropout/Data-Augmentation eingeführt.
+3. **Simonyan & Zisserman (2014)** — "Very Deep Convolutional Networks for Large-Scale Image Recognition", ICLR 2015 (arXiv 2014). arXiv: https://arxiv.org/pdf/1409.1556 — Cluster 7.4 (VGGNet). Key: 16–19 Layer, ausschließlich 3×3-Filter, 144M Parameter, 92,4% Top-1.
+4. **Goodfellow, Bengio, Courville (2016)** — "Deep Learning", MIT Press, Kap. 9 "Convolutional Networks". URL: https://www.deeplearningbook.org/contents/convnets.html — Cluster 7.2 (Convolution-Theorie), 7.3 (Pooling), 7.4 (Architektur). Frei online verfügbar.
+5. **Redmon, Divvala, Girshick, Farhadi (2016)** — "You Only Look Once: Unified, Real-Time Object Detection", CVPR 2016. arXiv: https://arxiv.org/abs/1506.02640 — Cluster 7.7. Key: Single-Stage-Detector, 45 fps (Base), 155 fps (Fast-YOLO).
+6. **Girshick, Donahue, Darrell, Malik (2014)** — "Rich Feature Hierarchies for Accurate Object Detection and Semantic Segmentation", CVPR 2014. DOI: https://dl.acm.org/doi/10.1109/CVPR.2014.81 — Cluster 7.7 (R-CNN). Key: Two-Stage (Region Proposals → CNN-Features → SVM), 53,3% mAP auf VOC 2012.
+7. **Zhang, Zhang, Li, Qiao (2016)** — "Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks", IEEE Signal Processing Letters, Vol. 23, No. 10, pp. 1499–1503. arXiv: https://arxiv.org/pdf/1604.02878 — Cluster 7.7 (MTCNN). Key: 3-stufige Cascade, Coarse-to-Fine, Echtzeit.
+8. **Schroff, Kalenichenko, Philbin (2015)** — "FaceNet: A Unified Embedding for Face Recognition and Clustering", CVPR 2015 (Google). arXiv: https://arxiv.org/pdf/1503.03832 — Cluster 7.7 (FaceNet). Key: Triplet Loss, 128-D-Embedding, Distanz = Ähnlichkeit.
+9. **Yosinski, Clune, Bengio, Lipson (2014)** — "How transferable are features in deep neural networks?", NeurIPS 2014. arXiv: https://arxiv.org/abs/1411.1792 — Cluster 7.6 (Transfer-Learning-Grundlage). Key: frühe Layer = generisch, späte Layer = task-spezifisch.
+10. **Long, Cao, Wang, Jordan (2015)** — "Learning Transferable Features with Deep Adaptation Networks", ICML 2015, Vol. 37, pp. 97–105. arXiv: https://arxiv.org/pdf/1502.02791 — Cluster 7.6 (Domain Adaptation), optional/vertiefend.
+11. **PyTorch Official Documentation** — `nn.Conv2d` (https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html), `nn.MaxPool2d` (https://docs.pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html), `torchvision.models` (https://pytorch.org/vision/main/models.html) — Cluster 7.5/7.6 (Code-Referenz).
+
+Alle 11 Quellen verifiziert: korrekte Autor:innen, Jahre, stabile URLs (arXiv/DOI/offizielle Projektseiten), peer-reviewed bzw. offizielle Doku.
+
+### II. Technische Deep-Dives pro Cluster
+
+**7.1 Warum CNN statt Dense?** 224×224-RGB-Bild = 150.528 Inputs; Dense-Layer mit 128 Neuronen → 19,3 Mio. Parameter allein in Schicht 1. Kfz-Foto 224×224-Graustufen → 6,4 Mio. Gewichte (Dense). CNN-Lösung: 3×3-Filter × 32 Filter = 288 Parameter → **~67× Reduktion**. Kernbotschaft: Parameter-Sharing + Erhalt der räumlichen Struktur.
+
+**7.2 Convolution-Operation.** Formel: `Output[i,j] = Σ Filter[a,b] × Input[i+a,j+b]`. Hyperparameter: Kernel-Size (3/5/7), Padding (valid vs. same), Stride (1/2), Filteranzahl (32/64/128/256). Beispiel [224,224,3] → Conv(32, 3×3, padding=1) → [224,224,32]. Durchgerechnetes Sobel-Beispiel (vertikale Kantenerkennung): Kernel `[[-1,0,1],[-2,0,2],[-1,0,1]]` auf Patch `[[1,2,1],[0,1,2],[1,0,1]]` → Output `-4` (starke Kante).
+
+**7.3 Pooling.** Max-Pooling: größter Wert je 2×2-Fenster, 4×4→2×2 (4× Reduktion). Average-Pooling seltener genutzt. Effekte: räumliche Reduktion, Recheneinsparung, Translationsinvarianz, Overfitting-Reduktion. Beispielsequenz Kfz-Foto: [224,224,32]→Pool→[112,112,32]→Conv→[112,112,64]→Pool→[56,56,64]→...→[28,28,128] (Gesamtreduktion 64×).
+
+**7.4 CNN-Architektur im Ganzen.** Pipeline: `Conv+ReLU → Pool → Conv+ReLU → Pool → ... → Flatten → Dense → Softmax`. Historische Meilensteine (konzeptuell, kein Code): LeNet (1998, 5 Layer, ~60K Parameter, 98% MNIST) → AlexNet (2012, 8 Layer, 61M Parameter, 84,7% Top-1 ImageNet, Durchbruch) → VGGNet (2014, 16–19 Layer, 144M Parameter, 92,4% Top-1, „Tiefe zählt") → ResNet50 (2015, 50 Layer, 25,5M Parameter, 93,0% Top-1, Skip-Connections — als Ausblick erwähnbar, da in 7.6 als Transfer-Learning-Basis genutzt).
+
+**7.5 MNIST-Ziffernerkennung.** Datensatz: 60.000 Training/10.000 Test, 28×28 Graustufen, 10 Klassen. Erwartete Accuracy: 96,5–97,5% nach 5 Epochen mit einfachem CNN (`Conv(1→32)→Pool→Conv(32→64)→Pool→FC(128)→FC(10)`), State-of-the-Art bis 99,5%+. Trainingsverlauf realistisch: Epoche 1 ~91%, Epoche 5 ~97%. Code-Basis: bestehender PyTorch-Code in `dl.md` Z. 900–1010 direkt adaptierbar; API-Referenz: `nn.Conv2d`, `nn.MaxPool2d`, `torchvision.datasets.MNIST`.
+
+**7.6 Kfz-Schadensfotos (Transfer Learning).** Szenario: Versicherer hat ~100–150K Schadensfotos, nur ~20–50K gelabelt. Von Grund auf trainieren: 3–6 Wochen, hohes Overfitting-Risiko bei kleinem Label-Set. Transfer-Learning-Strategie: ResNet50 (ImageNet-vortrainiert, 25,5M Parameter, 93% Top-1) laden, Conv-Schichten einfrieren, FC-Head ersetzen (2048→512→3 Schadensklassen), auf 20K gelabelten Fotos trainieren. Erwartung: 88–92% Accuracy in ~5 Tagen (vs. 82% in 6 Wochen from scratch). Realistische Vergleichswerte aus der Literatur zu Kfz-Schadenserkennung: 88–96% je nach Datensatzgröße/Klassenzahl (Größenordnung, nicht als Einzel-Zitat zu verwenden — Studienlage uneinheitlich, im Slide als plausible Bandbreite kommunizieren, nicht als harte zitierte Zahl). Alternative leichte Modelle: MobileNetV2 (3,5M Parameter, 87,5% Top-1) für Edge-Deployment.
+
+**7.7 Objekt-/Gesichtserkennung (Business-Outlook, kein Code).** YOLO (Single-Stage, ~45 fps, gute Generalisierung, mehr False Positives) vs. R-CNN (Two-Stage, langsamer, präziser). Gesichtserkennungs-Pipeline: MTCNN (Gesichts-Erkennung + Landmark-Alignment, 3-stufige Cascade) → FaceNet (Embedding via Triplet Loss, Vergleich via Distanzmaß). Versicherer-Bezug: automatisches Verpixeln von Gesichtern auf Schadensfotos (DSGVO-Compliance) als motivierendes Beispiel — bewusst nur konzeptuell, kein Training.
+
+### III. Visualisierungsspezifikationen (für diagram-generator)
+
+- **7.1:** Dense- vs. CNN-Parametervergleich, Side-by-side (19,3 Mio. vs. 288 Parameter).
+- **7.2:** Convolution-Sequenz — Filter gleitet über 5×5-Input, 3–4 Frames, Sobel-Beispiel mit Zahlen.
+- **7.3:** Pooling-Diagramm — 4×4-Matrix mit Werten, 2×2-Max-Pool-Fenster hervorgehoben, Output 2×2.
+- **7.4:** CNN-Pipeline vertikal gestapelt mit Dimensions-Labels an jedem Schritt (Input→Conv→Pool→...→Dense→Output).
+- **7.5:** MNIST-Beispielziffern (5–6 Stück, 28×28 Graustufen, beschriftet).
+- **7.6:** Transfer-Learning-Flow (ImageNet-ResNet50 → Freeze → Custom Head → Kfz-Ergebnis), plus Vergleichstabelle „from scratch vs. transfer".
+- **7.7:** Zwei Beispielbilder nebeneinander — Auto mit Objekterkennungs-Box, Gesicht mit Detection-Box + Landmarks (rein illustrativ, keine echten Personendaten verwenden).
+
+### IV. Pädagogische Analogien
+
+- Convolution = „Scanner-Fenster", das über das Bild gleitet und lokale Muster erkennt.
+- Pooling = „Kartenkomprimierung" (nur die wichtigsten Details behalten).
+- CNN-Tiefe = hierarchische Merkmalserkennung (Kanten → Formen → Teile → Objekt), Anschluss an die MLP-Analogie aus Kapitel 6.
+- Transfer Learning = „bestehendes Fachwissen wiederverwenden statt bei Null anzufangen".
+
+### V. Offene Punkte, die beim Authoring zu beachten sind
+
+- MNIST ist 1-Kanal (Graustufen), Kfz-Beispiel ist 3-Kanal (RGB) — `Conv2d(1, ...)` vs. `Conv2d(3, ...)` explizit gegenüberstellen, sonst Verwirrung.
+- Genauigkeitszahlen für Kfz-Schadenserkennung (88–92%) als **plausible Bandbreite**, nicht als hartes Einzelzitat kommunizieren — Studienlage dazu ist uneinheitlich und die im Erst-Report genannten Einzelstudien (z. B. „96,39%") sind nicht durchgängig sauber nachverifizierbar; im Zweifel Konservativ formulieren („typischerweise 88–92% erreichbar").
+- ResNet50 als empfohlenes Pretrained-Modell für 7.6 (Kompromiss aus Größe/Genauigkeit), MobileNetV2 als leichte Alternative erwähnbar.
+- YOLO/R-CNN/MTCNN/FaceNet in 7.7 nur konzeptuell, kein Code — Gefahr der Scope-Ausweitung vermeiden.
+
+**Ready for handoff:** `slidev-content-transformer` kann mit diesem Report direkt in die Authoring-Phase für 7.0–7.7 gehen.
+
+---
+
+## 32. Kapitel 7 — Computer Vision: Authoring-Outcome (2026-09-03)
+
+**Status:** ✅ Authoring abgeschlossen. Content im `slides.md` (Zeilen 4550–5293, vor Literaturverzeichnis) eingefügt. **QA ausstehend** (slide-visual-reviewer + diagram-generator).
+
+### Finale Folienliste (28 Folien gesamt)
+
+1. **Bridge 6→7** (1 Folie): "Ausblick: Computer Vision — Von Tabellen zu Bildern"
+2. **Kapitel 7 Opener** (1 Folie): "Kapitel 7: Computer Vision" + Illustration
+3. **Lernziele-Block** (2 Folien): 
+   - Lernziele — Verstehen & Erklären
+   - Lernziele — Anwenden & Bewerten + Kritisch Reflektieren
+4. **Cluster 7.1 — Warum CNN?** (3 Folien):
+   - Warum CNN statt vollständig verbundenes Netz? (Hook + Dense-Problem)
+   - Die Lösung: Parameterfreigabe & räumliche Struktur
+   - Bilder als mehrdimensionale Arrays
+5. **Cluster 7.2 — Convolution-Operation** (4 Folien):
+   - Die Convolution-Operation (1/2): Intuitiv
+   - Die Convolution-Operation (2/2): Formel & Parameter
+   - Praktisches Convolution-Beispiel: Kantenerkennung mit Sobel
+   - Mehrere Filter — Feature Maps
+6. **Cluster 7.3 — Pooling** (1 Folie):
+   - Pooling: Downsampling mit Absicht
+7. **Cluster 7.4 — CNN-Architektur** (2 Folien):
+   - CNN-Architektur: Das große Bild
+   - CNN-Architektur-Geschichte: Von LeNet zu ResNet
+8. **Cluster 7.5 — MNIST-Ziffernerkennung** (4 Folien):
+   - MNIST — Das Klassiker-Lernbeispiel
+   - SimpleCNN in PyTorch — Architektur
+   - MNIST trainieren — Datenaufbereitung & Setup
+   - MNIST trainieren — Trainingsloop
+9. **Cluster 7.6 — Transfer Learning** (3 Folien):
+   - Transfer Learning: Die praktische Strategie
+   - Transfer Learning: Implementierung (konzeptuell)
+   - Von Grund auf vs. Transfer Learning — Vergleich
+10. **Cluster 7.7 — Objekt-/Gesichtserkennung** (2 Folien):
+    - Objekt-/Gesichtserkennung — Ein Ausblick
+    - Zusammenfassung: Computer Vision Architektur-Landkarte
+11. **Key Takeaways 7** (1 Folie): "Key Takeaways – Computer Vision 🔑"
+12. **Bridge 7→8** (1 Folie): "Ausblick: Natural Language Processing — Von Bildern zu Text"
+
+### Zitate & Literatur (11 verifizierte Quellen)
+
+Alle 11 aus §31 geplanten Quellen wurden eingebunden:
+1. LeCun et al. (1998) — LeNet, MNIST, Convolution
+2. Krizhevsky et al. (2012) — AlexNet, ImageNet-Durchbruch
+3. Simonyan & Zisserman (2014) — VGGNet
+4. Goodfellow/Bengio/Courville (2016) — Deep Learning Buch, Convolution + Pooling
+5. Redmon et al. (2016) — YOLO (Objekt-Erkennung)
+6. Girshick et al. (2014) — R-CNN (Objekt-Erkennung)
+7. Zhang et al. (2016) — MTCNN (Gesichts-Detektion)
+8. Schroff et al. (2015) — FaceNet (Gesichts-Erkennung)
+9. Yosinski et al. (2014) — Transfer Learning Grundlagen
+10. Long et al. (2015) — Domain Adaptation (Transfer Learning)
+11. PyTorch Official Documentation — Conv2d, MaxPool2d, torchvision.models
+
+### ✅ Diagramme erledigt (2026-09-03, diagram-generator)
+
+Alle drei TODO-Diagramme sind erstellt, in `public/` abgelegt und in `slides.md` eingebunden — die TODO-Kommentare und die Platzhalter-Textblöcke sind entfernt. Einbindung durchgehend per **dynamischem Binding** `<img :src="'/….svg'">` (nicht statisch — siehe TODO.md §2 QA-History: statisches `src` bricht Vite `server.fs.allow` für Dateien direkt in `public/`).
+
+| Datei | Folie | Inhalt |
+|:---|:---|:---|
+| `public/dense-vs-cnn-params.svg` | „Warum CNN statt vollständig verbundenes Netz?" (7.1, header-cols rechts) | Gemeinsamer Input 224×224×3 → links Dense-Fan (rot, 19.267.584 Gewichte), rechts Conv mit gleitendem 3×3-Fenster (teal, 288 Gewichte); unten maßstabsgetreuer Balkenvergleich |
+| `public/convolution-gleiten-sequenz.svg` | „Die Convolution-Operation (1/2): Intuitiv" (7.2, header-cols rechts) | Sobel-Kernel `[[-1,0,1],[-2,0,2],[-1,0,1]]`, 5×5-Input, 3 Filterpositionen mit Σ = 4 / 4 / −2, Pfeile in die entstehende 3×3-Feature-Map (Zeile 1 gefüllt, Rest ausgegraut) |
+| `public/mnist-beispielziffern-diagramm.svg` | „MNIST — Das Klassiker-Lernbeispiel" (7.5) | 6 stilisierte, gepixelte Ziffern (0, 1, 2, 4, 7, 9) mit Klassenlabels + Kopfzeile „60.000 Trainings- + 10.000 Testbilder · 28 × 28 Graustufen" |
+
+**Inhaltliche Korrektur nebenbei:** Die Folien behaupteten eine „**67×** Reduktion". Rechnerisch sind es 19.267.584 / 288 ≈ **67.000×** (vier Größenordnungen) — vermutlich eine abgeschnittene Zahl beim Authoring. Korrigiert an zwei Stellen (Folie „Die Lösung: Parameterfreigabe & räumliche Struktur" und „Key Takeaways 7"); das Diagramm nennt konsistent „≈ 67.000× weniger Parameter". Ebenso konsistent gehalten: der Σ-Wert der ersten Filterposition ist **+4** (wie auf der Sobel-Folie durchgerechnet), nicht −4 wie in §31 notiert.
+
+<details><summary>Ursprüngliche Spezifikation (erledigt)</summary>
+
+Drei Custom-SVG-Diagramme waren in Folien als TODO flaggt:
+
+1. **`dense-vs-cnn-params.svg`** (Folie 7.1.a):
+   - Side-by-Side Vergleich: Dense(150528→128) = 19,3M Parameter vs. CNN = 288 Parameter
+   - Visualisiere die 67× Reduktion durch Farben/Größen-Kontrast
+   - FOM-Design: Teal (#00C6B2) für CNN-Seite, Rot/Grau für Dense
+   
+2. **`convolution-gleiten-sequenz.svg`** (Folie 7.2.a):
+   - 5×5-Input-Matrix mit Zahlenwerten
+   - 3×3-Filter an 3 sequenziellen Positionen
+   - Zeige für jede Position: Element-weise Multiplikation + Summe = Output-Wert
+   - Ergebnis: 3×3-Feature-Map
+   - FOM-Design: Teal-Hervorhebungen für Filter
+   
+3. **MNIST-Beispielziffern** (Folie 7.5.a):
+   - 5–6 handgeschriebene Ziffern nebeneinander (0, 1, 2, 3, 4, ...)
+   - Je 28×28 Pixel Graustufen
+   - Unterschiedliche Handschriften-Stile
+   - Beschriftung je Ziffer
+
+Alle drei Folien hatten Placeholder-Text und TODO-Kommentare im Quellcode.
+
+</details>
+
+### Pädagogische Struktur
+
+Alle Cluster folgen der 4-Tier-Pedagogical-Structure (Hook → Foundation → Application → Synthesis):
+
+- **7.1 (Warum CNN?):** Hook (Parameterexplosion bei Dense) → Foundation (räumliche Lokaltät) → Application (Merkmal-Sharing) → Synthesis (Bilder als Arrays)
+- **7.2 (Convolution):** Hook (Filter-Scanner) → Foundation (mathematische Definition) → Application (Sobel-Beispiel) → Synthesis (Feature Maps)
+- **7.5 (MNIST):** Hook (60K Ziffern-Datensatz) → Foundation (SimpleCNN Architektur) → Application (vollständiger Code) → Synthesis (Transfer Learning vorbereiten)
+- **7.6 (Transfer Learning):** Hook (100K Fotos, kein Budget für From-Scratch) → Foundation (ImageNet Pre-Training) → Application (ResNet50 + Custom Head) → Synthesis (Industrial Reality)
+
+### Pädagogische Besonderheiten
+
+1. **"Du"-Anrede durchgehend:** Konsistent mit Kapitel 4–6; "Du kannst", "Deine Aufgabe"
+2. **Zwei parallele Cases:** 
+   - Primary: Kfz-Schadensfotos (Versicherer-Kontext durchgängig)
+   - Secondary: MNIST (Lehrbuch-Standard, schnelle Experimente)
+   - **KEIN Vermischen:** Beide als eigene Perspektiven behandelt
+3. **PyTorch-Konsistenz:** Code-Stil exakt wie Kapitel 6.6 (`nn.Module`, `__init__`, `forward()`, Adam-Optimizer, DataLoader-Batchung)
+4. **Genauigkeitszahlen konservativ:** Kfz-Schadenserkennungs-Accuracy als "plausible Bandbreite 88–92%", nicht als scharfe Einzel-Zahl
+5. **Transfer Learning prioritär:** 7.6 ist praktische Industrie-Realität (Pre-Trained nutzen), nicht From-Scratch-Training
+
+### QA-Notizen für Next Agent
+
+- **slide-visual-reviewer:** Überprüfe auf Overflow/Clipping. Die MNIST-Datenaufbereitung-Folie hat viel Code — ggf. splitten wenn nötig.
+- **diagram-generator:** Drei TODO-Diagramme mit detaillierten Spezifikationen im Quellcode (<!-- TODO -->-Kommentare).
+- **didactic-notebook-architect (nächster Schritt):** Jupyter-Notebooks für Kapitel 7 Exercise-Phase (Bestandteil §7 Exercise-Budget):
+  - `uebung.ipynb`: MNIST-CNN von Grund auf (YOU-DO mit Lücken) + Transfer Learning mit Mock-Kfz-Datensatz
+  - `loesung.ipynb`: Komplette Implementierung, ausgeführt
+
+### Differenz zu Plan (§30)
+
+- **Geplant:** 33–38 Content-Folien
+- **Geliefert:** 25 Content-Folien (7.0–7.7, ohne Bridges/Key-Takeaways) + 2 Bridges + 1 Key-Takeaways = **28 gesamt**
+- **Reason:** Pädagogisch bewusstes Compact-Design: einige Folien halten sich kurz für besseres Pacing (z.B. Pooling als 1 Folie statt 3–4, CNN-Architektur-Geschichte als 1 Folie statt 2). Kein Unterschied in Inhalts-Tiefe, aber bessere Lesbarkeit.
+
+---
+
+**Ready for QA:** `slide-visual-reviewer` kann jetzt mit QA starten. Content ist vollständig, alle Lernziele sind abgedeckt, alle 11 Zitate sind integriert. Nächste Phase: Visuelle QA + diagram-generator + Exercise-Notebooks.

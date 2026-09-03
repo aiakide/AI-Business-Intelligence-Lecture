@@ -4551,6 +4551,739 @@ layout: default
 layout: default
 ---
 
+## Ausblick: Computer Vision — Von Tabellen zu Bildern
+
+In Kapitel 6 haben wir neuronale Netze mit Tabellendaten trainiert — der Versicherer schätzte Schadenshöhen aus Fahreralter, Fahrzeugtyp, Unfallort. Aber jetzt steht eine neue Aufgabe an: **100.000 Kfz-Unfallfotos**. 
+
+Das Problem: Welche "Merkmale" unterscheiden einen Totalschaden von einem Kratzer? Niemand kann diese Merkmale von Hand aufschreiben — und hier stoßen dichte neuronale Netze an eine Grenze.
+
+**Bilder haben räumliche Struktur.** Benachbarte Pixel sind miteinander verbunden; ein Filter, der über das Bild gleitet und lokale Muster erkennt, ist viel effizienter als eine vollständig verbundene Schicht. Das ist die Idee der **Convolutional Neural Networks (CNN)** — und das erklären wir ausführlich in Kapitel 7.
+
+---
+layout: chapter
+---
+# Kapitel 7: [Computer Vision]{style="color:var(--slidev-theme-primary)"}
+
+Bilder verstehen mit neuronalen Netzen
+
+::right::
+
+<Illustration src="/illustrations/artificial-intelligence-bro.svg" alt="Computer Vision mit Bildern" width="90%" />
+
+---
+layout: default
+---
+
+## Lernziele — Verstehen & Erklären
+
+**Am Ende dieses Kapitels kannst du:**
+
+🎯 **Verstehen & Erklären:**
+- Warum CNNs für Bildverarbeitung sinnvoll sind — räumliche Struktur, Parameter-Effizienz, Translationsinvarianz
+- Convolution-Operation: Filter, Kernel, Feature Maps, Padding, Stride
+- Pooling: Max-Pooling vs. Average-Pooling, Downsampling, Effekte auf die Merkmalserkennung
+- CNN-Architektur im Ganzen: Conv → ReLU → Pool → Flatten → Dense → Softmax (historische Entwicklung: LeNet, AlexNet, VGGNet)
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. Proceedings of the IEEE, 86(11), 2278–2324', url: 'https://leon.bottou.org/papers/lecun-98h', year: '1998' },
+]" />
+
+---
+layout: default
+---
+
+## Lernziele — Anwenden & Bewerten
+
+**Am Ende dieses Kapitels kannst du auch:**
+
+📊 **Anwenden & Bewerten:**
+- Ein einfaches CNN in PyTorch spezifizieren und trainieren (MNIST-Ziffernerkennung als Lernbeispiel)
+- Transfer Learning als praktische Strategie verstehen — Pre-Trained Modelle nutzen, Gewichte einfrieren, Custom Head antrainieren
+- CNN-Architektur auf Kfz-Schadensfotos anpassen und Business-Implikationen reflektieren
+
+⚖️ **Kritisch Reflektieren:**
+- Abwägen: CNN von Grund auf trainieren vs. Transfer Learning — wann welcher Ansatz sinnvoll ist
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 9: Convolutional Networks', url: 'https://www.deeplearningbook.org/contents/convnets.html', year: '2016' },
+]" />
+
+---
+layout: header-cols
+---
+
+## Warum CNN statt vollständig verbundenes Netz?
+
+Das Problem einer einfachen Dense-Architektur
+
+::left::
+
+Stellen wir uns vor, Du möchtest ein **224 × 224 Pixel große RGB-Foto** klassifizieren. Das sind:
+- 224 × 224 × 3 (RGB) = **150.528 Input-Features**
+- Eine Dense-Schicht mit 128 Neuronen braucht: **19,3 Millionen Gewichte** (plus Bias)
+- Eine Foto-Dimension höher? → exponentieller Anstieg
+
+**Das Problem:** Zu viele Parameter → Overfitting, lange Trainingszeit, viel Speicher.
+
+::right::
+
+<img :src="'/dense-vs-cnn-params.svg'" alt="Vergleich der Parameterzahl: eine Dense-Schicht mit 128 Neuronen auf einem 224×224-RGB-Bild braucht 19,3 Mio. Gewichte, eine Convolution-Schicht mit 32 Filtern der Größe 3×3 nur 288 Gewichte" style="max-height: 400px; margin: 0 auto; display: block;" />
+
+---
+layout: default
+---
+
+## Die Lösung: Parameterfreigabe & räumliche Struktur
+
+CNNs machen zwei clevere Dinge:
+
+1. **Filter-Reuse:** Ein kleiner Filter (z.B. 3×3 Pixel) gleitet über das gesamte Bild. Dieselben Gewichte werden überall angewendet.
+   - Ein 3×3-Filter × 32 Filter = **288 Parameter** (statt 19,3 Mio.)
+   - Das ist eine Reduktion um rund **67.000×** — vier Größenordnungen!
+
+2. **Räumliche Lokaltät:** Benachbarte Pixel sind miteinander verbunden. Ein Filter erkennt lokale Muster (Kanten, Texturen, Formen) — genau wie das menschliche Auge.
+
+Mit diesem Ansatz: Weniger Parameter, bessere Generalisierung, schnelleres Training. Das ist das Herzstück von Computer Vision.
+
+<LiteraturSource :sources="[
+  { title: 'Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. NIPS 2012', url: 'https://arxiv.org/abs/1207.0580', year: '2012' },
+]" />
+
+---
+layout: default
+---
+
+## Bilder als mehrdimensionale Arrays
+
+Bevor wir zur Convolution-Operation übergehen, muss klar sein: Wie repräsentieren wir Bilder?
+
+| **Bildtyp** | **Dimensionen** | **Beschreibung** |
+|:---|:---|:---|
+| Graustufen (z.B. MNIST) | (28, 28, 1) | 28×28 Pixel, 1 Kanal (Graustufen, Werte 0–255) |
+| RGB-Farbbild (z.B. Kfz-Foto) | (224, 224, 3) | 224×224 Pixel, 3 Kanäle (Rot, Grün, Blau je 0–255) |
+| Batch von Bildern | (32, 224, 224, 3) | 32 Bilder, je 224×224 RGB |
+
+**Im Code** (PyTorch):
+- Einzelnes Bild: `torch.tensor([1, 224, 224, 3])` (Channels-First-Format)
+- Batch: `torch.tensor([32, 3, 224, 224])` (Batch, Channels, Height, Width)
+
+Diese Array-Struktur ist die Eingabe für die nächste Operation: **Convolution**.
+
+---
+layout: header-cols
+---
+
+## Die Convolution-Operation (1/2): Intuitiv
+
+Ein Scanner-Fenster über das Bild
+
+::left::
+
+Stellen Dir vor, Du hast einen **3×3-Filter** (Gewichte, die wir trainieren) und ein **Bild** (Input). Der Filter "gleitet" über das Bild wie ein Scanner-Fenster:
+
+1. Filter an Position (i, j) platzieren
+2. Element-weise Multiplikation: Filter × lokales Patch
+3. Alle Produkte aufsummieren → **ein einzelner Ausgabewert**
+4. Filter um 1 Pixel (oder mehr, je nach **Stride**) verschieben
+5. Wiederholen
+
+**Ergebnis:** Neue, kleinere Matrix (Feature Map), die lokale Muster kodiert.
+
+::right::
+
+<img :src="'/convolution-gleiten-sequenz.svg'" alt="Ein 3×3-Sobel-Filter gleitet in drei Schritten über eine 5×5-Input-Matrix; jede Position liefert per elementweiser Multiplikation und Summe einen Wert der entstehenden 3×3-Feature-Map" style="max-height: 430px; margin: 0 auto; display: block;" />
+
+---
+layout: default
+---
+
+## Die Convolution-Operation (2/2): Formel
+
+Die mathematische Definition:
+
+$$\text{Output}[i,j] = \sum_{a=0}^{k-1} \sum_{b=0}^{k-1} \text{Filter}[a,b] \times \text{Input}[i+a, j+b] + \text{Bias}$$
+
+Wobei:
+- $k$ = Kernel-Größe (meist 3×3 oder 5×5)
+- **Padding:** Ränder mit Nullen auffüllen (padding=0: Output kleiner; padding=1: Output = Input)
+- **Stride:** Schrittweite des Filters (Stride=1 oder Stride=2)
+
+**Beispiel:** Input 5×5, Filter 3×3, Padding=0, Stride=1 → Output 3×3
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. Chapter 9', url: 'https://www.deeplearningbook.org/contents/convnets.html', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Convolution-Parameter in PyTorch
+
+Die vier wichtigsten Hyperparameter:
+
+- **Input-Kanäle:** 1 für Graustufen, 3 für RGB
+- **Output-Kanäle:** 32, 64, 128, ... (die Anzahl der Filter, die wir trainieren)
+- **Kernel-Größe:** meist 3×3 oder 5×5
+- **Padding & Stride:** Steuern die räumliche Dimensionierung
+
+**Beispiel in Code:**
+
+```python
+nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, padding=1, stride=1)
+```
+
+Das ist die Standard-Konfiguration für MNIST und kleine Bilder.
+
+---
+layout: header-cols
+---
+
+## Praktisches Convolution-Beispiel: Der Sobel-Filter
+
+Ein echter Filter aus der klassischen Bildverarbeitung
+
+Der **Sobel-Filter (vertikal)** erkennt vertikale Kanten durch Spalten-Differenzen:
+
+$$\text{Sobel}_{\text{vertikal}} = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}$$
+
+Die Werte -1, 0, +1 in jeder Zeile betonen: "Linke Seite negativ, rechte Seite positiv" → **Unterschiede zwischen rechts und links (Spalten-Differenzen) werden verstärkt.**
+
+Ein Wert von **4** nach der Convolution bedeutet: Eine **starke vertikale Kante** an dieser Stelle.
+
+**Wichtig:** Dies ist ein Hand-designter Filter. Im CNN trainiert sich der Filter selbst: Backpropagation optimiert zufällige Anfangsgewichte, bis sie Merkmale erkennen, die für Deine Aufgabe relevant sind.
+
+---
+layout: header-cols
+---
+
+## Sobel-Filter anwenden: Das Rechenbeispiel
+
+Konkrete Element-weise Multiplikation
+
+::left::
+
+Patch (Input):
+
+$$\text{Patch} = \begin{bmatrix} 1 & 2 & 1 \\ 0 & 1 & 2 \\ 1 & 0 & 1 \end{bmatrix}$$
+
+Sobel-Filter:
+
+$$\text{Sobel} = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}$$
+
+::right::
+
+Element-weise Multiplikation + Summe:
+
+$$(-1)(1) + (0)(2) + (1)(1)$$
+$$+ (-2)(0) + (0)(1) + (2)(2)$$
+$$+ (-1)(1) + (0)(0) + (1)(1) = 4$$
+
+**Output: 4** (starke vertikale Kante erkannt an dieser Position!)
+
+---
+layout: default
+---
+
+## Mehrere Filter — Feature Maps
+
+In der Praxis verwenden CNNs **viele Filter parallel** — einen für jeden Merkmalstyp.
+
+**Layer 1:** Input (224×224×3 RGB)
+- Conv2d(in=3, out=32) → **32 Filter** werden angewendet
+- Jeder Filter erzeugt eine 224×224 Feature Map
+- Ergebnis: (224, 224, 32)
+
+**Layer 2:** Input (224×224×32)
+- Conv2d(in=32, out=64) → **64 neue Filter** auf die 32 Input-Merkmale
+- Ergebnis: (224, 224, 64)
+
+**Visuelle Hierarchie:**
+- Layer 1: Kanten, Ecken, Texturen (einfache Merkmale)
+- Layer 2: Formen, Teile (komplexere Merkmale)
+- Layer 3+: Ganze Objekte (Rad, Kotflügel)
+
+---
+layout: header-cols
+---
+
+## Pooling: Downsampling mit Absicht
+
+Räumliche Reduktion für Effizienz und Robustheit
+
+Nach einer Convolution-Schicht kommt oft **Pooling** — eine Downsampling-Operation:
+
+**Max-Pooling(2×2):**
+- Teile das Bild in 2×2-Fenster
+- Gib den **Max-Wert** pro Fenster aus
+- 4× räumliche Reduktion: (224, 224) → (112, 112)
+
+**Average-Pooling** (seltener): Durchschnitt statt Maximum
+
+**Warum Pooling?**
+1. Weniger Parameter in nachfolgenden Schichten
+2. Kleine räumliche Verschiebungen ändern die Ausgabe nicht viel (Translationsinvarianz)
+3. Höhere Layer sehen größere räumliche Ausschnitte → abstraktere Merkmale
+
+<LiteraturSource :sources="[
+  { title: 'Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. Chapter 9', url: 'https://www.deeplearningbook.org/contents/convnets.html', year: '2016' },
+]" />
+
+---
+layout: default
+---
+
+## Pooling: Das Rechenbeispiel
+
+Wie Max-Pool(2×2) konkret funktioniert
+
+Eine 4×4-Matrix mit Max-Pool(2×2):
+
+$$\begin{bmatrix} 1 & 3 & 2 & 7 \\ 0 & 5 & 1 & 4 \\ 2 & 1 & 6 & 2 \\ 8 & 3 & 5 & 1 \end{bmatrix} \xrightarrow{\text{Max-Pool(2×2)}} \begin{bmatrix} 5 & 7 \\ 8 & 6 \end{bmatrix}$$
+
+**Ablauf in einem CNN:**
+- Input: (224, 224, 32)
+- Nach Pool(2×2): (112, 112, 32)
+- Nach Conv: (112, 112, 64)
+- Nach Pool(2×2): (56, 56, 64)
+- **Resultat:** ~64× räumliche Komprimierung am Ende
+
+---
+layout: default
+---
+
+## CNN-Architektur: Das große Bild
+
+Die komplette Pipeline von Input bis Output
+
+**Typischer CNN-Ablauf:**
+
+```
+Input (224×224×3)
+  ↓
+Conv(32, 3×3) + ReLU → MaxPool(2×2)  [224 → 112]
+  ↓
+Conv(64, 3×3) + ReLU → MaxPool(2×2)  [112 → 56]
+  ↓
+Conv(128, 3×3) + ReLU → MaxPool(2×2) [56 → 28]
+  ↓
+Flatten() → Dense(512) + ReLU
+  ↓
+Dense(10) + Softmax
+```
+
+**Die Pipeline:**
+- **Conv-Blöcke:** Extrahieren räumliche Merkmale (Kanten → Formen → Objekte)
+- **Pooling:** Komprimiert räumliche Dimensionen schrittweise
+- **Dense:** Klassifizierung der gelernten Merkmale
+
+**Parameter:** Nur ~1 Million (vs. 19,3 Mio. für vollständig verbundene Architektur)
+
+---
+layout: default
+---
+
+## CNN-Architektur-Geschichte: Von LeNet zu ResNet
+
+Ein kurzer historischer Überblick — warum die Tiefe wichtig ist
+
+| **Modell** | **Jahr** | **Key Innovation** | **Accuracy** |
+|:---|:---|:---|:---|
+| **LeNet-5** | 1998 | Convolution + Pooling Grundkonzept | 98% (MNIST) |
+| **AlexNet** | 2012 | GPU-Training + ReLU + Data Augmentation | 84,7% (ImageNet) |
+| **VGGNet** | 2014 | Tiefe: viele 3×3-Filter | 92,4% (ImageNet) |
+| **ResNet-50** | 2015 | Skip-Connections → tiefe Netze trainierbar | 93,0% (ImageNet) |
+
+**Für unsere Zwecke:** LeNet-Idee verstehen (Conv+Pool), dann moderne Modelle wie ResNet50 als Pre-Trained Transfer-Learning-Basis nutzen.
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition', url: 'https://leon.bottou.org/papers/lecun-98h', year: '1998' },
+  { title: 'Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks', url: 'https://arxiv.org/abs/1207.0580', year: '2012' },
+]" />
+
+---
+layout: default
+---
+
+## MNIST — Das Klassiker-Lernbeispiel
+
+Ein Datensatz für Handschriftziffernerkennung
+
+**Der Datensatz:**
+- 60.000 Trainingsbilder + 10.000 Testbilder
+- Je 28×28 Pixel Graustufen (1 Kanal)
+- 10 Klassen: Ziffern 0–9
+
+**Warum MNIST?**
+- Schnell zum Experimentieren (Sekunden auf moderner Hardware)
+- Klein, aber groß genug für CNN-Konzepte
+- Standard-Benchmark seit 1998
+
+**Mit unserem CNN:** Nach 5 Epochen erwarten wir **~97% Genauigkeit**.
+
+<img :src="'/mnist-beispielziffern-diagramm.svg'" alt="MNIST-Ziffern: 28×28 Pixel Graustufenbilder" style="max-height: 150px; margin: 0.5rem auto; display: block;" />
+
+<LiteraturSource :sources="[
+  { title: 'LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition', url: 'https://leon.bottou.org/papers/lecun-98h', year: '1998' },
+]" />
+
+---
+layout: default
+---
+
+## SimpleCNN in PyTorch — Architektur
+
+Ein einfaches CNN für MNIST:
+
+```python
+class SimpleCNN(nn.Module):
+    def __init__(self):
+        super(SimpleCNN, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.fc1 = nn.Linear(7 * 7 * 64, 128)
+        self.fc2 = nn.Linear(128, 10)
+    
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        x = self.pool(x)  # 28 → 14
+        x = F.relu(self.conv2(x))
+        x = self.pool(x)  # 14 → 7
+        x = x.view(x.size(0), -1)
+        x = F.relu(self.fc1(x))
+        return self.fc2(x)
+```
+
+**Aufbau:**
+- Conv2d(1→32) + ReLU + MaxPool: 28→14
+- Conv2d(32→64) + ReLU + MaxPool: 14→7
+- Flatten: 7×7×64 = 3.136 Werte
+- Dense: 3.136 → 128 → 10
+
+**Gesamtparameter:** ~100K
+
+---
+layout: default
+---
+
+## MNIST trainieren — Datenaufbereitung
+
+```python
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
+
+train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST('./data', train=False, transform=transform)
+
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=1000, shuffle=False)
+
+model = SimpleCNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+```
+
+**Schritte:**
+- `ToTensor()`: PIL-Bilder → [0, 1]-Tensoren
+- `Normalize((0.1307,), (0.3081,))`: MNIST-Standardisierung
+- `DataLoader` mit batch_size=64: Batches zum Trainieren
+
+Identisch mit Kapitel 6 — nur die Architektur ändert sich (CNN statt Dense).
+
+---
+layout: default
+---
+
+## MNIST trainieren — Die Trainingsloop
+
+```python
+num_epochs = 5
+
+for epoch in range(num_epochs):
+    model.train()
+    running_loss = 0.0
+    
+    for batch_x, batch_y in train_loader:
+        output = model(batch_x)
+        loss = criterion(output, batch_y)
+        
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        running_loss += loss.item()
+    
+    avg_loss = running_loss / len(train_loader)
+    print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}")
+```
+
+**Pro Epoche:**
+- Forward Pass: Vorhersage generieren
+- Backward Pass: Gradienten berechnen
+- Update: Gewichte mit `optimizer.step()` aktualisieren
+
+**Erwartete Ausgabe:**
+- Epoch 1: Loss ≈ 0.23
+- Epoch 5: Loss ≈ 0.05
+
+---
+layout: default
+---
+
+## MNIST trainieren — Evaluation
+
+```python
+model.eval()
+correct = 0
+total = 0
+
+with torch.no_grad():
+    for batch_x, batch_y in test_loader:
+        output = model(batch_x)
+        _, predicted = torch.max(output.data, 1)
+        correct += (predicted == batch_y).sum().item()
+        total += batch_y.size(0)
+
+accuracy = 100 * correct / total
+print(f"Test Accuracy: {accuracy:.2f}%")
+```
+
+**Nach 5 Epochen:** Test-Accuracy ≈ **97%**
+
+Das ist das Komplettrezept — identisch mit Kapitel 6, aber mit CNN-Architektur.
+
+---
+layout: header-cols
+---
+
+## Transfer Learning: Die praktische Strategie
+
+Wenn Daten knapp sind — Pre-Trained Modelle nutzen
+
+::left::
+
+**Das Problem:** Von Grund auf trainieren dauert 3–6 Wochen:
+- Viel GPU-Speicher
+- Hohes Overfitting-Risiko
+- Hoher Energiebedarf
+
+**Die Lösung:** Transfer Learning. Ein auf ImageNet vortrainiertes CNN hat bereits gelernt:
+- Frühe Layer: Kanten, Texturen (universell)
+- Mittlere Layer: Formen, Muster
+- Späte Layer: Objekt-spezifische Merkmale
+
+::right::
+
+**Strategie:**
+
+1. ResNet50 (ImageNet) laden
+2. Conv-Layer einfrieren → Feature Extractor
+3. Custom Head ersetzen (2048 → 512 → 3)
+4. Nur Custom Head trainieren (5 Epochen)
+5. Optional: Fine-Tuning der letzten Conv-Blöcke
+
+**Resultat:** 88–92% Accuracy in ~5 Tagen (vs. 82% in 6 Wochen from scratch)
+
+<LiteraturSource :sources="[
+  { title: 'Yosinski, J., Clune, J., Bengio, Y., & Lipson, H. (2014). How transferable are features in deep neural networks?', url: 'https://arxiv.org/abs/1411.1792', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Transfer Learning: Implementierung (1/2)
+
+Setup und Feature Extractor
+
+```python
+import torchvision.models as models
+
+# 1. ResNet50 (ImageNet) laden
+model = models.resnet50(pretrained=True)
+
+# 2. Conv-Layer einfrieren
+for param in model.parameters():
+    param.requires_grad = False
+
+# 3. Custom Head ersetzen
+model.fc = nn.Sequential(
+    nn.Linear(2048, 512),
+    nn.ReLU(),
+    nn.Linear(512, 3)  # 3 Schadensklassen
+)
+
+# 4. Nur Custom Head trainierbar
+for param in model.fc.parameters():
+    param.requires_grad = True
+```
+
+**Die Magie:** `pretrained=True` lädt ImageNet-Gewichte. Conv-Layer sind bereits optimiert.
+
+---
+layout: default
+---
+
+## Transfer Learning: Implementierung (2/2)
+
+Training und Evaluation
+
+```python
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=0.001)
+
+for epoch in range(5):
+    for batch_x, batch_y in train_loader:
+        output = model(batch_x)
+        loss = criterion(output, batch_y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+# Evaluation
+model.eval()
+with torch.no_grad():
+    accuracy = sum((model(x) == y).sum() for x, y in test_loader) / len(test_data)
+```
+
+**Ergebnis:** ~88–92% Accuracy in ~5 Tagen.
+
+<LiteraturSource :sources="[
+  { title: 'Long, M., Cao, Y., Wang, J., & Jordan, M. I. (2015). Learning Transferable Features with Deep Adaptation Networks', url: 'https://arxiv.org/pdf/1502.02791', year: '2015' },
+]" />
+
+---
+layout: default
+---
+
+## Von Grund auf vs. Transfer Learning
+
+**Versicherer-Szenario: 100K Kfz-Schadensfotos, 20K gelabelt**
+
+| **Aspekt** | **From Scratch** | **Transfer Learning** |
+|:---|:---|:---|
+| **Trainingszeit** | 3–6 Wochen | ~5 Tage |
+| **Genauigkeit** | ~82% | 88–92% |
+| **Speicher & Kosten** | 16–32 GB, $500–1.500 | 4–8 GB, $50–200 |
+| **Datenaufbereitung** | Intensiv (100K Labels) | Moderat (20K Labels) |
+| **Production-Ready** | Wochen nach Training | Tage nach Training |
+
+**Empfehlung:** Transfer Learning mit Pre-Trained Modellen (ResNet, MobileNet, EfficientNet) ist der praktische Standard in der Industrie.
+
+---
+layout: header-cols
+---
+
+## Spezialisierungen: Objekterkennung
+
+Nicht nur "Was ist das?", sondern auch "Wo ist es?"
+
+**Bildklassifikation** (was wir bisher gemacht haben):
+- Input: Bild
+- Output: Eine Klasse (z.B. "Kratzer" oder "Beule")
+
+**Objekterkennung** ("Was?" + "Wo?"):
+- Input: Bild
+- Output: Mehrere Bounding Boxes mit Klassen
+- Beispiel: "Rad bei (100, 50, 150, 150)", "Kotflügel bei (200, 80, 300, 180)"
+- Architekturen: **YOLO** ("You Only Look Once") oder **Faster R-CNN**
+
+**Praktisches Beispiel für Versicherer:**
+- Schadensfotos + YOLO → Automatisch beschädigte Fahrzeugteile lokalisieren + Bounding Boxes
+
+**Kernidee:** Die CNN-Basis ist identisch; die Output-Schicht ändert sich (Bounding Box Regression + Klassifikation).
+
+<LiteraturSource :sources="[
+  { title: 'Redmon, J., Divvala, S., Girshick, R., & Farhadi, A. (2016). You Only Look Once: Unified, Real-Time Object Detection', url: 'https://arxiv.org/abs/1506.02640', year: '2016' },
+  { title: 'Girshick, R., Donahue, J., Darrell, T., & Malik, J. (2014). Rich Feature Hierarchies for Accurate Object Detection and Semantic Segmentation', url: 'https://dl.acm.org/doi/10.1109/CVPR.2014.81', year: '2014' },
+]" />
+
+---
+layout: default
+---
+
+## Spezialisierungen: Gesichtserkennung
+
+"Wer ist das?" statt nur "Was ist das?"
+
+**Gesichtserkennung:**
+- Input: Gesichtsfoto
+- Output: Identität oder Embedding-Vektor
+- Architekturen: **MTCNN** (Detektion) + **FaceNet** (Identitäts-Embedding via Triplet Loss)
+
+**Praktische Beispiele für Versicherer:**
+- Datenschutz: Gesichter in Schadensfotos automatisch verpixeln (DSGVO)
+- Betrugs-Detection: Mehrere Fotos vergleichen (Embedding-Ähnlichkeiten)
+
+**Kernidee:** Gleiche CNN-Basis wie Bildklassifikation; nur Loss-Funktion ändert sich (Triplet Loss statt CrossEntropyLoss).
+
+**Im Modul-Kontext:** Diese Spezialisierungen sind möglich, aber nicht zentral. Wenn Du CNNs verstehst, kannst Du Pre-Trained Modelle (YOLO, FaceNet) direkt nutzen.
+
+<LiteraturSource :sources="[
+  { title: 'Zhang, K., Zhang, Z., Li, Z., & Qiao, Y. (2016). Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks', url: 'https://arxiv.org/pdf/1604.02878', year: '2016' },
+  { title: 'Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering', url: 'https://arxiv.org/pdf/1503.03832', year: '2015' },
+]" />
+
+---
+layout: default
+---
+
+## Zusammenfassung: Computer Vision Architektur-Landkarte
+
+**Alle CNN-Varianten teilen die gleiche Grundidee:** Convolution + Pooling → Merkmalsextraktion.
+
+| **Aufgabe** | **Output** | **Loss** | **Beispiel** |
+|:---|:---|:---|:---|
+| Bildklassifikation | 1 Klasse | CrossEntropyLoss | CNN + Softmax |
+| Objekterkennung | Bounding Boxes + Klassen | Regression + Classification | YOLO |
+| Gesichtserkennung | Embedding | Triplet Loss | FaceNet |
+
+**Mit Conv, Pool, Dense und Transfer Learning verstehst Du alle Varianten.** Spezielle Techniken (YOLO-Grid, Triplet Loss) sind Vertiefungen — die Kernkompetenzen bleiben identisch.
+
+---
+layout: default
+---
+
+## Key Takeaways – Computer Vision 🔑
+
+- **Warum CNN:** Räumliche Struktur, Parameter-Sharing reduziert Parameterzahl um ~67.000× (224×224 RGB → 3×3 Kernel)
+- **Convolution + Pooling:** Filter erzeugt Feature Maps; Pooling komprimiert Dimensionen und gibt Robustheit (Translationsinvarianz)
+- **CNN-Pipeline:** Conv+ReLU → Pool → Flatten → Dense → Softmax; Historisch: LeNet (1998) → AlexNet (2012, GPU) → ResNet (2015)
+- **MNIST-CNN:** 2 Conv-Blöcke, ~100K Parameter, ~97% Accuracy — zeigt, dass Grundlagen funktionieren
+- **Transfer Learning + Spezialisierungen:** Pre-Trained Modelle (ResNet50) für echte Anwendungen; 5 Tage vs. 6 Wochen from scratch; YOLO/FaceNet sind Standard
+
+---
+layout: default
+---
+
+## Ausblick: Natural Language Processing — Von Bildern zu Text
+
+In Kapitel 7 haben wir gelernt: CNNs verarbeiten **räumliche Strukturen** in Bildern mit Convolution + Pooling. **Text ist auch strukturiert** — aber anders: Worte sind eine **Sequenz**, nicht ein räumliches Grid.
+
+**Die Frage:** Wie verarbeitet man Sequenzen? Was ersetzt Convolution für Text?
+
+**Die Antwort:** In Kapitel 8 lernen wir **Transformer** — eine Architektur, die Aufmerksamkeit (Attention) nutzt, um Abhängigkeiten zwischen Worten zu modellieren, egal wie weit sie auseinander sind. Mit Transformer können wir:
+- Freitext aus Schadensmeldungen verstehen
+- Sentiment in Kundenbewertungen erkennen ("Der Service war exzellent" vs. "Schreckliche Erfahrung")
+- Automatisch Ansprüche zusammenfassen oder kategorisieren
+
+Derselbe Versicherer-Case durchzieht unser Modul — erst Tabellen (ML), dann Bilder (CNN), dann Text (Transformer). Das ist die ganze Reise von Datentypen zu Deep-Learning-Architekturen.
+
+---
+layout: default
+---
+
+# Literaturverzeichnis (1/3)
+
+<Literaturverzeichnis :part="1" :parts="3" />
+layout: default
+---
+
 # Literaturverzeichnis (1/3)
 
 <Literaturverzeichnis :part="1" :parts="3" />
