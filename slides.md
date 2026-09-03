@@ -4832,10 +4832,6 @@ Nach einer Convolution-Schicht kommt oft **Pooling** — eine Downsampling-Opera
 ]" />
 
 ---
-layout: default
----
-
----
 layout: header-cols
 ---
 
@@ -5095,7 +5091,7 @@ for param in model.fc.parameters():
     param.requires_grad = True
 ```
 
-**Die Magie:** `pretrained=True` lädt bereits optimierte ImageNet-Gewichte.
+**Die Magie:** `pretrained=True` lädt bereits optimierte ImageNet-Gewichte. `model.fc` ("fully connected") ist ResNet50s letzte Schicht — die wir mit unserem eigenen Custom Head ersetzen.
 
 ---
 layout: default
