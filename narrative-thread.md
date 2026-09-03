@@ -3308,3 +3308,11 @@ Nach den beiden agentengeführten Overflow-Fix-Runden (28→34 Folien, dann 10 R
 5. **Literaturverzeichnis 3→4 Folien:** Kapitel 7 brachte 11 neue Quellen (105 Quellen insgesamt), die 3 Literaturverzeichnis-Folien wurden dadurch zu voll (Overflow). Auf 4 Folien erweitert (`:parts="4"`), alle vier neu verifiziert (clean).
 
 **Finale Verifikation (5. Runde):** Alle vorgenannten Punkte bestätigt clean — Kapitel 7 (34 Folien) und das erweiterte Literaturverzeichnis sind vollständig QA'd. Kapitel 7 ist damit **inhaltlich und visuell fertig**, offen bleiben nur noch die Exercise-Notebooks (siehe TODO.md §7) sowie eine optionale studentische Perspektivprüfung.
+
+### Exercise-Notebooks (2026-09-03) & Studierendenperspektive-Review
+
+**Exercise:** `didactic-notebook-architect` erstellte `exercise/session-7/00-computer-vision/{uebung,loesung}.ipynb` (45 Zellen, I-DO/WE-DO/YOU-DO wie Kapitel 5/6) — Convolution/Pooling von Hand, MNIST-`SimpleCNN`-Training (99,03% Test-Accuracy, `loesung.ipynb` vollständig ausgeführt), Transfer-Learning-Mini-Exercise mit `torchvision.models.resnet50` auf synthetischen Mock-Tensoren (kein echter Kfz-Fotodatensatz vorhanden). `torchvision` als Dependency ergänzt. Details siehe TODO.md §7.
+
+**Studierendenperspektive-Review** (`student-reviewer`) fand 5 prioritäre Verständlichkeitslücken: Feature Map nirgends definiert, Kernel-vs-Filter-Verhältnis unklar, Padding-Motivation fehlt, `.view()` im PyTorch-Code unerklärt, die beiden "Spezialisierungen"-Folien (Objekt-/Gesichtserkennung) nicht eindeutig als reiner Konzept-Ausblick ohne Implementierungserwartung erkennbar. Alle 5 behoben (plus Normalize-Werte- und Transfer-Learning-Code-Kontext-Klärung). Die Ergänzungen lösten kurzzeitig 3 neue Overflow-Fälle aus (Folien 239, 255, 259 — engster Puffer im Kapitel), in zwei weiteren Nachbesserungsrunden ohne Verlust der didaktischen Klärungen behoben.
+
+**Kapitel 7 ist damit vollständig abgeschlossen:** Planung, Recherche, Authoring, 6 QA-Runden (visuell + didaktisch), Exercise-Notebooks. Nächster Schritt: Kapitel 8 (NLP) Planung.
