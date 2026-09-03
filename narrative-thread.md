@@ -3361,3 +3361,19 @@ Nach den beiden agentengeführten Overflow-Fix-Runden (28→34 Folien, dann 10 R
 **Handoff zu Kapitel 8:** Dieser Inhalt (oder eine überarbeitete Variante davon) wird als Opener von Kapitel 8 (NLP/Transformer) verwendet werden. Der aktuelle Wortlaut kann direkt recycelt oder für mehr Tiefe neu strukturiert werden (z.B. mit expliziten Definitionen von "Sequenz vs. Raster", "Convolution vs. Attention", "Transformer-Motivation"). Das ist ein TODO für den `edu-research`/`slidev-content-transformer`-Agent, der Kapitel 8 autiert.
 
 **Dokumentiert in:** TODO.md §5 (Kapitel 8 — NLP), mit Verweis auf diese Stelle in narrative-thread.md.
+
+---
+
+## §34. Kapitel 7 — Restliche Nacharbeiten nach QA Round 5 (2026-09-03)
+
+Drei kleinere, nachträgliche Fixes im Anschluss an die große Nutzer-Feedback-Runde (QA Round 5, siehe TODO.md §4a):
+
+**1. Neues Titelbild.** Der Kapitel-7-Opener nutzte `artificial-intelligence-bro.svg` — dieselbe Illustration wie Kapitel 4 (Dopplung, inhaltlich unpassend). `storyset-illustrator` fand `image-viewer-bro.svg` (Storyset-Slug `image-viewer`: Person analysiert Bilder am Bildschirm, Kamera, Foto-Thumbnails) als thematisch passende Alternative, an die Markenfarbe `#00C6B2` angepasst. Kein Fallback auf `diagram-generator` nötig.
+
+**2. Leere Folie behoben.** Der `header-cols`-Umbau von "Pooling: Das Rechenbeispiel" (Teil von QA Round 5) hatte einen alten `---\nlayout: default\n---`-Trenner nicht entfernt, direkt gefolgt vom neuen `---\nlayout: header-cols\n---` — das erzeugte eine komplett leere Zwischenfolie ohne Content zwischen "Mehrere Filter — Feature Maps" und "Pooling: Downsampling mit Absicht". Vom Nutzer gemeldet, sofort gefixt und verifiziert (keine weiteren doppelten Frontmatter-Trenner im Deck gefunden, per Scan geprüft).
+
+**3. `model.fc` erklärt.** Im Transfer-Learning-Code (Folie "Transfer Learning: Implementierung (1/2)") war `model.fc` unerklärt. Ergänzt: "fc" = "fully connected", ResNet50s letzte Schicht, die durch den Custom Head ersetzt wird. Verifiziert: Folie bleibt overflow-frei.
+
+**4. Literaturverzeichnis: 2 fehlende URLs ergänzt.** Von 105 eindeutigen Quellen im gesamten Deck hatten 2 keinen Link: Shi et al. (2016) "Benchmarking State-of-the-Art Deep Learning Software Tools" (→ `arxiv.org/abs/1608.07249`) und Nair & Hinton (2010) "Rectified Linear Units Improve Restricted Boltzmann Machines" (→ Hintons kanonisches PDF auf `cs.toronto.edu`). Beide URLs per WebFetch verifiziert. Keine weiteren Anomalien (leere/inkonsistente URLs) im Literaturverzeichnis gefunden.
+
+**Status: Kapitel 7 ist damit vollständig abgeschlossen** — Planung, Recherche, Authoring, 6 QA-Runden, Nutzer-Feedback-Umsetzung, 3 Nacharbeits-Fixes, Exercise-Notebooks, Literaturverzeichnis-Bereinigung. Alle Änderungen committed und gepusht (`lecture`-Repo). Exercise-Repo ebenfalls erstmals vollständig committed und gepusht (Kapitel 1, 4, 5, 6, 7). Nächster Schritt: Kapitel 8 (NLP) Planung.

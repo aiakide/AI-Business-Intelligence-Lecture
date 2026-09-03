@@ -113,7 +113,7 @@ Case: Versicherer-Tabellendaten (Fahreralter/Schadenshistorie/Fahrzeugtyp) durch
 
 **Source assessment (2026-08-23):** `/Users/nils/projects/fom/repos/ai-bi/ai-usiness-intelligence/pages/dl.md` covers "ML vs. DL" and "Batch/Epoch" well and reusably. Gaps: **Softmax is entirely missing** (needs fresh research), and all code is **PyTorch**, not Keras — user decided (2026-08-23) to keep PyTorch rather than force Keras, so `dl.md`'s code style is directly usable as a base after case-rewrite. Sigmoid stays in scope despite being supplanted by ReLU in hidden layers — it's the deliberate callback to Kapitel 1's logistic-regression sigmoid formula. `dl.md` also covers far more than this chapter's budget allows (full optimizer zoo, full CNN theory, Transfer Learning) — treat the overflow as a candidate for Kapitel 8–10, not for Kapitel 6 itself. `dl.md`'s MNIST CNN code (PyTorch) is a usable base for the new Handschrifterkennung example. See narrative-thread.md for full agent report.
 
-## 4a. Kapitel 7 — Computer Vision (AUTHORED 2026-09-03, QA ausstehend)
+## 4a. Kapitel 7 — Computer Vision (KOMPLETT ABGESCHLOSSEN, 2026-09-03)
 
 **Authoring abgeschlossen:**
 - [x] Warum CNN statt Dense-Netz für Bilder? (Cluster 7.1: räumliche Struktur, Parameterexplosion) — 3 Folien
@@ -208,11 +208,18 @@ Nutzer-Feedback zu konzeptuellen Lücken und Präzisierungen (9 Punkte):
 
 **Resultat:** Kapitel 7 bleibt bei **34 Folien** (kein neuer Split, nur Text-Klärungen + 1 neue ImageNet-Folie (~25 Zeilen, "`layout: default`") + 1 gelöschte Folie = net +0). Alle Änderungen verifiziert auf Overflow-Risiko (aktuelle Folien-Dichte ist stabil, kein Re-Trim nötig). Bridge-Content zu Kapitel 8 wurde dokumentiert und handoff ist klar.
 
-**Status: ✅ Kapitel 7 komplett finalisiert (inhaltlich, visuell, Nutzer-Feedback eingearbeitet).**
+**QA Round 6: Restliche Nacharbeiten (2026-09-03)**
+- Neues Titelbild: `artificial-intelligence-bro.svg` (Dopplung mit Kapitel 4) → `image-viewer-bro.svg` (storyset-illustrator, Markenfarbe angepasst)
+- Leere Folie behoben: kaputter doppelter Frontmatter-Trenner nach dem `header-cols`-Umbau von "Pooling: Das Rechenbeispiel" (vom Nutzer gemeldet)
+- `model.fc` im Transfer-Learning-Code erklärt ("fully connected", ResNet50s letzte Schicht)
+- Literaturverzeichnis: 2 von 105 Quellen ohne URL ergänzt (Shi et al. 2016, Nair & Hinton 2010), beide verifiziert
+
+Details siehe `narrative-thread.md` §34.
+
+**Status: ✅ Kapitel 7 komplett finalisiert und abgeschlossen** (inhaltlich, visuell, Nutzer-Feedback + Nacharbeiten eingearbeitet, Exercise-Notebooks fertig, Literaturverzeichnis bereinigt). Alle Änderungen committed & gepusht — sowohl `lecture`- als auch `exercise`-Repo (letzteres erstmals vollständig, Kapitel 1/4/5/6/7).
 
 **Nächste Schritte:**
 1. Kapitel 8 (NLP) Planung starten — Opener mit Bridge-Content (siehe narrative-thread.md §33)
-2. Dann: Exercise-Notebooks für Kapitel 8 (wenn Kapitel 8 Content fertig ist)
 
 ## 5. Kapitel 8 — NLP (verschoben von Kapitel 7, siehe Renumbering-Entscheidung oben)
 
