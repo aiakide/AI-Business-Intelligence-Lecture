@@ -4682,12 +4682,14 @@ Ein Scanner-Fenster über das Bild
 
 ::left::
 
-Stellen Dir vor, Du hast einen **3×3-Filter** (Gewichte, die wir trainieren) und ein **Bild** (Input). Der Filter "gleitet" über das Bild wie ein Scanner-Fenster:
+Ein **3×3-Filter** (trainierbare Gewichte) "gleitet" wie ein Scanner-Fenster über das **Bild**:
 
 1. Filter an Position (i, j) platzieren
 2. Element-weise Multiplikation: Filter × lokales Patch
-3. Produkte aufsummieren → **ein Ausgabewert**
-4. Filter verschieben (Schrittweite: **Stride**) → **Feature Map**
+3. Produkte aufsummieren → ein Ausgabewert
+4. Filter verschieben (**Stride**) → nächster Wert
+
+Alle Ausgabewerte zusammen ergeben die **Feature Map** — sie zeigt, wo der Filter sein Muster gefunden hat.
 
 ::right::
 
@@ -4704,8 +4706,8 @@ Die mathematische Definition:
 $$\text{Output}[i,j] = \sum_{a=0}^{k-1} \sum_{b=0}^{k-1} \text{Filter}[a,b] \times \text{Input}[i+a, j+b] + \text{Bias}$$
 
 Wobei:
-- $k$ = Kernel-Größe (meist 3×3 oder 5×5)
-- **Padding:** Ränder mit Nullen auffüllen (padding=0: Output kleiner; padding=1: Output = Input)
+- $k$ = **Kernel-Größe** — dieselbe Zahl, die die Ausmaße des Filters beschreibt (Filter = Gewichte, Kernel = deren Größe, meist 3×3 oder 5×5)
+- **Padding:** Ränder mit Nullen auffüllen, damit Randinformation nicht verloren geht (padding=0: Output kleiner; padding=1: Output = Input)
 - **Stride:** Schrittweite des Filters (Stride=1 oder Stride=2)
 
 **Beispiel:** Input 5×5, Filter 3×3, Padding=0, Stride=1 → Output 3×3
@@ -4935,7 +4937,7 @@ class SimpleCNN(nn.Module):
         x = self.pool(x)
         x = F.relu(self.conv2(x))
         x = self.pool(x)
-        x = x.view(x.size(0), -1)
+        x = x.view(x.size(0), -1)  # flatten zu 1D
         x = F.relu(self.fc1(x))
         return self.fc2(x)
 ```
@@ -4968,7 +4970,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 ```
 
 - **ToTensor():** Bilder → [0,1]-Tensoren
-- **Normalize:** MNIST-Standardisierung (Kapitel 6 identisch; nur Architektur änders sich)
+- **Normalize:** MNIST-Mittelwert/Std.-Abweichung (0,1307 / 0,3081) — Standardisierung wie in Kapitel 6, nur die Architektur ändert sich
 
 ---
 layout: default
@@ -5054,31 +5056,25 @@ layout: default
 
 ## Transfer Learning: Implementierung (1/2)
 
-Setup und Feature Extractor
+Konzeptbeispiel für den Kfz-Schadensfotos-Case (3 Klassen)
 
 ```python
 import torchvision.models as models
-
 # 1. ResNet50 (ImageNet) laden
 model = models.resnet50(pretrained=True)
-
 # 2. Conv-Layer einfrieren
 for param in model.parameters():
     param.requires_grad = False
-
-# 3. Custom Head ersetzen
+# 3. Custom Head ersetzen (3 Schadensklassen)
 model.fc = nn.Sequential(
-    nn.Linear(2048, 512),
-    nn.ReLU(),
-    nn.Linear(512, 3)  # 3 Schadensklassen
+    nn.Linear(2048, 512), nn.ReLU(), nn.Linear(512, 3)
 )
-
 # 4. Nur Custom Head trainierbar
 for param in model.fc.parameters():
     param.requires_grad = True
 ```
 
-**Die Magie:** `pretrained=True` lädt ImageNet-Gewichte. Conv-Layer sind bereits optimiert.
+**Die Magie:** `pretrained=True` lädt bereits optimierte ImageNet-Gewichte.
 
 ---
 layout: default
@@ -5134,7 +5130,7 @@ layout: default
 layout: header-cols
 ---
 
-## Spezialisierungen: Objekterkennung
+## Spezialisierungen: Objekterkennung (Ausblick)
 
 Nicht nur "Was ist das?", sondern auch "Wo ist es?"
 
@@ -5159,20 +5155,20 @@ Nicht nur "Was ist das?", sondern auch "Wo ist es?"
 layout: default
 ---
 
-## Spezialisierungen: Gesichtserkennung
+## Spezialisierungen: Gesichtserkennung (Ausblick)
 
 "Wer ist das?" statt nur "Was ist das?"
 
 **Gesichtserkennung:**
 - Input: Gesichtsfoto
-- Output: Identität oder Embedding-Vektor
+- Output: Identität, oder ein **Embedding** — ein Zahlen-Vektor, der ähnliche Gesichter nah beieinander platziert
 - Architekturen: **MTCNN** (Detektion) + **FaceNet** (Identitäts-Embedding via Triplet Loss)
 
 **Praktische Beispiele für Versicherer:**
 - Datenschutz: Gesichter in Schadensfotos automatisch verpixeln (DSGVO)
 - Betrugs-Detection: Mehrere Fotos vergleichen (Embedding-Ähnlichkeiten)
 
-**Kernidee:** Gleiche CNN-Basis; nur Loss-Funktion ändert (Triplet Loss). Du kannst Pre-Trained Modelle (YOLO, FaceNet) direkt nutzen, wenn CNNs verstanden sind.
+**Kernidee:** Gleiche CNN-Basis, nur die Loss-Funktion ändert sich — konzeptuell verstehen genügt, Pre-Trained Modelle (YOLO, FaceNet) kannst Du direkt nutzen.
 
 <LiteraturSource :sources="[
   { title: 'Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering', url: 'https://arxiv.org/pdf/1503.03832', year: '2015' },
