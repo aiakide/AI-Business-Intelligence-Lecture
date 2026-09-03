@@ -4562,6 +4562,9 @@ Das Problem: Welche "Merkmale" unterscheiden einen Totalschaden von einem Kratze
 ---
 layout: chapter
 ---
+
+::left::
+
 # Kapitel 7: [Computer Vision]{style="color:var(--slidev-theme-primary)"}
 
 Bilder verstehen mit neuronalen Netzen
@@ -4683,15 +4686,12 @@ Stellen Dir vor, Du hast einen **3×3-Filter** (Gewichte, die wir trainieren) un
 
 1. Filter an Position (i, j) platzieren
 2. Element-weise Multiplikation: Filter × lokales Patch
-3. Alle Produkte aufsummieren → **ein einzelner Ausgabewert**
-4. Filter um 1 Pixel (oder mehr, je nach **Stride**) verschieben
-5. Wiederholen
-
-**Ergebnis:** Neue, kleinere Matrix (Feature Map), die lokale Muster kodiert.
+3. Produkte aufsummieren → **ein Ausgabewert**
+4. Filter verschieben (Schrittweite: **Stride**) → **Feature Map**
 
 ::right::
 
-<img :src="'/convolution-gleiten-sequenz.svg'" alt="Ein 3×3-Sobel-Filter gleitet in drei Schritten über eine 5×5-Input-Matrix; jede Position liefert per elementweiser Multiplikation und Summe einen Wert der entstehenden 3×3-Feature-Map" style="max-height: 430px; margin: 0 auto; display: block;" />
+<img :src="'/convolution-gleiten-sequenz.svg'" alt="Ein 3×3-Sobel-Filter gleitet in drei Schritten über eine 5×5-Input-Matrix; jede Position liefert per elementweiser Multiplikation und Summe einen Wert der entstehenden 3×3-Feature-Map" style="max-height: 360px; margin: 0 auto; display: block;" />
 
 ---
 layout: default
@@ -4790,17 +4790,16 @@ layout: default
 In der Praxis verwenden CNNs **viele Filter parallel** — einen für jeden Merkmalstyp.
 
 **Layer 1:** Input (224×224×3 RGB)
-- Conv2d(in=3, out=32) → **32 Filter** werden angewendet
-- Jeder Filter erzeugt eine 224×224 Feature Map
+- Conv2d(in=3, out=32) → **32 Filter** angewendet
 - Ergebnis: (224, 224, 32)
 
 **Layer 2:** Input (224×224×32)
 - Conv2d(in=32, out=64) → **64 neue Filter** auf die 32 Input-Merkmale
 - Ergebnis: (224, 224, 64)
 
-**Visuelle Hierarchie:**
-- Layer 1: Kanten, Ecken, Texturen (einfache Merkmale)
-- Layer 2: Formen, Teile (komplexere Merkmale)
+**Visuelle Hierarchie der Filter:**
+- Layer 1: Kanten, Ecken, Texturen
+- Layer 2: Formen, Teile (komplexer)
 - Layer 3+: Ganze Objekte (Rad, Kotflügel)
 
 ---
@@ -4872,12 +4871,7 @@ Flatten() → Dense(512) + ReLU
 Dense(10) + Softmax
 ```
 
-**Die Pipeline:**
-- **Conv-Blöcke:** Extrahieren räumliche Merkmale (Kanten → Formen → Objekte)
-- **Pooling:** Komprimiert räumliche Dimensionen schrittweise
-- **Dense:** Klassifizierung der gelernten Merkmale
-
-**Parameter:** Nur ~1 Million (vs. 19,3 Mio. für vollständig verbundene Architektur)
+**Die Pipeline:** Conv-Blöcke extrahieren Merkmale (Kanten → Formen → Objekte), Pooling komprimiert, Dense klassifiziert → Output. **~1 Mio. Parameter** (vs. 19,3 Mio. bei Dense-Architektur).
 
 ---
 layout: default
@@ -4909,19 +4903,11 @@ layout: default
 
 Ein Datensatz für Handschriftziffernerkennung
 
-**Der Datensatz:**
-- 60.000 Trainingsbilder + 10.000 Testbilder
-- Je 28×28 Pixel Graustufen (1 Kanal)
-- 10 Klassen: Ziffern 0–9
+**Der Datensatz:** 60.000 Trainings- + 10.000 Testbilder, 28×28 Pixel Graustufen, 10 Klassen (0–9). Standard-Benchmark seit 1998 — klein, aber ausreichend für CNN-Konzepte.
 
-**Warum MNIST?**
-- Schnell zum Experimentieren (Sekunden auf moderner Hardware)
-- Klein, aber groß genug für CNN-Konzepte
-- Standard-Benchmark seit 1998
+**Mit unserem CNN:** Nach 5 Epochen ~97% Genauigkeit.
 
-**Mit unserem CNN:** Nach 5 Epochen erwarten wir **~97% Genauigkeit**.
-
-<img :src="'/mnist-beispielziffern-diagramm.svg'" alt="MNIST-Ziffern: 28×28 Pixel Graustufenbilder" style="max-height: 150px; margin: 0.5rem auto; display: block;" />
+<img :src="'/mnist-beispielziffern-diagramm.svg'" alt="MNIST-Ziffern: 28×28 Pixel" style="max-height: 95px; margin: 0.2rem auto; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition', url: 'https://leon.bottou.org/papers/lecun-98h', year: '1998' },
@@ -4944,24 +4930,17 @@ class SimpleCNN(nn.Module):
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
         self.fc1 = nn.Linear(7 * 7 * 64, 128)
         self.fc2 = nn.Linear(128, 10)
-    
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        x = self.pool(x)  # 28 → 14
+        x = self.pool(x)
         x = F.relu(self.conv2(x))
-        x = self.pool(x)  # 14 → 7
+        x = self.pool(x)
         x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
         return self.fc2(x)
 ```
 
-**Aufbau:**
-- Conv2d(1→32) + ReLU + MaxPool: 28→14
-- Conv2d(32→64) + ReLU + MaxPool: 14→7
-- Flatten: 7×7×64 = 3.136 Werte
-- Dense: 3.136 → 128 → 10
-
-**Gesamtparameter:** ~100K
+**Aufbau:** Conv1(1→32) → Pool(28→14) → Conv2(32→64) → Pool(14→7) → Flatten → Dense(128) → Output(10). **~100K Parameter.**
 
 ---
 layout: default
@@ -4980,7 +4959,6 @@ transform = transforms.Compose([
 
 train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
 test_dataset = datasets.MNIST('./data', train=False, transform=transform)
-
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=1000, shuffle=False)
 
@@ -4989,12 +4967,8 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 ```
 
-**Schritte:**
-- `ToTensor()`: PIL-Bilder → [0, 1]-Tensoren
-- `Normalize((0.1307,), (0.3081,))`: MNIST-Standardisierung
-- `DataLoader` mit batch_size=64: Batches zum Trainieren
-
-Identisch mit Kapitel 6 — nur die Architektur ändert sich (CNN statt Dense).
+- **ToTensor():** Bilder → [0,1]-Tensoren
+- **Normalize:** MNIST-Standardisierung (Kapitel 6 identisch; nur Architektur änders sich)
 
 ---
 layout: default
@@ -5003,33 +4977,17 @@ layout: default
 ## MNIST trainieren — Die Trainingsloop
 
 ```python
-num_epochs = 5
-
-for epoch in range(num_epochs):
+for epoch in range(5):
     model.train()
-    running_loss = 0.0
-    
     for batch_x, batch_y in train_loader:
         output = model(batch_x)
         loss = criterion(output, batch_y)
-        
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        running_loss += loss.item()
-    
-    avg_loss = running_loss / len(train_loader)
-    print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}")
 ```
 
-**Pro Epoche:**
-- Forward Pass: Vorhersage generieren
-- Backward Pass: Gradienten berechnen
-- Update: Gewichte mit `optimizer.step()` aktualisieren
-
-**Erwartete Ausgabe:**
-- Epoch 1: Loss ≈ 0.23
-- Epoch 5: Loss ≈ 0.05
+**Ablauf:** Forward Pass (Vorhersage) → Backward Pass (Gradienten) → Gewichte aktualisieren. **Epoch 1:** Loss ≈ 0.23; **Epoch 5:** Loss ≈ 0.05
 
 ---
 layout: default
@@ -5072,10 +5030,7 @@ Wenn Daten knapp sind — Pre-Trained Modelle nutzen
 - Hohes Overfitting-Risiko
 - Hoher Energiebedarf
 
-**Die Lösung:** Transfer Learning. Ein auf ImageNet vortrainiertes CNN hat bereits gelernt:
-- Frühe Layer: Kanten, Texturen (universell)
-- Mittlere Layer: Formen, Muster
-- Späte Layer: Objekt-spezifische Merkmale
+**Die Lösung:** Transfer Learning. Ein auf ImageNet vortrainiertes CNN hat bereits gelernt — von generisch (frühe Layer: Kanten, Texturen) zu spezifisch (späte Layer: Objekt-Features).
 
 ::right::
 
@@ -5193,10 +5148,7 @@ Nicht nur "Was ist das?", sondern auch "Wo ist es?"
 - Beispiel: "Rad bei (100, 50, 150, 150)", "Kotflügel bei (200, 80, 300, 180)"
 - Architekturen: **YOLO** ("You Only Look Once") oder **Faster R-CNN**
 
-**Praktisches Beispiel für Versicherer:**
-- Schadensfotos + YOLO → Automatisch beschädigte Fahrzeugteile lokalisieren + Bounding Boxes
-
-**Kernidee:** Die CNN-Basis ist identisch; die Output-Schicht ändert sich (Bounding Box Regression + Klassifikation).
+**Kernidee:** CNN-Basis bleibt identisch — nur die Output-Schicht ändert sich (Regression + Klassifikation statt nur Klassifikation).
 
 <LiteraturSource :sources="[
   { title: 'Redmon, J., Divvala, S., Girshick, R., & Farhadi, A. (2016). You Only Look Once: Unified, Real-Time Object Detection', url: 'https://arxiv.org/abs/1506.02640', year: '2016' },
@@ -5220,12 +5172,9 @@ layout: default
 - Datenschutz: Gesichter in Schadensfotos automatisch verpixeln (DSGVO)
 - Betrugs-Detection: Mehrere Fotos vergleichen (Embedding-Ähnlichkeiten)
 
-**Kernidee:** Gleiche CNN-Basis wie Bildklassifikation; nur Loss-Funktion ändert sich (Triplet Loss statt CrossEntropyLoss).
-
-**Im Modul-Kontext:** Diese Spezialisierungen sind möglich, aber nicht zentral. Wenn Du CNNs verstehst, kannst Du Pre-Trained Modelle (YOLO, FaceNet) direkt nutzen.
+**Kernidee:** Gleiche CNN-Basis; nur Loss-Funktion ändert (Triplet Loss). Du kannst Pre-Trained Modelle (YOLO, FaceNet) direkt nutzen, wenn CNNs verstanden sind.
 
 <LiteraturSource :sources="[
-  { title: 'Zhang, K., Zhang, Z., Li, Z., & Qiao, Y. (2016). Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks', url: 'https://arxiv.org/pdf/1604.02878', year: '2016' },
   { title: 'Schroff, F., Kalenichenko, D., & Philbin, J. (2015). FaceNet: A Unified Embedding for Face Recognition and Clustering', url: 'https://arxiv.org/pdf/1503.03832', year: '2015' },
 ]" />
 
@@ -5272,48 +5221,56 @@ In Kapitel 7 haben wir gelernt: CNNs verarbeiten **räumliche Strukturen** in Bi
 - Sentiment in Kundenbewertungen erkennen ("Der Service war exzellent" vs. "Schreckliche Erfahrung")
 - Automatisch Ansprüche zusammenfassen oder kategorisieren
 
-Derselbe Versicherer-Case durchzieht unser Modul — erst Tabellen (ML), dann Bilder (CNN), dann Text (Transformer). Das ist die ganze Reise von Datentypen zu Deep-Learning-Architekturen.
+Derselbe Versicherer-Case durchzieht unser Modul — erst Tabellen, dann Bilder, dann Text.
 
 ---
 layout: default
 ---
 
-# Literaturverzeichnis (1/3)
+# Literaturverzeichnis (1/4)
 
-<Literaturverzeichnis :part="1" :parts="3" />
-layout: default
----
-
-# Literaturverzeichnis (1/3)
-
-<Literaturverzeichnis :part="1" :parts="3" />
+<Literaturverzeichnis :part="1" :parts="4" />
 
 <!--
 Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch),
-auf 3 Folien aufgeteilt (Komponente unterstützt :part/:parts) — erhöht bei Bedarf einfach `parts`,
-wenn weitere Kapitel weitere Quellen hinzufügen und 3 Folien nicht mehr reichen.
+auf 4 Folien aufgeteilt (Komponente unterstützt :part/:parts) — erhöht bei Bedarf einfach `parts`,
+wenn weitere Kapitel weitere Quellen hinzufügen und 4 Folien nicht mehr reichen. Von 3 auf 4 erhöht
+2026-09-03 (Kapitel 7 fügte 11 neue Quellen hinzu, 105 Quellen gesamt sprengten 3 Folien).
 -->
 
 ---
 layout: default
 ---
 
-# Literaturverzeichnis (2/3)
+# Literaturverzeichnis (2/4)
 
-<Literaturverzeichnis :part="2" :parts="3" />
+<Literaturverzeichnis :part="2" :parts="4" />
 
 <!--
 Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch),
-auf 3 Folien aufgeteilt (Komponente unterstützt :part/:parts).
+auf 4 Folien aufgeteilt (Komponente unterstützt :part/:parts).
 -->
 
 ---
 layout: default
 ---
 
-# Literaturverzeichnis (3/3)
+# Literaturverzeichnis (3/4)
 
-<Literaturverzeichnis :part="3" :parts="3" />
+<Literaturverzeichnis :part="3" :parts="4" />
+
+<!--
+Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch),
+auf 4 Folien aufgeteilt (Komponente unterstützt :part/:parts).
+-->
+
+---
+layout: default
+---
+
+# Literaturverzeichnis (4/4)
+
+<Literaturverzeichnis :part="4" :parts="4" />
 
 <!--
 Automatisch aggregiert aus allen <LiteraturSource>-Komponenten des Decks (dedupliziert, alphabetisch).

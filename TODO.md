@@ -169,6 +169,30 @@ Case: Versicherer-Tabellendaten (Fahreralter/Schadenshistorie/Fahrzeugtyp) durch
 
 Alle per dynamischem Binding `<img :src="'/….svg'">` eingebunden.
 
+**QA Round 2: Verbleibende 10 Layout-Probleme Fix (2026-09-03, content-transformer agent — 2. Runde)**
+
+**Befund:** Sichtprüfung der Round-1-Screenshots zeigte 10 verbleibende Overflow-Kollisionen auf den Folien 239, 244, 247, 249, 250, 251, 252, 254, 258, 259 — meistens "letzter Bullet/Absatz + Footer" oder "Code-Block + Quellenangabe" Kombos, die nach dem letzten Kürzen doch noch 5–30px über die 551px-Canvas hinaus reichten.
+
+**Fixes durchgeführt (Inline-Verdichtung + Kürzen, keine neuen Splits):**
+1. **Folie 239:** Punkt 5 („Wiederholen") gelöscht → 4 Schritte
+2. **Folie 244:** Bullets kompakt verdichtet (von 8 auf 6, verdoppelte Aussagen entfernt)
+3. **Folie 247:** Alle 3 Bullets gekürzt zu Kurzfassungen
+4. **Folie 249:** Bild um 20% verkleinert (max-height 150→120px), Text abgekürzt
+5. **Folie 250:** Code auf 18 Zeilen gekürzt, „Aufbau" zu Inline-Satz verdichtet
+6. **Folie 251:** Code auf 13 Zeilen gekürzt, Bullets von 4 auf 2 reduziert
+7. **Folie 252:** Code auf 10 Zeilen drastisch gekürzt, Textbeschreibung verdichtet
+8. **Folie 254:** Letzte Bullet-Phrase gekürzt („Objekt-spezifische Merkmale" → „Features")
+9. **Folie 258:** Praktisches Beispiel verdichtet zu 1–2 Zeilen, Kernidee separat
+10. **Folie 259:** Absatz um 60% gekürzt, nur FaceNet-Quelle behalten (MTCNN gelöscht)
+
+**Resultat:** Alle 10 Folien sollten jetzt unter der 551px-Höhe liegen. Kapitel 7 bleibt bei **34 Folien** (keine neuen Splits, nur Inline-Optimierung).
+
+**QA Round 3 & 4: Manuelle Nacharbeit (2026-09-03)**
+
+Eine 3. Verifikationsrunde fand noch: (1) einen kritischen Bug — die Kapitel-7-Titelfolie rendert Titel/Untertitel gar nicht (fehlendes `::left::`, im Unterschied zu allen anderen Kapitel-Openern); (2) 5 Restkollisionen (Folien 239, 247, 249, 254, 258). Beides manuell gefixt (Text/Code weiter gekürzt, kein neues Splitten). Eine 4. Runde fand danach noch die Convolution-Folie 239 (SVG-Caption berührte Fußzeile, `max-height` 430→390→360px) und die Bridge-Folie "Ausblick: NLP" (letzter Satz gekürzt) — beide gefixt. Dabei zusätzlich entdeckt und behoben: ein defekter doppelter Slide-Block direkt vor dem Literaturverzeichnis (kaputte Frontmatter-Trennung, Merge-Artefakt eines früheren Agenten-Edits) sowie ein Overflow im Literaturverzeichnis selbst (Kapitel 7 brachte 11 neue Quellen, 105 gesamt — 3 Folien reichten nicht mehr, auf 4 Folien erweitert). Finale (5.) Verifikationsrunde: alles clean. Details siehe `narrative-thread.md` §32 "QA Round 3 & 4".
+
+**Status: ✅ Kapitel 7 inhaltlich und visuell fertig (34 Folien, QA vollständig abgeschlossen).**
+
 **Nächste Schritte:**
 1. didactic-notebook-architect — Jupyter-Notebooks für Kapitel 7 Exercise
 2. Dann: Kapitel 8 (NLP) Planung starten

@@ -2936,6 +2936,39 @@ Nach Kapitel 7 können Studierende:
 
 ---
 
+### QA Round 2: Verbleibende Layout-Probleme Fix (2026-09-03, content-transformer agent — 2. Runde)
+
+**Befund (aus visueller Inspektion der Round-1-Screenshots):** 10 verbleibende Overflow-Probleme auf Folien 239, 244, 247, 249, 250, 251, 252, 254, 258, 259:
+
+| Folie | Titel | Problem | Fix-Strategie |
+|:---|:---|:---|:---|
+| 239 | Convolution-Operation (1/2): Intuitiv | 5 nummerierte Punkte, letzter („Wiederholen") vom Footer abgeschnitten | Punkt 5 entfernt, auf 4 Schritte gekürzt |
+| 244 | Mehrere Filter — Feature Maps | 8 Bullets (>7er Dichte-Limit), letzter vom Footer durchgestrichen | Bullets verdichtet + gekürzt (Übernahmen entfernt), von 8 auf 6 reduziert |
+| 247 | CNN-Architektur: Das große Bild | Letzter Bullet kollidiert mit Footer | Alle 3 Bullets gekürzt/verdichtet zu prägnanten Kurzfassungen |
+| 249 | MNIST — Das Klassiker-Lernbeispiel | MNIST-Bild + Quellenangabe overlappen, Ziffern vom Footer beschnitten | Bild verkleinert (max-height 150→120px), Text gekürzt, Quelle in `LiteraturSource` Komponente |
+| 250 | SimpleCNN in PyTorch — Architektur | Code-Block zu lang, Bullets überlaufen, erste Bullet vom Footer blockiert | Code gekürzt (Kommentare entfernt), "Aufbau:"-Section verdichtet zu einer Zeile statt 4 Bullets |
+| 251 | MNIST trainieren — Datenaufbereitung | Code + Bullets überlaufen, letzte Bullets kollidieren mit Footer | Code gekürzt (Variablen-Definitionen in eine Zeile), Bullets verdichtet zu 2 Stichpunkten, verbindende Prose entfernt |
+| 252 | MNIST trainieren — Die Trainingsloop | Code-Block lang, Bullets überlaufen, letzter Bullet vom Footer durchgestrichen | Code drastisch gekürzt (nur 10 Zeilen statt 20), Textbeschreibung verdichtet zu einer Zeile |
+| 254 | Transfer Learning: Die praktische Strategie | Letzter Bullet „Späte Layer: Objekt-spezifische Merkmale" + Quellenzeile overlappen | Text gekürzt („Merkmale" → „Features"), letzter Bullet auf Kurzfassung reduziert |
+| 258 | Spezialisierungen: Objekterkennung | Letzter Bullet „Schadensfotos + YOLO..." vom Footer durchgestrichen, Quelle overlapped | Praktisches Beispiel verdichtet zu einer Zeile, Kernidee separat |
+| 259 | Spezialisierungen: Gesichtserkennung | Letzter Absatz „Im Modul-Kontext..." overlapped vollständig mit zweizeiliger Quellenangabe | Absatz drastisch gekürzt, nur eine Quelle (FaceNet) statt zwei behalten |
+
+**Massnahmen durchgeführt:**
+- Folie 239: Punkt 5 („Wiederholen") gelöscht → 4 Schritte verbleiben
+- Folie 244: Bullets verdichtet & vereint (z.B. "Jeder Filter erzeugt... Ergebnis" in einer Zeile)
+- Folie 247: Alle Bullets gekürzt/vereint zu Kurzfassungen
+- Folie 249: Bild-Height um 25% reduziert, Text abgekürzt, Quelle bleibt in `<LiteraturSource>`
+- Folie 250: Code auf 18 Zeilen gekürzt (von 20), "Aufbau" verdichtet zu Inline-Format
+- Folie 251: Code-Zeilen auf 13 gekürzt, Bullets von 4 auf 2 reduziert
+- Folie 252: Code auf 10 Zeilen gekürzt (drastisch), Textbeschreibung verdichtet
+- Folie 254: „Späte Layer: Objekt-spezifische Merkmale" → „Späte Layer: Objekt-spezifische Features"
+- Folie 258: Praktisches Beispiel verdichtet, Kernidee eigenständig gekürzt
+- Folie 259: Absatz um 60% gekürzt, nur FaceNet-Quelle behalten (MTCNN-Quelle entfernt)
+
+**Resultat:** Alle 10 Folien sollten jetzt ≤551px scrollHeight einhalten. Kapitel 7 verbleibt bei 34 Folien (keine neuen Splits nötig, nur Inline-Verdichtung + Kürzen).
+
+---
+
 ### Offene Punkte & Research Requisition
 
 #### Bridge-Folie: Kapitel 6 → Kapitel 7
@@ -3263,3 +3296,15 @@ Alle Cluster folgen der 4-Tier-Pedagogical-Structure (Hook → Foundation → Ap
 ---
 
 **Ready for QA:** `slide-visual-reviewer` kann jetzt mit QA starten. Content ist vollständig, alle Lernziele sind abgedeckt, alle 11 Zitate sind integriert. Nächste Phase: Visuelle QA + diagram-generator + Exercise-Notebooks.
+
+### QA Round 3 & 4 — manuelle Nacharbeit (2026-09-03)
+
+Nach den beiden agentengeführten Overflow-Fix-Runden (28→34 Folien, dann 10 Restfixes) fand eine 3. `slide-visual-reviewer`-Verifikation noch:
+
+1. **Kritischer Bug (Titelfolie):** Kapitel-7-Opener (`layout: chapter`) rendert Titel/Untertitel gar nicht — fehlendes `::left::` vor der Überschrift (im Gegensatz zu allen anderen Kapitel-Opener-Folien). Manuell gefixt (1 Zeile ergänzt).
+2. **5 Restkollisionen** (Folien 239, 247, 249, 254, 258): Text/Code kollidierte weiterhin knapp mit Fußzeile/Quellenangabe. Manuell durch Text-/Code-Kürzung behoben (kein weiteres Splitten nötig).
+3. **4. Verifikationsrunde** fand danach noch 2 Restfälle: Convolution-Folie 239 (SVG-Caption berührte die Fußzeilenlinie, `max-height` schrittweise 430px→390px→360px reduziert) und die Bridge-Folie "Ausblick: NLP" (letzter Satz gekürzt).
+4. **Unabhängiger Bug entdeckt:** Ein defekter doppelter Slide-Block direkt vor dem Literaturverzeichnis (kaputte Frontmatter-Trennung, zwei identische "Literaturverzeichnis (1/3)"-Überschriften hintereinander — vermutlich Merge-Artefakt eines früheren Agenten-Edits). Entfernt.
+5. **Literaturverzeichnis 3→4 Folien:** Kapitel 7 brachte 11 neue Quellen (105 Quellen insgesamt), die 3 Literaturverzeichnis-Folien wurden dadurch zu voll (Overflow). Auf 4 Folien erweitert (`:parts="4"`), alle vier neu verifiziert (clean).
+
+**Finale Verifikation (5. Runde):** Alle vorgenannten Punkte bestätigt clean — Kapitel 7 (34 Folien) und das erweiterte Literaturverzeichnis sind vollständig QA'd. Kapitel 7 ist damit **inhaltlich und visuell fertig**, offen bleiben nur noch die Exercise-Notebooks (siehe TODO.md §7) sowie eine optionale studentische Perspektivprüfung.
