@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 106 640 196" width="100%" height="auto" role="img"
+     aria-label="Filter-Hierarchie über mehrere Convolution-Schichten. Aus dem RGB-Input mit 3 Kanälen erzeugt Layer 1 mit 32 Filtern 32 Feature Maps, die Kanten und Farbverläufe zeigen. Layer 2 erzeugt daraus mit 64 Filtern 64 Feature Maps für Formen und Texturen, Layer 3 mit 128 Filtern 128 Feature Maps für Objektteile. Die Zahl der Karten wächst, ihre räumliche Größe schrumpft von 224 über 112 und 56 auf 28 Pixel.">
+  <title>Filter-Hierarchie: mehr Filter, kleinere Karten, abstraktere Merkmale</title>
+
+  <defs>
+    <marker id="fh-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#00c6b2" />
+    </marker>
+    <marker id="fh-arrow-grey" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#9e9e9e" />
+    </marker>
+  </defs>
+
+
+  <!-- ===================== Input (RGB) ===================== -->
+  <rect x="36" y="128" width="66" height="66" rx="2" fill="#e57373" stroke="#b34a4a" stroke-width="1.2" />
+  <rect x="30" y="134" width="66" height="66" rx="2" fill="#66bb6a" stroke="#3d8a41" stroke-width="1.2" />
+  <rect x="24" y="140" width="66" height="66" rx="2" fill="#5c8ae6" stroke="#3a5fa8" stroke-width="1.2" />
+  <text x="57" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">RGB</text>
+
+  <!-- ===================== Layer 1 ===================== -->
+  <line x1="112" y1="175" x2="168" y2="175" stroke="#00c6b2" stroke-width="2.5" marker-end="url(#fh-arrow)" />
+  <text x="140" y="153" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="700" fill="#1e1e1e" text-anchor="middle">Conv 3 → 32</text>
+  <text x="140" y="166" font-family="Montserrat, Helvetica, sans-serif" font-size="9" font-weight="400" fill="#6b6b6b" text-anchor="middle">+ ReLU + Pool</text>
+  <rect x="207" y="125" width="60" height="60" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="202" y="130" width="60" height="60" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="197" y="135" width="60" height="60" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="192" y="140" width="60" height="60" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="187" y="145" width="60" height="60" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="182" y="150" width="60" height="60" rx="2" fill="#ffffff" stroke="#00c6b2" stroke-width="2" />
+  <g stroke="#4a4a4a" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <line x1="192" y1="198" x2="216" y2="162" />
+    <line x1="226" y1="162" x2="226" y2="198" />
+  </g>
+
+  <!-- ===================== Layer 2 ===================== -->
+  <line x1="278" y1="175" x2="334" y2="175" stroke="#00c6b2" stroke-width="2.5" marker-end="url(#fh-arrow)" />
+  <text x="306" y="153" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="700" fill="#1e1e1e" text-anchor="middle">Conv 32 → 64</text>
+  <text x="306" y="166" font-family="Montserrat, Helvetica, sans-serif" font-size="9" font-weight="400" fill="#6b6b6b" text-anchor="middle">+ ReLU + Pool</text>
+  <rect x="388" y="118" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="383" y="123" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="378" y="128" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="373" y="133" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="368" y="138" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="363" y="143" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="358" y="148" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="353" y="153" width="52" height="52" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="348" y="158" width="52" height="52" rx="2" fill="#ffffff" stroke="#00c6b2" stroke-width="2" />
+  <g stroke="#4a4a4a" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.8">
+    <circle cx="366" cy="177" r="9" />
+    <path d="M 378 200 Q 386 182 393 198" />
+  </g>
+
+  <!-- ===================== Layer 3 ===================== -->
+  <line x1="452" y1="175" x2="508" y2="175" stroke="#00c6b2" stroke-width="2.5" marker-end="url(#fh-arrow)" />
+  <text x="480" y="153" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="700" fill="#1e1e1e" text-anchor="middle">Conv 64 → 128</text>
+  <text x="480" y="166" font-family="Montserrat, Helvetica, sans-serif" font-size="9" font-weight="400" fill="#6b6b6b" text-anchor="middle">+ ReLU + Pool</text>
+  <rect x="566" y="122" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="562" y="126" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="558" y="130" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="554" y="134" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="550" y="138" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="546" y="142" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="542" y="146" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="538" y="150" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="534" y="154" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="530" y="158" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="526" y="162" width="44" height="44" rx="2" fill="#e0f7f4" stroke="#7fdfd5" stroke-width="1.2" />
+  <rect x="522" y="166" width="44" height="44" rx="2" fill="#ffffff" stroke="#00c6b2" stroke-width="2" />
+  <g stroke="#4a4a4a" stroke-width="2" fill="none" opacity="0.8">
+    <circle cx="544" cy="188" r="15" />
+    <circle cx="544" cy="188" r="5" fill="#4a4a4a" />
+    <line x1="544" y1="173" x2="544" y2="203" />
+    <line x1="529" y1="188" x2="559" y2="188" />
+  </g>
+
+  <!-- ===================== Beschriftungen ===================== -->
+  <text x="63" y="232" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="middle">Input</text>
+  <text x="63" y="248" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#00998a" text-anchor="middle">224 × 224 × 3</text>
+  <text x="63" y="264" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Rohe Pixel</text>
+  <text x="212" y="232" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="middle">Layer 1 · 32 Filter</text>
+  <text x="212" y="248" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#00998a" text-anchor="middle">112 × 112 × 32</text>
+  <text x="212" y="264" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Kanten &amp; Farbverläufe</text>
+  <text x="394" y="232" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="middle">Layer 2 · 64 Filter</text>
+  <text x="394" y="248" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#00998a" text-anchor="middle">56 × 56 × 64</text>
+  <text x="394" y="264" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Formen &amp; Texturen</text>
+  <text x="566" y="232" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="middle">Layer 3 · 128 Filter</text>
+  <text x="566" y="248" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#00998a" text-anchor="middle">28 × 28 × 128</text>
+  <text x="566" y="264" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Objektteile (Rad, Lampe)</text>
+
+  <!-- ===================== Abstraktionsachse ===================== -->
+  <line x1="24" y1="292" x2="612" y2="292" stroke="#9e9e9e" stroke-width="2" marker-end="url(#fh-arrow-grey)" />
+  <text x="318" y="284" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#4a4a4a" text-anchor="middle">Anzahl Filter ↑  ·  räumliche Auflösung ↓  ·  Abstraktion ↑</text>
+</svg>

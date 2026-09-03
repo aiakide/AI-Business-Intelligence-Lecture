@@ -4571,7 +4571,7 @@ Bilder verstehen mit neuronalen Netzen
 
 ::right::
 
-<Illustration src="/illustrations/artificial-intelligence-bro.svg" alt="Computer Vision mit Bildern" width="90%" />
+<Illustration src="/illustrations/image-viewer-bro.svg" alt="Person analysiert Bilder am Bildschirm - Computer Vision" width="90%" />
 
 ---
 layout: default
@@ -4623,7 +4623,7 @@ Das Problem einer einfachen Dense-Architektur
 
 Stellen wir uns vor, Du möchtest ein **224 × 224 Pixel große RGB-Foto** klassifizieren. Das sind:
 - 224 × 224 × 3 (RGB) = **150.528 Input-Features**
-- Eine Dense-Schicht mit 128 Neuronen braucht: **19,3 Millionen Gewichte** (plus Bias)
+- Eine **Dense-Schicht** (Keras/TensorFlow-Bezeichnung für das `nn.Linear` aus Kapitel 6) mit 128 Neuronen braucht: **19,3 Millionen Gewichte** (plus Bias)
 - Eine Foto-Dimension höher? → exponentieller Anstieg
 
 **Das Problem:** Zu viele Parameter → Overfitting, lange Trainingszeit, viel Speicher.
@@ -4653,24 +4653,28 @@ Mit diesem Ansatz: Weniger Parameter, bessere Generalisierung, schnelleres Train
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Bilder als mehrdimensionale Arrays
 
-Bevor wir zur Convolution-Operation übergehen, muss klar sein: Wie repräsentieren wir Bilder?
+Wie repräsentieren wir ein Bild für das Netz?
 
-| **Bildtyp** | **Dimensionen** | **Beschreibung** |
-|:---|:---|:---|
-| Graustufen (z.B. MNIST) | (28, 28, 1) | 28×28 Pixel, 1 Kanal (Graustufen, Werte 0–255) |
-| RGB-Farbbild (z.B. Kfz-Foto) | (224, 224, 3) | 224×224 Pixel, 3 Kanäle (Rot, Grün, Blau je 0–255) |
-| Batch von Bildern | (32, 224, 224, 3) | 32 Bilder, je 224×224 RGB |
+::left::
 
-**Im Code** (PyTorch):
-- Einzelnes Bild: `torch.tensor([1, 224, 224, 3])` (Channels-First-Format)
-- Batch: `torch.tensor([32, 3, 224, 224])` (Batch, Channels, Height, Width)
+| **Bildtyp** | **Dimensionen** |
+|:---|:---|
+| Graustufen (z.B. MNIST) | (28, 28, 1) |
+| RGB-Farbbild (z.B. Kfz-Foto) | (224, 224, 3) |
+| Batch von 32 RGB-Bildern | (32, 3, 224, 224) |
 
-Diese Array-Struktur ist die Eingabe für die nächste Operation: **Convolution**.
+Jeder Eintrag ist eine Zahl von **0–255** — für das Netz ist ein Bild nur ein Block aus Zahlen.
+
+**In PyTorch** gilt Channels-First: `(Batch, Channels, Height, Width)`. Diese Struktur ist die Eingabe der **Convolution**.
+
+::right::
+
+<img :src="'/rgb-tensor-stapel.svg'" alt="RGB-Bild-Tensor (224, 224, 3) als Stapel dreier gleich großer Zahlen-Ebenen für Rot, Grün und Blau; ein einzelner Pixel besteht aus den drei Werten 212, 98 und 45, die zusammen seine Farbe ergeben" style="max-height: 400px; margin: 0 auto; display: block;" />
 
 ---
 layout: header-cols
@@ -4717,25 +4721,31 @@ Wobei:
 ]" />
 
 ---
-layout: default
+layout: header-cols
 ---
 
 ## Convolution-Parameter in PyTorch
 
-Die vier wichtigsten Hyperparameter:
+Padding und Stride steuern die Größe der Feature Map
 
-- **Input-Kanäle:** 1 für Graustufen, 3 für RGB
-- **Output-Kanäle:** 32, 64, 128, ... (die Anzahl der Filter, die wir trainieren)
+::left::
+
+- **Input-Kanäle:** 1 (Graustufen) oder 3 (RGB)
+- **Output-Kanäle:** Anzahl der Filter (32, 64, …)
 - **Kernel-Größe:** meist 3×3 oder 5×5
-- **Padding & Stride:** Steuern die räumliche Dimensionierung
-
-**Beispiel in Code:**
+- **Padding:** Nullen-Rand erhält die Ränder
+- **Stride:** Schrittweite — 2 halbiert die Karte
 
 ```python
-nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, padding=1, stride=1)
+nn.Conv2d(in_channels=1, out_channels=32,
+          kernel_size=3, padding=1, stride=1)
 ```
 
-Das ist die Standard-Konfiguration für MNIST und kleine Bilder.
+Standard für MNIST: Die Karte behält ihre Größe.
+
+::right::
+
+<img :src="'/padding-stride-diagramm.svg'" alt="Padding und Stride im Vergleich: ohne Padding schrumpft ein 5×5-Input mit 3×3-Filter auf eine 3×3-Feature-Map, mit padding=1 bleibt sie 5×5; mit Stride 1 gibt es drei überlappende Fensterpositionen je Zeile (Output 3×3), mit Stride 2 nur zwei (Output 2×2)" style="max-height: 420px; margin: 0 auto; display: block;" />
 
 ---
 layout: header-cols
@@ -4751,7 +4761,7 @@ $$\text{Sobel}_{\text{vertikal}} = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -
 
 Die Werte -1, 0, +1 in jeder Zeile betonen: "Linke Seite negativ, rechte Seite positiv" → **Unterschiede zwischen rechts und links (Spalten-Differenzen) werden verstärkt.**
 
-Ein Wert von **4** nach der Convolution bedeutet: Eine **starke vertikale Kante** an dieser Stelle.
+**Warum:** Bei einem gleichmäßigen Patch (keine Kante) würden sich die linke (negative) und rechte (positive) Seite des Filters aufheben → Ergebnis ≈ 0. Ein Ergebnis deutlich ungleich 0 (z.B. **4**) bedeutet, dass rechts merklich hellere oder andere Werte stehen als links — genau das ist eine **vertikale Kante**.
 
 **Wichtig:** Dies ist ein Hand-designter Filter. Im CNN trainiert sich der Filter selbst: Backpropagation optimiert zufällige Anfangsgewichte, bis sie Merkmale erkennen, die für Deine Aufgabe relevant sind.
 
@@ -4789,20 +4799,11 @@ layout: default
 
 ## Mehrere Filter — Feature Maps
 
-In der Praxis verwenden CNNs **viele Filter parallel** — einen für jeden Merkmalstyp.
+In der Praxis verwenden CNNs **viele Filter parallel** — einen je Merkmalstyp. Jeder Filter erzeugt eine eigene **Feature Map**; die Maps einer Schicht sind der Input der nächsten.
 
-**Layer 1:** Input (224×224×3 RGB)
-- Conv2d(in=3, out=32) → **32 Filter** angewendet
-- Ergebnis: (224, 224, 32)
+<img :src="'/filter-hierarchie-diagramm.svg'" alt="Filter-Hierarchie über drei Convolution-Schichten: Layer 1 erzeugt aus dem RGB-Input mit 32 Filtern 32 Feature Maps für Kanten und Farbverläufe, Layer 2 mit 64 Filtern 64 Maps für Formen und Texturen, Layer 3 mit 128 Filtern 128 Maps für Objektteile — die Karten werden zahlreicher, kleiner und abstrakter" style="max-height: 260px; margin: 0.6rem auto; display: block;" />
 
-**Layer 2:** Input (224×224×32)
-- Conv2d(in=32, out=64) → **64 neue Filter** auf die 32 Input-Merkmale
-- Ergebnis: (224, 224, 64)
-
-**Visuelle Hierarchie der Filter:**
-- Layer 1: Kanten, Ecken, Texturen
-- Layer 2: Formen, Teile (komplexer)
-- Layer 3+: Ganze Objekte (Rad, Kotflügel)
+Die Merkmale werden mit jeder Schicht **abstrakter** — vom Pixel zur Objektbedeutung, ohne dass wir ein einziges Merkmal von Hand definieren.
 
 ---
 layout: header-cols
@@ -4834,20 +4835,32 @@ Nach einer Convolution-Schicht kommt oft **Pooling** — eine Downsampling-Opera
 layout: default
 ---
 
+---
+layout: header-cols
+---
+
 ## Pooling: Das Rechenbeispiel
 
 Wie Max-Pool(2×2) konkret funktioniert
 
-Eine 4×4-Matrix mit Max-Pool(2×2):
+::left::
 
-$$\begin{bmatrix} 1 & 3 & 2 & 7 \\ 0 & 5 & 1 & 4 \\ 2 & 1 & 6 & 2 \\ 8 & 3 & 5 & 1 \end{bmatrix} \xrightarrow{\text{Max-Pool(2×2)}} \begin{bmatrix} 5 & 7 \\ 8 & 6 \end{bmatrix}$$
+Eine 4×4-Matrix, in vier 2×2-Fenster zerlegt:
 
-**Ablauf in einem CNN:**
-- Input: (224, 224, 32)
-- Nach Pool(2×2): (112, 112, 32)
-- Nach Conv: (112, 112, 64)
-- Nach Pool(2×2): (56, 56, 64)
-- **Resultat:** ~64× räumliche Komprimierung am Ende
+$$\begin{bmatrix} 1 & 3 & 2 & 7 \\ 0 & 5 & 1 & 4 \\ 2 & 1 & 6 & 2 \\ 8 & 3 & 5 & 1 \end{bmatrix}$$
+
+1. Top-Links `[1,3,0,5]` → Max = **5**
+2. Top-Rechts `[2,7,1,4]` → Max = **7**
+3. Bottom-Links `[2,1,8,3]` → Max = **8**
+4. Bottom-Rechts `[6,2,5,1]` → Max = **6**
+
+::right::
+
+Jedes Fenster liefert genau seinen größten Wert — Position innerhalb des Fensters spielt keine Rolle, nur das Maximum zählt:
+
+$$\xrightarrow{\text{Max-Pool(2×2)}} \begin{bmatrix} 5 & 7 \\ 8 & 6 \end{bmatrix}$$
+
+Aus 16 Werten werden 4 — **4× räumliche Reduktion pro Pooling-Schicht.**
 
 ---
 layout: default
@@ -4857,23 +4870,9 @@ layout: default
 
 Die komplette Pipeline von Input bis Output
 
-**Typischer CNN-Ablauf:**
+<img :src="'/cnn-architektur-pipeline.svg'" alt="CNN-Pipeline: Aus dem Eingabebild 224×224×3 entstehen über drei Conv-Blöcke nacheinander 112×112×32, 56×56×64 und 28×28×128 Feature Maps — räumlich kleiner, dafür tiefer. Flatten, Dense(512) und Dense(10) mit Softmax liefern die Klassenwahrscheinlichkeiten" style="max-height: 300px; margin: 0.3rem auto; display: block;" />
 
-```
-Input (224×224×3)
-  ↓
-Conv(32, 3×3) + ReLU → MaxPool(2×2)  [224 → 112]
-  ↓
-Conv(64, 3×3) + ReLU → MaxPool(2×2)  [112 → 56]
-  ↓
-Conv(128, 3×3) + ReLU → MaxPool(2×2) [56 → 28]
-  ↓
-Flatten() → Dense(512) + ReLU
-  ↓
-Dense(10) + Softmax
-```
-
-**Die Pipeline:** Conv-Blöcke extrahieren Merkmale (Kanten → Formen → Objekte), Pooling komprimiert, Dense klassifiziert → Output. **~1 Mio. Parameter** (vs. 19,3 Mio. bei Dense-Architektur).
+Kurzform: `Conv(32)+Pool → Conv(64)+Pool → Conv(128)+Pool → Flatten → Dense(512) → Dense(10)+Softmax`. Conv-Blöcke extrahieren Merkmale, Pooling komprimiert, Dense klassifiziert.
 
 ---
 layout: default
@@ -4905,11 +4904,11 @@ layout: default
 
 Ein Datensatz für Handschriftziffernerkennung
 
-**Der Datensatz:** 60.000 Trainings- + 10.000 Testbilder, 28×28 Pixel Graustufen, 10 Klassen (0–9). Standard-Benchmark seit 1998 — klein, aber ausreichend für CNN-Konzepte.
+**Der Datensatz:** 60K Trainings- + 10K Testbilder, 28×28 Pixel Graustufen, 10 Klassen (0–9). Standard-Benchmark seit 1998.
 
 **Mit unserem CNN:** Nach 5 Epochen ~97% Genauigkeit.
 
-<img :src="'/mnist-beispielziffern-diagramm.svg'" alt="MNIST-Ziffern: 28×28 Pixel" style="max-height: 95px; margin: 0.2rem auto; display: block;" />
+<img :src="'/mnist-beispielziffern-diagramm.svg'" alt="MNIST-Ziffern: 28×28 Pixel" style="max-height: 170px; margin: 0.4rem auto; display: block;" />
 
 <LiteraturSource :sources="[
   { title: 'LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition', url: 'https://leon.bottou.org/papers/lecun-98h', year: '1998' },
@@ -4991,6 +4990,8 @@ for epoch in range(5):
 
 **Ablauf:** Forward Pass (Vorhersage) → Backward Pass (Gradienten) → Gewichte aktualisieren. **Epoch 1:** Loss ≈ 0.23; **Epoch 5:** Loss ≈ 0.05
 
+**`model.train()`:** Schaltet das Netz in Trainingsmodus — Dropout ist aktiv, BatchNorm aktualisiert Statistiken. Dies ist die PyTorch-Konvention für jedes Training, unabhängig von der Architektur.
+
 ---
 layout: default
 ---
@@ -5015,7 +5016,26 @@ print(f"Test Accuracy: {accuracy:.2f}%")
 
 **Nach 5 Epochen:** Test-Accuracy ≈ **97%**
 
+**`model.eval()`:** Schaltet das Netz in Evaluierungsmodus — Dropout ist deaktiviert, BatchNorm nutzt bereits gelernte Statistiken (nicht die des aktuellen Batch). Immer vor Evaluation/Inferenz verwenden.
+
 Das ist das Komplettrezept — identisch mit Kapitel 6, aber mit CNN-Architektur.
+
+---
+layout: default
+---
+
+## ImageNet: Der Standard-Vortrainings-Datensatz
+
+Warum alle CNNs damit starten
+
+**ImageNet** ist eine riesige Bilddatenbank:
+- **~1,2 Millionen Bilder**
+- **1.000 Kategorien** (Objekte, Tiere, Fahrzeuge, etc.)
+- Seit **2009** — initiiert durch den ImageNet Large Scale Visual Recognition Challenge (ILSVRC)
+
+**Warum ImageNet?**
+
+Modelle wie ResNet50, VGG oder MobileNet wurden auf ImageNet **vortrainiert** — d.h., sie haben bereits gelernt, allgemeine Merkmale wie Kanten, Texturen und Objekte zu erkennen. Diese Gewichte sind öffentlich verfügbar. Statt ein Modell von Grund auf zu trainieren, laden wir ein ImageNet-vortrainiertes Modell und passen es an unsere spezifische Aufgabe an — das ist **Transfer Learning**.
 
 ---
 layout: header-cols
@@ -5027,7 +5047,8 @@ Wenn Daten knapp sind — Pre-Trained Modelle nutzen
 
 ::left::
 
-**Das Problem:** Von Grund auf trainieren dauert 3–6 Wochen:
+**Das Problem:** Von Grund auf trainieren dauert (auf 20K–50K Bildern, GPU):
+- ~2–5 **Tage** reine Trainingszeit
 - Viel GPU-Speicher
 - Hohes Overfitting-Risiko
 - Hoher Energiebedarf
@@ -5044,7 +5065,7 @@ Wenn Daten knapp sind — Pre-Trained Modelle nutzen
 4. Nur Custom Head trainieren (5 Epochen)
 5. Optional: Fine-Tuning der letzten Conv-Blöcke
 
-**Resultat:** 88–92% Accuracy in ~5 Tagen (vs. 82% in 6 Wochen from scratch)
+**Resultat:** 88–92% Accuracy in ~**4–12 Stunden** (vs. 2–5 Tage from scratch)
 
 <LiteraturSource :sources="[
   { title: 'Yosinski, J., Clune, J., Bengio, Y., & Lipson, H. (2014). How transferable are features in deep neural networks?', url: 'https://arxiv.org/abs/1411.1792', year: '2014' },
@@ -5102,7 +5123,7 @@ with torch.no_grad():
     accuracy = sum((model(x) == y).sum() for x, y in test_loader) / len(test_data)
 ```
 
-**Ergebnis:** ~88–92% Accuracy in ~5 Tagen.
+**Ergebnis:** ~88–92% Accuracy in ~4–12 Stunden Trainingszeit.
 
 <LiteraturSource :sources="[
   { title: 'Long, M., Cao, Y., Wang, J., & Jordan, M. I. (2015). Learning Transferable Features with Deep Adaptation Networks', url: 'https://arxiv.org/pdf/1502.02791', year: '2015' },
@@ -5114,15 +5135,15 @@ layout: default
 
 ## Von Grund auf vs. Transfer Learning
 
-**Versicherer-Szenario: 100K Kfz-Schadensfotos, 20K gelabelt**
+**Versicherer-Szenario: 20K gelabelte Kfz-Schadensfotos auf GPU**
 
 | **Aspekt** | **From Scratch** | **Transfer Learning** |
 |:---|:---|:---|
-| **Trainingszeit** | 3–6 Wochen | ~5 Tage |
+| **Trainingszeit** | 2–5 Tage | 4–12 Stunden |
 | **Genauigkeit** | ~82% | 88–92% |
-| **Speicher & Kosten** | 16–32 GB, $500–1.500 | 4–8 GB, $50–200 |
-| **Datenaufbereitung** | Intensiv (100K Labels) | Moderat (20K Labels) |
-| **Production-Ready** | Wochen nach Training | Tage nach Training |
+| **Speicher & Kosten** | 16–32 GB, $300–800 | 4–8 GB, $30–100 |
+| **Datenaufbereitung** | Intensiv | Moderat |
+| **Produktion-Ready** | Nach Trainingszeit + Tuning | Nach Trainingszeit |
 
 **Empfehlung:** Transfer Learning mit Pre-Trained Modellen (ResNet, MobileNet, EfficientNet) ist der praktische Standard in der Industrie.
 
@@ -5184,7 +5205,7 @@ layout: default
 
 | **Aufgabe** | **Output** | **Loss** | **Beispiel** |
 |:---|:---|:---|:---|
-| Bildklassifikation | 1 Klasse | CrossEntropyLoss | CNN + Softmax |
+| Bildklassifikation | Wahrscheinlichkeit pro Klasse (Softmax); Vorhersage = wahrscheinlichste | CrossEntropyLoss | CNN + Softmax |
 | Objekterkennung | Bounding Boxes + Klassen | Regression + Classification | YOLO |
 | Gesichtserkennung | Embedding | Triplet Loss | FaceNet |
 
@@ -5200,24 +5221,7 @@ layout: default
 - **Convolution + Pooling:** Filter erzeugt Feature Maps; Pooling komprimiert Dimensionen und gibt Robustheit (Translationsinvarianz)
 - **CNN-Pipeline:** Conv+ReLU → Pool → Flatten → Dense → Softmax; Historisch: LeNet (1998) → AlexNet (2012, GPU) → ResNet (2015)
 - **MNIST-CNN:** 2 Conv-Blöcke, ~100K Parameter, ~97% Accuracy — zeigt, dass Grundlagen funktionieren
-- **Transfer Learning + Spezialisierungen:** Pre-Trained Modelle (ResNet50) für echte Anwendungen; 5 Tage vs. 6 Wochen from scratch; YOLO/FaceNet sind Standard
-
----
-layout: default
----
-
-## Ausblick: Natural Language Processing — Von Bildern zu Text
-
-In Kapitel 7 haben wir gelernt: CNNs verarbeiten **räumliche Strukturen** in Bildern mit Convolution + Pooling. **Text ist auch strukturiert** — aber anders: Worte sind eine **Sequenz**, nicht ein räumliches Grid.
-
-**Die Frage:** Wie verarbeitet man Sequenzen? Was ersetzt Convolution für Text?
-
-**Die Antwort:** In Kapitel 8 lernen wir **Transformer** — eine Architektur, die Aufmerksamkeit (Attention) nutzt, um Abhängigkeiten zwischen Worten zu modellieren, egal wie weit sie auseinander sind. Mit Transformer können wir:
-- Freitext aus Schadensmeldungen verstehen
-- Sentiment in Kundenbewertungen erkennen ("Der Service war exzellent" vs. "Schreckliche Erfahrung")
-- Automatisch Ansprüche zusammenfassen oder kategorisieren
-
-Derselbe Versicherer-Case durchzieht unser Modul — erst Tabellen, dann Bilder, dann Text.
+- **Transfer Learning + Spezialisierungen:** Pre-Trained Modelle (ResNet50) für echte Anwendungen; Stunden statt Tage Trainingszeit; YOLO/FaceNet sind Standard
 
 ---
 layout: default

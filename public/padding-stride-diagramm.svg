@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 448" width="100%" height="auto" role="img"
+     aria-label="Padding und Stride im Vergleich. Oben: ein 5 mal 5 Input mit 3 mal 3 Filter ohne Padding ergibt eine 3 mal 3 Feature Map, mit padding gleich 1 wird ein Nullen-Rand ergaenzt und die Feature Map bleibt 5 mal 5 gross. Unten: derselbe Filter mit Stride 1 liefert drei ueberlappende Fensterpositionen je Zeile und eine 3 mal 3 Ausgabe, mit Stride 2 werden Positionen uebersprungen und die Ausgabe ist nur 2 mal 2 gross.">
+  <title>Padding und Stride: Wirkung auf die Größe der Feature Map</title>
+
+  <defs>
+    <marker id="ps-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#00c6b2" />
+    </marker>
+  </defs>
+
+  <text x="20" y="26" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#4a4a4a" text-anchor="start">Kernel 3 × 3 in allen vier Beispielen — nur Padding bzw. Stride ändern sich</text>
+  <line x1="20" y1="38" x2="540" y2="38" stroke="#e8e8e8" stroke-width="1" />
+  <line x1="280" y1="44" x2="280" y2="392" stroke="#e8e8e8" stroke-width="1" />
+
+  <!-- ===================== Padding ===================== -->
+  <rect x="20" y="48" width="84" height="24" rx="4" fill="#00c6b2" />
+  <text x="62" y="64.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Padding</text>
+  <text x="112" y="65" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="start">ohne Padding</text>
+  <text x="300" y="65" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="start">mit padding = 1</text>
+  <rect x="34" y="82" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="82" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="82" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="82" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="82" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="102" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="102" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="102" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="102" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="102" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="122" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="122" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="122" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="122" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="122" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="142" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="142" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="142" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="142" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="142" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="162" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="162" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="162" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="162" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="162" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="82" width="100" height="100" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <rect x="34" y="82" width="60" height="60" rx="2" fill="#e0f7f4" fill-opacity="0.75" stroke="#00c6b2" stroke-width="2.5" />
+  <line x1="146" y1="132" x2="174" y2="132" stroke="#00c6b2" stroke-width="2" marker-end="url(#ps-arrow)" />
+  <rect x="184" y="108" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="108" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="108" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="124" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="124" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="124" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="140" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="140" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="140" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="108" width="48" height="48" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <text x="208" y="172" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00998a" text-anchor="middle">Output 3 × 3</text>
+  <text x="84" y="202" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#4a4a4a" text-anchor="middle">Input 5 × 5</text>
+  <text x="150" y="224" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Randpixel werden seltener abgetastet —</text>
+  <text x="150" y="240" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">die Karte schrumpft mit jeder Schicht.</text>
+  <rect x="300" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="324" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="332" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="340" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="348" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="356" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="364" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="372" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="380" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="388" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="396" y="70" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="82" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="86" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="98" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="86" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="332" y="86" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="348" y="86" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="364" y="86" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="86" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="396" y="86" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="98" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="102" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="114" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="102" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="332" y="102" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="348" y="102" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="364" y="102" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="102" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="396" y="102" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="114" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="118" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="130" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="118" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="332" y="118" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="348" y="118" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="364" y="118" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="118" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="396" y="118" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="130" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="134" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="134" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="332" y="134" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="348" y="134" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="364" y="134" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="134" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="396" y="134" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="146" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="150" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="162" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="150" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="332" y="150" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="348" y="150" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="364" y="150" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="150" width="16" height="16" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="396" y="150" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="162" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="308" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="316" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="324" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="332" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="340" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="348" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="356" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="364" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="372" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="380" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="388" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="396" y="166" width="16" height="16" fill="#f5f5f5" stroke="#e8e8e8" stroke-width="1" />
+  <text x="404" y="178" font-family="Montserrat, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#b0b0b0" text-anchor="middle">0</text>
+  <rect x="300" y="70" width="112" height="112" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <rect x="300" y="70" width="48" height="48" rx="2" fill="#e0f7f4" fill-opacity="0.75" stroke="#00c6b2" stroke-width="2.5" />
+  <line x1="424" y1="126" x2="452" y2="126" stroke="#00c6b2" stroke-width="2" marker-end="url(#ps-arrow)" />
+  <rect x="460" y="91" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="474" y="91" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="488" y="91" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="502" y="91" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="516" y="91" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="460" y="105" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="474" y="105" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="488" y="105" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="502" y="105" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="516" y="105" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="460" y="119" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="474" y="119" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="488" y="119" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="502" y="119" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="516" y="119" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="460" y="133" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="474" y="133" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="488" y="133" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="502" y="133" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="516" y="133" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="460" y="147" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="474" y="147" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="488" y="147" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="502" y="147" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="516" y="147" width="14" height="14" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="460" y="91" width="70" height="70" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <text x="495" y="172" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00998a" text-anchor="middle">Output 5 × 5</text>
+  <text x="356" y="202" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#4a4a4a" text-anchor="middle">Input 5 × 5 + Nullen-Rand</text>
+  <text x="420" y="224" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Der Nullen-Rand hält die Größe konstant —</text>
+  <text x="420" y="240" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Randinformation bleibt erhalten.</text>
+  <line x1="20" y1="256" x2="540" y2="256" stroke="#e8e8e8" stroke-width="1" />
+
+  <!-- ===================== Stride ===================== -->
+  <rect x="20" y="266" width="84" height="24" rx="4" fill="#00c6b2" />
+  <text x="62" y="282.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Stride</text>
+  <text x="112" y="283" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="start">stride = 1</text>
+  <text x="300" y="283" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="start">stride = 2</text>
+  <rect x="34" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="54" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="74" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="94" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="114" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="34" y="300" width="100" height="100" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <rect x="34" y="300" width="60" height="60" rx="2" fill="#e0f7f4" fill-opacity="0.75" stroke="#00c6b2" stroke-width="2.5" />
+  <rect x="54" y="300" width="60" height="60" rx="2" fill="none" fill-opacity="1" stroke="#00c6b2" stroke-width="2.5" stroke-dasharray="4 3" />
+  <rect x="74" y="300" width="60" height="60" rx="2" fill="none" fill-opacity="1" stroke="#00c6b2" stroke-width="2.5" stroke-dasharray="4 3" />
+  <line x1="146" y1="350" x2="174" y2="350" stroke="#00c6b2" stroke-width="2" marker-end="url(#ps-arrow)" />
+  <rect x="184" y="326" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="326" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="326" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="342" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="342" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="342" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="358" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="200" y="358" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="216" y="358" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="184" y="326" width="48" height="48" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <text x="208" y="390" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00998a" text-anchor="middle">Output 3 × 3</text>
+  <text x="150" y="420" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Schritt 1 Pixel: 3 Positionen je Zeile —</text>
+  <text x="150" y="436" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">die Fenster überlappen sich.</text>
+  <rect x="300" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="320" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="340" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="360" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="300" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="300" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="320" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="340" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="360" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="320" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="300" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="320" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="340" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="360" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="340" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="300" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="320" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="340" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="360" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="360" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="300" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="320" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="340" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="360" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="380" y="380" width="20" height="20" fill="#ffffff" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="300" y="300" width="100" height="100" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <rect x="300" y="300" width="60" height="60" rx="2" fill="#e0f7f4" fill-opacity="0.75" stroke="#00c6b2" stroke-width="2.5" />
+  <rect x="340" y="300" width="60" height="60" rx="2" fill="none" fill-opacity="1" stroke="#00c6b2" stroke-width="2.5" stroke-dasharray="4 3" />
+  <rect x="320" y="300" width="60" height="60" rx="2" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="2 4" opacity="0.8" />
+  <line x1="412" y1="350" x2="440" y2="350" stroke="#00c6b2" stroke-width="2" marker-end="url(#ps-arrow)" />
+  <rect x="450" y="334" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="466" y="334" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="450" y="350" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="466" y="350" width="16" height="16" fill="#00c6b2" stroke="#e8e8e8" stroke-width="1" />
+  <rect x="450" y="334" width="32" height="32" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+  <text x="482" y="390" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#00998a" text-anchor="middle">Output 2 × 2</text>
+  <text x="420" y="420" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Schritt 2 Pixel: nur 2 Positionen je Zeile —</text>
+  <text x="420" y="436" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">die Karte halbiert sich (rot = übersprungen).</text>
+</svg>

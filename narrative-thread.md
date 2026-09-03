@@ -3233,6 +3233,23 @@ Alle drei TODO-Diagramme sind erstellt, in `public/` abgelegt und in `slides.md`
 
 **Inhaltliche Korrektur nebenbei:** Die Folien behaupteten eine „**67×** Reduktion". Rechnerisch sind es 19.267.584 / 288 ≈ **67.000×** (vier Größenordnungen) — vermutlich eine abgeschnittene Zahl beim Authoring. Korrigiert an zwei Stellen (Folie „Die Lösung: Parameterfreigabe & räumliche Struktur" und „Key Takeaways 7"); das Diagramm nennt konsistent „≈ 67.000× weniger Parameter". Ebenso konsistent gehalten: der Σ-Wert der ersten Filterposition ist **+4** (wie auf der Sobel-Folie durchgerechnet), nicht −4 wie in §31 notiert.
 
+### ✅ Nachtrag: 4 weitere Diagramme (2026-09-03, diagram-generator)
+
+Vier bis dahin rein textliche/ASCII-basierte Folien haben eine eigene Grafik bekommen. Einbindung wieder durchgehend dynamisch: `<img :src="'/….svg'">`.
+
+| Datei | Folie (Slide-Nr.) | Inhalt |
+|:---|:---|:---|
+| `public/rgb-tensor-stapel.svg` | „Bilder als mehrdimensionale Arrays" (238, jetzt `header-cols`) | Drei gestapelte Kanal-Ebenen (R/G/B) als Karten-Stapel mit Achsen Height × Width × Channels, markiertem Einzelpixel und Callout „1 Pixel = 3 Zahlen (212/98/45) → Farbe"; Fußzeile zur Channels-First-Konvention |
+| `public/padding-stride-diagramm.svg` | „Convolution-Parameter in PyTorch" (241, jetzt `header-cols`) | 2×2-Panel: Padding 0 (5×5 → 3×3) vs. `padding=1` mit Nullen-Rand (5×5 → 5×5); Stride 1 (3 überlappende Fenster → 3×3) vs. Stride 2 (übersprungene Position rot gestrichelt → 2×2) |
+| `public/filter-hierarchie-diagramm.svg` | „Mehrere Filter — Feature Maps" (244) | Trichter über drei Conv-Schichten: RGB-Input → 32 → 64 → 128 Feature Maps als wachsende Kartenstapel mit schrumpfender Fläche (224 → 112 → 56 → 28) und Icons für Kanten → Formen → Objektteile |
+| `public/cnn-architektur-pipeline.svg` | „CNN-Architektur: Das große Bild" (247) | Vollständige Pipeline Input → 3× (Conv+ReLU+Pool) → Flatten → Dense(512) → Dense(10)+Softmax; Blöcke werden kleiner und tiefer, Klammern trennen Merkmalsextraktion und Klassifikation, Fußnote „≈ 1 Mio. Parameter" |
+
+**Textanpassungen wegen Overflow (551px-Canvas):** Folien 238 und 241 auf `header-cols` umgestellt und Fließtext gekürzt; auf 244 und 247 wurde der Text auf je zwei Rahmensätze reduziert, der ASCII-Codeblock auf Folie 247 durch eine einzeilige Inline-Kurzform ersetzt. Alle vier Folien geprüft: `scrollH == clientH`, kein Footer-Overlap.
+
+**Nebenbei korrigiert (Folie 238):** Die Zeile „Einzelnes Bild: `torch.tensor([1, 224, 224, 3])` (Channels-First-Format)" war in sich widersprüchlich (die Form ist Channels-**Last**). Ersetzt durch die konsistente Batch-Angabe `(32, 3, 224, 224)` plus Hinweis „PyTorch: Channels-First `(Batch, Channels, Height, Width)`".
+
+**Stolperstein bestätigt:** Ein `&` im SVG-Text (`Kanten & Farbverläufe`) bricht das Rendering still — Vite liefert die Datei zwar aus, der Browser bricht aber beim XML-Parsen ab und zeigt nur das Alt-Text-Fallback. Neue SVGs deshalb immer mit `xmllint --noout` prüfen.
+
 <details><summary>Ursprüngliche Spezifikation (erledigt)</summary>
 
 Drei Custom-SVG-Diagramme waren in Folien als TODO flaggt:
@@ -3316,3 +3333,31 @@ Nach den beiden agentengeführten Overflow-Fix-Runden (28→34 Folien, dann 10 R
 **Studierendenperspektive-Review** (`student-reviewer`) fand 5 prioritäre Verständlichkeitslücken: Feature Map nirgends definiert, Kernel-vs-Filter-Verhältnis unklar, Padding-Motivation fehlt, `.view()` im PyTorch-Code unerklärt, die beiden "Spezialisierungen"-Folien (Objekt-/Gesichtserkennung) nicht eindeutig als reiner Konzept-Ausblick ohne Implementierungserwartung erkennbar. Alle 5 behoben (plus Normalize-Werte- und Transfer-Learning-Code-Kontext-Klärung). Die Ergänzungen lösten kurzzeitig 3 neue Overflow-Fälle aus (Folien 239, 255, 259 — engster Puffer im Kapitel), in zwei weiteren Nachbesserungsrunden ohne Verlust der didaktischen Klärungen behoben.
 
 **Kapitel 7 ist damit vollständig abgeschlossen:** Planung, Recherche, Authoring, 6 QA-Runden (visuell + didaktisch), Exercise-Notebooks. Nächster Schritt: Kapitel 8 (NLP) Planung.
+
+---
+
+## §33. Kapitel 7→8 Bridge-Content (Nutzer-Feedback 2026-09-03)
+
+**Ursprüngliche Bridge-Folie (gelöscht):** Am Ende von Kapitel 7 existierte eine Folie "Ausblick: Natural Language Processing — Von Bildern zu Text", die die konzeptuelle Brücke von CNNs (räumliche Sequenzen in Bildern) zu Transformers/Attention (sequenzielle Abhängigkeiten in Text) spannen sollte.
+
+**Entfernung (2026-09-03):** Der Nutzer entschied, diese Folie aus Kapitel 7 zu streichen, da:
+1. Sie doppelt wirken würde als Kapitel-Closer (nach Key Takeaways)
+2. Kapitel 8 eine eigene Opener-Folie benötigt, die dieselbe Bridge sauberer einleiten kann
+3. Der Inhalt besser als Kapitel-8-Eröffnung wirkt, nicht als Kapitel-7-Ausblick
+
+**Gelöschter Folieninhalt (zur Wiederverwendung vorgemerkt):**
+
+> In Kapitel 7 haben wir gelernt: CNNs verarbeiten **räumliche Strukturen** in Bildern mit Convolution + Pooling. **Text ist auch strukturiert** — aber anders: Worte sind eine **Sequenz**, nicht ein räumliches Grid.
+>
+> **Die Frage:** Wie verarbeitet man Sequenzen? Was ersetzt Convolution für Text?
+>
+> **Die Antwort:** In Kapitel 8 lernen wir **Transformer** — eine Architektur, die Aufmerksamkeit (Attention) nutzt, um Abhängigkeiten zwischen Worten zu modellieren, egal wie weit sie auseinander sind. Mit Transformer können wir:
+> - Freitext aus Schadensmeldungen verstehen
+> - Sentiment in Kundenbewertungen erkennen ("Der Service war exzellent" vs. "Schreckliche Erfahrung")
+> - Automatisch Ansprüche zusammenfassen oder kategorisieren
+>
+> Derselbe Versicherer-Case durchzieht unser Modul — erst Tabellen, dann Bilder, dann Text.
+
+**Handoff zu Kapitel 8:** Dieser Inhalt (oder eine überarbeitete Variante davon) wird als Opener von Kapitel 8 (NLP/Transformer) verwendet werden. Der aktuelle Wortlaut kann direkt recycelt oder für mehr Tiefe neu strukturiert werden (z.B. mit expliziten Definitionen von "Sequenz vs. Raster", "Convolution vs. Attention", "Transformer-Motivation"). Das ist ein TODO für den `edu-research`/`slidev-content-transformer`-Agent, der Kapitel 8 autiert.
+
+**Dokumentiert in:** TODO.md §5 (Kapitel 8 — NLP), mit Verweis auf diese Stelle in narrative-thread.md.

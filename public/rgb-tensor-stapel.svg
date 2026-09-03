@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" width="100%" height="auto" role="img"
+     aria-label="Ein RGB-Bild-Tensor der Form 224 mal 224 mal 3 als Stapel aus drei gleich großen 2D-Ebenen: Rot-Kanal, Grün-Kanal und Blau-Kanal. Höhe und Breite spannen jede Ebene auf, die dritte Achse zählt die drei Kanäle. Ein einzelner Pixel besteht aus drei Werten, hier 212, 98 und 45, die zusammen eine Farbe ergeben.">
+  <title>RGB-Bild-Tensor (224, 224, 3): drei gestapelte Kanal-Ebenen</title>
+
+  <defs>
+    <marker id="rgb-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#00c6b2" />
+    </marker>
+    <marker id="rgb-dim" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#6b6b6b" />
+    </marker>
+    <marker id="rgb-dim-start" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+      <polygon points="6 0, 0 3, 6 6" fill="#6b6b6b" />
+    </marker>
+  </defs>
+
+  <!-- ===================== Kopfzeile ===================== -->
+  <rect x="20" y="12" width="96" height="24" rx="4" fill="#00c6b2" />
+  <text x="68.0" y="28.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">RGB-Tensor</text>
+  <text x="128.0" y="29.0" font-family="Montserrat, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#1e1e1e" text-anchor="start">Ein Bild = drei gestapelte Zahlen-Ebenen</text>
+
+  <!-- ===================== Kanal-Stapel (hinten nach vorne gezeichnet) ===================== -->
+  <!-- Rot-Kanal (hinten) -->
+  <polygon points="108,60 288,60 240,160 60,160" fill="#e57373" stroke="#b34a4a" stroke-width="1.5" />
+  <text x="176.0" y="86.0" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Rot-Kanal (R)</text>
+  <text x="176.0" y="102.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#ffffff" text-anchor="middle">224 × 224 Werte · 0–255</text>
+
+  <!-- Grün-Kanal (Mitte) -->
+  <polygon points="108,115 288,115 240,215 60,215" fill="#66bb6a" stroke="#3d8a41" stroke-width="1.5" />
+  <text x="164.0" y="141.0" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Grün-Kanal (G)</text>
+  <text x="164.0" y="157.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#ffffff" text-anchor="middle">224 × 224 Werte · 0–255</text>
+
+  <!-- Blau-Kanal (vorne, mit Pixelraster) -->
+  <polygon points="108,170 288,170 240,270 60,270" fill="#5c8ae6" stroke="#3a5fa8" stroke-width="1.5" />
+  <g stroke="#ffffff" stroke-width="0.8" opacity="0.45">
+    <line x1="138" y1="170" x2="90" y2="270" />
+    <line x1="168" y1="170" x2="120" y2="270" />
+    <line x1="198" y1="170" x2="150" y2="270" />
+    <line x1="228" y1="170" x2="180" y2="270" />
+    <line x1="258" y1="170" x2="210" y2="270" />
+    <line x1="98.4" y1="190" x2="278.4" y2="190" />
+    <line x1="88.8" y1="210" x2="268.8" y2="210" />
+    <line x1="79.2" y1="230" x2="259.2" y2="230" />
+    <line x1="69.6" y1="250" x2="249.6" y2="250" />
+  </g>
+  <text x="152.0" y="196.0" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">Blau-Kanal (B)</text>
+  <text x="145.0" y="212.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#ffffff" text-anchor="middle">224 × 224 Werte · 0–255</text>
+
+  <!-- markierter Pixel (eine Rasterzelle) -->
+  <polygon points="168,230 198,230 188.4,250 158.4,250" fill="#ffffff" stroke="#1e1e1e" stroke-width="2" />
+  <text x="178.0" y="264.0" font-family="Montserrat, Helvetica, sans-serif" font-size="10" font-weight="600" fill="#1e1e1e" text-anchor="middle">1 Pixel</text>
+
+  <!-- ===================== Achsenbeschriftung ===================== -->
+  <!-- Height -->
+  <line x1="48" y1="172" x2="48" y2="268" stroke="#6b6b6b" stroke-width="1.5" marker-start="url(#rgb-dim-start)" marker-end="url(#rgb-dim)" />
+  <text x="40.0" y="220.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#4a4a4a" text-anchor="middle" transform="rotate(-90 40 220)">Height 224</text>
+  <!-- Width -->
+  <line x1="62" y1="282" x2="238" y2="282" stroke="#6b6b6b" stroke-width="1.5" marker-start="url(#rgb-dim-start)" marker-end="url(#rgb-dim)" />
+  <text x="150.0" y="300.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#4a4a4a" text-anchor="middle">Width 224</text>
+  <!-- Channels -->
+  <line x1="300" y1="62" x2="300" y2="168" stroke="#6b6b6b" stroke-width="1.5" marker-start="url(#rgb-dim-start)" marker-end="url(#rgb-dim)" />
+  <text x="312.0" y="118.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="600" fill="#4a4a4a" text-anchor="start" transform="rotate(-90 312 118)">Channels 3</text>
+
+  <!-- ===================== Pixel-Callout rechts ===================== -->
+  <path d="M 188 240 C 260 240, 300 235, 352 224" fill="none" stroke="#00c6b2" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#rgb-arrow)" />
+
+  <text x="450.0" y="72.0" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1e1e1e" text-anchor="middle">Ein Pixel = 3 Zahlen</text>
+
+  <rect x="366" y="86" width="168" height="30" rx="4" fill="#fdecea" stroke="#e57373" stroke-width="1.5" />
+  <text x="380.0" y="105.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#b34a4a" text-anchor="start">R</text>
+  <text x="522.0" y="105.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1e1e1e" text-anchor="end">212</text>
+
+  <rect x="366" y="122" width="168" height="30" rx="4" fill="#e9f6ea" stroke="#66bb6a" stroke-width="1.5" />
+  <text x="380.0" y="141.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#3d8a41" text-anchor="start">G</text>
+  <text x="522.0" y="141.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1e1e1e" text-anchor="end">98</text>
+
+  <rect x="366" y="158" width="168" height="30" rx="4" fill="#eaf0fc" stroke="#5c8ae6" stroke-width="1.5" />
+  <text x="380.0" y="177.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#3a5fa8" text-anchor="start">B</text>
+  <text x="522.0" y="177.5" font-family="Montserrat, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1e1e1e" text-anchor="end">45</text>
+
+  <line x1="450" y1="192" x2="450" y2="212" stroke="#00c6b2" stroke-width="2" marker-end="url(#rgb-arrow)" />
+  <rect x="366" y="216" width="168" height="46" rx="4" fill="rgb(212,98,45)" stroke="#bdbdbd" stroke-width="1.5" />
+  <text x="450.0" y="244.0" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">= Farbe dieses Pixels</text>
+  <text x="450.0" y="280.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">Alle drei Ebenen zusammen</text>
+  <text x="450.0" y="296.0" font-family="Montserrat, Helvetica, sans-serif" font-size="11" font-weight="400" fill="#4a4a4a" text-anchor="middle">ergeben das Farbbild.</text>
+
+  <!-- ===================== Fußzeile ===================== -->
+  <rect x="20" y="316" width="520" height="30" rx="4" fill="#e0f7f4" stroke="#00c6b2" stroke-width="1.5" />
+  <text x="280.0" y="335.5" font-family="Montserrat, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#1e1e1e" text-anchor="middle">Tensor-Form (H, W, C) = (224, 224, 3) · PyTorch speichert Channels-First: (3, 224, 224)</text>
+</svg>

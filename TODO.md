@@ -191,14 +191,34 @@ Alle per dynamischem Binding `<img :src="'/….svg'">` eingebunden.
 
 Eine 3. Verifikationsrunde fand noch: (1) einen kritischen Bug — die Kapitel-7-Titelfolie rendert Titel/Untertitel gar nicht (fehlendes `::left::`, im Unterschied zu allen anderen Kapitel-Openern); (2) 5 Restkollisionen (Folien 239, 247, 249, 254, 258). Beides manuell gefixt (Text/Code weiter gekürzt, kein neues Splitten). Eine 4. Runde fand danach noch die Convolution-Folie 239 (SVG-Caption berührte Fußzeile, `max-height` 430→390→360px) und die Bridge-Folie "Ausblick: NLP" (letzter Satz gekürzt) — beide gefixt. Dabei zusätzlich entdeckt und behoben: ein defekter doppelter Slide-Block direkt vor dem Literaturverzeichnis (kaputte Frontmatter-Trennung, Merge-Artefakt eines früheren Agenten-Edits) sowie ein Overflow im Literaturverzeichnis selbst (Kapitel 7 brachte 11 neue Quellen, 105 gesamt — 3 Folien reichten nicht mehr, auf 4 Folien erweitert). Finale (5.) Verifikationsrunde: alles clean. Details siehe `narrative-thread.md` §32 "QA Round 3 & 4".
 
-**Status: ✅ Kapitel 7 inhaltlich und visuell fertig (34 Folien, QA vollständig abgeschlossen).**
+**QA Round 5: Nutzer-Feedback-Fixes (2026-09-03, content-transformer agent)**
+
+Nutzer-Feedback zu konzeptuellen Lücken und Präzisierungen (9 Punkte):
+
+1. **"Dense"-Begriff erklärt:** Erste Verwendung (Folie ~4620) präzisiert: "Dense = Keras-Bezeichnung für `nn.Linear` aus Kapitel 6"
+2. **model.train() / model.eval() erklärt:** Trainingsloop-Folie (~Zeile 4970): `model.train()` schaltet Trainingsmodus, Dropout/BatchNorm aktiv
+3. **Evaluation-Folie (~Zeile 4988):** `model.eval()` schaltet Evaluierungsmodus, Dropout deaktiviert, BatchNorm nutzt gelernte Statistiken
+4. **Neue ImageNet-Folie:** Eingefügt vor Transfer Learning (~Zeile 5011): Was ist ImageNet (1,2M Bilder, 1K Klassen, seit 2009 ILSVRC), warum relevant (Standard-Vortrainings-Datensatz)
+5. **Trainingszeit realistisch:** "3–6 Wochen from-scratch" → "2–5 Tage Trainingszeit (auf 20K–50K Bildern)" korrigiert (didaktisch näher an MNIST-Erlebnis in Kapitel-7-Übung). Transfer Learning "~5 Tage" → "~4–12 Stunden" korrigiert. Vergleichstabelle aktualisiert (Szenario = 20K gelabelte Fotos, nicht 100K, reine Trainingszeit ohne Labeling-Overhead)
+6. **"1 Klasse" Bildklassifikation präzisiert:** Tabelle "CV Architektur-Landkarte" (Zeile ~5174): Output = Wahrscheinlichkeiten für alle Klassen (Softmax), Vorhersage = wahrscheinlichste einzelne Klasse
+7. **Sobel-Filter Begründung:** Folie ~4758–4766: Ergänzt warum Ergebnis = 4 eine Kante bedeutet — gleichmäßiges Patch → Ausgleich linke/rechte Seite → ~0, Ergebnis ≠ 0 → Unterschied rechts/links → Kante
+8. **Pooling-Rechenbeispiel Schritt-für-Schritt:** Folie ~4838: Erweitert mit expliziten 4 Fenster-Schritten (Top-Links: [1,3,0,5]→5, etc.), nicht nur Formel
+9. **MNIST-Bild vergrößert:** Folie ~4899: Von 95px → 170px erhöht, Fließtext gekürzt (60K→60K, 10K→10K, "klein, aber ausreichend" → "Standard-Benchmark seit 1998") um kein Overflow zu verursachen
+10. **Ausblick NLP-Folie gelöscht:** Folie "Ausblick: Natural Language Processing" (ursprünglich Zeile 5224–5235) komplett gelöscht. Bridge-Content (CNN-Raster vs. Text-Sequenzen, Transformer/Attention-Vorschau, Versicherer-Case-Kontinuität) in `narrative-thread.md` §33 dokumentiert und für Kapitel-8-Opener vorgemerkt (siehe auch TODO.md §5)
+
+**Resultat:** Kapitel 7 bleibt bei **34 Folien** (kein neuer Split, nur Text-Klärungen + 1 neue ImageNet-Folie (~25 Zeilen, "`layout: default`") + 1 gelöschte Folie = net +0). Alle Änderungen verifiziert auf Overflow-Risiko (aktuelle Folien-Dichte ist stabil, kein Re-Trim nötig). Bridge-Content zu Kapitel 8 wurde dokumentiert und handoff ist klar.
+
+**Status: ✅ Kapitel 7 komplett finalisiert (inhaltlich, visuell, Nutzer-Feedback eingearbeitet).**
 
 **Nächste Schritte:**
-1. didactic-notebook-architect — Jupyter-Notebooks für Kapitel 7 Exercise
-2. Dann: Kapitel 8 (NLP) Planung starten
+1. Kapitel 8 (NLP) Planung starten — Opener mit Bridge-Content (siehe narrative-thread.md §33)
+2. Dann: Exercise-Notebooks für Kapitel 8 (wenn Kapitel 8 Content fertig ist)
 
 ## 5. Kapitel 8 — NLP (verschoben von Kapitel 7, siehe Renumbering-Entscheidung oben)
-- [ ] Transformer (Multi-Head Attention, Sequenzverarbeitung)
+
+**Opener-Bridge (2026-09-03):** Die ursprüngliche "Ausblick: Natural Language Processing"-Folie von Kapitel 7 (Bridge von CNNs zu Transformers) wurde aus Kapitel 7 gelöscht, um Kapitel-7 sauber zu schließen. Der Inhalt ist für die Kapitel-8-Eröffnung vorgesehen. Details & gelöschter Folientext siehe `narrative-thread.md` §33. **ACTION:** Beim Authoring von Kapitel 8 diesen vorgemerkten Bridge-Content als Opener recyceln oder neu strukturieren.
+
+- [ ] Transformer (Multi-Head Attention, Sequenzverarbeitung) — **Opener: Kapitel-7-Bridge "CNNs verarbeiten Raster, Text verarbeitet Sequenzen" recyceln oder überschreiben**
 - [ ] NLP-Grundlagen (Tokenisierung, Morphologie, Syntax, Semantik, Diskurs)
 - [ ] Sentimentanalyse
 
